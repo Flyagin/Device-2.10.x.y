@@ -1,5 +1,6 @@
 extern volatile unsigned int semaphore_adc_irq;
-extern volatile unsigned int adc_DATA_VAL_read;
+extern volatile unsigned int adc_DATA_VAL_1_read;
+extern volatile unsigned int adc_DATA_VAL_2_read;
 extern volatile unsigned int adc_TEST_VAL_read;
 extern volatile unsigned int status_adc_read_work;
 extern const unsigned int input_adc[NUMBER_INPUTs_ADCs][2];
@@ -22,12 +23,18 @@ extern POPEREDNJY_PERECHID poperednij_perechid;
 
 extern volatile unsigned int semaphore_delta_phi;
 
-extern unsigned int maska_canaliv_fapch;
-extern float frequency, frequency_work;
-extern unsigned int tick_period, tick_period_work;
-extern unsigned int tick_c, tick_c_work;
+extern unsigned int maska_canaliv_fapch_1;
+extern float frequency_val_1, frequency_val_1_work;
+extern unsigned int tick_period_1, tick_period_1_work;
+extern unsigned int tick_c1, tick_c1_work;
 
-extern float frequency_min, frequency_max;
+extern unsigned int maska_canaliv_fapch_2;
+extern float frequency_val_2, frequency_val_2_work;
+extern unsigned int tick_period_2, tick_period_2_work;
+extern unsigned int tick_c2, tick_c2_work;
+
+extern float frequency_val_1_min, frequency_val_1_max;
+extern float frequency_val_2_min, frequency_val_2_max;
 extern unsigned int command_restart_monitoring_frequency;
 
 extern const unsigned int index_GND_ADC1[NUMBER_GND_ADC1];
@@ -119,10 +126,6 @@ extern unsigned int S;
 extern double energy[MAX_NUMBER_INDEXES_ENERGY];
 extern unsigned int clean_energy;
 extern unsigned int information_about_clean_energy;
-
-extern int resistance[MAX_NUMBER_INDEXES_RESISTANCE];
-extern int resistance_middle[MAX_NUMBER_INDEXES_RESISTANCE];
-extern int resistance_low[MAX_NUMBER_INDEXES_RESISTANCE];
 
 extern int sector_1_mtz_tznp[8];
 extern int sector_2_mtz_tznp[8];

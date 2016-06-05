@@ -6,18 +6,35 @@
 inline void find_new_ADC_canal_to_read(unsigned int command_word_adc_diff, unsigned int *point_active_index_command_word_adc)
 {
   unsigned int command_word_adc_diff_tmp = command_word_adc_diff;
-  unsigned int command_word_adc_diff_fapch = command_word_adc_diff_tmp & maska_canaliv_fapch;
+  
+  unsigned int command_word_adc_diff_val_1 = command_word_adc_diff_tmp & maska_canaliv_fapch_1;
+  unsigned int command_word_adc_diff_val_2 = command_word_adc_diff_tmp & maska_canaliv_fapch_2;
     
   if (
-      ((status_adc_read_work & DATA_VAL_READ) != 0) &&
-      (command_word_adc_diff_fapch != 0) 
+      ((status_adc_read_work & DATA_VAL_2_READ) != 0) &&
+      (command_word_adc_diff_val_2 != 0) &&
+      (
+       ((status_adc_read_work & DATA_VAL_1_READ) == 0) ||
+       (command_word_adc_diff_val_1 == 0) ||
+       (command_word_adc_diff_val_1 == maska_canaliv_fapch_1)
+      )   
      )  
   {
-    command_word_adc_diff_tmp = command_word_adc_diff_fapch;
+    command_word_adc_diff_tmp = command_word_adc_diff_val_2;
   }
   else
   {
-    command_word_adc_diff_tmp &= (unsigned int)(~maska_canaliv_fapch);
+    if (
+        ((status_adc_read_work & DATA_VAL_1_READ) != 0) &&
+        (command_word_adc_diff_val_1 != 0) 
+       )  
+    {
+      command_word_adc_diff_tmp = command_word_adc_diff_val_1;
+    }
+    else
+    {
+      command_word_adc_diff_tmp &= (unsigned int)(~(maska_canaliv_fapch_1 | maska_canaliv_fapch_2));
+    }
   }
   
   while ((command_word_adc_diff_tmp & (1 << (*point_active_index_command_word_adc))) == 0)
@@ -36,21 +53,37 @@ inline void find_new_ADC_canal_to_read(unsigned int command_word_adc_diff, unsig
 void control_reading_ADCs(void)
 {
   //Обновляємо робоче командне слово і вибираємо які канали треба оцифровувати
-  if (adc_DATA_VAL_read != 0)
+  if (adc_DATA_VAL_1_read != 0)
   {
-    adc_DATA_VAL_read = false;
-    status_adc_read_work |= DATA_VAL_READ;
+    adc_DATA_VAL_1_read = false;
+    status_adc_read_work |= DATA_VAL_1_READ;
       
     /*
     Канали по яких буде розраховуватися частота мають оцифровуватися як 
     омога ближче до спрацювання таймеру подачі команди оцифровки
     */
-    command_word_adc      &= (unsigned int)(~maska_canaliv_fapch);
-    command_word_adc_work &= (unsigned int)(~maska_canaliv_fapch);
+    command_word_adc      &= (unsigned int)(~maska_canaliv_fapch_1);
+    command_word_adc_work &= (unsigned int)(~maska_canaliv_fapch_1);
         
-    command_word_adc |= READ_DATA_VAL;
+    command_word_adc |= READ_DATA_VAL_1;
   }
 
+  if (adc_DATA_VAL_2_read != 0)
+  {
+    adc_DATA_VAL_2_read = false;
+    status_adc_read_work |= DATA_VAL_2_READ;
+      
+    /*
+    Канали по яких буде розраховуватися частотамають оцифровуватися як 
+    омога ближче до спрацювання таймеру подачі команди оцифровки
+    */
+    command_word_adc      &= (unsigned int)(~maska_canaliv_fapch_2);
+    command_word_adc_work &= (unsigned int)(~maska_canaliv_fapch_2);
+        
+    command_word_adc |= READ_DATA_VAL_2;
+  }
+
+  
   if (adc_TEST_VAL_read != 0) 
   {
     adc_TEST_VAL_read = false;

@@ -3,7 +3,8 @@
 
 //Вимірювальна система
 volatile unsigned int semaphore_adc_irq = false;
-volatile unsigned int adc_DATA_VAL_read = false;
+volatile unsigned int adc_DATA_VAL_1_read = false;
+volatile unsigned int adc_DATA_VAL_2_read = false;
 volatile unsigned int adc_TEST_VAL_read = false;
 volatile unsigned int status_adc_read_work = 0;
 const unsigned int input_adc[NUMBER_INPUTs_ADCs][2]={
@@ -61,21 +62,27 @@ POPEREDNJY_PERECHID poperednij_perechid;
 
 volatile unsigned int semaphore_delta_phi = 0;
 
-unsigned int maska_canaliv_fapch = 0;
-float frequency = -1, frequency_work = -1;
-unsigned int tick_period = (TIM5_CCR1_2_VAL*NUMBER_POINT), tick_period_work = (TIM5_CCR1_2_VAL*NUMBER_POINT);
-unsigned int tick_c, tick_c_work;
+unsigned int maska_canaliv_fapch_1 = 0;
+float frequency_val_1 = -1, frequency_val_1_work = -1;
+unsigned int tick_period_1 = (TIM5_CCR1_2_3_VAL*NUMBER_POINT), tick_period_1_work = (TIM5_CCR1_2_3_VAL*NUMBER_POINT);
+unsigned int tick_c1, tick_c1_work;
 
-float frequency_min = 50, frequency_max = 50;
+unsigned int maska_canaliv_fapch_2 = 0;
+float frequency_val_2 = -1, frequency_val_2_work = -1;
+unsigned int tick_period_2 = (TIM5_CCR1_2_3_VAL*NUMBER_POINT), tick_period_2_work = (TIM5_CCR1_2_3_VAL*NUMBER_POINT);
+unsigned int tick_c2, tick_c2_work;
+
+float frequency_val_1_min = 50, frequency_val_1_max = 50;
+float frequency_val_2_min = 50, frequency_val_2_max = 50;
 unsigned int command_restart_monitoring_frequency = 0;
 
-const unsigned int index_GND_ADC1[NUMBER_GND_ADC1] = {C_GND_ADC1_1, C_GND_ADC1_2, C_GND_ADC1_3, C_GND_ADC1_4, C_GND_ADC1_5};
+const unsigned int index_GND_ADC1[NUMBER_GND_ADC1] = {C_GND_ADC1_1, C_GND_ADC1_2, C_GND_ADC1_3, C_GND_ADC1_4, C_GND_ADC1_5, C_GND_ADC1_6, C_GND_ADC1_7, C_GND_ADC1_8};
 unsigned int gnd_adc1_moment_value[NUMBER_GND_ADC1][NUMBER_POINT];
 unsigned int gnd_adc1_averange_sum[NUMBER_GND_ADC1];
 unsigned int gnd_adc1_averange[NUMBER_GND_ADC1];
 unsigned int gnd_adc1;
 
-const unsigned int index_GND_ADC2[NUMBER_GND_ADC2] = {C_GND_ADC2_1, C_GND_ADC2_2, C_GND_ADC2_3, C_GND_ADC2_4, C_GND_ADC2_5};
+const unsigned int index_GND_ADC2[NUMBER_GND_ADC2] = {C_GND_ADC2_1, C_GND_ADC2_2};
 unsigned int gnd_adc2_moment_value[NUMBER_GND_ADC2][NUMBER_POINT];
 unsigned int gnd_adc2_averange_sum[NUMBER_GND_ADC2];
 unsigned int gnd_adc2_averange[NUMBER_GND_ADC2];
@@ -225,10 +232,6 @@ unsigned int S = 0;
 double energy[MAX_NUMBER_INDEXES_ENERGY] = {0, 0, 0, 0, 0, 0};
 unsigned int clean_energy = 0;
 unsigned int information_about_clean_energy = 0;
-
-int resistance[MAX_NUMBER_INDEXES_RESISTANCE] = {0, 0, 0, 0, 0, 0}; //формат{ Rab, Zab, Rbc, Zbc, Rca, Xca}
-int resistance_middle[MAX_NUMBER_INDEXES_RESISTANCE] = {0, 0, 0, 0, 0, 0};
-int resistance_low[MAX_NUMBER_INDEXES_RESISTANCE] = {0, 0, 0, 0, 0, 0};
 
 int sector_1_mtz_tznp[8];
 int sector_2_mtz_tznp[8];
