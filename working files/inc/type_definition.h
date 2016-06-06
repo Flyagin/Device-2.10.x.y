@@ -435,17 +435,24 @@ typedef struct
 
 typedef struct
 {
-  unsigned int time_p;
-  int data_p[NUMBER_ANALOG_CANALES];
+  unsigned int VAL_1_time_p;
+  int VAL_1_data_p[NUMBER_ANALOG_CANALES_VAL_1];
 
-  unsigned int time_c;
-  int data_c[NUMBER_ANALOG_CANALES];
+  unsigned int VAL_1_time_c;
+  int VAL_1_data_c[NUMBER_ANALOG_CANALES_VAL_1];
+
+  unsigned int VAL_2_time_p;
+  int VAL_2_data_p[NUMBER_ANALOG_CANALES_VAL_2];
+
+  unsigned int VAL_2_time_c;
+  int VAL_2_data_c[NUMBER_ANALOG_CANALES_VAL_2];
 } ROZSHYRENA_VYBORKA;
 
 typedef struct
 {
   unsigned int time_stemp;
-  unsigned int DATA_fix;
+  unsigned int VAL_1_fix;
+  unsigned int VAL_2_fix;
   int data [NUMBER_ANALOG_CANALES];
   unsigned int active_functions[N_BIG];
   int state_ar_record;
@@ -465,25 +472,35 @@ typedef struct
 
 typedef struct
 {
-  unsigned int Ua_x1;
-  int Ua_y1;
-  unsigned int Ua_x2;
-  int Ua_y2;
+  unsigned int Ua1_x1;
+  int Ua1_y1;
+  unsigned int Ua1_x2;
+  int Ua1_y2;
 
-  unsigned int Ub_x1;
-  int Ub_y1;
-  unsigned int Ub_x2;
-  int Ub_y2;
+  unsigned int Ub1_x1;
+  int Ub1_y1;
+  unsigned int Ub1_x2;
+  int Ub1_y2;
 
-  unsigned int Uc_x1;
-  int Uc_y1;  
-  unsigned int Uc_x2;
-  int Uc_y2;  
+  unsigned int Uc1_x1;
+  int Uc1_y1;  
+  unsigned int Uc1_x2;
+  int Uc1_y2;  
 
-  unsigned int U0_x1;
-  int U0_y1;
-  unsigned int U0_x2;
-  int U0_y2;
+  unsigned int Ua2_x1;
+  int Ua2_y1;
+  unsigned int Ua2_x2;
+  int Ua2_y2;
+
+  unsigned int Ub2_x1;
+  int Ub2_y1;
+  unsigned int Ub2_x2;
+  int Ub2_y2;
+
+  unsigned int Uc2_x1;
+  int Uc2_y1;  
+  unsigned int Uc2_x2;
+  int Uc2_y2;  
 } POPEREDNJY_PERECHID;
 
 //typedef struct

@@ -10,18 +10,34 @@ extern ROZSHYRENA_VYBORKA rozshyrena_vyborka;
 extern unsigned int command_word_adc, command_word_adc_work, active_index_command_word_adc;
 extern unsigned int state_reading_ADCs;
 
-extern uint32_t step_timer_adc;
-extern uint32_t penultimate_tick_DATA_VAL, previous_tick_DATA_VAL;
+extern uint32_t step_val_1;
+extern uint32_t step_val_2;
+extern uint32_t penultimate_tick_VAL_1, previous_tick_VAL_1;
+extern uint32_t penultimate_tick_VAL_2, previous_tick_VAL_2;
 
 extern DATA_FOR_OSCYLOGRAPH data_for_oscylograph[MAX_INDEX_DATA_FOR_OSCYLOGRAPH];
 extern unsigned int head_data_for_oscylograph;
-extern unsigned int tail_data_for_oscylograph, DATA_VAL_tail_data_for_oscylograph;
+extern unsigned int tail_data_for_oscylograph, VAL_1_tail_data_for_oscylograph, VAL_2_tail_data_for_oscylograph;
 
 extern VYBORKA_XY perechid_cherez_nul[MAX_INDEX_PhK][2];
 extern unsigned int fix_perechid_cherez_nul[MAX_INDEX_PhK];
+extern unsigned int fix_perechid_cherez_nul_TN1_TN2, fix_perechid_cherez_nul_TN1_TN2_work;
 extern POPEREDNJY_PERECHID poperednij_perechid;
 
 extern volatile unsigned int semaphore_delta_phi;
+
+extern int delta_phi_index_1, delta_phi_index_2;
+extern int delta_phi_index_1_work_middle, delta_phi_index_2_work_middle;
+extern int delta_phi_index_1_work_low, delta_phi_index_2_work_low;
+extern int delta_phi[2], delta_phi_synchro, delta_phi_min, delta_phi_max; 
+extern unsigned int bank_delta_phi;
+extern unsigned int reset_delta_phi;
+extern int speed_delta_phi[2];
+extern unsigned int tick_0[2];
+
+extern int frequency_locking_phi;
+extern unsigned int frequency_locking_bank;
+extern float frequency_locking_cos[2], frequency_locking_sin[2];
 
 extern unsigned int maska_canaliv_fapch_1;
 extern float frequency_val_1, frequency_val_1_work;
@@ -66,12 +82,10 @@ extern unsigned int vdd_adc2_averange_sum;
 extern unsigned int vdd_adc2;
 
 extern unsigned int index_array_of_one_value;
-extern unsigned int index_array_of_one_value_fourier;
 
 extern EXTENDED_SAMPLE ADCs_data_raw[NUMBER_ANALOG_CANALES];
 extern int ADCs_data[NUMBER_ANALOG_CANALES];
 extern int current_data[NUMBER_ANALOG_CANALES*NUMBER_POINT*NUMBER_PERIOD_TRANSMIT];
-extern unsigned long long sqr_current_data_3I0[NUMBER_POINT];
 extern unsigned int index_array_of_current_data_value;
 
 extern volatile unsigned int changed_ustuvannja; 
@@ -82,16 +96,15 @@ extern float phi_ustuvannja_sin_cos_meas[2*NUMBER_ANALOG_CANALES], phi_ustuvannj
 
 extern const float sin_data_f[NUMBER_POINT];
 extern const float cos_data_f[NUMBER_POINT];
-extern unsigned int index_sin_cos_array;
-extern unsigned int index_data_sin_cos_array;
-extern int data_sin[NUMBER_POINT*NUMBER_ANALOG_CANALES];
-extern int data_cos[NUMBER_POINT*NUMBER_ANALOG_CANALES];
+extern unsigned int index_sin_cos_array[NUMBER_ADCs];
+extern unsigned int index_data_sin_cos_array[NUMBER_ADCs];
+extern int data_sin_val_1[NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_1];
+extern int data_cos_val_1[NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_1];
+extern int data_sin_val_2[NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_2];
+extern int data_cos_val_2[NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_2];
 extern unsigned int index_data_sin_and_cos_array;
 extern int ortogonal_irq[2*NUMBER_ANALOG_CANALES];
 extern int ortogonal[2*NUMBER_ANALOG_CANALES][2];
-extern unsigned long long sum_sqr_data_3I0_irq;
-extern unsigned long long sum_sqr_data_3I0[2];
-//extern volatile unsigned int semaphore_measure_values;
 extern volatile unsigned int semaphore_measure_values_low;
 extern unsigned int bank_ortogonal;
 
@@ -99,10 +112,10 @@ extern volatile unsigned int semaphore_measure_values_low1;
 
 extern unsigned int number_inputs_for_fix_one_second;
 extern unsigned int number_inputs_for_fix_one_period;
-extern volatile unsigned int measurement[NUMBER_ANALOG_CANALES + 9];
-extern unsigned int measurement_high[2][NUMBER_ANALOG_CANALES + 9], bank_measurement_high;
-extern unsigned int measurement_middle[NUMBER_ANALOG_CANALES + 9]; 
-extern unsigned int measurement_low[NUMBER_ANALOG_CANALES + 9]; 
+extern volatile unsigned int measurement[NUMBER_ANALOG_CANALES + 8];
+extern unsigned int measurement_high[2][NUMBER_ANALOG_CANALES + 8], bank_measurement_high;
+extern unsigned int measurement_middle[NUMBER_ANALOG_CANALES + 8]; 
+extern unsigned int measurement_low[NUMBER_ANALOG_CANALES + 8]; 
 
 extern const unsigned int index_converter_Ib_p[NUMBER_ANALOG_CANALES];
 extern const unsigned int index_converter_I04_p[NUMBER_ANALOG_CANALES];
@@ -231,6 +244,7 @@ extern volatile unsigned int periodical_tasks_TEST_RESURS_LOCK;
 extern volatile unsigned int periodical_tasks_TEST_FLASH_MEMORY;
 extern volatile unsigned int periodical_tasks_CALCULATION_ANGLE;
 extern volatile unsigned int periodical_tasks_CALC_ENERGY_DATA;
+extern volatile unsigned int periodical_tasks_CALC_DELTA_PHI;
 
 extern const unsigned char odynyci_vymirjuvannja[MAX_NAMBER_LANGUAGE][NUMBER_ODYNYCI_VYMIRJUVANNJA];
 

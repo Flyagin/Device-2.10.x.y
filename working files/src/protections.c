@@ -9103,7 +9103,7 @@ inline void main_protection(void)
   unsigned int bank_measurement_high_tmp = (bank_measurement_high ^ 0x1) & 0x1;
   if(semaphore_measure_values_low1 == 0)
   {
-    for (unsigned int i = 0; i < (NUMBER_ANALOG_CANALES + 9); i++) 
+    for (unsigned int i = 0; i < (NUMBER_ANALOG_CANALES + 8); i++) 
     {
       measurement_high[bank_measurement_high_tmp][i] = measurement_middle[i] = measurement[i];
     }
@@ -9111,7 +9111,7 @@ inline void main_protection(void)
   }
   else
   {
-    for (unsigned int i = 0; i < (NUMBER_ANALOG_CANALES + 9); i++) 
+    for (unsigned int i = 0; i < (NUMBER_ANALOG_CANALES + 8); i++) 
     {
       measurement_high[bank_measurement_high_tmp][i] = measurement[i];
     }

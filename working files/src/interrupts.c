@@ -325,21 +325,21 @@ void TIM5_IRQHandler(void)
     //Переривання відбулося вік каналу 1, який генерує переривання для початку зчитування даних з АЦП групи 1
     /***********************************************************************************************/
     TIM5->SR = (uint16_t)((~(uint32_t)TIM_IT_CC1) & 0xffff); //TIM5->SR скидується для виходу з переривання
-    penultimate_tick_DATA_VAL = previous_tick_DATA_VAL;
-    uint32_t current_tick = previous_tick_DATA_VAL = TIM5->CCR1;
+    penultimate_tick_VAL_1 = previous_tick_VAL_1;
+    uint32_t current_tick = previous_tick_VAL_1 = TIM5->CCR1;
     
     /*
     Виставляємо повідослення пор необхідність оцифрувати канали групи 1 
     для розрахунку ортогональних складових
     */
-    adc_DATA_VAL_read = true;
+    adc_DATA_VAL_1_read = true;
     
     /***********************************************************/
     //Встановлюємо "значення лічильника для наступного переривання"
     /***********************************************************/
     uint32_t capture_new;
-    unsigned int delta, step_timer_adc_tmp;
-    TIM5->CCR1 = (capture_new = (current_tick + (delta = step_timer_adc_tmp = step_timer_adc)));
+    unsigned int delta, step_val_1_tmp;
+    TIM5->CCR1 = (capture_new = (current_tick + (delta = step_val_1_tmp = step_val_1)));
     
     unsigned int repeat;
     unsigned int previous_tick;
@@ -360,7 +360,7 @@ void TIM5_IRQHandler(void)
       {
         if (TIM_GetITStatus(TIM5, TIM_IT_CC1) == RESET)
         {
-          if (delta < step_timer_adc_tmp)
+          if (delta < step_val_1_tmp)
           {
             uint32_t delta_tick;
             if (current_tick < previous_tick)
@@ -372,7 +372,7 @@ void TIM5_IRQHandler(void)
               
             delta = delta_tick + 1;
           }
-          else if (delta == step_timer_adc_tmp)
+          else if (delta == step_val_1_tmp)
             delta = 1; /*Намагаємося, щоб нове переивання запустилося як омога скоріше*/
           else
           {
@@ -391,22 +391,101 @@ void TIM5_IRQHandler(void)
     /***********************************************************/
     //Виставляємо повідомлення про те, що почато оцифровку групи віимірювань 1 для перетворення Фур'є
     /***********************************************************/
-    control_word_of_watchdog |= WATCHDOG_MEASURE_START_DATA_VAL;
+    control_word_of_watchdog |= WATCHDOG_MEASURE_START_VAL_1;
     /***********************************************************/
     /***********************************************************************************************/
   }
   if (TIM_GetITStatus(TIM5, TIM_IT_CC2) != RESET)
   {
     /***********************************************************************************************/
-    //Переривання відбулося вік каналу 2, який генерує переривання для початку зчитування даних з АЦП груп 1 і 2 (осцилограф і тестові значення контрольних точок)
+    //Переривання відбулося вік каналу 2, який генерує переривання для початку зчитування даних з АЦП групи 2
     /***********************************************************************************************/
     TIM5->SR = (uint16_t)((~(uint32_t)TIM_IT_CC2) & 0xffff); //TIM5->SR скидується для виходу з переривання
-    uint32_t current_tick = TIM5->CCR2;
+    penultimate_tick_VAL_2 = previous_tick_VAL_2;
+    uint32_t current_tick = previous_tick_VAL_2 = TIM5->CCR2;
+    
+    /*
+    Виставляємо повідослення пор необхідність оцифрувати канали групи 2 
+    для розрахунку ортогональних складових
+    */
+    adc_DATA_VAL_2_read = true;
+    
+    /***********************************************************/
+    //Встановлюємо "значення лічильника для наступного переривання"
+    /***********************************************************/
+    uint32_t capture_new;
+    unsigned int delta, step_val_2_tmp;
+    TIM5->CCR2 = (capture_new = (current_tick + (delta = step_val_2_tmp = step_val_2)));
+    
+    unsigned int repeat;
+    unsigned int previous_tick;
+    do
+    {
+      repeat = 0;
+      current_tick = TIM5->CNT;
+
+      uint32_t delta_time = 0;
+      if (capture_new < current_tick)
+      {
+        uint64_t delta_time_64 = capture_new + 0x100000000 - current_tick;
+        delta_time = delta_time_64;
+      }
+      else delta_time = capture_new - current_tick;
+
+      if ((delta_time > delta) || (delta_time == 0))
+      {
+        if (TIM_GetITStatus(TIM5, TIM_IT_CC2) == RESET)
+        {
+          if (delta < step_val_2_tmp)
+          {
+            uint32_t delta_tick;
+            if (current_tick < previous_tick)
+            {
+              uint64_t delta_tick_64 = current_tick + 0x100000000 - previous_tick;
+              delta_tick = delta_tick_64;
+            }
+            else delta_tick = current_tick - previous_tick;
+              
+            delta = delta_tick + 1;
+          }
+          else if (delta == step_val_2_tmp)
+            delta = 1; /*Намагаємося, щоб нове переивання запустилося як омога скоріше*/
+          else
+          {
+            //Теоретично цього ніколи не мало б бути
+            total_error_sw_fixed(76);
+          }
+          TIM5->CCR2 = (capture_new = (TIM5->CNT +  delta));
+          previous_tick = current_tick;
+          repeat = 0xff;
+        }
+      }
+    }
+    while (repeat != 0);
+    /***********************************************************/
+
+    /***********************************************************/
+    //Виставляємо повідомлення про те, що почато оцифровку групи віимірювань 2 для перетворення Фур'є
+    /***********************************************************/
+    control_word_of_watchdog |= WATCHDOG_MEASURE_START_VAL_2;
+    /***********************************************************/
+    /***********************************************************************************************/
+  }
+  if (TIM_GetITStatus(TIM5, TIM_IT_CC3) != RESET)
+  {
+    /***********************************************************************************************/
+    //Переривання відбулося вік каналу 3, який генерує переривання для початку зчитування даних з АЦП груп 1 і 2 (осцилограф і тестові значення контрольних точок)
+    /***********************************************************************************************/
+    TIM5->SR = (uint16_t)((~(uint32_t)TIM_IT_CC3) & 0xffff); //TIM5->SR скидується для виходу з переривання
+    uint32_t current_tick = TIM5->CCR3;
     
     /*
     Виконуємо дії по формування даних для аналогового реєстратора
     */
-    if (data_for_oscylograph[head_data_for_oscylograph].DATA_fix == 0)
+    if (
+        (data_for_oscylograph[head_data_for_oscylograph].VAL_1_fix == 0) &&
+        (data_for_oscylograph[head_data_for_oscylograph].VAL_2_fix == 0)
+       )
     {
       //Переповнення не зафіксоване
       _SET_BIT(clear_diagnostyka, ERROR_OSCYLOJRAPH_OVERFLOW);
@@ -443,7 +522,7 @@ void TIM5_IRQHandler(void)
     /***********************************************************/
     uint32_t capture_new;
     unsigned int delta;
-    TIM5->CCR2 = (capture_new = (current_tick + (delta = TIM5_CCR1_2_VAL)));
+    TIM5->CCR3 = (capture_new = (current_tick + (delta = TIM5_CCR1_2_3_VAL)));
     
     unsigned int repeat;
     unsigned int previous_tick;
@@ -462,9 +541,9 @@ void TIM5_IRQHandler(void)
 
       if ((delta_time > delta) || (delta_time == 0))
       {
-        if (TIM_GetITStatus(TIM5, TIM_IT_CC2) == RESET)
+        if (TIM_GetITStatus(TIM5, TIM_IT_CC3) == RESET)
         {
-          if (delta < TIM5_CCR1_2_VAL)
+          if (delta < TIM5_CCR1_2_3_VAL)
           {
             uint32_t delta_tick;
             if (current_tick < previous_tick)
@@ -476,14 +555,14 @@ void TIM5_IRQHandler(void)
               
             delta = delta_tick + 1;
           }
-          else if (delta == TIM5_CCR1_2_VAL)
+          else if (delta == TIM5_CCR1_2_3_VAL)
             delta = 1; /*Намагаємося, щоб нове переивання запустилося як омога скоріше*/
           else
           {
             //Теоретично цього ніколи не мало б бути
             total_error_sw_fixed(77);
           }
-          TIM5->CCR2 = (capture_new = (TIM5->CNT +  delta));
+          TIM5->CCR3 = (capture_new = (TIM5->CNT +  delta));
           previous_tick = current_tick;
           repeat = 0xff;
         }
@@ -495,7 +574,7 @@ void TIM5_IRQHandler(void)
     /***********************************************************/
     //Виставляємо повідомлення про те, що почато оцифровку всіх груп
     /***********************************************************/
-    control_word_of_watchdog |= WATCHDOG_MEASURE_START_TEST_VAL;
+    control_word_of_watchdog |= WATCHDOG_MEASURE_START_ALL_VAL;
     /***********************************************************/
     /***********************************************************************************************/
   }

@@ -86,12 +86,6 @@ void global_vareiables_installation(void)
   for(unsigned int i=0; i<(NUMBER_ANALOG_CANALES*NUMBER_POINT*NUMBER_PERIOD_TRANSMIT); i++)
     current_data[i] = 0;
   
-  for(unsigned int i=0; i<NUMBER_POINT; i++)
-  {
-    sqr_current_data_3I0[i] = 0;
-//    period_for_sqr_current_data_3I0[i] = 0;
-  }
-
   rozshyrena_vyborka.time_p = 0;
   rozshyrena_vyborka.time_c = 0;
   for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES; i++)

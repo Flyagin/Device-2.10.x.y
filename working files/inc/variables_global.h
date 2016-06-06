@@ -43,24 +43,38 @@ const unsigned int input_adc[NUMBER_INPUTs_ADCs][2]={
                                                     };
 EXTENDED_OUTPUT_DATA output_adc[NUMBER_INPUTs_ADCs];
 ROZSHYRENA_VYBORKA rozshyrena_vyborka;
-//12345
-uint32_t previous_states_MTZ04_vvid_pr_0 = 0;
 
 unsigned int command_word_adc = 0, command_word_adc_work = 0, active_index_command_word_adc = 0;
 unsigned int state_reading_ADCs = STATE_READING_ADCs_NONE;
 
-uint32_t step_timer_adc = TIM5_CCR1_2_VAL;
-uint32_t penultimate_tick_DATA_VAL = 0, previous_tick_DATA_VAL = 0;
+uint32_t step_val_1 = TIM5_CCR1_2_3_VAL;
+uint32_t step_val_2 = TIM5_CCR1_2_3_VAL;
+uint32_t penultimate_tick_VAL_1 = 0, previous_tick_VAL_1 = 0;
+uint32_t penultimate_tick_VAL_2 = 0, previous_tick_VAL_2 = 0;
 
 DATA_FOR_OSCYLOGRAPH data_for_oscylograph[MAX_INDEX_DATA_FOR_OSCYLOGRAPH];
 unsigned int head_data_for_oscylograph = 0;
-unsigned int tail_data_for_oscylograph = 0, DATA_VAL_tail_data_for_oscylograph = 0;
+unsigned int tail_data_for_oscylograph = 0, VAL_1_tail_data_for_oscylograph = 0, VAL_2_tail_data_for_oscylograph = 0;
 
 VYBORKA_XY perechid_cherez_nul[MAX_INDEX_PhK][2];
 unsigned int fix_perechid_cherez_nul[MAX_INDEX_PhK];
+unsigned int fix_perechid_cherez_nul_TN1_TN2 = 0, fix_perechid_cherez_nul_TN1_TN2_work = 0;
 POPEREDNJY_PERECHID poperednij_perechid;
 
 volatile unsigned int semaphore_delta_phi = 0;
+
+int delta_phi_index_1 = -1, delta_phi_index_2 = -1;
+int delta_phi_index_1_work_middle = -1, delta_phi_index_2_work_middle = -1;
+int delta_phi_index_1_work_low = -1, delta_phi_index_2_work_low = -1;
+int delta_phi[2] = {UNDEF_PHI, UNDEF_PHI}, delta_phi_synchro = UNDEF_PHI, delta_phi_min, delta_phi_max; 
+unsigned int bank_delta_phi = 0;
+unsigned int reset_delta_phi = false;
+int speed_delta_phi[2] = {UNDEF_SPEED_PHI, UNDEF_SPEED_PHI};
+unsigned int tick_0[2];
+
+int frequency_locking_phi = 0;
+unsigned int frequency_locking_bank = 0;
+float frequency_locking_cos[2] = {1.0f, 1.0f}, frequency_locking_sin[2] = {0.0f, 0.0f};
 
 unsigned int maska_canaliv_fapch_1 = 0;
 float frequency_val_1 = -1, frequency_val_1_work = -1;
@@ -105,12 +119,10 @@ unsigned int vdd_adc2_averange_sum = VDD_NORMAL_VALUE*NUMBER_POINT;
 unsigned int vdd_adc2 = VDD_NORMAL_VALUE;
 
 unsigned int index_array_of_one_value = 0;
-unsigned int index_array_of_one_value_fourier = 0;
 
 EXTENDED_SAMPLE ADCs_data_raw[NUMBER_ANALOG_CANALES];
 int ADCs_data[NUMBER_ANALOG_CANALES];
 int current_data[NUMBER_ANALOG_CANALES*NUMBER_POINT*NUMBER_PERIOD_TRANSMIT];
-unsigned long long sqr_current_data_3I0[NUMBER_POINT];
 unsigned int index_array_of_current_data_value = 0;
 
 volatile unsigned int changed_ustuvannja = CHANGED_ETAP_NONE; 
@@ -189,26 +201,25 @@ const float cos_data_f[NUMBER_POINT] = {
                                          0.980785280403230000000000000000f
 };
 
-unsigned int index_sin_cos_array = 0;
-unsigned int index_data_sin_cos_array = 0;
-int data_sin[NUMBER_POINT*NUMBER_ANALOG_CANALES];
-int data_cos[NUMBER_POINT*NUMBER_ANALOG_CANALES];
+unsigned int index_sin_cos_array[NUMBER_ADCs] = {0, 0};
+unsigned int index_data_sin_cos_array[NUMBER_ADCs] = {0, 0};
+int data_sin_val_1[NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_1];
+int data_cos_val_1[NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_1];
+int data_sin_val_2[NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_2];
+int data_cos_val_2[NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_2];
 int ortogonal_irq[2*NUMBER_ANALOG_CANALES];
 int ortogonal[2*NUMBER_ANALOG_CANALES][2];
 unsigned int bank_ortogonal = 0;
-unsigned long long sum_sqr_data_3I0_irq = 0;
-unsigned long long sum_sqr_data_3I0[2] = {0, 0};
-//volatile unsigned int semaphore_measure_values = 0;
 volatile unsigned int semaphore_measure_values_low = 0;
 
 volatile unsigned int semaphore_measure_values_low1 = 0;
 
 unsigned int number_inputs_for_fix_one_second = 0;
 unsigned int number_inputs_for_fix_one_period = 0;
-volatile unsigned int measurement[NUMBER_ANALOG_CANALES + 9] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; 
-unsigned int measurement_high[2][NUMBER_ANALOG_CANALES + 9] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}, bank_measurement_high = 0; 
-unsigned int measurement_middle[NUMBER_ANALOG_CANALES + 9] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; 
-unsigned int measurement_low[NUMBER_ANALOG_CANALES + 9] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; 
+volatile unsigned int measurement[NUMBER_ANALOG_CANALES + 8]; 
+unsigned int measurement_high[2][NUMBER_ANALOG_CANALES + 8] , bank_measurement_high = 0; 
+unsigned int measurement_middle[NUMBER_ANALOG_CANALES + 8]; 
+unsigned int measurement_low[NUMBER_ANALOG_CANALES + 8]; 
 
 const unsigned int index_converter_Ib_p[NUMBER_ANALOG_CANALES]  = {FULL_ORT_3I0, FULL_ORT_Ia, FULL_ORT_Ib , FULL_ORT_Ic, FULL_ORT_Ua , FULL_ORT_Ub , FULL_ORT_Uc , FULL_ORT_3U0};
 const unsigned int index_converter_I04_p[NUMBER_ANALOG_CANALES] = {FULL_ORT_3I0, FULL_ORT_Ia, FULL_ORT_I04, FULL_ORT_Ic, FULL_ORT_Ua , FULL_ORT_Ub , FULL_ORT_Uc , FULL_ORT_3U0};
@@ -341,6 +352,7 @@ volatile unsigned int periodical_tasks_TEST_RESURS_LOCK = false;
 volatile unsigned int periodical_tasks_TEST_FLASH_MEMORY = false;
 volatile unsigned int periodical_tasks_CALCULATION_ANGLE = false;
 volatile unsigned int periodical_tasks_CALC_ENERGY_DATA = false;
+volatile unsigned int periodical_tasks_CALC_DELTA_PHI = false;
 
 const unsigned char odynyci_vymirjuvannja[MAX_NAMBER_LANGUAGE][NUMBER_ODYNYCI_VYMIRJUVANNJA] =
 {

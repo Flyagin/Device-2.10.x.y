@@ -13,14 +13,20 @@
 //Величина, яка необхідна для періодичної (як мінімум, період 10 мкс   ) генерації переривань каналом 3 таймеру 4 з прескаллером 600 = (599 + 1)
 #define TIM4_CCR3_VAL                   1
 //Величина, яка необхідна для періодичної (період 0,625 мс) генерації переривань каналом 1 таймеру 3 з прескаллером 1 = (0 + 1)
-#define TIM5_CCR1_2_VAL               37500
+#define TIM5_CCR1_2_3_VAL               37500
 
 #define MAX_NUMBER_LINES_VMP            8
 
 #define DELTA_TIME_FOR_TIMERS           1
 #define PERIOD_SIGNAL_OUTPUT_MODE_2     1000 /*мс*/
 
-#define NUMBER_ANALOG_CANALES           8
+#define NUMBER_ANALOG_CANALES_VAL_1     6
+#define NUMBER_ANALOG_CANALES_VAL_2     3
+
+#define NUMBER_ANALOG_CANALES           (                               \
+                                         NUMBER_ANALOG_CANALES_VAL_1  + \
+                                         NUMBER_ANALOG_CANALES_VAL_2    \
+                                        )
 
 #define NUMBER_INPUTS_1                 5
 #define NUMBER_INPUTS_2                 5
