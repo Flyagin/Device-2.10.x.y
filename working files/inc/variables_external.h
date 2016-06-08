@@ -446,17 +446,6 @@ extern unsigned int resurs_vidkljuchennja, resurs_vidkljuchennja_ctrl;
 extern unsigned char crc_resurs, crc_resurs_ctrl;
 extern unsigned int restart_counter;
 
-//Визначення місця до пошкодження
-extern unsigned int vymknennja_vid_KZ_prt;
-extern unsigned int I_max_KZ_prt;
-extern unsigned int number_of_phases_KZ_prt;
-extern unsigned int X_min_KZ_prt;
-extern int R_KZ_prt;
-
-extern unsigned int number_of_phases_last_KZ;
-extern int VMP_last_KZ;
-extern unsigned int equal_more_KZ;
-
 //RS-485
 extern unsigned char TxBuffer_RS485[BUFFER_RS485];
 extern unsigned char RxBuffer_RS485[BUFFER_RS485];

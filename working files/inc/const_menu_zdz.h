@@ -1,7 +1,7 @@
 #ifndef __CONST_MENU_ZDZ__
 #define __CONST_MENU_ZDZ__
 
-#define EKRAN_CONTROL_ZDZ               (EKRAN_CONTROL_MTZ04 + 1)
+#define EKRAN_CONTROL_ZDZ               (EKRAN_CONTROL_MTZ + 1)
 
 #define MAX_ROW_FOR_CONTROL_ZDZ  5
 

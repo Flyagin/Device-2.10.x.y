@@ -293,5 +293,6 @@ enum _index_energy
 };
 
 #define UNDEF_PHI                              (1 << 31)
+#define UNDEF_SPEED_PHI                        (1 << 31)
 
 #endif

@@ -847,7 +847,6 @@ void TIM4_IRQHandler(void)
         (current_ekran.current_level == EKRAN_MEASURMENT_ANGLE        ) ||
         (current_ekran.current_level == EKRAN_MEASURMENT_POWER        ) ||
         (current_ekran.current_level == EKRAN_ENERGY                  ) ||
-        (current_ekran.current_level == EKRAN_MEASURMENT_RESISTANCE   ) ||
         (current_ekran.current_level == EKRAN_STATE_INPUTS)   ||
         (current_ekran.current_level == EKRAN_STATE_OUTPUTS)  ||
         (current_ekran.current_level == EKRAN_DIAGNOSTYKA)    ||

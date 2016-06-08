@@ -77,7 +77,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.40.5.9734</state>
+          <state>7.50.2.10499</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -4394,10 +4394,10 @@
           <name>$PROJ_DIR$\..\..\working files\inc\const_lcd_and_keyboard.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\working files\inc\const_menu_achr_chapv.h</name>
+          <name>$PROJ_DIR$\..\..\working files\inc\const_menu_apv.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\working files\inc\const_menu_apv.h</name>
+          <name>$PROJ_DIR$\..\..\working files\inc\const_menu_avr.h</name>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\working files\inc\const_menu_buttons.h</name>
@@ -4478,9 +4478,6 @@
           <name>$PROJ_DIR$\..\..\working files\inc\const_menu_mtz.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\working files\inc\const_menu_mtz04.h</name>
-        </file>
-        <file>
           <name>$PROJ_DIR$\..\..\working files\inc\const_menu_outputs.h</name>
         </file>
         <file>
@@ -4508,9 +4505,6 @@
           <name>$PROJ_DIR$\..\..\working files\inc\const_menu_transformator.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\working files\inc\const_menu_tznp.h</name>
-        </file>
-        <file>
           <name>$PROJ_DIR$\..\..\working files\inc\const_menu_Umax.h</name>
         </file>
         <file>
@@ -4523,16 +4517,10 @@
           <name>$PROJ_DIR$\..\..\working files\inc\const_menu_vidkluchennja.h</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\working files\inc\const_menu_VMP.h</name>
-        </file>
-        <file>
           <name>$PROJ_DIR$\..\..\working files\inc\const_menu_zdz.h</name>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\working files\inc\const_menu_zop.h</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\working files\inc\const_menu_zz.h</name>
         </file>
       </group>
       <group>
@@ -4625,10 +4613,10 @@
           <name>$PROJ_DIR$\..\..\working files\src\menu.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\working files\src\menu_achr_chapv.c</name>
+          <name>$PROJ_DIR$\..\..\working files\src\menu_apv.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\working files\src\menu_apv.c</name>
+          <name>$PROJ_DIR$\..\..\working files\src\menu_avr.c</name>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\working files\src\menu_chose_communication_parameters.c</name>
@@ -4688,9 +4676,6 @@
           <name>$PROJ_DIR$\..\..\working files\src\menu_mtz.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\working files\src\menu_mtz04.c</name>
-        </file>
-        <file>
           <name>$PROJ_DIR$\..\..\working files\src\menu_point_time_settings.c</name>
         </file>
         <file>
@@ -4715,9 +4700,6 @@
           <name>$PROJ_DIR$\..\..\working files\src\menu_transformator.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\working files\src\menu_tznp.c</name>
-        </file>
-        <file>
           <name>$PROJ_DIR$\..\..\working files\src\menu_Umax.c</name>
         </file>
         <file>
@@ -4733,16 +4715,10 @@
           <name>$PROJ_DIR$\..\..\working files\src\menu_view_measurement.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\working files\src\menu_VMP.c</name>
-        </file>
-        <file>
           <name>$PROJ_DIR$\..\..\working files\src\menu_zdz.c</name>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\working files\src\menu_zop.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\working files\src\menu_zz.c</name>
         </file>
       </group>
       <group>

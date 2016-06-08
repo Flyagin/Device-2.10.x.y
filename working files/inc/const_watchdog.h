@@ -26,9 +26,11 @@
 //ќб'Їднан≥ вс≥ б≥ти Watchdog у одну константу
 /*****************************************/
 #define UNITED_BITS_WATCHDOG (unsigned int)(\
-     WATCHDOG_MEASURE_START_DATA_VAL                      \
-   | WATCHDOG_MEASURE_STOP_DATA_VAL                       \
-   | WATCHDOG_MEASURE_START_TEST_VAL                      \
+     WATCHDOG_MEASURE_START_VAL_1                         \
+   | WATCHDOG_MEASURE_STOP_VAL_1                          \
+   | WATCHDOG_MEASURE_START_VAL_2                         \
+   | WATCHDOG_MEASURE_STOP_VAL_2                          \
+   | WATCHDOG_MEASURE_START_ALL_VAL                       \
    | WATCHDOG_MEASURE_STOP_TEST_VAL                       \
    | WATCHDOG_PROTECTION                                  \
    | WATCHDOG_KYYBOARD                                    \

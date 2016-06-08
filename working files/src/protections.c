@@ -1029,9 +1029,6 @@ inline void calc_measurement(unsigned int number_group_stp)
   /***
   Довертаємо кути і копіюємо ортогональні для низькопріоритетних задач
   ***/
-  const unsigned int *array_point_to_index_converter[4] = {index_converter_Ib_p, index_converter_I04_p, index_converter_Ib_l, index_converter_I04_l};
-  const unsigned int *point_to_index_converter = array_point_to_index_converter[current_settings_prt.control_extra_settings_1 & (CTR_EXTRA_SETTINGS_1_CTRL_IB_I04 | CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE)];
-
   unsigned int copy_to_low_tasks = (semaphore_measure_values_low == 0) ? true : false;
   for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES; i++)
   {
@@ -1041,7 +1038,7 @@ inline void calc_measurement(unsigned int number_group_stp)
     float sin_beta =  phi_ustuvannja_sin_cos_meas[2*i    ];
     float cos_beta =  phi_ustuvannja_sin_cos_meas[2*i + 1];
     
-    unsigned int new_index = *(point_to_index_converter + i);
+    unsigned int new_index = index_converter_Ib_p[i];
     int ortogonal_sin = ortogonal_calc[2*new_index    ] = (int)(sin_alpha*cos_beta + cos_alpha*sin_beta);
     int ortogonal_cos = ortogonal_calc[2*new_index + 1] = (int)(cos_alpha*cos_beta - sin_alpha*sin_beta);
 
@@ -8525,7 +8522,7 @@ inline void main_protection(void)
 {
   copying_active_functions = 1; //Помічаємо, що зараз обновляємо значення активних функцій
   
-  //Скижаємо тісигнали, які відповідають за входи, фкнопки і активацію з інтерфейсу
+  //Скижаємо ті сигнали, які відповідають за входи, фкнопки і активацію з інтерфейсу
   const unsigned int maska_input_signals[N_BIG] = 
   {
     MASKA_FOR_INPUT_SIGNALS_0, 

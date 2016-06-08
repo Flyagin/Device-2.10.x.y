@@ -19,17 +19,13 @@ void make_ekran_main(void)
      " Диагностика    ",
      " Конфигурация   ",
      " МТЗ            ",
-     " МТЗ 0.4кВ      ",
      " ЗДЗ            ",
-     "                ",
-     " ТЗНП           ",
      " АПВ            ",
-     " АЧР-ЧАПВ       ",
      " УРОВ           ",
      " ЗОП(КОФ)       ",
      " ЗНмин          ",
      " ЗНмакс         ",
-     " ОМП            "
+     " АВР            "
     },
     {
      " Годинник       ",
@@ -43,17 +39,13 @@ void make_ekran_main(void)
      " Діагностика    ",
      " Конфігурація   ",
      " МСЗ            ",
-     " МСЗ 0.4кВ      ",
      " ЗДЗ            ",
-     "                ",
-     " СЗНП           ",
      " АПВ            ",
-     " АЧР-ЧАПВ       ",
      " ПРВВ           ",
      " ЗЗП(КОФ)       ",
      " ЗНмін          ",
      " ЗНмакс         ",
-     " ВМП            "
+     " АВР            "
     },
     {
      " Clock          ",
@@ -67,17 +59,13 @@ void make_ekran_main(void)
      " Diagnostic     ",
      " Configuration  ",
      " OCP            ",
-     " OCP 0.4kV      ",
      " ЗДЗ            ",
-     "                ",
-     " ТЗНП           ",
      " AR             ",
-     " UFLS-FAR       ",
      " CBFP           ",
      " NPSP           ",
      " Umin           ",
      " Umax           ",
-     " ОМП            "
+     " АВР            ",
     },
     {
      " Саfат          ",
@@ -91,40 +79,23 @@ void make_ekran_main(void)
      " Диагностика    ",
      " Конфигурациялар",
      " МТK            ",
-     " МТK 0.4кВ      ",
      " ЗДЗ            ",
-     "                ",
-     " ТЗНП           ",
      " АKK            ",
-     " АЖЖ-ТАKK       ",
      " СІШРK          ",
      " КKK            ",
      " ЗНмин          ",
      " ЗНмакс         ",
-     " ОМП            "
+     " АВР            ",
     }
   };
-  const unsigned char name_nzz[MAX_NAMBER_LANGUAGE][2][MAX_COL_LCD] = 
-  {
-    {" НЗЗ            ", " ЗЗ             "},
-    {" НЗЗ            ", " ЗЗ             "},
-    {" НЗЗ            ", " SGFP           "},
-    {" НЗЗ            ", " ЗЗ             "}
-  };
-
   unsigned char name_string_tmp[MAX_ROW_FOR_EKRAN_MAIN][MAX_COL_LCD];
 
   int index_language = index_language_in_array(current_settings.language);
   for(int index_1 = 0; index_1 < MAX_ROW_FOR_EKRAN_MAIN; index_1++)
   {
-    unsigned char *point_target;
-    unsigned int nzz_zz = ((current_settings.control_zz & CTR_ZZ1_TYPE) != 0);
-    if (index_1 == INDEX_ML1_NZZ) point_target = (unsigned char *)name_nzz[index_language][nzz_zz];
-    else point_target = (unsigned char *)name_string[index_language][index_1];
-      
     for(int index_2 = 0; index_2 < MAX_COL_LCD; index_2++)
     {
-      name_string_tmp[index_1][index_2] = *(point_target + index_2);
+      name_string_tmp[index_1][index_2] = name_string[index_language][index_1][index_2];
     }
   }
   

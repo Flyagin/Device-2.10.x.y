@@ -9366,9 +9366,6 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
           output_value |= ((data >> (BIT_MA_CONTROL_NZZ_TYPE   - BIT_MA_CONTROL_NZZ_BASE)) & 0x1) << INDEX_ML_CTR_ZZ1_TYPE_BIT;
         
           target_label->control_zz = output_value;
-
-          //Обновляємо значення
-          action_after_changing_zz1_type(target_label);
         }
         else
         {

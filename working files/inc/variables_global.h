@@ -221,10 +221,7 @@ unsigned int measurement_high[2][NUMBER_ANALOG_CANALES + 8] , bank_measurement_h
 unsigned int measurement_middle[NUMBER_ANALOG_CANALES + 8]; 
 unsigned int measurement_low[NUMBER_ANALOG_CANALES + 8]; 
 
-const unsigned int index_converter_Ib_p[NUMBER_ANALOG_CANALES]  = {FULL_ORT_3I0, FULL_ORT_Ia, FULL_ORT_Ib , FULL_ORT_Ic, FULL_ORT_Ua , FULL_ORT_Ub , FULL_ORT_Uc , FULL_ORT_3U0};
-const unsigned int index_converter_I04_p[NUMBER_ANALOG_CANALES] = {FULL_ORT_3I0, FULL_ORT_Ia, FULL_ORT_I04, FULL_ORT_Ic, FULL_ORT_Ua , FULL_ORT_Ub , FULL_ORT_Uc , FULL_ORT_3U0};
-const unsigned int index_converter_Ib_l[NUMBER_ANALOG_CANALES]  = {FULL_ORT_3I0, FULL_ORT_Ia, FULL_ORT_Ib, FULL_ORT_Ic, FULL_ORT_Uab, FULL_ORT_Ubc, FULL_ORT_Uca, FULL_ORT_3U0};
-const unsigned int index_converter_I04_l[NUMBER_ANALOG_CANALES] = {FULL_ORT_3I0, FULL_ORT_Ia, FULL_ORT_I04, FULL_ORT_Ic, FULL_ORT_Uab, FULL_ORT_Ubc, FULL_ORT_Uca, FULL_ORT_3U0};
+const unsigned int index_converter_Ib_p[NUMBER_ANALOG_CANALES]  = {FULL_ORT_Ia, FULL_ORT_Ib, FULL_ORT_Ic, FULL_ORT_Ua1, FULL_ORT_Ub1, FULL_ORT_Uc1, FULL_ORT_Ua2, FULL_ORT_Ub2, FULL_ORT_Uc2};
 int ortogonal_calc[2*FULL_ORT_MAX];
 int ortogonal_calc_low[2*FULL_ORT_MAX];
 int phi_angle[FULL_ORT_MAX] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -559,18 +556,6 @@ unsigned int resurs_vymykacha = 0, resurs_vymykacha_ctrl;
 unsigned int resurs_vidkljuchennja = 0, resurs_vidkljuchennja_ctrl;
 unsigned char crc_resurs, crc_resurs_ctrl;
 unsigned int restart_counter = 0;
-
-//Визначення місця до пошкодження
-unsigned int vymknennja_vid_KZ_prt = 0;
-unsigned int I_max_KZ_prt = 0;
-unsigned int number_of_phases_KZ_prt = 0;
-unsigned int X_min_KZ_prt = (unsigned int)UNDEF_RESISTANCE;
-int R_KZ_prt = 0;
-
-unsigned int number_of_phases_last_KZ = 0;
-int VMP_last_KZ = UNDEF_VMP;
-int unsigned equal_more_KZ = 0;
-
 
 //RS-485
 unsigned char TxBuffer_RS485[BUFFER_RS485];
