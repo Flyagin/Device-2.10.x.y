@@ -75,7 +75,7 @@
 #define MA_TYPE_MTZ3                      303
 #define MA_TYPE_MTZ4                      304
 
-#define MA_TYPE_MTZ04_2                   306
+//#define MA_TYPE_MTZ04_2                   306
 
 #define M_ADDRESS_LAST_SETPOINTS_PART1    306
 
@@ -131,42 +131,42 @@
 #define MA_TO_MTZ4_N_NAZAD                350
 #define MA_TO_MTZ4_PO_NAPRUZI             351
 
-#define MA_STP_MTZ04_1                    352
-#define MA_TO_MTZ04_1                     353
-#define MA_STP_MTZ04_2                    354
-#define MA_TO_MTZ04_2                     355
-#define MA_TO_MTZ04_2_VVID_PR             356
-#define MA_TO_MTZ04_2_PR                  357
+//#define MA_STP_MTZ04_1                    352
+//#define MA_TO_MTZ04_1                     353
+//#define MA_STP_MTZ04_2                    354
+//#define MA_TO_MTZ04_2                     355
+//#define MA_TO_MTZ04_2_VVID_PR             356
+//#define MA_TO_MTZ04_2_PR                  357
 
-#define MA_STP_NZZ1_3I0                   358
-#define MA_TO_NZZ1_3I0                    359
+//#define MA_STP_NZZ1_3I0                   358
+//#define MA_TO_NZZ1_3I0                    359
 
-#define MA_STP_NZZ1_3U0                   362
-#define MA_TO_NZZ1_3U0                    363
+//#define MA_STP_NZZ1_3U0                   362
+//#define MA_TO_NZZ1_3U0                    363
 
-#define MA_TO_NZZ1                        365
+//#define MA_TO_NZZ1                        365
 
-#define MA_STP_TZNP1_3I0_VPERED           366
-#define MA_STP_TZNP1_3U0_VPERED           367
-#define MA_TO_TZNP1_VPERED                368
-#define MA_STP_TZNP1_3I0_NAZAD            369
-#define MA_STP_TZNP1_3U0_NAZAD            370
-#define MA_TO_TZNP1_NAZAD                 371
-#define MA_STP_TZNP1_ANGLE                372
-#define MA_STP_TZNP2_3I0_VPERED           373
-#define MA_STP_TZNP2_3U0_VPERED           374
-#define MA_TO_TZNP2_VPERED                375
-#define MA_STP_TZNP2_3I0_NAZAD            376
-#define MA_STP_TZNP2_3U0_NAZAD            377
-#define MA_TO_TZNP2_NAZAD                 378
-#define MA_STP_TZNP2_ANGLE                379
-#define MA_STP_TZNP3_3I0_VPERED           380
-#define MA_STP_TZNP3_3U0_VPERED           381
-#define MA_TO_TZNP3_VPERED                382
-#define MA_STP_TZNP3_3I0_NAZAD            383
-#define MA_STP_TZNP3_3U0_NAZAD            384
-#define MA_TO_TZNP3_NAZAD                 385
-#define MA_STP_TZNP3_ANGLE                386
+//#define MA_STP_TZNP1_3I0_VPERED           366
+//#define MA_STP_TZNP1_3U0_VPERED           367
+//#define MA_TO_TZNP1_VPERED                368
+//#define MA_STP_TZNP1_3I0_NAZAD            369
+//#define MA_STP_TZNP1_3U0_NAZAD            370
+//#define MA_TO_TZNP1_NAZAD                 371
+//#define MA_STP_TZNP1_ANGLE                372
+//#define MA_STP_TZNP2_3I0_VPERED           373
+//#define MA_STP_TZNP2_3U0_VPERED           374
+//#define MA_TO_TZNP2_VPERED                375
+//#define MA_STP_TZNP2_3I0_NAZAD            376
+//#define MA_STP_TZNP2_3U0_NAZAD            377
+//#define MA_TO_TZNP2_NAZAD                 378
+//#define MA_STP_TZNP2_ANGLE                379
+//#define MA_STP_TZNP3_3I0_VPERED           380
+//#define MA_STP_TZNP3_3U0_VPERED           381
+//#define MA_TO_TZNP3_VPERED                382
+//#define MA_STP_TZNP3_3I0_NAZAD            383
+//#define MA_STP_TZNP3_3U0_NAZAD            384
+//#define MA_TO_TZNP3_NAZAD                 385
+//#define MA_STP_TZNP3_ANGLE                386
 
 #define MA_STP_ZOP1                       387
 #define MA_TO_ZOP1                        388
@@ -192,15 +192,15 @@
 #define MA_TO_UROV1                       419
 #define MA_TO_UROV2                       420
 
-//#define MA_STP_AVR_MIN1                   421
-//#define MA_STP_AVR_MAX1                   422
-//#define MA_STP_AVR_MIN2                   423
-//#define MA_STP_AVR_MAX2                   424
-//#define MA_TO_AVR_RL                      425
-//#define MA_TO_AVR_OL                      426
-//#define MA_STP_KRATN_AVR                  427
-//#define MA_TO_AVR_ZAVERSHENNJA            428
-//#define MA_TO_AVR_RESET_BLK               429
+#define MA_STP_AVR_MIN1                   421
+#define MA_STP_AVR_MAX1                   422
+#define MA_STP_AVR_MIN2                   423
+#define MA_STP_AVR_MAX2                   424
+#define MA_TO_AVR_RL                      425
+#define MA_TO_AVR_OL                      426
+#define MA_STP_KRATN_AVR                  427
+#define MA_TO_AVR_ZAVERSHENNJA            428
+#define MA_TO_AVR_RESET_BLK               429
 
 #define MA_TO_APV_BLOCK_VID_VV            430
 #define MA_TO_APV_CYCLE_1                 431
@@ -219,60 +219,60 @@
 //#define MA_STP_KRATN_APV_ZMN              443
 //#define MA_TO_APV_ZMN_ZAVERSHENNJA        444
 
-#define MA_STP_ACHR1_F_RAB                445
-#define MA_STP_ACHR2_F_RAB                446
-#define MA_STP_CHAPV1_F_RAB               447
-#define MA_STP_CHAPV2_F_RAB               448
-#define MA_STP_ACHR_CHAPV_UF              449
-#define MA_TO_ACHR_1                      450
-#define MA_TO_ACHR_2                      451
-#define MA_TO_CHAPV_1                     452
-#define MA_TO_CHAPV_2                     453
+//#define MA_STP_ACHR1_F_RAB                445
+//#define MA_STP_ACHR2_F_RAB                446
+//#define MA_STP_CHAPV1_F_RAB               447
+//#define MA_STP_CHAPV2_F_RAB               448
+//#define MA_STP_ACHR_CHAPV_UF              449
+//#define MA_TO_ACHR_1                      450
+//#define MA_TO_ACHR_2                      451
+//#define MA_TO_CHAPV_1                     452
+//#define MA_TO_CHAPV_2                     453
 
 #define M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV 453
 
 #define M_ADDRESS_FIRST_SETPOINTS_CONTINUE 454
 
-#define MA_LINE_1                         455
-#define MA_DOVGYNA_1_1                    456
-#define MA_OPIR_1_1                       457
-#define MA_DOVGYNA_1_2                    458
-#define MA_OPIR_1_2                       459
-#define MA_DOVGYNA_1_3                    460
-#define MA_OPIR_1_3                       461
-#define MA_DOVGYNA_1_4                    462
-#define MA_OPIR_1_4                       463
-#define MA_DOVGYNA_1_5                    464
-#define MA_OPIR_1_5                       465
-#define MA_DOVGYNA_1_6                    466
-#define MA_OPIR_1_6                       467
-#define MA_DOVGYNA_1_7                    468
-#define MA_OPIR_1_7                       469
-#define MA_DOVGYNA_1_8                    470
-#define MA_OPIR_1_8                       471
-#define MA_LINE_2                         472
-#define MA_DOVGYNA_2_1                    473
-#define MA_OPIR_2_1                       474
-#define MA_DOVGYNA_2_2                    475
-#define MA_OPIR_2_2                       476
-#define MA_DOVGYNA_2_3                    477
-#define MA_OPIR_2_3                       478
-#define MA_DOVGYNA_2_4                    479
-#define MA_OPIR_2_4                       480
-#define MA_DOVGYNA_2_5                    481
-#define MA_OPIR_2_5                       482
-#define MA_DOVGYNA_2_6                    483
-#define MA_OPIR_2_6                       484
-#define MA_DOVGYNA_2_7                    485
-#define MA_OPIR_2_7                       486
-#define MA_DOVGYNA_2_8                    487
-#define MA_OPIR_2_8                       488
+//#define MA_LINE_1                         455
+//#define MA_DOVGYNA_1_1                    456
+//#define MA_OPIR_1_1                       457
+//#define MA_DOVGYNA_1_2                    458
+//#define MA_OPIR_1_2                       459
+//#define MA_DOVGYNA_1_3                    460
+//#define MA_OPIR_1_3                       461
+//#define MA_DOVGYNA_1_4                    462
+//#define MA_OPIR_1_4                       463
+//#define MA_DOVGYNA_1_5                    464
+//#define MA_OPIR_1_5                       465
+//#define MA_DOVGYNA_1_6                    466
+//#define MA_OPIR_1_6                       467
+//#define MA_DOVGYNA_1_7                    468
+//#define MA_OPIR_1_7                       469
+//#define MA_DOVGYNA_1_8                    470
+//#define MA_OPIR_1_8                       471
+//#define MA_LINE_2                         472
+//#define MA_DOVGYNA_2_1                    473
+//#define MA_OPIR_2_1                       474
+//#define MA_DOVGYNA_2_2                    475
+//#define MA_OPIR_2_2                       476
+//#define MA_DOVGYNA_2_3                    477
+//#define MA_OPIR_2_3                       478
+//#define MA_DOVGYNA_2_4                    479
+//#define MA_OPIR_2_4                       480
+//#define MA_DOVGYNA_2_5                    481
+//#define MA_OPIR_2_5                       482
+//#define MA_DOVGYNA_2_6                    483
+//#define MA_OPIR_2_6                       484
+//#define MA_DOVGYNA_2_7                    485
+//#define MA_OPIR_2_7                       486
+//#define MA_DOVGYNA_2_8                    487
+//#define MA_OPIR_2_8                       488
 
 #define MA_TN1                            489
 
 #define MA_TT                             491
-#define MA_T0                             492
-#define MA_TT04                           493
+//#define MA_T0                             492
+//#define MA_TT04                           493
 
 #define MA_TO_SWCH_UDL_BLK_ON             494
 #define MA_TO_SWCH_ON                     495
@@ -345,12 +345,12 @@
 #define BIT_MA_CONTROL_MTZ4_N_NAZAD           55013
 #define BIT_MA_CONTROL_MTZ_NESPR_KIL_NAPR     55014     
 
-#define MA_CONTROL_MTZ04                  551
-#define BIT_MA_CONTROL_MTZ04_BASE             55016
-#define BIT_MA_CONTROL_MTZ04_1                55016
-#define BIT_MA_CONTROL_MTZ04_2                55017
-#define BIT_MA_CONTROL_MTZ04_2_PRYSKORENNJA   55018
-#define BIT_MA_CONTROL_MTZ04_2_PRYSKORENA     55019
+//#define MA_CONTROL_MTZ04                  551
+//#define BIT_MA_CONTROL_MTZ04_BASE             55016
+//#define BIT_MA_CONTROL_MTZ04_1                55016
+//#define BIT_MA_CONTROL_MTZ04_2                55017
+//#define BIT_MA_CONTROL_MTZ04_2_PRYSKORENNJA   55018
+//#define BIT_MA_CONTROL_MTZ04_2_PRYSKORENA     55019
 
 #define MA_CONTROL_ZDZ                    552
 #define BIT_MA_CONTROL_ZDZ_BASE               55032
@@ -360,38 +360,38 @@
 #define BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ3  55035
 #define BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ4  55036
 
-#define MA_CONTROL_NZZ                    553
-#define BIT_MA_CONTROL_NZZ_BASE               55048
-#define BIT_MA_CONTROL_NZZ_3I0                55048
+//#define MA_CONTROL_NZZ                    553
+//#define BIT_MA_CONTROL_NZZ_BASE               55048
+//#define BIT_MA_CONTROL_NZZ_3I0                55048
 
-#define BIT_MA_CONTROL_NZZ_SECTOR             55050
-#define BIT_MA_CONTROL_NZZ                    55051
-#define BIT_MA_CONTROL_NZZ_3U0                55052
-#define BIT_MA_CONTROL_NZZ_TYPE               55053
+//#define BIT_MA_CONTROL_NZZ_SECTOR             55050
+//#define BIT_MA_CONTROL_NZZ                    55051
+//#define BIT_MA_CONTROL_NZZ_3U0                55052
+//#define BIT_MA_CONTROL_NZZ_TYPE               55053
 
-#define MA_CONTROL_TZNP                   554
-#define BIT_MA_CONTROL_TZNP_BASE              55064
-#define BIT_MA_CONTROL_TZNP1                  55064
-#define BIT_MA_CONTROL_TZNP1_VPERED           55065
-#define BIT_MA_CONTROL_TZNP1_NAZAD            55066
-#define BIT_MA_CONTROL_TZNP2                  55067
-#define BIT_MA_CONTROL_TZNP2_VPERED           55068
-#define BIT_MA_CONTROL_TZNP2_NAZAD            55069
-#define BIT_MA_CONTROL_TZNP3                  55070
-#define BIT_MA_CONTROL_TZNP3_VPERED           55071
-#define BIT_MA_CONTROL_TZNP3_NAZAD            55072
+//#define MA_CONTROL_TZNP                   554
+//#define BIT_MA_CONTROL_TZNP_BASE              55064
+//#define BIT_MA_CONTROL_TZNP1                  55064
+//#define BIT_MA_CONTROL_TZNP1_VPERED           55065
+//#define BIT_MA_CONTROL_TZNP1_NAZAD            55066
+//#define BIT_MA_CONTROL_TZNP2                  55067
+//#define BIT_MA_CONTROL_TZNP2_VPERED           55068
+//#define BIT_MA_CONTROL_TZNP2_NAZAD            55069
+//#define BIT_MA_CONTROL_TZNP3                  55070
+//#define BIT_MA_CONTROL_TZNP3_VPERED           55071
+//#define BIT_MA_CONTROL_TZNP3_NAZAD            55072
 
 #define MA_CONTROL_ZOP                    555
 #define BIT_MA_CONTROL_ZOP_BASE               55080
 #define BIT_MA_CONTROL_ZOP1                   55080
 
-#define MA_CONTROL_ACHR_CHAPV             556
-#define BIT_MA_CONTROL_ACHR_CHAPV_BASE        55096
-#define BIT_MA_CONTROL_ACHR1_STATE            55096
-#define BIT_MA_CONTROL_ACHR2_STATE            55097
-#define BIT_MA_CONTROL_CHAPV1_STATE           55098
-#define BIT_MA_CONTROL_CHAPV2_STATE           55099
-#define BIT_MA_CONTROL_CHAPV_VID_DV_STATE     55100
+//#define MA_CONTROL_ACHR_CHAPV             556
+//#define BIT_MA_CONTROL_ACHR_CHAPV_BASE        55096
+//#define BIT_MA_CONTROL_ACHR1_STATE            55096
+//#define BIT_MA_CONTROL_ACHR2_STATE            55097
+//#define BIT_MA_CONTROL_CHAPV1_STATE           55098
+//#define BIT_MA_CONTROL_CHAPV2_STATE           55099
+//#define BIT_MA_CONTROL_CHAPV_VID_DV_STATE     55100
 
 #define MA_CONTROL_UMIN                   557
 #define BIT_MA_CONTROL_UMIN_BASE              55112
@@ -414,9 +414,9 @@
 #define MA_CONTROL_558                    559
 #define BIT_MA_CONTROL_558_BASE               55144
 
-#define BIT_MA_CONTROL_PHASE_LINE             55145
+//#define BIT_MA_CONTROL_PHASE_LINE             55145
 //#define BIT_MA_CONTROL_3U0_Ubc_TN2            55146
-#define BIT_MA_CONTROL_IB_I04                 55147
+//#define BIT_MA_CONTROL_IB_I04                 55147
 
 //#define BIT_MA_CONTROL_APV_ZMN                55148
 //#define BIT_MA_CONTROL_U_OL                   55149
@@ -440,32 +440,32 @@
 #define BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ2    55194
 #define BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ3    55195
 #define BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ4    55196
-#define BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ04_1 55197
-#define BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ04_2 55198
+//#define BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ04_1 55197
+//#define BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ04_2 55198
 #define BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX1   55199
 #define BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX2   55200
 #define BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN1   55201
 #define BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN2   55202
 #define BIT_MA_CONTROL_UROV_STARTED_FROM_ZOP1    55203
 
-#define BIT_MA_CONTROL_UROV_STARTED_FROM_NZZ     55205
-#define BIT_MA_CONTROL_UROV_STARTED_FROM_3I0     55206
+//#define BIT_MA_CONTROL_UROV_STARTED_FROM_NZZ     55205
+//#define BIT_MA_CONTROL_UROV_STARTED_FROM_3I0     55206
 
 
 #define MA_CONTROL_UROV_PART2             563
 #define BIT_MA_CONTROL_UROV_BASE_PART2         55208
-#define BIT_MA_CONTROL_UROV_STARTED_FROM_3U0   55208
-#define BIT_MA_CONTROL_UROV_STARTED_FROM_TZNP1 55209
-#define BIT_MA_CONTROL_UROV_STARTED_FROM_TZNP2 55210
-#define BIT_MA_CONTROL_UROV_STARTED_FROM_TZNP3 55211
+//#define BIT_MA_CONTROL_UROV_STARTED_FROM_3U0   55208
+//#define BIT_MA_CONTROL_UROV_STARTED_FROM_TZNP1 55209
+//#define BIT_MA_CONTROL_UROV_STARTED_FROM_TZNP2 55210
+//#define BIT_MA_CONTROL_UROV_STARTED_FROM_TZNP3 55211
 #define BIT_MA_CONTROL_UROV_STARTED_FROM_ZDZ   55212
-#define BIT_MA_CONTROL_UROV_STARTED_FROM_ACHR1 55213
-#define BIT_MA_CONTROL_UROV_STARTED_FROM_ACHR2 55214
+//#define BIT_MA_CONTROL_UROV_STARTED_FROM_ACHR1 55213
+//#define BIT_MA_CONTROL_UROV_STARTED_FROM_ACHR2 55214
 
-//#define MA_CONTROL_AVR                    564
-//#define BIT_MA_CONTROL_AVR_BASE               55224
-//#define BIT_MA_CONTROL_AVR                    55224
-//#define BIT_MA_CONTROL_AVR_OTKL_BLK_VID_ZAHYSTIV 55225
+#define MA_CONTROL_AVR                    564
+#define BIT_MA_CONTROL_AVR_BASE               55224
+#define BIT_MA_CONTROL_AVR                    55224
+#define BIT_MA_CONTROL_AVR_OTKL_BLK_VID_ZAHYSTIV 55225
 
 #define MA_CONTROL_CTRL_VV                565
 #define BIT_MA_CONTROL_CTRL_VV_BASE            55240
@@ -478,19 +478,19 @@
 #define BIT_MA_CONTROL_CTRL_READY_TU           55247
 #define BIT_MA_CONTROL_CTRL_WINDOW_OFF_CB      55248
 
-#define MA_CONTROL_VMP                    566
-#define BIT_MA_CONTROL_VMP_BASE                55256
-#define BIT_MA_CONTROL_VMP_STATE               55256
+//#define MA_CONTROL_VMP                    566
+//#define BIT_MA_CONTROL_VMP_BASE                55256
+//#define BIT_MA_CONTROL_VMP_STATE               55256
 
 #define MA_CONFIGURATION_PART1            567
 #define BIT_MA_CONFIGURATION_BASE_PART1        55272
 #define BIT_MA_CONFIGURATION_MTZ               55272
-#define BIT_MA_CONFIGURATION_MTZ04             55273
+//#define BIT_MA_CONFIGURATION_MTZ04             55273
 #define BIT_MA_CONFIGURATION_ZDZ               55274
-#define BIT_MA_CONFIGURATION_ZZ                55275
-#define BIT_MA_CONFIGURATION_TZNP              55276
+//#define BIT_MA_CONFIGURATION_ZZ                55275
+//#define BIT_MA_CONFIGURATION_TZNP              55276
 #define BIT_MA_CONFIGURATION_ZOP               55277
-#define BIT_MA_CONFIGURATION_ACHR_CHAPV        55278
+//#define BIT_MA_CONFIGURATION_ACHR_CHAPV        55278
 #define BIT_MA_CONFIGURATION_UMIN              55279
 #define BIT_MA_CONFIGURATION_UMAX              55280
 
@@ -502,8 +502,8 @@
 
 #define MA_CONFIGURATION_PART2            568
 #define BIT_MA_CONFIGURATION_BASE_PART2        55288
-//#define BIT_MA_CONFIGURATION_AVR               55288
-#define BIT_MA_CONFIGURATION_VMP               55289
+#define BIT_MA_CONFIGURATION_AVR               55288
+//#define BIT_MA_CONFIGURATION_VMP               55289
 #define BIT_MA_CONFIGURATION_EL                55290
 
 #define MA_CONTROL_LAST                   568
@@ -602,13 +602,13 @@
 #define BIT_MA_SECTOR_NAZAD_MTZN4               60055
 #define BIT_MA_PO_U_MTZPN4                      60056
 
-#define BIT_MA_BLOCK_MTZ04_1                    60057
-#define BIT_MA_MTZ04_1                          60058
-#define BIT_MA_PO_MTZ04_1                       60059
-#define BIT_MA_BLOCK_MTZ04_2                    60060
-#define BIT_MA_MTZ04_2                          60061
-#define BIT_MA_PO_MTZ04_2                       60062
-#define BIT_MA_BLOCK_USK_MTZ04_2                60063
+//#define BIT_MA_BLOCK_MTZ04_1                    60057
+//#define BIT_MA_MTZ04_1                          60058
+//#define BIT_MA_PO_MTZ04_1                       60059
+//#define BIT_MA_BLOCK_MTZ04_2                    60060
+//#define BIT_MA_MTZ04_2                          60061
+//#define BIT_MA_PO_MTZ04_2                       60062
+//#define BIT_MA_BLOCK_USK_MTZ04_2                60063
 
 #define BIT_MA_NCN_MTZ                          60064
 #define BIT_MA_PO_BLOCK_U_MTZN                  60065
@@ -616,46 +616,46 @@
 #define BIT_MA_PUSK_ZDZ_VID_DV                  60067
 #define BIT_MA_ZDZ                              60068
 
-#define BIT_MA_BLOCK_NZZ                        60080
-#define BIT_MA_PO_NZZ                           60081
-#define BIT_MA_NZZ                              60082
-#define BIT_MA_PO_ZZ1_3I0                       60083
-#define BIT_MA_ZZ1_3I0                          60084
+//#define BIT_MA_BLOCK_NZZ                        60080
+//#define BIT_MA_PO_NZZ                           60081
+//#define BIT_MA_NZZ                              60082
+//#define BIT_MA_PO_ZZ1_3I0                       60083
+//#define BIT_MA_ZZ1_3I0                          60084
 
-#define BIT_MA_PO_ZZ_3U0                        60087
-#define BIT_MA_ZZ_3U0                           60088
-#define BIT_MA_SECTOR_NZZ                       60089
+//#define BIT_MA_PO_ZZ_3U0                        60087
+//#define BIT_MA_ZZ_3U0                           60088
+//#define BIT_MA_SECTOR_NZZ                       60089
 
-#define BIT_MA_BLOCK_TZNP1                      60096
-#define BIT_MA_PO_3I0_TZNP1_VPERED              60097
-#define BIT_MA_PO_3I0_TZNP1_NAZAD               60098
-#define BIT_MA_PO_3U0_TZNP1_VPERED              60099
-#define BIT_MA_PO_3U0_TZNP1_NAZAD               60100
-#define BIT_MA_PO_TZNP1_VPERED                  60101
-#define BIT_MA_PO_TZNP1_NAZAD                   60102
-#define BIT_MA_SECTOR_TZNP1_VPERED              60103
-#define BIT_MA_SECTOR_TZNP1_NAZAD               60104
-#define BIT_MA_TZNP1                            60105
-#define BIT_MA_BLOCK_TZNP2                      60106
-#define BIT_MA_PO_3I0_TZNP2_VPERED              60107
-#define BIT_MA_PO_3I0_TZNP2_NAZAD               60108
-#define BIT_MA_PO_3U0_TZNP2_VPERED              60109
-#define BIT_MA_PO_3U0_TZNP2_NAZAD               60110
-#define BIT_MA_PO_TZNP2_VPERED                  60111
-#define BIT_MA_PO_TZNP2_NAZAD                   60112
-#define BIT_MA_SECTOR_TZNP2_VPERED              60113
-#define BIT_MA_SECTOR_TZNP2_NAZAD               60114
-#define BIT_MA_TZNP2                            60115
-#define BIT_MA_BLOCK_TZNP3                      60116
-#define BIT_MA_PO_3I0_TZNP3_VPERED              60117
-#define BIT_MA_PO_3I0_TZNP3_NAZAD               60118
-#define BIT_MA_PO_3U0_TZNP3_VPERED              60119
-#define BIT_MA_PO_3U0_TZNP3_NAZAD               60120
-#define BIT_MA_PO_TZNP3_VPERED                  60121
-#define BIT_MA_PO_TZNP3_NAZAD                   60122
-#define BIT_MA_SECTOR_TZNP3_VPERED              60123
-#define BIT_MA_SECTOR_TZNP3_NAZAD               60124
-#define BIT_MA_TZNP3                            60125
+//#define BIT_MA_BLOCK_TZNP1                      60096
+//#define BIT_MA_PO_3I0_TZNP1_VPERED              60097
+//#define BIT_MA_PO_3I0_TZNP1_NAZAD               60098
+//#define BIT_MA_PO_3U0_TZNP1_VPERED              60099
+//#define BIT_MA_PO_3U0_TZNP1_NAZAD               60100
+//#define BIT_MA_PO_TZNP1_VPERED                  60101
+//#define BIT_MA_PO_TZNP1_NAZAD                   60102
+//#define BIT_MA_SECTOR_TZNP1_VPERED              60103
+//#define BIT_MA_SECTOR_TZNP1_NAZAD               60104
+//#define BIT_MA_TZNP1                            60105
+//#define BIT_MA_BLOCK_TZNP2                      60106
+//#define BIT_MA_PO_3I0_TZNP2_VPERED              60107
+//#define BIT_MA_PO_3I0_TZNP2_NAZAD               60108
+//#define BIT_MA_PO_3U0_TZNP2_VPERED              60109
+//#define BIT_MA_PO_3U0_TZNP2_NAZAD               60110
+//#define BIT_MA_PO_TZNP2_VPERED                  60111
+//#define BIT_MA_PO_TZNP2_NAZAD                   60112
+//#define BIT_MA_SECTOR_TZNP2_VPERED              60113
+//#define BIT_MA_SECTOR_TZNP2_NAZAD               60114
+//#define BIT_MA_TZNP2                            60115
+//#define BIT_MA_BLOCK_TZNP3                      60116
+//#define BIT_MA_PO_3I0_TZNP3_VPERED              60117
+//#define BIT_MA_PO_3I0_TZNP3_NAZAD               60118
+//#define BIT_MA_PO_3U0_TZNP3_VPERED              60119
+//#define BIT_MA_PO_3U0_TZNP3_NAZAD               60120
+//#define BIT_MA_PO_TZNP3_VPERED                  60121
+//#define BIT_MA_PO_TZNP3_NAZAD                   60122
+//#define BIT_MA_SECTOR_TZNP3_VPERED              60123
+//#define BIT_MA_SECTOR_TZNP3_NAZAD               60124
+//#define BIT_MA_TZNP3                            60125
 
 #define BIT_MA_BLOCK_ZOP                        60128
 #define BIT_MA_ZOP                              60129
@@ -709,30 +709,30 @@
 #define BIT_MA_UROV2                            60242
 #define BIT_MA_PO_UROV                          60243
 
-//#define M_ADDRESS_AVR                         616
-//#define BIT_MA_AVR_BASE                         60256
-//#define BIT_MA_OTKL_AVR                         60256
-//#define BIT_MA_SBROS_BLOCK_AVR                  60257
-//#define BIT_MA_STAT_BLOCK_AVR                   60258
-//#define BIT_MA_PO_UAVR_MIN1                     60259
-//#define BIT_MA_PO_UAVR_MAX1                     60260
-//#define BIT_MA_PO_UAVR_MIN2                     60261
-//#define BIT_MA_PO_UAVR_MAX2                     60262
-//#define BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV          60263
-//#define BIT_MA_BLOCK_KRATN_AVR                  60264
-//#define BIT_MA_PUSK_AVR                         60265
+#define M_ADDRESS_AVR                         616
+#define BIT_MA_AVR_BASE                         60256
+#define BIT_MA_OTKL_AVR                         60256
+#define BIT_MA_SBROS_BLOCK_AVR                  60257
+#define BIT_MA_STAT_BLOCK_AVR                   60258
+#define BIT_MA_PO_UAVR_MIN1                     60259
+#define BIT_MA_PO_UAVR_MAX1                     60260
+#define BIT_MA_PO_UAVR_MIN2                     60261
+#define BIT_MA_PO_UAVR_MAX2                     60262
+#define BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV          60263
+#define BIT_MA_BLOCK_KRATN_AVR                  60264
+#define BIT_MA_PUSK_AVR                         60265
 
-#define BIT_MA_ACHR_CHAPV_VID_DV                60272
-#define BIT_MA_BLOCK_ACHR1                      60273
-#define BIT_MA_BLOCK_ACHR2                      60274
-#define BIT_MA_VN_BLOCK_CHAPV                   60275
-#define BIT_MA_PO_ACHR1                         60276
-#define BIT_MA_PO_ACHR2                         60277
-#define BIT_MA_ACHR_CHAPV1                      60278
-#define BIT_MA_ACHR_CHAPV2                      60279
-#define BIT_MA_RAZR_CHAPV                       60280
-#define BIT_MA_PO_CHAPV1                        60281
-#define BIT_MA_PO_CHAPV2                        60282
+//#define BIT_MA_ACHR_CHAPV_VID_DV                60272
+//#define BIT_MA_BLOCK_ACHR1                      60273
+//#define BIT_MA_BLOCK_ACHR2                      60274
+//#define BIT_MA_VN_BLOCK_CHAPV                   60275
+//#define BIT_MA_PO_ACHR1                         60276
+//#define BIT_MA_PO_ACHR2                         60277
+//#define BIT_MA_ACHR_CHAPV1                      60278
+//#define BIT_MA_ACHR_CHAPV2                      60279
+//#define BIT_MA_RAZR_CHAPV                       60280
+//#define BIT_MA_PO_CHAPV1                        60281
+//#define BIT_MA_PO_CHAPV2                        60282
 
 #define M_ADDRESS_DF                          618
 #define BIT_MA_DF_BASE                          60288
@@ -874,7 +874,7 @@
 #define OFFSET_MEASUREMENT_IA_1                 3
 #define OFFSET_MEASUREMENT_IB_1                 4
 #define OFFSET_MEASUREMENT_IC_1                 5
-#define OFFSET_MEASUREMENT_I04_1                6
+//#define OFFSET_MEASUREMENT_I04_1                6
 #define OFFSET_ACTIVE_POWER                     7
 #define OFFSET_REACTIVE_POWER                   8
 #define OFFSET_FULL_POWER                       9
@@ -896,9 +896,9 @@
 #define OFFSET_MEASUREMENT_UAB_1                25
 #define OFFSET_MEASUREMENT_UBC_1                26
 #define OFFSET_MEASUREMENT_UCA_1                27
-#define OFFSET_MEASUREMENT_3U0_1                28
-#define OFFSET_MEASUREMENT_3I0_r                29
-#define OFFSET_MEASUREMENT_3I0_HIGH_GARM        30
+//#define OFFSET_MEASUREMENT_3U0_1                28
+//#define OFFSET_MEASUREMENT_3I0_r                29
+//#define OFFSET_MEASUREMENT_3I0_HIGH_GARM        30
 #define OFFSET_MEASUREMENT_I1                   31
 #define OFFSET_MEASUREMENT_I2                   32
 
@@ -906,7 +906,7 @@
 //#define OFFSET_MEASUREMENT_UAB_2                35
 //#define OFFSET_MEASUREMENT_UBC_2                36
 
-//#define OFFSET_FREQUENCY_2                      39
+#define OFFSET_FREQUENCY_2                      39
 
 #define OFFSET_BASE_CANAL_FOR_ANGLE             41
 #define OFFSET_ANGLE_UA_1                       42
@@ -915,15 +915,15 @@
 #define OFFSET_ANGLE_UAB_1                      45
 #define OFFSET_ANGLE_UBC_1                      46
 #define OFFSET_ANGLE_UCA_1                      47
-#define OFFSET_ANGLE_3U0_1                      48
+//#define OFFSET_ANGLE_3U0_1                      48
 //#define OFFSET_ANGLE_UAB_2                      49
 //#define OFFSET_ANGLE_UBC_2                      50
 #define OFFSET_ANGLE_IA_1                       51
 #define OFFSET_ANGLE_IB_1                       52
 #define OFFSET_ANGLE_IC_1                       53
-#define OFFSET_ANGLE_I04_1                      54
-#define OFFSET_ANGLE_3I0                        55
-#define OFFSET_ANGLE_3I0_r                      56
+//#define OFFSET_ANGLE_I04_1                      54
+//#define OFFSET_ANGLE_3I0                        55
+//#define OFFSET_ANGLE_3I0_r                      56
 
 //#define OFFSET_ANGLE_3I0_3U0                    60
 
@@ -957,14 +957,14 @@
 #define DR_OFFSET_MEASUREMENT_IA_1            3
 #define DR_OFFSET_MEASUREMENT_IB_1            4
 #define DR_OFFSET_MEASUREMENT_IC_1            5
-#define DR_OFFSET_MEASUREMENT_I04_1           6
+//#define DR_OFFSET_MEASUREMENT_I04_1           6
 #define DR_OFFSET_MEASUREMENT_UAB_1           7
 #define DR_OFFSET_MEASUREMENT_UBC_1           8
 #define DR_OFFSET_MEASUREMENT_UCA_1           9
-#define DR_OFFSET_MEASUREMENT_3U0_1           10
-#define DR_OFFSET_MEASUREMENT_3I0             11
-#define DR_OFFSET_MEASUREMENT_3I0_r           12
-#define DR_OFFSET_MEASUREMENT_3I0_HIGH_GARM   13
+//#define DR_OFFSET_MEASUREMENT_3U0_1           10
+//#define DR_OFFSET_MEASUREMENT_3I0             11
+//#define DR_OFFSET_MEASUREMENT_3I0_r           12
+//#define DR_OFFSET_MEASUREMENT_3I0_HIGH_GARM   13
 #define DR_OFFSET_MEASUREMENT_I1              14
 #define DR_OFFSET_MEASUREMENT_I2              15
 #define DR_OFFSET_FREQUENCY_1                 16
@@ -972,26 +972,26 @@
 //#define DR_OFFSET_MEASUREMENT_UAB_2           19
 //#define DR_OFFSET_MEASUREMENT_UBC_2           20
 
-//#define DR_OFFSET_FREQUENCY_2                 23
+#define DR_OFFSET_FREQUENCY_2                 23
 
-#define DR_OFFSET_VMP                         25
+//#define DR_OFFSET_VMP                         25
 
 #define DR_OFFSET_LABEL_TIME_LSW              26
 #define DR_OFFSET_LABEL_TIME_MSW              27
 #define DR_OFFSET_LABEL_PROTECT               28
 
 #define BLOCK_PROTECTION_MTZ                  1
-#define BLOCK_PROTECTION_3I0                  2
-#define BLOCK_PROTECTION_3U0                  3
+//#define BLOCK_PROTECTION_3I0                  2
+//#define BLOCK_PROTECTION_3U0                  3
 #define BLOCK_PROTECTION_UMIN                 4
 #define BLOCK_PROTECTION_UMAX                 5
 #define BLOCK_PROTECTION_ZOP                  6
 
-#define BLOCK_PROTECTION_FREQUENCY_1_ACHR     9
-#define BLOCK_PROTECTION_FREQUENCY_1_CAPV     10
-#define BLOCK_PROTECTION_FREQUENCY_2_ACHR     11
-#define BLOCK_PROTECTION_FREQUENCY_2_CAPV     12
-#define BLOCK_PROTECTION_MTZ04                13
+//#define BLOCK_PROTECTION_FREQUENCY_1_ACHR     9
+//#define BLOCK_PROTECTION_FREQUENCY_1_CAPV     10
+//#define BLOCK_PROTECTION_FREQUENCY_2_ACHR     11
+//#define BLOCK_PROTECTION_FREQUENCY_2_CAPV     12
+//#define BLOCK_PROTECTION_MTZ04                13
 
 #define M_ADDRESS_LAST_MEASUREMENTS_DR        1007
 /*****************************************************/

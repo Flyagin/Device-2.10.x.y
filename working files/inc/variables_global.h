@@ -529,7 +529,6 @@ unsigned int number_min_f_achr_dr;
 unsigned int number_f_chapv_dr;
 unsigned int type_view_max_values_dr;
 int index_cell_into_array_for_min_max_measurement_dr;
-unsigned int control_extra_settings_1_dr_for_manu;
 
 //Реєстратор програмних помилок
 unsigned char crc_info_rejestrator_pr_err;

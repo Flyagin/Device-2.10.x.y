@@ -334,32 +334,28 @@ void make_ekran_measurement(void)
      " Напряжения     ",
      " Частоты        ",
      " Углы           ",
-     " Мощность       ",
-     " Сопротивления  "
+     " Мощность       "
     },
     {
      " Струми         ",
      " Напруги        ",
      " Частоти        ",
      " Кути           ",
-     " Потужність     ",
-     " Опори          "
+     " Потужність     "
     },
     {
      " Currents       ",
      " Voltages       ",
      " Frequencies    ",
      " Angles         ",
-     " Power          ",
-     " Resistances    "
+     " Power          "
     },
     {
      " Токи           ",
      " Напряжения     ",
      " Частоты        ",
      " Углы           ",
-     " Мощность       ",
-     " Сопротивления  "
+     " Мощность       "
     }
   };
   int index_language = index_language_in_array(current_settings.language);
@@ -458,29 +454,19 @@ void make_ekran_current(unsigned int pervynna_vtorynna)
   
   unsigned char name_string[MAX_ROW_FOR_MEASURMENT_CURRENT][MAX_COL_LCD] = 
   {
-    " 3I0 i=         ",
-    " 3I0  =         ",
-    " 3I0**=         ",
-    " 3I0 .=         ",
     " Ia   =         ",
     " Ib   =         ",
     " Ic   =         ",
     " I2   =         ",
-    " I1   =         ",
-    " I0.4 =         "
+    " I1   =         "
   };
   unsigned int index_array[MAX_ROW_FOR_MEASURMENT_CURRENT] = 
   {
-    IM_3I0_i,
-    IM_3I0,
-    IM_3I0_other_g,
-    IM_3I0_r,
     IM_IA,
     IM_IB,
     IM_IC,
     IM_I2,
-    IM_I1,
-    IM_I04
+    IM_I1
   };
   
   //Копіюємо вимірювання які потрібні для відображення
@@ -496,63 +482,10 @@ void make_ekran_current(unsigned int pervynna_vtorynna)
   for (unsigned int i = 0; i < MAX_ROW_FOR_MEASURMENT_CURRENT; i++)
   {
     name_string[i][MAX_COL_LCD - 1] = odynyci_vymirjuvannja[index_language][INDEX_A];
-    if (
-        (
-         (index_array[i] == IM_3I0_r) &&
-         ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
-        )
-        ||
-        (
-         (index_array[i] == IM_IB) &&
-         ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)
-        )
-       )   
-    {
-      if (index_language == INDEX_LANGUAGE_EN) name_string[i][4] = 'c';
-      else name_string[i][4] = 'р';
-    }
-
-    if (
-        (index_array[i] == IM_IB) &&
-        ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)
-       )   
-    {
-      name_string[i][5] = '.';
-    }
   }
   
-  int additional_current = 0;
   int position_temp = current_ekran.index_position;
   int index_of_ekran;
-  /******************************************/
-  //Виключаємо, які вимірювання не треба відображати
-  /******************************************/
-  {
-    int delete_index;
-    if ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
-      delete_index = IM_I04;
-    else
-      delete_index = IM_3I0_r;
-
-    int i = delete_index - additional_current;
-    if ((i+1) <= position_temp) position_temp--;
-    do
-    {
-      for(unsigned int j = 0; j < MAX_COL_LCD; j++)
-      {
-        if ((i + 1) < (MAX_ROW_FOR_MEASURMENT_CURRENT - additional_current)) name_string[i][j] = name_string[i + 1][j];
-        else name_string[i][j] = ' ';
-      }
-          
-      if ((i+1) < (MAX_ROW_FOR_MEASURMENT_CURRENT - additional_current)) index_array[i] = index_array[i + 1];
-      else index_array[i] = 255;
-    
-      i++;
-    }
-    while (i< (MAX_ROW_FOR_MEASURMENT_CURRENT - additional_current));
-    additional_current++;
-  }
-  /******************************************/
 
   index_of_ekran = (position_temp >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
   
@@ -560,31 +493,16 @@ void make_ekran_current(unsigned int pervynna_vtorynna)
   for (unsigned int i=0; i< MAX_ROW_LCD; i++)
   {
     //Наступні рядки треба перевірити, чи їх требе відображати у текучій кофігурації
-    if (index_of_ekran < (MAX_ROW_FOR_MEASURMENT_CURRENT - additional_current))
+    if (index_of_ekran < MAX_ROW_FOR_MEASURMENT_CURRENT)
     {
       /********************************/
       //Вводимо вимірювальні значення  
+      /********************************/
       unsigned int index = index_array[index_of_ekran];
-      if (index != 255)
+      unsigned int start_number_digit_after_point = 3;
+      if (pervynna_vtorynna == 0) convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], 1, 1, name_string[index_of_ekran], 7);
       {
-        unsigned int start_number_digit_after_point;
-        if (
-            (index == INDEX_ML_3I0_i      ) ||
-            (index == INDEX_ML_3I0        ) ||
-            (index == INDEX_ML_3I0_other_g)
-           ) 
-          start_number_digit_after_point = 2;
-        else 
-          start_number_digit_after_point = 3;
-
-        unsigned int koef_mul = 1;
-        if (pervynna_vtorynna != 0)
-        {
-          if (index < IM_3I0_r) koef_mul = current_settings.T0;
-          else if (index == IM_I04) koef_mul = current_settings.TCurrent04;
-          else  koef_mul = current_settings.TCurrent;
-        }
-        convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], koef_mul, 1, name_string[index_of_ekran], 7);
+        convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], current_settings.TCurrent, 1, name_string[index_of_ekran], 7);
       }
       /********************************/
 
@@ -616,44 +534,26 @@ void make_ekran_voltage_phase(unsigned int pervynna_vtorynna)
 {
   unsigned char name_string[MAX_ROW_FOR_MEASURMENT_VOLTAGE_PHASE][MAX_COL_LCD] = 
   {
-    "                ",
-    "                ",
-    "                ",
-    "                "
+    " Ua-1=          ",
+    " Ub-1=          ",
+    " Uc-1=          ",
+    " Ua-2=          ",
+    " Ub-2=          ",
+    " Uc-2=          "
   };
-  unsigned int index_array[MAX_ROW_FOR_MEASURMENT_VOLTAGE_PHASE] = {255, 255, 255, 255};
-  unsigned int row = 0;
-
-  if ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)
+  unsigned int index_array[MAX_ROW_FOR_MEASURMENT_VOLTAGE_PHASE] = 
   {
-    const unsigned char name_phase[3][MAX_COL_LCD] = 
-    {
-      " Ua  =          ",
-      " Ub  =          ",
-      " Uc  =          "
-    };
-    const unsigned int index_array_phase[MAX_ROW_FOR_MEASURMENT_VOLTAGE_PHASE - 1] = 
-    {
-      IM_UA,
-      IM_UB,
-      IM_UC
-    };
-    
-    for (unsigned int i = 0; i < (MAX_ROW_FOR_MEASURMENT_VOLTAGE_PHASE - 1); i++)
-    {
-      for (unsigned int j = 0; j < MAX_COL_LCD; j++) name_string[row][j] = name_phase[i][j];
-      index_array[row++] = index_array_phase[i];
-    }
-  }
+    IM_UA1,
+    IM_UB1,
+    IM_UC1,
+    IM_UA2,
+    IM_UB2,
+    IM_UC2
+  };
   
-  const unsigned char name_3U0[MAX_COL_LCD] = " 3U0 =          ";
-    
-  for (unsigned int j = 0; j < MAX_COL_LCD; j++) name_string[row][j] = name_3U0[j];
-  index_array[row++] = IM_3U0;
-
   //Копіюємо вимірювання які потрібні для відображення
   semaphore_measure_values_low1 = 1;
-  for (unsigned int i = 0; i < row; i++ ) 
+  for (unsigned int i = 0; i < MAX_ROW_FOR_MEASURMENT_VOLTAGE_PHASE; i++ ) 
   {
     unsigned int index_to_copy = index_array[i];
     measurement_low[index_to_copy] = measurement_middle[index_to_copy];
@@ -661,7 +561,7 @@ void make_ekran_voltage_phase(unsigned int pervynna_vtorynna)
   semaphore_measure_values_low1 = 0;
   
   int index_language = index_language_in_array(current_settings.language);
-  for (unsigned int i = 0; i < row; i++)
+  for (unsigned int i = 0; i < MAX_ROW_FOR_MEASURMENT_VOLTAGE_PHASE; i++)
   {
     name_string[i][MAX_COL_LCD - 1] = odynyci_vymirjuvannja[index_language][INDEX_V];
   }
@@ -675,21 +575,18 @@ void make_ekran_voltage_phase(unsigned int pervynna_vtorynna)
   for (unsigned int i=0; i< MAX_ROW_LCD; i++)
   {
     //Наступні рядки треба перевірити, чи їх требе відображати у текучій кофігурації
-    if (index_of_ekran < row)
+    if (index_of_ekran < MAX_ROW_FOR_MEASURMENT_VOLTAGE_PHASE)
     {
       /********************************/
       //Вводимо вимірювальні значення  
       unsigned int start_number_digit_after_point = 3;
 
       unsigned int index = index_array[index_of_ekran];
-      if (index != 255)
+      if (pervynna_vtorynna == 0) convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], 1, 1, name_string[index_of_ekran], 7);
+      else
       {
-        if (pervynna_vtorynna == 0) convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], 1, 1, name_string[index_of_ekran], 7);
-        else
-        {
-          //Фазні напруги
-          convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], current_settings.TVoltage, 1, name_string[index_of_ekran], 7);
-        }
+        //Фазні напруги
+        convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], current_settings.TVoltage, 1, name_string[index_of_ekran], 7);
       }
       /********************************/
 
@@ -721,16 +618,26 @@ void make_ekran_voltage_line(unsigned int pervynna_vtorynna)
 {
   unsigned char name_string[MAX_ROW_FOR_MEASURMENT_VOLTAGE_LINE][MAX_COL_LCD] = 
   {
-    " Uab =          ",
-    " Ubc =          ",
-    " Uca =          "
+    " Uab1=          ",
+    " Ubc1=          ",
+    " Uca1=          ",
+    " Uab2=          ",
+    " Ubc2=          ",
+    " Uca2=          "
   };
-  unsigned int index_array[MAX_ROW_FOR_MEASURMENT_VOLTAGE_LINE] = {IM_UAB, IM_UBC, IM_UCA};
-  unsigned int row = 3;
+  unsigned int index_array[MAX_ROW_FOR_MEASURMENT_VOLTAGE_LINE] = 
+  {
+    IM_UAB1,
+    IM_UBC1,
+    IM_UCA1,
+    IM_UAB2,
+    IM_UBC2,
+    IM_UCA2
+  };
   
   //Копіюємо вимірювання які потрібні для відображення
   semaphore_measure_values_low1 = 1;
-  for (unsigned int i = 0; i < row; i++ ) 
+  for (unsigned int i = 0; i < MAX_ROW_FOR_MEASURMENT_VOLTAGE_LINE; i++ ) 
   {
     unsigned int index_to_copy = index_array[i];
     measurement_low[index_to_copy] = measurement_middle[index_to_copy];
@@ -738,7 +645,7 @@ void make_ekran_voltage_line(unsigned int pervynna_vtorynna)
   semaphore_measure_values_low1 = 0;
 
   int index_language = index_language_in_array(current_settings.language);
-  for (unsigned int i = 0; i < row; i++)
+  for (unsigned int i = 0; i < MAX_ROW_FOR_MEASURMENT_VOLTAGE_LINE; i++)
   {
     name_string[i][MAX_COL_LCD - 1] = odynyci_vymirjuvannja[index_language][INDEX_V];
   }
@@ -752,21 +659,18 @@ void make_ekran_voltage_line(unsigned int pervynna_vtorynna)
   for (unsigned int i=0; i< MAX_ROW_LCD; i++)
   {
     //Наступні рядки треба перевірити, чи їх требе відображати у текучій кофігурації
-    if (index_of_ekran < row)
+    if (index_of_ekran < MAX_ROW_FOR_MEASURMENT_VOLTAGE_LINE)
     {
       /********************************/
       //Вводимо вимірювальні значення  
       unsigned int start_number_digit_after_point = 3;
 
       unsigned int index = index_array[index_of_ekran];
-      if (index != 255)
+      if (pervynna_vtorynna == 0) convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], 1, 1, name_string[index_of_ekran], 7);
+      else
       {
-        if (pervynna_vtorynna == 0) convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], 1, 1, name_string[index_of_ekran], 7);
-        else
-        {
-          //Лінійні напруги
-          convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], current_settings.TVoltage, 1, name_string[index_of_ekran], 7);
-        }
+        //Лінійні напруги
+        convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], current_settings.TVoltage, 1, name_string[index_of_ekran], 7);
       }
       /********************************/
 
@@ -798,9 +702,12 @@ void make_ekran_frequency(void)
 {
   unsigned char name_string[MAX_ROW_FOR_MEASURMENT_FREQUENCY][MAX_COL_LCD] = 
   {
-    " f =            "
+    " f1 =           ",
+    " f2 =           "
   };
-  int measurement_fequency = (int)(frequency*1000);
+  int measurement_fequency[MAX_ROW_FOR_MEASURMENT_FREQUENCY];
+  measurement_fequency[0] = (int)(frequency_val_1*1000);
+  measurement_fequency[1] = (int)(frequency_val_2*1000);
   
   unsigned int position_temp = current_ekran.index_position;
   unsigned int index_of_ekran;
@@ -815,23 +722,23 @@ void make_ekran_frequency(void)
     {
       /********************************/
       //Вводимо вимірювальні значення
-      if (measurement_fequency < 0)
+      if (measurement_fequency[index_of_ekran] < 0)
       {
-        if (measurement_fequency == (-2*1000))
+        if (measurement_fequency[index_of_ekran] == (-2*1000))
         {
           /*Частота нижче порогу визначеного константою MIN_FREQUENCY*/
-          name_string[index_of_ekran][3] = '<';
-          measurement_fequency = MIN_FREQUENCY*1000;
+          name_string[index_of_ekran][4] = '<';
+          measurement_fequency[index_of_ekran] = MIN_FREQUENCY*1000;
         }
-        if (measurement_fequency == (-3*1000))
+        if (measurement_fequency[index_of_ekran] == (-3*1000))
         {
           /*Частота вище порогу визначеного константою MAX_FREQUENCY*/
-          name_string[index_of_ekran][3] = '>';
-          measurement_fequency = MAX_FREQUENCY*1000;
+          name_string[index_of_ekran][4] = '>';
+          measurement_fequency[index_of_ekran] = MAX_FREQUENCY*1000;
         }
       }
       
-      convert_and_insert_char_for_frequency(measurement_fequency, name_string[index_of_ekran]);
+      convert_and_insert_char_for_frequency(measurement_fequency[index_of_ekran], name_string[index_of_ekran]);
       /********************************/
 
       for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_of_ekran][j];
@@ -899,19 +806,21 @@ void make_ekran_angle(void)
   {
     unsigned char name_string[MAX_ROW_FOR_MEASURMENT_ANGLE][MAX_COL_LCD] = 
     {
-      " Ua -           ",
-      " Ub -           ",
-      " Uc -           ",
-      " Uab-           ",
-      " Ubc-           ",
-      " Uca-           ",
-      " 3U0-           ",
+      " Ua1-           ",
+      " Ub1-           ",
+      " Uc1-           ",
+      "Uab1-           ",
+      "Ubc1-           ",
+      "Uca1-           ",
+      " Ua2-           ",
+      " Ub2-           ",
+      " Uc2-           ",
+      "Uab2-           ",
+      "Ubc2-           ",
+      "Uca2-           ",
       " Ia -           ",
       " Ib -           ",
-      " Ic -           ",
-      " 3I0-           ",
-      "3I0 -           ",
-      "I0.4-           "
+      " Ic -           "
     };
 #define SIZE_UNDEF      6
     const unsigned char undefined[MAX_NAMBER_LANGUAGE][SIZE_UNDEF] =
@@ -929,12 +838,6 @@ void make_ekran_angle(void)
     /*************
     Завершуємо формування назв кутів
     *************/
-    if ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
-    {
-      if (index_language == INDEX_LANGUAGE_EN) name_string[FULL_ORT_3I0_r][3] = 'c';
-      else name_string[FULL_ORT_3I0_r][3] = 'р';
-    }
-
 #define SIZE_NAME_ANALOG_CANAL   4
     for (int index_1 = 0; index_1 < MAX_ROW_FOR_MEASURMENT_ANGLE; index_1++) 
     {
@@ -944,70 +847,18 @@ void make_ekran_angle(void)
 #undef SIZE_NAME_ANALOG_CANAL
     /*************/
         
-    unsigned int value_index_shift[MAX_ROW_FOR_MEASURMENT_ANGLE] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    unsigned int additional_current = 0;
     unsigned int position_temp = current_ekran.index_position;
     unsigned int index_of_ekran;
   
-    /******************************************/
-    //Виключаємо поля, які не треба відображати
-    /******************************************/
-    if ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)
-    {
-      for (__full_ort_index index_tmp = FULL_ORT_Ua; index_tmp <= FULL_ORT_Uc; index_tmp++)
-      {
-        unsigned int i = index_tmp - additional_current;
-        unsigned int additional_current_new = additional_current + 1;
-        if ((i+1) <= position_temp) position_temp--;
-        do
-        {
-          for(unsigned int j = 0; j < MAX_COL_LCD; j++)
-          {
-            if ((i+1) < (MAX_ROW_FOR_MEASURMENT_ANGLE - additional_current)) name_string[i][j] = name_string[i + 1][j];
-            else name_string[i][j] = ' ';
-          }
-          value_index_shift[i] = additional_current_new;
-          i++;
-        }
-        while (i < (MAX_ROW_FOR_MEASURMENT_ANGLE - additional_current));
-        additional_current = additional_current_new;
-      }
-    }
-
-    {
-      int delete_index;
-      if ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
-        delete_index = FULL_ORT_I04;
-      else
-        delete_index = FULL_ORT_3I0_r;
-
-      unsigned int i = delete_index - additional_current;
-      unsigned int additional_current_new = additional_current + 1;
-      if ((i+1) <= position_temp) position_temp--;
-      do
-      {
-        for(unsigned int j = 0; j < MAX_COL_LCD; j++)
-        {
-          if ((i + 1) < (MAX_ROW_FOR_MEASURMENT_ANGLE - additional_current)) name_string[i][j] = name_string[i + 1][j];
-          else name_string[i][j] = ' ';
-        }
-        value_index_shift[i] = additional_current_new;
-        i++;
-      }
-      while (i< (MAX_ROW_FOR_MEASURMENT_ANGLE - additional_current));
-      additional_current = additional_current_new;
-    }
-    /******************************************/
-
     index_of_ekran = (position_temp >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
   
     //Копіюємо  рядки у робочий екран
     for (unsigned int i=0; i< MAX_ROW_LCD; i++)
     {
       //Наступні рядки треба перевірити, чи їх требе відображати у текучій кофігурації
-      if (index_of_ekran < (MAX_ROW_FOR_MEASURMENT_ANGLE - additional_current))
+      if (index_of_ekran < MAX_ROW_FOR_MEASURMENT_ANGLE)
       {
-        int value = phi_angle[index_of_ekran + value_index_shift[index_of_ekran]];
+        int value = phi_angle[index_of_ekran];
 
 #define LAST_POSITION_OF_TITLE  8
         

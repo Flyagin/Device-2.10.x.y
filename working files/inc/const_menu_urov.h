@@ -14,7 +14,7 @@
 
 #define MAX_ROW_FOR_SETPOINT_UROV  1
 #define MAX_ROW_FOR_TIMEOUT_UROV   2
-#define MAX_ROW_FOR_CONTROL_UROV   21
+#define MAX_ROW_FOR_CONTROL_UROV   11
 
 #define INDEX_ML_TMOUROV1          0
 #define INDEX_ML_TMOUROV2          1

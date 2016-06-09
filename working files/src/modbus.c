@@ -98,58 +98,6 @@ void convert_order_list_function_to_gmm(unsigned int* input_array, unsigned shor
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_BLOCK_U_MTZN    , (BIT_MA_PO_BLOCK_U_MTZN     - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_NCN_MTZ            , (BIT_MA_NCN_MTZ             - BIT_MA_CURRENT_AF_BASE));
 
-  //МТЗ 0,4кВ
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_MTZ04_1      , (BIT_MA_BLOCK_MTZ04_1       - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_MTZ04_1            , (BIT_MA_MTZ04_1             - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_MTZ04_1         , (BIT_MA_PO_MTZ04_1          - BIT_MA_CURRENT_AF_BASE));
-
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_MTZ04_2      , (BIT_MA_BLOCK_MTZ04_2       - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_USK_MTZ04_2  , (BIT_MA_BLOCK_USK_MTZ04_2   - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_MTZ04_2            , (BIT_MA_MTZ04_2             - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_MTZ04_2         , (BIT_MA_PO_MTZ04_2          - BIT_MA_CURRENT_AF_BASE));
-
-  //ЗЗ
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_NZZ , (BIT_MA_BLOCK_NZZ  - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_NZZ    , (BIT_MA_PO_NZZ     - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_NZZ       , (BIT_MA_NZZ        - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_3I0    , (BIT_MA_PO_ZZ1_3I0 - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_3I0       , (BIT_MA_ZZ1_3I0    - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_3U0    , (BIT_MA_PO_ZZ_3U0  - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_3U0       , (BIT_MA_ZZ_3U0     - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_SECTOR_NZZ, (BIT_MA_SECTOR_NZZ - BIT_MA_CURRENT_AF_BASE));
-
-  //ТЗНП
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_TZNP1        , (BIT_MA_BLOCK_TZNP1          - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_3I0_TZNP1_VPERED, (BIT_MA_PO_3I0_TZNP1_VPERED  - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_3I0_TZNP1_NAZAD , (BIT_MA_PO_3I0_TZNP1_NAZAD   - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_3U0_TZNP1_VPERED, (BIT_MA_PO_3U0_TZNP1_VPERED  - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_3U0_TZNP1_NAZAD , (BIT_MA_PO_3U0_TZNP1_NAZAD   - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_TZNP1_VPERED    , (BIT_MA_PO_TZNP1_VPERED      - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_TZNP1_NAZAD     , (BIT_MA_PO_TZNP1_NAZAD       - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_SECTOR_TZNP1_VPERED, (BIT_MA_SECTOR_TZNP1_VPERED  - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_SECTOR_TZNP1_NAZAD , (BIT_MA_SECTOR_TZNP1_NAZAD   - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_TZNP1              , (BIT_MA_TZNP1                - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_TZNP2        , (BIT_MA_BLOCK_TZNP2          - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_3I0_TZNP2_VPERED, (BIT_MA_PO_3I0_TZNP2_VPERED  - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_3I0_TZNP2_NAZAD , (BIT_MA_PO_3I0_TZNP2_NAZAD   - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_3U0_TZNP2_VPERED, (BIT_MA_PO_3U0_TZNP2_VPERED  - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_3U0_TZNP2_NAZAD , (BIT_MA_PO_3U0_TZNP2_NAZAD   - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_TZNP2_VPERED    , (BIT_MA_PO_TZNP2_VPERED      - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_TZNP2_NAZAD     , (BIT_MA_PO_TZNP2_NAZAD       - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_SECTOR_TZNP2_VPERED, (BIT_MA_SECTOR_TZNP2_VPERED  - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_SECTOR_TZNP2_NAZAD , (BIT_MA_SECTOR_TZNP2_NAZAD   - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_TZNP2              , (BIT_MA_TZNP2                - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_TZNP3        , (BIT_MA_BLOCK_TZNP3          - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_3I0_TZNP3_VPERED, (BIT_MA_PO_3I0_TZNP3_VPERED  - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_3I0_TZNP3_NAZAD , (BIT_MA_PO_3I0_TZNP3_NAZAD   - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_3U0_TZNP3_VPERED, (BIT_MA_PO_3U0_TZNP3_VPERED  - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_3U0_TZNP3_NAZAD , (BIT_MA_PO_3U0_TZNP3_NAZAD   - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_TZNP3_VPERED    , (BIT_MA_PO_TZNP3_VPERED      - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_TZNP3_NAZAD     , (BIT_MA_PO_TZNP3_NAZAD       - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_SECTOR_TZNP3_VPERED, (BIT_MA_SECTOR_TZNP3_VPERED  - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_SECTOR_TZNP3_NAZAD , (BIT_MA_SECTOR_TZNP3_NAZAD   - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_TZNP3              , (BIT_MA_TZNP3                - BIT_MA_CURRENT_AF_BASE));
-
   //ЗОП
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_ZOP , (BIT_MA_BLOCK_ZOP  - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_ZOP       , (BIT_MA_ZOP        - BIT_MA_CURRENT_AF_BASE));
@@ -191,18 +139,17 @@ void convert_order_list_function_to_gmm(unsigned int* input_array, unsigned shor
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_UROV2           , (BIT_MA_UROV2            - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_UROV         , (BIT_MA_PO_UROV          - BIT_MA_CURRENT_AF_BASE));
 
-  //АЧР/ЧАПВ
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_ACHR_CHAPV_VID_DV , (BIT_MA_ACHR_CHAPV_VID_DV - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_ACHR1       , (BIT_MA_BLOCK_ACHR1        - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_ACHR2       , (BIT_MA_BLOCK_ACHR2        - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_VN_BLOCK_CHAPV    , (BIT_MA_VN_BLOCK_CHAPV     - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_ACHR1          , (BIT_MA_PO_ACHR1           - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_ACHR2          , (BIT_MA_PO_ACHR2           - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_ACHR_CHAPV1       , (BIT_MA_ACHR_CHAPV1        - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_ACHR_CHAPV2       , (BIT_MA_ACHR_CHAPV2        - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_RAZR_CHAPV        , (BIT_MA_RAZR_CHAPV         - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_CHAPV1         , (BIT_MA_PO_CHAPV1          - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_CHAPV2         , (BIT_MA_PO_CHAPV2          - BIT_MA_CURRENT_AF_BASE));
+  //АВР
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_OTKL_AVR               , (BIT_MA_OTKL_AVR                - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_SBROS_BLOCK_AVR        , (BIT_MA_SBROS_BLOCK_AVR         - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_STAT_BLOCK_AVR         , (BIT_MA_STAT_BLOCK_AVR          - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_BLOCK_AVR_VID_ZAKHYSTIV, (BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_PO_UAVR_MIN1           , (BIT_MA_PO_UAVR_MIN1            - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_PO_UAVR_MAX1           , (BIT_MA_PO_UAVR_MAX1            - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_PO_UAVR_MIN2           , (BIT_MA_PO_UAVR_MIN2            - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_PO_UAVR_MAX2           , (BIT_MA_PO_UAVR_MAX2            - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_BLOCK_KRATN_AVR        , (BIT_MA_BLOCK_KRATN_AVR         - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_PUSK_AVR               , (BIT_MA_PUSK_AVR                - BIT_MA_CURRENT_AF_BASE));
 
   //ОФ
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_DF1_IN , (BIT_MA_INPUT_DF1  - BIT_MA_CURRENT_AF_BASE));
@@ -448,6 +395,16 @@ unsigned int convert_order_list_buttons_to_gmm(unsigned int number, unsigned int
         rezultat = BIT_MA_OTKL_VV;
         break;
       }
+    case RANG_BUTTON_OTKL_AVR:
+      {
+        rezultat = BIT_MA_OTKL_AVR;
+        break;
+      }
+    case RANG_BUTTON_SBROS_BLOCK_AVR:
+      {
+        rezultat = BIT_MA_SBROS_BLOCK_AVR;
+        break;
+      }
     case RANG_BUTTON_RESET_BLOCK_READY_TU_VID_ZAHYSTIV:
       {
         rezultat = BIT_MA_RESET_BLOCK_READY_TU_VID_ZAHYSTIV;
@@ -672,64 +629,14 @@ unsigned int convert_order_list_inputs_to_gmm(unsigned int number, unsigned int 
         rezultat = BIT_MA_BLOCK_MTZ4;
         break;
       }
-    case RANG_INPUT_BLOCK_MTZ04_1:
-      {
-        rezultat = BIT_MA_BLOCK_MTZ04_1;
-        break;
-      }
-    case RANG_INPUT_BLOCK_MTZ04_2:
-      {
-        rezultat = BIT_MA_BLOCK_MTZ04_2;
-        break;
-      }
-    case RANG_INPUT_BLOCK_USK_MTZ04_2:
-      {
-        rezultat = BIT_MA_BLOCK_USK_MTZ04_2;
-        break;
-      }
     case RANG_INPUT_PUSK_ZDZ_VID_DV:
       {
         rezultat = BIT_MA_PUSK_ZDZ_VID_DV;
         break;
       }
-    case RANG_INPUT_BLOCK_NZZ:
-      {
-        rezultat = BIT_MA_BLOCK_NZZ;
-        break;
-      }
-    case RANG_INPUT_BLOCK_TZNP1:
-      {
-        rezultat = BIT_MA_BLOCK_TZNP1;
-        break;
-      }
-    case RANG_INPUT_BLOCK_TZNP2:
-      {
-        rezultat = BIT_MA_BLOCK_TZNP2;
-        break;
-      }
-    case RANG_INPUT_BLOCK_TZNP3:
-      {
-        rezultat = BIT_MA_BLOCK_TZNP3;
-        break;
-      }
     case RANG_INPUT_STAT_BLK_APV:
       {
         rezultat = BIT_MA_STAT_BLK_APV;
-        break;
-      }
-    case RANG_INPUT_BLOCK_ACHR1:
-      {
-        rezultat = BIT_MA_BLOCK_ACHR1;
-        break;
-      }
-    case RANG_INPUT_BLOCK_ACHR2:
-      {
-        rezultat = BIT_MA_BLOCK_ACHR2;
-        break;
-      }
-    case RANG_INPUT_ACHR_CHAPV_VID_DV:
-      {
-        rezultat = BIT_MA_ACHR_CHAPV_VID_DV;
         break;
       }
     case RANG_INPUT_PUSK_UROV_VID_DV:
@@ -770,6 +677,21 @@ unsigned int convert_order_list_inputs_to_gmm(unsigned int number, unsigned int 
     case RANG_INPUT_BLOCK_UMAX2:
       {
         rezultat = BIT_MA_BLOCK_UMAX2;
+        break;
+      }
+    case RANG_INPUT_OTKL_AVR:
+      {
+        rezultat = BIT_MA_OTKL_AVR;
+        break;
+      }
+    case RANG_INPUT_SBROS_BLOCK_AVR:
+      {
+        rezultat = BIT_MA_SBROS_BLOCK_AVR;
+        break;
+      }
+    case RANG_INPUT_STAT_BLOCK_AVR:
+      {
+        rezultat = BIT_MA_STAT_BLOCK_AVR;
         break;
       }
     default: break;
@@ -1556,41 +1478,6 @@ unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int nu
         rezultat = BIT_MA_NCN_MTZ;
         break;
       }
-    case RANG_BLOCK_MTZ04_1:
-      {
-        rezultat = BIT_MA_BLOCK_MTZ04_1;
-        break;
-      }
-    case RANG_BLOCK_MTZ04_2:
-      {
-        rezultat = BIT_MA_BLOCK_MTZ04_2;
-        break;
-      }
-    case RANG_BLOCK_USK_MTZ04_2:
-      {
-        rezultat = BIT_MA_BLOCK_USK_MTZ04_2;
-        break;
-      }
-    case RANG_PO_MTZ04_1:
-      {
-        rezultat = BIT_MA_PO_MTZ04_1;
-        break;
-      }
-    case RANG_MTZ04_1:
-      {
-        rezultat = BIT_MA_MTZ04_1;
-        break;
-      }
-    case RANG_PO_MTZ04_2:
-      {
-        rezultat = BIT_MA_PO_MTZ04_2;
-        break;
-      }
-    case RANG_MTZ04_2:
-      {
-        rezultat = BIT_MA_MTZ04_2;
-        break;
-      }
     case RANG_PUSK_ZDZ_VID_DV:
       {
         rezultat = BIT_MA_PUSK_ZDZ_VID_DV;
@@ -1599,196 +1486,6 @@ unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int nu
     case RANG_ZDZ:
       {
         rezultat = BIT_MA_ZDZ;
-        break;
-      }
-    case RANG_BLOCK_NZZ:
-      {
-        rezultat = BIT_MA_BLOCK_NZZ;
-        break;
-      }
-    case RANG_PO_NZZ:
-      {
-        rezultat = BIT_MA_PO_NZZ;
-        break;
-      }
-    case RANG_NZZ:
-      {
-        rezultat = BIT_MA_NZZ;
-        break;
-      }
-    case RANG_PO_3I0:
-      {
-        rezultat = BIT_MA_PO_ZZ1_3I0;
-        break;
-      }
-    case RANG_3I0:
-      {
-        rezultat = BIT_MA_ZZ1_3I0;
-        break;
-      }
-    case RANG_PO_3U0:
-      {
-        rezultat = BIT_MA_PO_ZZ_3U0;
-        break;
-      }
-    case RANG_3U0:
-      {
-        rezultat = BIT_MA_ZZ_3U0;
-        break;
-      }
-    case RANG_SECTOR_NZZ:
-      {
-        rezultat = BIT_MA_SECTOR_NZZ;
-        break;
-      }
-    case RANG_BLOCK_TZNP1:
-      {
-        rezultat = BIT_MA_BLOCK_TZNP1;
-        break;
-      }
-    case RANG_PO_3I0_TZNP1_VPERED:
-      {
-        rezultat = BIT_MA_PO_3I0_TZNP1_VPERED;
-        break;
-      }
-    case RANG_PO_3I0_TZNP1_NAZAD:
-      {
-        rezultat = BIT_MA_PO_3I0_TZNP1_NAZAD;
-        break;
-      }
-    case RANG_PO_3U0_TZNP1_VPERED:
-      {
-        rezultat = BIT_MA_PO_3U0_TZNP1_VPERED;
-        break;
-      }
-    case RANG_PO_3U0_TZNP1_NAZAD:
-      {
-        rezultat = BIT_MA_PO_3U0_TZNP1_NAZAD;
-        break;
-      }
-    case RANG_PO_TZNP1_VPERED:
-      {
-        rezultat = BIT_MA_PO_TZNP1_VPERED;
-        break;
-      }
-    case RANG_PO_TZNP1_NAZAD:
-      {
-        rezultat = BIT_MA_PO_TZNP1_NAZAD;
-        break;
-      }
-    case RANG_SECTOR_TZNP1_VPERED:
-      {
-        rezultat = BIT_MA_SECTOR_TZNP1_VPERED;
-        break;
-      }
-    case RANG_SECTOR_TZNP1_NAZAD:
-      {
-        rezultat = BIT_MA_SECTOR_TZNP1_NAZAD;
-        break;
-      }
-    case RANG_TZNP1:
-      {
-        rezultat = BIT_MA_TZNP1;
-        break;
-      }
-    case RANG_BLOCK_TZNP2:
-      {
-        rezultat = BIT_MA_BLOCK_TZNP2;
-        break;
-      }
-    case RANG_PO_3I0_TZNP2_VPERED:
-      {
-        rezultat = BIT_MA_PO_3I0_TZNP2_VPERED;
-        break;
-      }
-    case RANG_PO_3I0_TZNP2_NAZAD:
-      {
-        rezultat = BIT_MA_PO_3I0_TZNP2_NAZAD;
-        break;
-      }
-    case RANG_PO_3U0_TZNP2_VPERED:
-      {
-        rezultat = BIT_MA_PO_3U0_TZNP2_VPERED;
-        break;
-      }
-    case RANG_PO_3U0_TZNP2_NAZAD:
-      {
-        rezultat = BIT_MA_PO_3U0_TZNP2_NAZAD;
-        break;
-      }
-    case RANG_PO_TZNP2_VPERED:
-      {
-        rezultat = BIT_MA_PO_TZNP2_VPERED;
-        break;
-      }
-    case RANG_PO_TZNP2_NAZAD:
-      {
-        rezultat = BIT_MA_PO_TZNP2_NAZAD;
-        break;
-      }
-    case RANG_SECTOR_TZNP2_VPERED:
-      {
-        rezultat = BIT_MA_SECTOR_TZNP2_VPERED;
-        break;
-      }
-    case RANG_SECTOR_TZNP2_NAZAD:
-      {
-        rezultat = BIT_MA_SECTOR_TZNP2_NAZAD;
-        break;
-      }
-    case RANG_TZNP2:
-      {
-        rezultat = BIT_MA_TZNP2;
-        break;
-      }
-    case RANG_BLOCK_TZNP3:
-      {
-        rezultat = BIT_MA_BLOCK_TZNP3;
-        break;
-      }
-    case RANG_PO_3I0_TZNP3_VPERED:
-      {
-        rezultat = BIT_MA_PO_3I0_TZNP3_VPERED;
-        break;
-      }
-    case RANG_PO_3I0_TZNP3_NAZAD:
-      {
-        rezultat = BIT_MA_PO_3I0_TZNP3_NAZAD;
-        break;
-      }
-    case RANG_PO_3U0_TZNP3_VPERED:
-      {
-        rezultat = BIT_MA_PO_3U0_TZNP3_VPERED;
-        break;
-      }
-    case RANG_PO_3U0_TZNP3_NAZAD:
-      {
-        rezultat = BIT_MA_PO_3U0_TZNP3_NAZAD;
-        break;
-      }
-    case RANG_PO_TZNP3_VPERED:
-      {
-        rezultat = BIT_MA_PO_TZNP3_VPERED;
-        break;
-      }
-    case RANG_PO_TZNP3_NAZAD:
-      {
-        rezultat = BIT_MA_PO_TZNP3_NAZAD;
-        break;
-      }
-    case RANG_SECTOR_TZNP3_VPERED:
-      {
-        rezultat = BIT_MA_SECTOR_TZNP3_VPERED;
-        break;
-      }
-    case RANG_SECTOR_TZNP3_NAZAD:
-      {
-        rezultat = BIT_MA_SECTOR_TZNP3_NAZAD;
-        break;
-      }
-    case RANG_TZNP3:
-      {
-        rezultat = BIT_MA_TZNP3;
         break;
       }
     case RANG_STAT_BLK_APV:
@@ -1819,61 +1516,6 @@ unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int nu
     case RANG_APV_WORK:
       {
         rezultat = BIT_MA_APV_WORK;
-        break;
-      }
-    case RANG_BLOCK_ACHR1:
-      {
-        rezultat = BIT_MA_BLOCK_ACHR1;
-        break;
-      }
-    case RANG_BLOCK_ACHR2:
-      {
-        rezultat = BIT_MA_BLOCK_ACHR2;
-        break;
-      }
-    case RANG_RAZR_CHAPV:
-      {
-        rezultat = BIT_MA_RAZR_CHAPV;
-        break;
-      }
-    case RANG_VN_BLOCK_CHAPV:
-      {
-        rezultat = BIT_MA_VN_BLOCK_CHAPV;
-        break;
-      }
-    case RANG_PO_ACHR1:
-      {
-        rezultat = BIT_MA_PO_ACHR1;
-        break;
-      }
-    case RANG_PO_ACHR2:
-      {
-        rezultat = BIT_MA_PO_ACHR2;
-        break;
-      }
-    case RANG_ACHR_CHAPV1:
-      {
-        rezultat = BIT_MA_ACHR_CHAPV1;
-        break;
-      }
-    case RANG_ACHR_CHAPV2:
-      {
-        rezultat = BIT_MA_ACHR_CHAPV2;
-        break;
-      }
-    case RANG_PO_CHAPV1:
-      {
-        rezultat = BIT_MA_PO_CHAPV1;
-        break;
-      }
-    case RANG_PO_CHAPV2:
-      {
-        rezultat = BIT_MA_PO_CHAPV2;
-        break;
-      }
-    case RANG_ACHR_CHAPV_VID_DV:
-      {
-        rezultat = BIT_MA_ACHR_CHAPV_VID_DV;
         break;
       }
     case RANG_PUSK_UROV_VID_DV:
@@ -2001,6 +1643,56 @@ unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int nu
         rezultat = BIT_MA_UMAX2;
         break;
       }
+    case RANG_OUTPUT_LED_DF_REG_OTKL_AVR:
+      {
+        rezultat = BIT_MA_OTKL_AVR;
+        break;
+      }
+    case RANG_OUTPUT_LED_DF_REG_SBROS_BLOCK_AVR:
+      {
+        rezultat = BIT_MA_SBROS_BLOCK_AVR;
+        break;
+      }
+    case RANG_OUTPUT_LED_DF_REG_STAT_BLOCK_AVR:
+      {
+        rezultat = BIT_MA_STAT_BLOCK_AVR;
+        break;
+      }
+    case RANG_OUTPUT_LED_DF_REG_BLOCK_AVR_VID_ZAKHYSTIV:
+      {
+        rezultat = BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV;
+        break;
+      }
+    case RANG_OUTPUT_LED_DF_REG_PO_UAVR_MIN1:
+      {
+        rezultat = BIT_MA_PO_UAVR_MIN1;
+        break;
+      }
+    case RANG_OUTPUT_LED_DF_REG_PO_UAVR_MAX1:
+      {
+        rezultat = BIT_MA_PO_UAVR_MAX1;
+        break;
+      }
+    case RANG_OUTPUT_LED_DF_REG_PO_UAVR_MIN2:
+      {
+        rezultat = BIT_MA_PO_UAVR_MIN2;
+        break;
+      }
+    case RANG_OUTPUT_LED_DF_REG_PO_UAVR_MAX2:
+      {
+        rezultat = BIT_MA_PO_UAVR_MAX2;
+        break;
+      }
+    case RANG_OUTPUT_LED_DF_REG_BLOCK_KRATN_AVR:
+      {
+        rezultat = BIT_MA_BLOCK_KRATN_AVR;
+        break;
+      }
+    case RANG_OUTPUT_LED_DF_REG_PUSK_AVR:
+      {
+        rezultat = BIT_MA_PUSK_AVR;
+        break;
+      }
     default: break;
     }
   }
@@ -2126,16 +1818,6 @@ unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int num
       else error = ERROR_ILLEGAL_DATA_VALUE;
     }
     else if (
-             (data == BIT_MA_BLOCK_MTZ04_1    ) || 
-             (data == BIT_MA_BLOCK_MTZ04_2    ) || 
-             (data == BIT_MA_BLOCK_USK_MTZ04_2)
-            )
-    {
-      //Зараз є намагання зранжувати функцю МТЗ 0,4кВ і номер її є допустимим
-      if ((target_label->configuration & (1 << MTZ04_BIT_CONFIGURATION)) !=0 ) error = 0;
-      else error = ERROR_ILLEGAL_DATA_VALUE;
-    }
-    else if (
              (data == BIT_MA_PUSK_ZDZ_VID_DV)
             )
     {
@@ -2144,41 +1826,11 @@ unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int num
       else error = ERROR_ILLEGAL_DATA_VALUE;
     }
     else if (
-             (data == BIT_MA_BLOCK_NZZ)
-            )
-    {
-      //Зараз є намагання зранжувати функцю НЗЗ і номер її є допустимим
-      if (
-          ((target_label->configuration & (1 << ZZ_BIT_CONFIGURATION)) != 0)
-         ) error = 0;
-      else error = ERROR_ILLEGAL_DATA_VALUE;
-    }
-    else if (
-             (data == BIT_MA_BLOCK_TZNP1) || 
-             (data == BIT_MA_BLOCK_TZNP2) || 
-             (data == BIT_MA_BLOCK_TZNP3)
-            )
-    {
-      //Зараз є намагання зранжувати функцю МТЗ і номер її є допустимим
-      if ((target_label->configuration & (1 << TZNP_BIT_CONFIGURATION)) !=0 ) error = 0;
-      else error = ERROR_ILLEGAL_DATA_VALUE;
-    }
-    else if (
              (data == BIT_MA_STAT_BLK_APV)
             )
     {
       //Зараз є намагання зранжувати функцю АПВ і номер її є допустимим
       if ((target_label->configuration & (1 << APV_BIT_CONFIGURATION)) !=0 ) error = 0;
-      else error = ERROR_ILLEGAL_DATA_VALUE;
-    }
-    else if (
-             (data == BIT_MA_ACHR_CHAPV_VID_DV) ||
-             (data == BIT_MA_BLOCK_ACHR1      ) ||
-             (data == BIT_MA_BLOCK_ACHR2      )
-            )
-    {
-      //Зараз є намагання зранжувати функцю АЧР/ЧАПВ і номер її є допустимим
-      if ((target_label->configuration & (1 << ACHR_CHAPV_BIT_CONFIGURATION)) !=0 ) error = 0;
       else error = ERROR_ILLEGAL_DATA_VALUE;
     }
     else if (
@@ -2216,6 +1868,20 @@ unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int num
       //Зараз є намагання зранжувати функцю Umax і номер її є допустимим
       if ((target_label->configuration & (1 << UMAX_BIT_CONFIGURATION)) !=0 ) error = 0;
       else error = ERROR_ILLEGAL_DATA_VALUE;
+    }
+    else if (
+             (data == BIT_MA_OTKL_AVR       ) ||
+             (data == BIT_MA_SBROS_BLOCK_AVR) ||
+             (data == BIT_MA_STAT_BLOCK_AVR )
+            )
+    {
+      //Зараз є намагання зранжувати функцю АВР і номер її є допустимим
+      if ((target_label->configuration & (1 << AVR_BIT_CONFIGURATION)) !=0 ) error = 0;
+      else error = ERROR_ILLEGAL_DATA_VALUE;
+    }
+    else
+    {
+      error = ERROR_ILLEGAL_DATA_VALUE;
     }
   }
   
@@ -2452,64 +2118,14 @@ unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int num
         _SET_BIT(set_array_rang, RANG_INPUT_BLOCK_MTZ4);
         break;
       }
-    case BIT_MA_BLOCK_MTZ04_1:
-      {
-        _SET_BIT(set_array_rang, RANG_INPUT_BLOCK_MTZ04_1);
-        break;
-      }
-    case BIT_MA_BLOCK_MTZ04_2:
-      {
-        _SET_BIT(set_array_rang, RANG_INPUT_BLOCK_MTZ04_2);
-        break;
-      }
-    case BIT_MA_BLOCK_USK_MTZ04_2:
-      {
-        _SET_BIT(set_array_rang, RANG_INPUT_BLOCK_USK_MTZ04_2);
-        break;
-      }
     case BIT_MA_PUSK_ZDZ_VID_DV:
       {
         _SET_BIT(set_array_rang, RANG_INPUT_PUSK_ZDZ_VID_DV);
         break;
       }
-    case BIT_MA_BLOCK_NZZ:
-      {
-        _SET_BIT(set_array_rang, RANG_INPUT_BLOCK_NZZ);
-        break;
-      }
-    case BIT_MA_BLOCK_TZNP1:
-      {
-        _SET_BIT(set_array_rang, RANG_INPUT_BLOCK_TZNP1);
-        break;
-      }
-    case BIT_MA_BLOCK_TZNP2:
-      {
-        _SET_BIT(set_array_rang, RANG_INPUT_BLOCK_TZNP2);
-        break;
-      }
-    case BIT_MA_BLOCK_TZNP3:
-      {
-        _SET_BIT(set_array_rang, RANG_INPUT_BLOCK_TZNP3);
-        break;
-      }
     case BIT_MA_STAT_BLK_APV:
       {
         _SET_BIT(set_array_rang, RANG_INPUT_STAT_BLK_APV);
-        break;
-      }
-    case BIT_MA_ACHR_CHAPV_VID_DV:
-      {
-        _SET_BIT(set_array_rang, RANG_INPUT_ACHR_CHAPV_VID_DV);
-        break;
-      }
-    case BIT_MA_BLOCK_ACHR1:
-      {
-        _SET_BIT(set_array_rang, RANG_INPUT_BLOCK_ACHR1);
-        break;
-      }
-    case BIT_MA_BLOCK_ACHR2:
-      {
-        _SET_BIT(set_array_rang, RANG_INPUT_BLOCK_ACHR2);
         break;
       }
     case BIT_MA_PUSK_UROV_VID_DV:
@@ -2550,6 +2166,21 @@ unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int num
     case BIT_MA_BLOCK_UMAX2:
       {
         _SET_BIT(set_array_rang, RANG_INPUT_BLOCK_UMAX2);
+        break;
+      }
+    case BIT_MA_OTKL_AVR:
+      {
+        _SET_BIT(set_array_rang, RANG_INPUT_OTKL_AVR);
+        break;
+      }
+    case BIT_MA_SBROS_BLOCK_AVR:
+      {
+        _SET_BIT(set_array_rang, RANG_INPUT_SBROS_BLOCK_AVR);
+        break;
+      }
+    case BIT_MA_STAT_BLOCK_AVR:
+      {
+        _SET_BIT(set_array_rang, RANG_INPUT_STAT_BLOCK_AVR);
         break;
       }
     default:
@@ -2838,92 +2469,12 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
       else error = ERROR_ILLEGAL_DATA_VALUE;
     }
     else if (
-             (data == BIT_MA_BLOCK_MTZ04_1    ) || 
-             (data == BIT_MA_BLOCK_MTZ04_2    ) || 
-             (data == BIT_MA_BLOCK_USK_MTZ04_2) || 
-             (data == BIT_MA_PO_MTZ04_1       ) || 
-             (data == BIT_MA_MTZ04_1          ) ||
-             (data == BIT_MA_PO_MTZ04_2       ) || 
-             (data == BIT_MA_MTZ04_2          )
-            )
-    {
-      //Зараз є намагання зранжувати функцю МТЗ 0,4кВ і номер її є допустимим
-      if ((target_label->configuration & (1 << MTZ04_BIT_CONFIGURATION)) !=0 ) error = 0;
-      else error = ERROR_ILLEGAL_DATA_VALUE;
-    }
-    else if (
              (data == BIT_MA_PUSK_ZDZ_VID_DV) || 
              (data == BIT_MA_ZDZ            )
             )
     {
       //Зараз є намагання зранжувати функцю ЗДЗ і номер її є допустимим
       if ((target_label->configuration & (1 << ZDZ_BIT_CONFIGURATION)) !=0 ) error = 0;
-      else error = ERROR_ILLEGAL_DATA_VALUE;
-    }
-    else if (
-             (data == BIT_MA_BLOCK_NZZ ) || 
-             (data == BIT_MA_PO_NZZ    ) || 
-             (data == BIT_MA_NZZ       ) || 
-             (data == BIT_MA_PO_ZZ1_3I0) || 
-             (data == BIT_MA_ZZ1_3I0   ) ||
-             (data == BIT_MA_PO_ZZ_3U0 ) || 
-             (data == BIT_MA_ZZ_3U0    ) || 
-             (data == BIT_MA_SECTOR_NZZ) 
-            )
-    {
-      //Зараз є намагання зранжувати функцю ЗЗ і номер її є допустимим
-      if (
-          ((target_label->configuration & (1 << ZZ_BIT_CONFIGURATION)) !=0 )
-          &&  
-          (
-           (data == BIT_MA_BLOCK_NZZ ) || 
-           (data == BIT_MA_PO_ZZ1_3I0) || 
-           (data == BIT_MA_ZZ1_3I0   ) ||
-           (data == BIT_MA_PO_ZZ_3U0 ) || 
-           (data == BIT_MA_ZZ_3U0    ) ||
-           ((target_label->control_zz & CTR_ZZ1_TYPE) == 0)  
-          ) 
-         )   
-      {
-        error = 0;
-      }
-      else error = ERROR_ILLEGAL_DATA_VALUE;
-    }
-    else if (
-             (data == BIT_MA_BLOCK_TZNP1        ) || 
-             (data == BIT_MA_PO_3I0_TZNP1_VPERED) || 
-             (data == BIT_MA_PO_3I0_TZNP1_NAZAD ) || 
-             (data == BIT_MA_PO_3U0_TZNP1_VPERED) || 
-             (data == BIT_MA_PO_3U0_TZNP1_NAZAD ) || 
-             (data == BIT_MA_PO_TZNP1_VPERED    ) || 
-             (data == BIT_MA_PO_TZNP1_NAZAD     ) || 
-             (data == BIT_MA_SECTOR_TZNP1_VPERED) || 
-             (data == BIT_MA_SECTOR_TZNP1_NAZAD ) || 
-             (data == BIT_MA_TZNP1              ) ||
-             (data == BIT_MA_BLOCK_TZNP2        ) || 
-             (data == BIT_MA_PO_3I0_TZNP2_VPERED) || 
-             (data == BIT_MA_PO_3I0_TZNP2_NAZAD ) || 
-             (data == BIT_MA_PO_3U0_TZNP2_VPERED) || 
-             (data == BIT_MA_PO_3U0_TZNP2_NAZAD ) || 
-             (data == BIT_MA_PO_TZNP2_VPERED    ) || 
-             (data == BIT_MA_PO_TZNP2_NAZAD     ) || 
-             (data == BIT_MA_SECTOR_TZNP2_VPERED) || 
-             (data == BIT_MA_SECTOR_TZNP2_NAZAD ) || 
-             (data == BIT_MA_TZNP2              ) ||
-             (data == BIT_MA_BLOCK_TZNP3        ) || 
-             (data == BIT_MA_PO_3I0_TZNP3_VPERED) || 
-             (data == BIT_MA_PO_3I0_TZNP3_NAZAD ) || 
-             (data == BIT_MA_PO_3U0_TZNP3_VPERED) || 
-             (data == BIT_MA_PO_3U0_TZNP3_NAZAD ) || 
-             (data == BIT_MA_PO_TZNP3_VPERED    ) || 
-             (data == BIT_MA_PO_TZNP3_NAZAD     ) || 
-             (data == BIT_MA_SECTOR_TZNP3_VPERED) || 
-             (data == BIT_MA_SECTOR_TZNP3_NAZAD ) || 
-             (data == BIT_MA_TZNP3              )
-            )
-    {
-      //Зараз є намагання зранжувати функцю ТЗНП і номер її є допустимим
-      if ((target_label->configuration & (1 << TZNP_BIT_CONFIGURATION)) != 0) error = 0;
       else error = ERROR_ILLEGAL_DATA_VALUE;
     }
     else if (
@@ -2937,24 +2488,6 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
     {
       //Зараз є намагання зранжувати функцю АПВ і номер її є допустимим
       if ((target_label->configuration & (1 << APV_BIT_CONFIGURATION)) !=0 ) error = 0;
-      else error = ERROR_ILLEGAL_DATA_VALUE;
-    }
-    else if (
-             (data == BIT_MA_ACHR_CHAPV_VID_DV ) ||
-             (data == BIT_MA_BLOCK_ACHR1       ) ||
-             (data == BIT_MA_BLOCK_ACHR2       ) ||
-             (data == BIT_MA_VN_BLOCK_CHAPV    ) ||
-             (data == BIT_MA_PO_ACHR1          ) ||
-             (data == BIT_MA_PO_ACHR2          ) ||
-             (data == BIT_MA_ACHR_CHAPV1       ) ||
-             (data == BIT_MA_ACHR_CHAPV2       ) ||
-             (data == BIT_MA_RAZR_CHAPV        ) ||
-             (data == BIT_MA_PO_CHAPV1         ) ||
-             (data == BIT_MA_PO_CHAPV2         )
-            )
-    {
-      //Зараз є намагання зранжувати функцю АЧР/ЧАПВ і номер її є допустимим
-      if ((target_label->configuration & (1 << ACHR_CHAPV_BIT_CONFIGURATION)) !=0 ) error = 0;
       else error = ERROR_ILLEGAL_DATA_VALUE;
     }
     else if (
@@ -3008,6 +2541,23 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
     {
       //Зараз є намагання зранжувати функцю Umax і номер її є допустимим
       if ((target_label->configuration & (1 << UMAX_BIT_CONFIGURATION)) !=0 ) error = 0;
+      else error = ERROR_ILLEGAL_DATA_VALUE;
+    }
+    else if (
+             (data == BIT_MA_OTKL_AVR               ) || 
+             (data == BIT_MA_SBROS_BLOCK_AVR        ) || 
+             (data == BIT_MA_STAT_BLOCK_AVR         ) || 
+             (data == BIT_MA_PO_UAVR_MIN1           ) || 
+             (data == BIT_MA_PO_UAVR_MAX1           ) || 
+             (data == BIT_MA_PO_UAVR_MIN2           ) || 
+             (data == BIT_MA_PO_UAVR_MAX2           ) || 
+             (data == BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV) || 
+             (data == BIT_MA_BLOCK_KRATN_AVR        ) || 
+             (data == BIT_MA_PUSK_AVR               )
+            )
+    {
+      //Зараз є намагання зранжувати функцю АВР і номер її є допустимим
+      if ((target_label->configuration & (1 << AVR_BIT_CONFIGURATION)) !=0 ) error = 0;
       else error = ERROR_ILLEGAL_DATA_VALUE;
     }
     else if (
@@ -3867,41 +3417,6 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
         _SET_BIT(set_array_rang, RANG_NCN_MTZ);
         break;
       }
-    case BIT_MA_BLOCK_MTZ04_1:
-      {
-        _SET_BIT(set_array_rang, RANG_BLOCK_MTZ04_1);
-        break;
-      }
-    case BIT_MA_BLOCK_MTZ04_2:
-      {
-        _SET_BIT(set_array_rang, RANG_BLOCK_MTZ04_2);
-        break;
-      }
-    case BIT_MA_BLOCK_USK_MTZ04_2:
-      {
-        _SET_BIT(set_array_rang, RANG_BLOCK_USK_MTZ04_2);
-        break;
-      }
-    case BIT_MA_PO_MTZ04_1:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_MTZ04_1);
-        break;
-      }
-    case BIT_MA_MTZ04_1:
-      {
-        _SET_BIT(set_array_rang, RANG_MTZ04_1);
-        break;
-      }
-    case BIT_MA_PO_MTZ04_2:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_MTZ04_2);
-        break;
-      }
-    case BIT_MA_MTZ04_2:
-      {
-        _SET_BIT(set_array_rang, RANG_MTZ04_2);
-        break;
-      }
     case BIT_MA_PUSK_ZDZ_VID_DV:
       {
         _SET_BIT(set_array_rang, RANG_PUSK_ZDZ_VID_DV);
@@ -3910,196 +3425,6 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
     case BIT_MA_ZDZ:
       {
         _SET_BIT(set_array_rang, RANG_ZDZ);
-        break;
-      }
-    case BIT_MA_BLOCK_NZZ:
-      {
-        _SET_BIT(set_array_rang, RANG_BLOCK_NZZ);
-        break;
-      }
-    case BIT_MA_PO_NZZ:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_NZZ);
-        break;
-      }
-    case BIT_MA_NZZ:
-      {
-        _SET_BIT(set_array_rang, RANG_NZZ);
-        break;
-      }
-    case BIT_MA_PO_ZZ1_3I0:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_3I0);
-        break;
-      }
-    case BIT_MA_ZZ1_3I0:
-      {
-        _SET_BIT(set_array_rang, RANG_3I0);
-        break;
-      }
-    case BIT_MA_PO_ZZ_3U0:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_3U0);
-        break;
-      }
-    case BIT_MA_ZZ_3U0:
-      {
-        _SET_BIT(set_array_rang, RANG_3U0);
-        break;
-      }
-    case BIT_MA_SECTOR_NZZ:
-      {
-        _SET_BIT(set_array_rang, RANG_SECTOR_NZZ);
-        break;
-      }
-    case BIT_MA_BLOCK_TZNP1:
-      {
-        _SET_BIT(set_array_rang, RANG_BLOCK_TZNP1);
-        break;
-      }
-    case BIT_MA_PO_3I0_TZNP1_VPERED:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_3I0_TZNP1_VPERED);
-        break;
-      }
-    case BIT_MA_PO_3I0_TZNP1_NAZAD:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_3I0_TZNP1_NAZAD);
-        break;
-      }
-    case BIT_MA_PO_3U0_TZNP1_VPERED:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_3U0_TZNP1_VPERED);
-        break;
-      }
-    case BIT_MA_PO_3U0_TZNP1_NAZAD:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_3U0_TZNP1_NAZAD);
-        break;
-      }
-    case BIT_MA_PO_TZNP1_VPERED:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_TZNP1_VPERED);
-        break;
-      }
-    case BIT_MA_PO_TZNP1_NAZAD:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_TZNP1_NAZAD);
-        break;
-      }
-    case BIT_MA_SECTOR_TZNP1_VPERED:
-      {
-        _SET_BIT(set_array_rang, RANG_SECTOR_TZNP1_VPERED);
-        break;
-      }
-    case BIT_MA_SECTOR_TZNP1_NAZAD:
-      {
-        _SET_BIT(set_array_rang, RANG_SECTOR_TZNP1_NAZAD);
-        break;
-      }
-    case BIT_MA_TZNP1:
-      {
-        _SET_BIT(set_array_rang, RANG_TZNP1);
-        break;
-      }
-    case BIT_MA_BLOCK_TZNP2:
-      {
-        _SET_BIT(set_array_rang, RANG_BLOCK_TZNP2);
-        break;
-      }
-    case BIT_MA_PO_3I0_TZNP2_VPERED:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_3I0_TZNP2_VPERED);
-        break;
-      }
-    case BIT_MA_PO_3I0_TZNP2_NAZAD:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_3I0_TZNP2_NAZAD);
-        break;
-      }
-    case BIT_MA_PO_3U0_TZNP2_VPERED:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_3U0_TZNP2_VPERED);
-        break;
-      }
-    case BIT_MA_PO_3U0_TZNP2_NAZAD:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_3U0_TZNP2_NAZAD);
-        break;
-      }
-    case BIT_MA_PO_TZNP2_VPERED:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_TZNP2_VPERED);
-        break;
-      }
-    case BIT_MA_PO_TZNP2_NAZAD:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_TZNP2_NAZAD);
-        break;
-      }
-    case BIT_MA_SECTOR_TZNP2_VPERED:
-      {
-        _SET_BIT(set_array_rang, RANG_SECTOR_TZNP2_VPERED);
-        break;
-      }
-    case BIT_MA_SECTOR_TZNP2_NAZAD:
-      {
-        _SET_BIT(set_array_rang, RANG_SECTOR_TZNP2_NAZAD);
-        break;
-      }
-    case BIT_MA_TZNP2:
-      {
-        _SET_BIT(set_array_rang, RANG_TZNP2);
-        break;
-      }
-    case BIT_MA_BLOCK_TZNP3:
-      {
-        _SET_BIT(set_array_rang, RANG_BLOCK_TZNP3);
-        break;
-      }
-    case BIT_MA_PO_3I0_TZNP3_VPERED:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_3I0_TZNP3_VPERED);
-        break;
-      }
-    case BIT_MA_PO_3I0_TZNP3_NAZAD:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_3I0_TZNP3_NAZAD);
-        break;
-      }
-    case BIT_MA_PO_3U0_TZNP3_VPERED:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_3U0_TZNP3_VPERED);
-        break;
-      }
-    case BIT_MA_PO_3U0_TZNP3_NAZAD:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_3U0_TZNP3_NAZAD);
-        break;
-      }
-    case BIT_MA_PO_TZNP3_VPERED:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_TZNP3_VPERED);
-        break;
-      }
-    case BIT_MA_PO_TZNP3_NAZAD:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_TZNP3_NAZAD);
-        break;
-      }
-    case BIT_MA_SECTOR_TZNP3_VPERED:
-      {
-        _SET_BIT(set_array_rang, RANG_SECTOR_TZNP3_VPERED);
-        break;
-      }
-    case BIT_MA_SECTOR_TZNP3_NAZAD:
-      {
-        _SET_BIT(set_array_rang, RANG_SECTOR_TZNP3_NAZAD);
-        break;
-      }
-    case BIT_MA_TZNP3:
-      {
-        _SET_BIT(set_array_rang, RANG_TZNP3);
         break;
       }
     case BIT_MA_STAT_BLK_APV:
@@ -4130,61 +3455,6 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
     case BIT_MA_APV_WORK:
       {
         _SET_BIT(set_array_rang, RANG_APV_WORK);
-        break;
-      }
-    case BIT_MA_ACHR_CHAPV_VID_DV:
-      {
-        _SET_BIT(set_array_rang, RANG_ACHR_CHAPV_VID_DV);
-        break;
-      }
-    case BIT_MA_BLOCK_ACHR1:
-      {
-        _SET_BIT(set_array_rang, RANG_BLOCK_ACHR1);
-        break;
-      }
-    case BIT_MA_BLOCK_ACHR2:
-      {
-        _SET_BIT(set_array_rang, RANG_BLOCK_ACHR2);
-        break;
-      }
-    case BIT_MA_VN_BLOCK_CHAPV:
-      {
-        _SET_BIT(set_array_rang, RANG_VN_BLOCK_CHAPV);
-        break;
-      }
-    case BIT_MA_PO_ACHR1:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_ACHR1);
-        break;
-      }
-    case BIT_MA_PO_ACHR2:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_ACHR2);
-        break;
-      }
-    case BIT_MA_ACHR_CHAPV1:
-      {
-        _SET_BIT(set_array_rang, RANG_ACHR_CHAPV1);
-        break;
-      }
-    case BIT_MA_ACHR_CHAPV2:
-      {
-        _SET_BIT(set_array_rang, RANG_ACHR_CHAPV2);
-        break;
-      }
-    case BIT_MA_RAZR_CHAPV:
-      {
-        _SET_BIT(set_array_rang, RANG_RAZR_CHAPV);
-        break;
-      }
-    case BIT_MA_PO_CHAPV1:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_CHAPV1);
-        break;
-      }
-    case BIT_MA_PO_CHAPV2:
-      {
-        _SET_BIT(set_array_rang, RANG_PO_CHAPV2);
         break;
       }
     case BIT_MA_PUSK_UROV_VID_DV:
@@ -4312,6 +3582,56 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
         _SET_BIT(set_array_rang, RANG_UMAX2);
         break;
       }
+    case BIT_MA_OTKL_AVR:
+      {
+        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_OTKL_AVR);
+        break;
+      }
+    case BIT_MA_SBROS_BLOCK_AVR:
+      {
+        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_SBROS_BLOCK_AVR);
+        break;
+      }
+    case BIT_MA_STAT_BLOCK_AVR:
+      {
+        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_STAT_BLOCK_AVR);
+        break;
+      }
+    case BIT_MA_PO_UAVR_MIN1:
+      {
+        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_PO_UAVR_MIN1);
+        break;
+      }
+    case BIT_MA_PO_UAVR_MAX1:
+      {
+        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_PO_UAVR_MAX1);
+        break;
+      }
+    case BIT_MA_PO_UAVR_MIN2:
+      {
+        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_PO_UAVR_MIN2);
+        break;
+      }
+    case BIT_MA_PO_UAVR_MAX2:
+      {
+        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_PO_UAVR_MAX2);
+        break;
+      }
+    case BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV:
+      {
+        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_BLOCK_AVR_VID_ZAKHYSTIV);
+        break;
+      }
+    case BIT_MA_BLOCK_KRATN_AVR:
+      {
+        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_BLOCK_KRATN_AVR);
+        break;
+      }
+    case BIT_MA_PUSK_AVR:
+      {
+        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_PUSK_AVR);
+        break;
+      }
     default:
       {
         //Теоретично сюди б програма ніколи не мала б доходити
@@ -4394,6 +3714,15 @@ unsigned int save_new_rang_buttons_from_gmm(unsigned int number, unsigned int nu
     {
       //Зараз є намагання зранжувати загальну функцю і номер її є допустимим
       error = 0;
+    }
+    else if (
+             (data == BIT_MA_OTKL_AVR       ) ||
+             (data == BIT_MA_SBROS_BLOCK_AVR)
+            )
+    {
+      //Зараз є намагання зранжувати функцю АВР і номер її є допустимим
+      if ((target_label->configuration & (1 << AVR_BIT_CONFIGURATION)) !=0 ) error = 0;
+      else error = ERROR_ILLEGAL_DATA_VALUE;
     }
     else
     {
@@ -4553,6 +3882,16 @@ unsigned int save_new_rang_buttons_from_gmm(unsigned int number, unsigned int nu
     case BIT_MA_RESET_BLOCK_READY_TU_VID_ZAHYSTIV:
       {
         _SET_BIT(set_array_rang,RANG_BUTTON_RESET_BLOCK_READY_TU_VID_ZAHYSTIV);
+        break;
+      }
+    case BIT_MA_OTKL_AVR:
+      {
+        _SET_BIT(set_array_rang, RANG_BUTTON_OTKL_AVR);
+        break;
+      }
+    case BIT_MA_SBROS_BLOCK_AVR:
+      {
+        _SET_BIT(set_array_rang, RANG_BUTTON_SBROS_BLOCK_AVR);
         break;
       }
     default:
@@ -4724,15 +4063,6 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     case MA_TYPE_MTZ4:
       {
         temp_value = current_settings.type_mtz4;
-        break;
-      }
-    case MA_TYPE_MTZ04_2:
-      {
-        unsigned int temp_input_data = current_settings.type_mtz04_2;
-        
-        if (temp_input_data == TYPE_MTZ_SIMPLE ) temp_value = temp_input_data;
-        else temp_value = temp_input_data - 2;
-
         break;
       }
     default:
@@ -4999,166 +4329,6 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         temp_value = current_settings.timeout_mtz_4_po_napruzi[num_gr]/10;
         break;
       }
-    case MA_STP_MTZ04_1:
-      {
-        temp_value = current_settings.setpoint_mtz04_1[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ04_1:
-      {
-        temp_value = current_settings.timeout_mtz04_1[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ04_2:
-      {
-        temp_value = current_settings.setpoint_mtz04_2[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ04_2:
-      {
-        temp_value = current_settings.timeout_mtz04_2[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ04_2_VVID_PR:
-      {
-        temp_value = current_settings.timeout_mtz04_2_vvid_pr[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ04_2_PR:
-      {
-        temp_value = current_settings.timeout_mtz04_2_pr[num_gr]/10;
-        break;
-      }
-    case MA_STP_NZZ1_3I0:
-      {
-        temp_value = current_settings.setpoint_zz_3I0[num_gr];
-        break;
-      }
-    case MA_TO_NZZ1_3I0:
-      {
-        temp_value = current_settings.timeout_zz_3I0[num_gr]/10;
-        break;
-      }
-    case MA_STP_NZZ1_3U0:
-      {
-        temp_value = current_settings.setpoint_zz_3U0[num_gr]/10;
-        break;
-      }
-    case MA_TO_NZZ1_3U0:
-      {
-        temp_value = current_settings.timeout_zz_3U0[num_gr]/10;
-        break;
-      }
-    case MA_TO_NZZ1:
-      {
-        temp_value = current_settings.timeout_nzz[num_gr]/10;
-        break;
-      }
-    case MA_STP_TZNP1_3I0_VPERED:
-      {
-        temp_value = current_settings.setpoint_tznp_1_3I0_vpered[num_gr]/10;
-        break;
-      }
-    case MA_STP_TZNP1_3U0_VPERED:
-      {
-        temp_value = current_settings.setpoint_tznp_1_3U0_vpered[num_gr]/10;
-        break;
-      }
-    case MA_TO_TZNP1_VPERED:
-      {
-        temp_value = current_settings.timeout_tznp_1_vpered[num_gr]/10;
-        break;
-      }
-    case MA_STP_TZNP1_3I0_NAZAD:
-      {
-        temp_value = current_settings.setpoint_tznp_1_3I0_nazad[num_gr]/10;
-        break;
-      }
-    case MA_STP_TZNP1_3U0_NAZAD:
-      {
-        temp_value = current_settings.setpoint_tznp_1_3U0_nazad[num_gr]/10;
-        break;
-      }
-    case MA_TO_TZNP1_NAZAD:
-      {
-        temp_value = current_settings.timeout_tznp_1_nazad[num_gr]/10;
-        break;
-      }
-    case MA_STP_TZNP1_ANGLE:
-      {
-        temp_value = current_settings.setpoint_tznp_1_angle[num_gr];
-        break;
-      }
-    case MA_STP_TZNP2_3I0_VPERED:
-      {
-        temp_value = current_settings.setpoint_tznp_2_3I0_vpered[num_gr]/10;
-        break;
-      }
-    case MA_STP_TZNP2_3U0_VPERED:
-      {
-        temp_value = current_settings.setpoint_tznp_2_3U0_vpered[num_gr]/10;
-        break;
-      }
-    case MA_TO_TZNP2_VPERED:
-      {
-        temp_value = current_settings.timeout_tznp_2_vpered[num_gr]/10;
-        break;
-      }
-    case MA_STP_TZNP2_3I0_NAZAD:
-      {
-        temp_value = current_settings.setpoint_tznp_2_3I0_nazad[num_gr]/10;
-        break;
-      }
-    case MA_STP_TZNP2_3U0_NAZAD:
-      {
-        temp_value = current_settings.setpoint_tznp_2_3U0_nazad[num_gr]/10;
-        break;
-      }
-    case MA_TO_TZNP2_NAZAD:
-      {
-        temp_value = current_settings.timeout_tznp_2_nazad[num_gr]/10;
-        break;
-      }
-    case MA_STP_TZNP2_ANGLE:
-      {
-        temp_value = current_settings.setpoint_tznp_2_angle[num_gr];
-        break;
-      }
-    case MA_STP_TZNP3_3I0_VPERED:
-      {
-        temp_value = current_settings.setpoint_tznp_3_3I0_vpered[num_gr]/10;
-        break;
-      }
-    case MA_STP_TZNP3_3U0_VPERED:
-      {
-        temp_value = current_settings.setpoint_tznp_3_3U0_vpered[num_gr]/10;
-        break;
-      }
-    case MA_TO_TZNP3_VPERED:
-      {
-        temp_value = current_settings.timeout_tznp_3_vpered[num_gr]/10;
-        break;
-      }
-    case MA_STP_TZNP3_3I0_NAZAD:
-      {
-        temp_value = current_settings.setpoint_tznp_3_3I0_nazad[num_gr]/10;
-        break;
-      }
-    case MA_STP_TZNP3_3U0_NAZAD:
-      {
-        temp_value = current_settings.setpoint_tznp_3_3U0_nazad[num_gr]/10;
-        break;
-      }
-    case MA_TO_TZNP3_NAZAD:
-      {
-        temp_value = current_settings.timeout_tznp_3_nazad[num_gr]/10;
-        break;
-      }
-    case MA_STP_TZNP3_ANGLE:
-      {
-        temp_value = current_settings.setpoint_tznp_3_angle[num_gr];
-        break;
-      }
     case MA_STP_ZOP1:
       {
         temp_value = current_settings.setpoint_zop[num_gr];
@@ -5234,6 +4404,51 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         temp_value = current_settings.timeout_urov_2[num_gr]/10;
         break;
       }
+    case MA_STP_AVR_MIN1:
+      {
+        temp_value = current_settings.setpoint_avr_min1[num_gr]/100;
+        break;
+      }
+    case MA_STP_AVR_MAX1:
+      {
+        temp_value = current_settings.setpoint_avr_max1[num_gr]/100;
+        break;
+      }
+    case MA_STP_AVR_MIN2:
+      {
+        temp_value = current_settings.setpoint_avr_min2[num_gr]/100;
+        break;
+      }
+    case MA_STP_AVR_MAX2:
+      {
+        temp_value = current_settings.setpoint_avr_max2[num_gr]/100;
+        break;
+      }
+    case MA_STP_KRATN_AVR:
+      {
+        temp_value = current_settings.setpoint_kratn_avr[num_gr];
+        break;
+      }
+    case MA_TO_AVR_RL:
+      {
+        temp_value = current_settings.timeout_avr_rl[num_gr]/10;
+        break;
+      }
+    case MA_TO_AVR_OL:
+      {
+        temp_value = current_settings.timeout_avr_ol[num_gr]/10;
+        break;
+      }
+    case MA_TO_AVR_ZAVERSHENNJA:
+      {
+        temp_value = current_settings.timeout_avr_zavershennja[num_gr]/10;
+        break;
+      }
+    case MA_TO_AVR_RESET_BLK:
+      {
+        temp_value = current_settings.timeout_avr_reset_blk[num_gr]/10;
+        break;
+      }
     case MA_TO_APV_BLOCK_VID_VV:
       {
         temp_value = current_settings.timeout_apv_block_vid_VV[num_gr]/10;
@@ -5279,51 +4494,6 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         temp_value = current_settings.timeout_apv_block_vid_apv4[num_gr]/10;
         break;
       }
-    case MA_STP_ACHR1_F_RAB:
-      {
-        temp_value = current_settings.setpoint_achr1_f_rab[num_gr]/10;
-        break;
-      }
-    case MA_STP_ACHR2_F_RAB:
-      {
-        temp_value = current_settings.setpoint_achr2_f_rab[num_gr]/10;
-        break;
-      }
-    case MA_STP_CHAPV1_F_RAB:
-      {
-        temp_value = current_settings.setpoint_chapv1_f_rab[num_gr]/10;
-        break;
-      }
-    case MA_STP_CHAPV2_F_RAB:
-      {
-        temp_value = current_settings.setpoint_chapv2_f_rab[num_gr]/10;
-        break;
-      }
-    case MA_STP_ACHR_CHAPV_UF:
-      {
-        temp_value = current_settings.setpoint_achr_chapv_uf[num_gr]/100;
-        break;
-      }
-    case MA_TO_ACHR_1:
-      {
-        temp_value = current_settings.timeout_achr_1[num_gr]/10;
-        break;
-      }
-    case MA_TO_ACHR_2:
-      {
-        temp_value = current_settings.timeout_achr_2[num_gr]/10;
-        break;
-      }
-    case MA_TO_CHAPV_1:
-      {
-        temp_value = current_settings.timeout_chapv_1[num_gr]/10;
-        break;
-      }
-    case MA_TO_CHAPV_2:
-      {
-        temp_value = current_settings.timeout_chapv_2[num_gr]/10;
-        break;
-      }
     default:
       {
         temp_value = 0;
@@ -5336,72 +4506,6 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     //Уставки і витримки (ролдовження), настройки
     switch (address_data)
     {
-    case MA_LINE_1:
-    case MA_DOVGYNA_1_1:
-    case MA_OPIR_1_1:
-    case MA_DOVGYNA_1_2:
-    case MA_OPIR_1_2:
-    case MA_DOVGYNA_1_3:
-    case MA_OPIR_1_3:
-    case MA_DOVGYNA_1_4:
-    case MA_OPIR_1_4:
-    case MA_DOVGYNA_1_5:
-    case MA_OPIR_1_5:
-    case MA_DOVGYNA_1_6:
-    case MA_OPIR_1_6:
-    case MA_DOVGYNA_1_7:
-    case MA_OPIR_1_7:
-    case MA_DOVGYNA_1_8:
-    case MA_OPIR_1_8:
-    case MA_LINE_2:
-    case MA_DOVGYNA_2_1:
-    case MA_OPIR_2_1:
-    case MA_DOVGYNA_2_2:
-    case MA_OPIR_2_2:
-    case MA_DOVGYNA_2_3:
-    case MA_OPIR_2_3:
-    case MA_DOVGYNA_2_4:
-    case MA_OPIR_2_4:
-    case MA_DOVGYNA_2_5:
-    case MA_OPIR_2_5:
-    case MA_DOVGYNA_2_6:
-    case MA_OPIR_2_6:
-    case MA_DOVGYNA_2_7:
-    case MA_OPIR_2_7:
-    case MA_DOVGYNA_2_8:
-    case MA_OPIR_2_8:
-      {
-        unsigned int base_address, line;
-        if(address_data < MA_LINE_2)
-        {
-          base_address = MA_LINE_1;
-          line = 0;
-        }
-        else
-        {
-          base_address = MA_LINE_2;
-          line = 1;
-        }
-        
-        unsigned int shift_address =  address_data - base_address;
-        if (shift_address == 0) temp_value = current_settings.lines[line];
-        else
-        {
-          shift_address--;
-          if ((shift_address & 0x1) == 0)
-          {
-            //Довжина лінії
-            temp_value = current_settings.dovgyna[line][shift_address >> 1];
-          }
-          else
-          {
-            //Опір лінії
-            temp_value = current_settings.opir[line][shift_address >> 1];
-          }
-        }
-        
-        break;
-      }
     case MA_TN1:
       {
         temp_value = current_settings.TVoltage;
@@ -5410,16 +4514,6 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     case MA_TT:
       {
         temp_value = current_settings.TCurrent;
-        break;
-      }
-    case MA_T0:
-      {
-        temp_value = current_settings.T0;
-        break;
-      }
-    case MA_TT04:
-      {
-        temp_value = current_settings.TCurrent04;
         break;
       }
     case MA_TO_SWCH_ON:
@@ -5576,16 +4670,6 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
                      (((input_value >> N_BIT_CTRMTZ_NESPR_KIL_NAPR   ) & 0x1 ) << (BIT_MA_CONTROL_MTZ_NESPR_KIL_NAPR - BIT_MA_CONTROL_MTZ_BASE) );
         break;
       }
-    case MA_CONTROL_MTZ04:
-      {
-        int input_value = current_settings.control_mtz04;
-        
-        temp_value = (((input_value >> N_BIT_CTRMTZ04_1                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ04_1               - BIT_MA_CONTROL_MTZ04_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ04_2                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ04_2               - BIT_MA_CONTROL_MTZ04_BASE) ) | 
-                     (((input_value >> N_BIT_CTRMTZ04_2_PRYSKORENNJA   ) & 0x1 ) << (BIT_MA_CONTROL_MTZ04_2_PRYSKORENNJA  - BIT_MA_CONTROL_MTZ04_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ04_2_PRYSKORENA     ) & 0x1 ) << (BIT_MA_CONTROL_MTZ04_2_PRYSKORENA    - BIT_MA_CONTROL_MTZ04_BASE) );
-        break;
-      }
     case MA_CONTROL_ZDZ:
       {
         int input_value = current_settings.control_zdz;
@@ -5595,32 +4679,6 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
                      (((input_value >> INDEX_ML_CTRZDZ_STARTED_FROM_MTZ2 ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_ZDZ_BASE)) |
                      (((input_value >> INDEX_ML_CTRZDZ_STARTED_FROM_MTZ3 ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_ZDZ_BASE)) |
                      (((input_value >> INDEX_ML_CTRZDZ_STARTED_FROM_MTZ4 ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_ZDZ_BASE));
-        break;
-      }
-    case MA_CONTROL_NZZ:
-      {
-        int input_value = current_settings.control_zz;
-        
-        temp_value = (((input_value >> INDEX_ML_CTR_ZZ1_3I0_STATE) & 0x1 ) << (BIT_MA_CONTROL_NZZ_3I0    - BIT_MA_CONTROL_NZZ_BASE)) |
-                     (((input_value >> INDEX_ML_CTR_ZZ1_SECTOR   ) & 0x1 ) << (BIT_MA_CONTROL_NZZ_SECTOR - BIT_MA_CONTROL_NZZ_BASE)) |
-                     (((input_value >> INDEX_ML_CTR_ZZ1_NZZ_STATE) & 0x1 ) << (BIT_MA_CONTROL_NZZ        - BIT_MA_CONTROL_NZZ_BASE)) |
-                     (((input_value >> INDEX_ML_CTR_ZZ1_3U0_STATE) & 0x1 ) << (BIT_MA_CONTROL_NZZ_3U0    - BIT_MA_CONTROL_NZZ_BASE)) |
-                     (((input_value >> INDEX_ML_CTR_ZZ1_TYPE_BIT ) & 0x1 ) << (BIT_MA_CONTROL_NZZ_TYPE   - BIT_MA_CONTROL_NZZ_BASE));
-        break;
-      }
-    case MA_CONTROL_TZNP:
-      {
-        int input_value = current_settings.control_tznp;
-        
-        temp_value = (((input_value >> INDEX_ML_CTR_TZNP1            ) & 0x1 ) << (BIT_MA_CONTROL_TZNP1              - BIT_MA_CONTROL_TZNP_BASE) ) |
-                     (((input_value >> INDEX_ML_CTR_TZNP1_VPERED     ) & 0x1 ) << (BIT_MA_CONTROL_TZNP1_VPERED       - BIT_MA_CONTROL_TZNP_BASE) ) |
-                     (((input_value >> INDEX_ML_CTR_TZNP1_NAZAD      ) & 0x1 ) << (BIT_MA_CONTROL_TZNP1_NAZAD        - BIT_MA_CONTROL_TZNP_BASE) ) |
-                     (((input_value >> INDEX_ML_CTR_TZNP2            ) & 0x1 ) << (BIT_MA_CONTROL_TZNP2              - BIT_MA_CONTROL_TZNP_BASE) ) |
-                     (((input_value >> INDEX_ML_CTR_TZNP2_VPERED     ) & 0x1 ) << (BIT_MA_CONTROL_TZNP2_VPERED       - BIT_MA_CONTROL_TZNP_BASE) ) |
-                     (((input_value >> INDEX_ML_CTR_TZNP2_NAZAD      ) & 0x1 ) << (BIT_MA_CONTROL_TZNP2_NAZAD        - BIT_MA_CONTROL_TZNP_BASE) ) |
-                     (((input_value >> INDEX_ML_CTR_TZNP3            ) & 0x1 ) << (BIT_MA_CONTROL_TZNP3              - BIT_MA_CONTROL_TZNP_BASE) ) |
-                     (((input_value >> INDEX_ML_CTR_TZNP3_VPERED     ) & 0x1 ) << (BIT_MA_CONTROL_TZNP3_VPERED       - BIT_MA_CONTROL_TZNP_BASE) ) |
-                     (((input_value >> INDEX_ML_CTR_TZNP3_NAZAD      ) & 0x1 ) << (BIT_MA_CONTROL_TZNP3_NAZAD        - BIT_MA_CONTROL_TZNP_BASE) );
         break;
       }
     case MA_CONTROL_ZOP:
@@ -5654,14 +4712,6 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
                      (((input_value >> INDEX_CTR_PO_UMAX2_OR_AND) & 0x1 ) << (BIT_MA_CONTROL_PO_UMAX2_AND_OR - BIT_MA_CONTROL_UMAX_BASE));
         break;
       }
-    case MA_CONTROL_558:
-      {
-        int input_value1 = current_settings.control_extra_settings_1;
-        
-        temp_value = (((input_value1 >> INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_PHASE_LINE ) & 0x1 ) << (BIT_MA_CONTROL_PHASE_LINE - BIT_MA_CONTROL_558_BASE)) |
-                     (((input_value1 >> INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_IB_I04     ) & 0x1 ) << (BIT_MA_CONTROL_IB_I04     - BIT_MA_CONTROL_558_BASE));
-        break;
-      }
     case MA_CONTROL_UROV_PART1:
       {
         int input_value = current_settings.control_urov;
@@ -5671,28 +4721,26 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
                      (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_MTZ2   ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ2    - BIT_MA_CONTROL_UROV_BASE_PART1)) |
                      (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_MTZ3   ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ3    - BIT_MA_CONTROL_UROV_BASE_PART1)) |
                      (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_MTZ4   ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ4    - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_MTZ04_1) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ04_1 - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_MTZ04_2) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ04_2 - BIT_MA_CONTROL_UROV_BASE_PART1)) |
                      (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_UMAX1  ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX1   - BIT_MA_CONTROL_UROV_BASE_PART1)) |
                      (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_UMAX2  ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX2   - BIT_MA_CONTROL_UROV_BASE_PART1)) |
                      (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_UMIN1  ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN1   - BIT_MA_CONTROL_UROV_BASE_PART1)) |
                      (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_UMIN2  ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN2   - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_ZOP1   ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_ZOP1    - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_NZZ    ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_NZZ     - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_3I0    ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_3I0     - BIT_MA_CONTROL_UROV_BASE_PART1));
+                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_ZOP1   ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_ZOP1    - BIT_MA_CONTROL_UROV_BASE_PART1));
         break;
       }
     case MA_CONTROL_UROV_PART2:
       {
         int input_value = current_settings.control_urov;
         
-        temp_value = (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_3U0  ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_3U0   - BIT_MA_CONTROL_UROV_BASE_PART2)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_TZNP1) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_TZNP1 - BIT_MA_CONTROL_UROV_BASE_PART2)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_TZNP2) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_TZNP2 - BIT_MA_CONTROL_UROV_BASE_PART2)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_TZNP3) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_TZNP3 - BIT_MA_CONTROL_UROV_BASE_PART2)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_ZDZ  ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_ZDZ   - BIT_MA_CONTROL_UROV_BASE_PART2)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_ACHR1) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_ACHR1 - BIT_MA_CONTROL_UROV_BASE_PART2)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_ACHR2) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_ACHR2 - BIT_MA_CONTROL_UROV_BASE_PART2));
+        temp_value = (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_ZDZ  ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_ZDZ   - BIT_MA_CONTROL_UROV_BASE_PART2));
+        break;
+      }
+    case MA_CONTROL_AVR:
+      {
+        int input_value = current_settings.control_avr;
+        
+        temp_value = (((input_value >> INDEX_CTR_AVR                      ) & 0x1 ) << (BIT_MA_CONTROL_AVR                       - BIT_MA_CONTROL_AVR_BASE)) |
+                     (((input_value >> INDEX_CTR_AVR_OTKL_BLK_VID_ZAHYSTIV) & 0x1 ) << (BIT_MA_CONTROL_AVR_OTKL_BLK_VID_ZAHYSTIV - BIT_MA_CONTROL_AVR_BASE));
         break;
       }
     case MA_CONTROL_APV:
@@ -5709,17 +4757,6 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
                      (((input_value >> INDEX_ML_CTRAPV_STARTED_FROM_MTZ4 ) & 0x1 ) << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_APV_BASE));
         break;
       }
-    case MA_CONTROL_ACHR_CHAPV:
-      {
-        int input_value = current_settings.control_achr_chapv;
-        
-        temp_value = (((input_value >> INDEX_CTR_ACHR1       ) & 0x1 ) << (BIT_MA_CONTROL_ACHR1_STATE        - BIT_MA_CONTROL_ACHR_CHAPV_BASE)) |
-                     (((input_value >> INDEX_CTR_ACHR2       ) & 0x1 ) << (BIT_MA_CONTROL_ACHR2_STATE        - BIT_MA_CONTROL_ACHR_CHAPV_BASE)) |
-                     (((input_value >> INDEX_CTR_CHAPV1      ) & 0x1 ) << (BIT_MA_CONTROL_CHAPV1_STATE       - BIT_MA_CONTROL_ACHR_CHAPV_BASE)) |
-                     (((input_value >> INDEX_CTR_CHAPV2      ) & 0x1 ) << (BIT_MA_CONTROL_CHAPV2_STATE       - BIT_MA_CONTROL_ACHR_CHAPV_BASE)) |
-                     (((input_value >> INDEX_CTR_CHAPV_VID_DV) & 0x1 ) << (BIT_MA_CONTROL_CHAPV_VID_DV_STATE - BIT_MA_CONTROL_ACHR_CHAPV_BASE));
-        break;
-      }
     case MA_CONTROL_CTRL_VV:
       {
         int input_value1 = current_settings.control_switch;
@@ -5734,36 +4771,25 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
                      (((input_value2 >> INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_WINDOW_OFF_CB) & 0x1 ) << (BIT_MA_CONTROL_CTRL_WINDOW_OFF_CB      - BIT_MA_CONTROL_CTRL_VV_BASE));
         break;
       }
-    case MA_CONTROL_VMP:
-      {
-        int input_value = current_settings.control_vmp;
-        
-        temp_value = (((input_value >> INDEX_CTR_VMP_STATE) & 0x1 ) << (BIT_MA_CONTROL_VMP_STATE - BIT_MA_CONTROL_VMP_BASE));
-        break;
-      }
     case MA_CONFIGURATION_PART1:
       {
         int input_value = current_settings.configuration;
         
         temp_value = (((input_value >> MTZ_BIT_CONFIGURATION       ) & 0x1 ) << (BIT_MA_CONFIGURATION_MTZ        - BIT_MA_CONFIGURATION_BASE_PART1)) |
-                     (((input_value >> MTZ04_BIT_CONFIGURATION     ) & 0x1 ) << (BIT_MA_CONFIGURATION_MTZ04      - BIT_MA_CONFIGURATION_BASE_PART1)) |
                      (((input_value >> ZDZ_BIT_CONFIGURATION       ) & 0x1 ) << (BIT_MA_CONFIGURATION_ZDZ        - BIT_MA_CONFIGURATION_BASE_PART1)) |
-                     (((input_value >> ZZ_BIT_CONFIGURATION        ) & 0x1 ) << (BIT_MA_CONFIGURATION_ZZ         - BIT_MA_CONFIGURATION_BASE_PART1)) |
-                     (((input_value >> TZNP_BIT_CONFIGURATION      ) & 0x1 ) << (BIT_MA_CONFIGURATION_TZNP       - BIT_MA_CONFIGURATION_BASE_PART1)) |
                      (((input_value >> ZOP_BIT_CONFIGURATION       ) & 0x1 ) << (BIT_MA_CONFIGURATION_ZOP        - BIT_MA_CONFIGURATION_BASE_PART1)) |
-                     (((input_value >> ACHR_CHAPV_BIT_CONFIGURATION) & 0x1 ) << (BIT_MA_CONFIGURATION_ACHR_CHAPV - BIT_MA_CONFIGURATION_BASE_PART1)) |
                      (((input_value >> UMIN_BIT_CONFIGURATION      ) & 0x1 ) << (BIT_MA_CONFIGURATION_UMIN       - BIT_MA_CONFIGURATION_BASE_PART1)) |
                      (((input_value >> UMAX_BIT_CONFIGURATION      ) & 0x1 ) << (BIT_MA_CONFIGURATION_UMAX       - BIT_MA_CONFIGURATION_BASE_PART1)) |
                      (((input_value >> APV_BIT_CONFIGURATION       ) & 0x1 ) << (BIT_MA_CONFIGURATION_APV        - BIT_MA_CONFIGURATION_BASE_PART1)) |
-                     (((input_value >> UROV_BIT_CONFIGURATION      ) & 0x1 ) << (BIT_MA_CONFIGURATION_UROV       - BIT_MA_CONFIGURATION_BASE_PART1));
+                     (((input_value >> UROV_BIT_CONFIGURATION      ) & 0x1 ) << (BIT_MA_CONFIGURATION_UROV       - BIT_MA_CONFIGURATION_BASE_PART1)) |
+                     (((input_value >> AVR_BIT_CONFIGURATION       ) & 0x1 ) << (BIT_MA_CONFIGURATION_AVR        - BIT_MA_CONFIGURATION_BASE_PART1));
         break;
       }
     case MA_CONFIGURATION_PART2:
       {
         int input_value = current_settings.configuration;
         
-        temp_value = (((input_value >> VMP_BIT_CONFIGURATION) & 0x1 ) << (BIT_MA_CONFIGURATION_VMP - BIT_MA_CONFIGURATION_BASE_PART2)) |
-                     (((input_value >> EL_BIT_CONFIGURATION ) & 0x1 ) << (BIT_MA_CONFIGURATION_EL  - BIT_MA_CONFIGURATION_BASE_PART2));
+        temp_value = (((input_value >> EL_BIT_CONFIGURATION ) & 0x1 ) << (BIT_MA_CONFIGURATION_EL  - BIT_MA_CONFIGURATION_BASE_PART2));
         break;
       }
     case MA_TO_DEACTIVATION_PASSWORD_INTERFACE:
@@ -5953,46 +4979,35 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     {
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_UA_1):
       {
-        if ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)
-          temp_value = measurement_low[IM_UA] >> 3;
-        else temp_value = 0;
+        temp_value = measurement_low[IM_UA1] >> 3;
 
         break;
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_UB_1):
       {
-        if ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)
-          temp_value = measurement_low[IM_UB] >> 3;
-        else temp_value = 0;
+        temp_value = measurement_low[IM_UB1] >> 3;
 
         break;
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_UC_1):
       {
-        if ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)
-          temp_value = measurement_low[IM_UC] >> 3;
-        else temp_value = 0;
+        temp_value = measurement_low[IM_UC1] >> 3;
 
         break;
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_UAB_1):
       {
-        temp_value = measurement_low[IM_UAB] >> 3;
+        temp_value = measurement_low[IM_UAB1] >> 3;
         break;
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_UBC_1):
       {
-        temp_value = measurement_low[IM_UBC] >> 3;
+        temp_value = measurement_low[IM_UBC1] >> 3;
         break;
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_UCA_1):
       {
-        temp_value = measurement_low[IM_UCA] >> 3;
-        break;
-      }
-    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_3U0_1):
-      {
-        temp_value = measurement_low[IM_3U0] >> 3;
+        temp_value = measurement_low[IM_UCA1] >> 3;
         break;
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_IA_1):
@@ -6010,21 +5025,6 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         temp_value = measurement_low[IM_IC] >> 2;
         break;
       }
-    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_3I0):
-      {
-        temp_value = measurement_low[IM_3I0];
-        break;
-      }
-    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_3I0_r):
-      {
-        temp_value = measurement_low[IM_3I0_r];
-        break;
-      }
-    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_3I0_HIGH_GARM):
-      {
-        temp_value = measurement_low[IM_3I0_other_g];
-        break;
-      }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_I1):
       {
         temp_value = measurement_low[IM_I1] >> 2;
@@ -6033,11 +5033,6 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_I2):
       {
         temp_value = measurement_low[IM_I2] >> 2;
-        break;
-      }
-    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_I04_1):
-      {
-        temp_value = measurement_low[IM_I04] >> 2;
         break;
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ACTIVE_POWER):
@@ -6065,8 +5060,11 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         break;
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_FREQUENCY_1):
+    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_FREQUENCY_2):
       {
-        int int_frequency = (int)(frequency*100);
+        int int_frequency;
+        if (address_data == (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_FREQUENCY_1))int_frequency = (int)(frequency_val_1*100);
+        else int_frequency = (int)(frequency_val_2*100);
         
         if (int_frequency > 0 /*це число означає - частота не визначена*/)
           temp_value = int_frequency;
@@ -6113,7 +5111,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_BASE_CANAL_FOR_ANGLE):
       {
-        if (base_index_for_angle <= FULL_ORT_3U0) temp_value = base_index_for_angle + 1;
+        if (base_index_for_angle <= FULL_ORT_Uca2) temp_value = base_index_for_angle + 1;
         else
         {
           //Теоретично цього ніколи не мало б бути
@@ -6124,37 +5122,32 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_UA_1):
       {
-        temp_value = (unsigned int)phi_angle[FULL_ORT_Ua];
+        temp_value = (unsigned int)phi_angle[FULL_ORT_Ua1];
         break;
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_UB_1):
       {
-        temp_value = (unsigned int)phi_angle[FULL_ORT_Ub];
+        temp_value = (unsigned int)phi_angle[FULL_ORT_Ub1];
         break;
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_UC_1):
       {
-        temp_value = (unsigned int)phi_angle[FULL_ORT_Uc];
+        temp_value = (unsigned int)phi_angle[FULL_ORT_Uc1];
         break;
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_UAB_1):
       {
-        temp_value = (unsigned int)phi_angle[FULL_ORT_Uab];
+        temp_value = (unsigned int)phi_angle[FULL_ORT_Uab1];
         break;
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_UBC_1):
       {
-        temp_value = (unsigned int)phi_angle[FULL_ORT_Ubc];
+        temp_value = (unsigned int)phi_angle[FULL_ORT_Ubc1];
         break;
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_UCA_1):
       {
-        temp_value = (unsigned int)phi_angle[FULL_ORT_Uca];
-        break;
-      }
-    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_3U0_1):
-      {
-        temp_value = (unsigned int)phi_angle[FULL_ORT_3U0];
+        temp_value = (unsigned int)phi_angle[FULL_ORT_Uca1];
         break;
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_IA_1):
@@ -6170,21 +5163,6 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_IC_1):
       {
         temp_value = (unsigned int)phi_angle[FULL_ORT_Ic];
-        break;
-      }
-    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_3I0):
-      {
-        temp_value = (unsigned int)phi_angle[FULL_ORT_3I0];
-        break;
-      }
-    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_3I0_r):
-      {
-        temp_value = (unsigned int)phi_angle[FULL_ORT_3I0_r];
-        break;
-      }
-    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_I04_1):
-      {
-        temp_value = (unsigned int)phi_angle[FULL_ORT_I04];
         break;
       }
     default:
@@ -6267,19 +5245,13 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       if (
           number_block < (
                           (*(point_to_buffer + FIRST_INDEX_NUMBER_MAX_PHASE_DR  )) + 
-                          (*(point_to_buffer + FIRST_INDEX_NUMBER_MAX_PHASE04_DR)) + 
-                          (*(point_to_buffer + FIRST_INDEX_NUMBER_MAX_3I0_DR    )) + 
-                          (*(point_to_buffer + FIRST_INDEX_NUMBER_MAX_3U0_DR    )) + 
                           (*(point_to_buffer + FIRST_INDEX_NUMBER_MIN_U_DR      )) + 
                           (*(point_to_buffer + FIRST_INDEX_NUMBER_MAX_U_DR      )) + 
-                          (*(point_to_buffer + FIRST_INDEX_NUMBER_MAX_ZOP_DR    )) +
-                          (*(point_to_buffer + FIRST_INDEX_NUMBER_MIN_F_ACHR_DR )) +
-                          (*(point_to_buffer + FIRST_INDEX_NUMBER_F_CHAPV_DR    ))
+                          (*(point_to_buffer + FIRST_INDEX_NUMBER_MAX_ZOP_DR    ))
                          )
          )
       {  
         unsigned int value, index;
-        unsigned int control_extra_settings_1_tmp = *((unsigned int *)(point_to_buffer + FIRST_INDEX_EXTRA_SETTINGS_DR));
         
         switch (offset)
         {
@@ -6293,46 +5265,15 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
           }
         case DR_OFFSET_MEASUREMENT_IB_1:
           {
-            if ((control_extra_settings_1_tmp & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
-            {
-              index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 4)*sizeof(unsigned int);
-              value = *((unsigned int *)(point_to_buffer + index));
-            
-              temp_value = value >> 2;
-            }
-            else
-            {
-              temp_value = 0;
-            }
-            break;
-          }
-        case DR_OFFSET_MEASUREMENT_IC_1:
-          {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 5)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 4)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 2;
             break;
           }
-        case DR_OFFSET_MEASUREMENT_3I0:
+        case DR_OFFSET_MEASUREMENT_IC_1:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 0)*sizeof(unsigned int);
-            value = *((unsigned int *)(point_to_buffer + index));
-            
-            temp_value = value;
-            break;
-          }
-        case DR_OFFSET_MEASUREMENT_3I0_HIGH_GARM:
-          {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 1)*sizeof(unsigned int);
-            value = *((unsigned int *)(point_to_buffer + index));
-            
-            temp_value = value;
-            break;
-          }
-        case DR_OFFSET_MEASUREMENT_3I0_r:
-          {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 2)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 5)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 2;
@@ -6352,21 +5293,6 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 2;
-            break;
-          }
-        case DR_OFFSET_MEASUREMENT_I04_1:
-          {
-            if ((control_extra_settings_1_tmp & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)
-            {
-              index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 8)*sizeof(unsigned int);
-              value = *((unsigned int *)(point_to_buffer + index));
-            
-              temp_value = value >> 2;
-            }
-            else
-            {
-              temp_value = 0;
-            }
             break;
           }
         case DR_OFFSET_MEASUREMENT_UAB_1:
@@ -6395,52 +5321,23 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
           }
         case DR_OFFSET_MEASUREMENT_UA_1:
           {
-            if ((control_extra_settings_1_tmp & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)
-            {
-              index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 9)*sizeof(unsigned int);
-              value = *((unsigned int *)(point_to_buffer + index));
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 9)*sizeof(unsigned int);
+            value = *((unsigned int *)(point_to_buffer + index));
             
-              temp_value = value >> 3;
-            }
-            else
-            {
-              temp_value = 0;
-            }
+            temp_value = value >> 3;
             break;
           }
         case DR_OFFSET_MEASUREMENT_UB_1:
           {
-            if ((control_extra_settings_1_tmp & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)
-            {
-              index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 10)*sizeof(unsigned int);
-              value = *((unsigned int *)(point_to_buffer + index));
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 10)*sizeof(unsigned int);
+            value = *((unsigned int *)(point_to_buffer + index));
             
-              temp_value = value >> 3;
-            }
-            else
-            {
-              temp_value = 0;
-            }
+            temp_value = value >> 3;
             break;
           }
         case DR_OFFSET_MEASUREMENT_UC_1:
           {
-            if ((control_extra_settings_1_tmp & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)
-            {
-              index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 11)*sizeof(unsigned int);
-              value = *((unsigned int *)(point_to_buffer + index));
-            
-              temp_value = value >> 3;
-            }
-            else
-            {
-              temp_value = 0;
-            }
-            break;
-          }
-        case DR_OFFSET_MEASUREMENT_3U0_1:
-          {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 12)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 11)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 3;
@@ -6448,31 +5345,18 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
           }
         case DR_OFFSET_FREQUENCY_1:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 16)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 15)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value / 10;
             break;
           }
-        case DR_OFFSET_VMP:
+        case DR_OFFSET_FREQUENCY_2:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 23)*sizeof(unsigned int);
-            int value_int = *((int *)(point_to_buffer + index));
-
-            if (((unsigned int)value_int) != ((unsigned int)UNDEF_VMP))
-            {
-              if (abs(value_int) >= 10)
-                temp_value = value_int/10;
-              else
-              {
-                if (value_int >= 0)
-                  temp_value = 1;
-                else
-                  temp_value = (unsigned int)(-1);
-              }
-            }
-            else temp_value = 0;
-
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 16)*sizeof(unsigned int);
+            value = *((unsigned int *)(point_to_buffer + index));
+            
+            temp_value = value / 10;
             break;
           }
         case DR_OFFSET_LABEL_TIME_LSW:
@@ -6499,21 +5383,6 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
                   temp_value = BLOCK_PROTECTION_MTZ;
                   break;
                 }
-              case IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04:
-                {
-                  temp_value = BLOCK_PROTECTION_MTZ04;
-                  break;
-                }
-              case IDENTIFIER_BIT_ARRAY_MAX_CURRENT_3I0:
-                {
-                  temp_value = BLOCK_PROTECTION_3I0;
-                  break;
-                }
-              case IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE_3U0:
-                {
-                  temp_value = BLOCK_PROTECTION_3U0;
-                  break;
-                }
               case IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE:
                 {
                   temp_value = BLOCK_PROTECTION_UMIN;
@@ -6527,16 +5396,6 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
               case IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP:
                 {
                   temp_value = BLOCK_PROTECTION_ZOP;
-                  break;
-                }
-              case IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR:
-                {
-                  temp_value = BLOCK_PROTECTION_FREQUENCY_1_ACHR;
-                  break;
-                }
-              case IDENTIFIER_BIT_ARRAY_FREQUENCY_CHAPV:
-                {
-                  temp_value = BLOCK_PROTECTION_FREQUENCY_1_CAPV;
                   break;
                 }
               default:
@@ -6901,23 +5760,6 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
   else if (address_data == MA_NUMBER_ITERATION_EL)
   {
     temp_value = current_settings.number_iteration_el;
-  }
-  else if ((address_data >= M_ADDRESS_FIRST_MEASUREMENTS_2) && (address_data <= M_ADDRESS_LAST_MEASUREMENTS_2))
-  {
-    //Митєві вимірювання розраховані фетодом квадратного кореня суми квадратів миттєвих значень за період
-    switch (address_data)
-    {
-    case (M_ADDRESS_FIRST_MEASUREMENTS_2 + OFFSET_MEASUREMENT_3I0_I):
-      {
-        temp_value = measurement_low[IM_3I0_i];
-        break;
-      }
-    default:
-      {
-        temp_value = 0;
-        break;
-      }
-    }
   }
   else if (address_data == MA_LSW_GLOBAL_RESURS_MIN)
   {

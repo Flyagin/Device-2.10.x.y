@@ -413,7 +413,6 @@ extern unsigned int number_min_f_achr_dr;
 extern unsigned int number_f_chapv_dr;
 extern unsigned int type_view_max_values_dr;
 extern int index_cell_into_array_for_min_max_measurement_dr;
-extern unsigned int control_extra_settings_1_dr_for_manu;
 
 //Реєстратор програмних помилок
 extern unsigned char crc_info_rejestrator_pr_err;
