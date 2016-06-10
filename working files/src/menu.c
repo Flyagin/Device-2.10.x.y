@@ -1364,6 +1364,7 @@ void main_manu_function(void)
     case EKRAN_LIST_OUTPUTS_FOR_RANGUVANNJA:
     case EKRAN_LIST_LEDS_FOR_RANGUVANNJA:
     case EKRAN_CHOOSE_SETTINGS_SWITCHER:
+    case EKRAN_CHOOSE_RANG_SWITCH:
     case EKRAN_CHOOSE_SETTINGS_UVV:
     case EKRAN_CHOSE_COMMUNICATION_PARAMETERS:
     case EKRAN_VIEW_NAME_OF_CELL:
@@ -1570,12 +1571,21 @@ void main_manu_function(void)
             }
             else if (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_SWITCHER)
             {
-              if(current_ekran.index_position >= MAX_ROW_FOR_CHOSE_SETTINGS_ANY_PROTECTION) current_ekran.index_position = 0;
+              if(current_ekran.index_position >= MAX_ROW_FOR_CHOSE_SETTINGS_SWITCHER) current_ekran.index_position = 0;
               
               position_in_current_level_menu[EKRAN_CHOOSE_SETTINGS_SWITCHER] = current_ekran.index_position;
 
-              //Формуємо екран уставки-витримки-настройки для всіх захистів
-              make_ekran_chose_settings_any_protection();
+              //Формуємо екран уставки-витримки-настройки-ранжування вимикача
+              make_ekran_chose_settings_switcher();
+            }
+            else if (current_ekran.current_level == EKRAN_CHOOSE_RANG_SWITCH)
+            {
+              if(current_ekran.index_position >= MAX_ROW_FOR_RANG_SWITCH) current_ekran.index_position = 0;
+              
+              position_in_current_level_menu[EKRAN_CHOOSE_RANG_SWITCH] = current_ekran.index_position;
+
+              //Формуємо екран БВимк./БВвімк.
+              make_ekran_choose_CBOn_CBOff();
             }
             else if (current_ekran.current_level == EKRAN_CHOSE_SETTINGS)
             {
@@ -2360,23 +2370,49 @@ void main_manu_function(void)
               else if (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_SWITCHER)
               {
                 //Натисну кнопка Enter у вікні вибору настройок виключателя
-                if(current_ekran.index_position == INDEX_ML_SETPOINT)
+                if(current_ekran.index_position == INDEX_ML_SETPOINT_SWITCHER)
                 {
                   //Запам'ятовуємо поперердній екран
                   //Переходимо на меню відображення уставок для вимикача
                   current_ekran.current_level = EKRAN_SETPOINT_SWITCH;
                 }
-                else if (current_ekran.index_position == INDEX_ML_TIMEOUT)
+                else if (current_ekran.index_position == INDEX_ML_TIMEOUT_SWITCHER)
                 {
                   //Запам'ятовуємо поперердній екран
                   //Переходимо на меню відображення витримок для вимикача
                   current_ekran.current_level = EKRAN_TIMEOUT_SWITCH;
                 } 
-                else if (current_ekran.index_position == INDEX_ML_CONTROL)
+                else if (current_ekran.index_position == INDEX_ML_CONTROL_SWITCHER)
                 {
                   //Запам'ятовуємо поперердній екран
                   //Переходимо на меню відображення управлінської інформації для вимикача
                   current_ekran.current_level = EKRAN_CONTROL_SWITCH;
+                } 
+                else if (current_ekran.index_position == INDEX_ML_RANG_SWITCHER)
+                {
+                  //Запам'ятовуємо поперердній екран
+                  //Переходимо на меню відображення ранжування управління вимикачем
+                  current_ekran.current_level = EKRAN_CHOOSE_RANG_SWITCH;
+                } 
+                current_ekran.index_position = position_in_current_level_menu[current_ekran.current_level];
+                current_ekran.edition = 0;
+                current_ekran.cursor_on = 1;
+                current_ekran.cursor_blinking_on = 0;
+              }
+              else if (current_ekran.current_level == EKRAN_CHOOSE_RANG_SWITCH)
+              {
+                //Натисну кнопка Enter у вікні вибору Бвимк./БВвімк.
+                if(current_ekran.index_position == INDEX_ML_RANG_OFF_CB)
+                {
+                  //Запам'ятовуємо поперердній екран
+                  //Переходимо на меню відображення ранжування ББвимк.
+//                  current_ekran.current_level = ;
+                }
+                else if (current_ekran.index_position == INDEX_ML_RANG_ON_CB)
+                {
+                  //Запам'ятовуємо поперердній екран
+                  //Переходимо на меню відображення ранжування ББввімк.
+//                  current_ekran.current_level = ;
                 } 
                 current_ekran.index_position = position_in_current_level_menu[current_ekran.current_level];
                 current_ekran.edition = 0;
@@ -3251,12 +3287,21 @@ void main_manu_function(void)
               }
               else if (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_SWITCHER)
               {
-                if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_CHOSE_SETTINGS_ANY_PROTECTION - 1;
+                if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_CHOSE_SETTINGS_SWITCHER - 1;
               
                 position_in_current_level_menu[EKRAN_CHOOSE_SETTINGS_SWITCHER] = current_ekran.index_position;
 
-                //Формуємо екран уставки-витримки-настройки для всіх захистів
-                make_ekran_chose_settings_any_protection();
+                //Формуємо екран уставки-витримки-настройки-ранжування вимикача
+                make_ekran_chose_settings_switcher();
+              }
+              else if (current_ekran.current_level == EKRAN_CHOOSE_RANG_SWITCH)
+              {
+                if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_RANG_SWITCH - 1;
+              
+                position_in_current_level_menu[EKRAN_CHOOSE_RANG_SWITCH] = current_ekran.index_position;
+
+                //Формуємо екран БВимк./БВвімк.
+                make_ekran_choose_CBOn_CBOff();
               }
               else if (current_ekran.current_level == EKRAN_CHOSE_SETTINGS)
               {
@@ -3782,21 +3827,21 @@ void main_manu_function(void)
               }
               else if (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_SWITCHER)
               {
-                if(++current_ekran.index_position >= MAX_ROW_FOR_CHOSE_SETTINGS_ANY_PROTECTION) current_ekran.index_position = 0;
+                if(++current_ekran.index_position >= MAX_ROW_FOR_CHOSE_SETTINGS_SWITCHER) current_ekran.index_position = 0;
               
                 position_in_current_level_menu[EKRAN_CHOOSE_SETTINGS_SWITCHER] = current_ekran.index_position;
 
-                //Формуємо екран уставки-витримки-настройки для всіх захистів
-                make_ekran_chose_settings_any_protection();
+                //Формуємо екран уставки-витримки-настройки-ранжування вимикача
+                make_ekran_chose_settings_switcher();
               }
-              else if (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_SWITCHER)
+              else if (current_ekran.current_level == EKRAN_CHOOSE_RANG_SWITCH)
               {
-                if(++current_ekran.index_position >= MAX_ROW_FOR_CHOSE_SETTINGS_ANY_PROTECTION) current_ekran.index_position = 0;
+                if(++current_ekran.index_position >= MAX_ROW_FOR_RANG_SWITCH) current_ekran.index_position = 0;
               
-                position_in_current_level_menu[EKRAN_CHOOSE_SETTINGS_SWITCHER] = current_ekran.index_position;
+                position_in_current_level_menu[EKRAN_CHOOSE_RANG_SWITCH] = current_ekran.index_position;
 
-                //Формуємо екран уставки-витримки-настройки для всіх захистів
-                make_ekran_chose_settings_any_protection();
+                //Формуємо екран БВимк./БВвімк.
+                make_ekran_choose_CBOn_CBOff();
               }
               else if (current_ekran.current_level == EKRAN_CHOSE_SETTINGS)
               {
