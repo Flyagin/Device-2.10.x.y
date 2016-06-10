@@ -1822,62 +1822,118 @@ inline void d_not_handler(volatile unsigned int *p_active_functions)
 -------------------------------------------------
 */
 /*****************************************************/
-inline int timeout_dependent_general(unsigned int i, unsigned int number_group_stp, int type_mtz2_tmp)
+inline int timeout_dependent_general(unsigned int i, unsigned int number_group_stp)
 {
   int timeout_result = 0;
+  int type_mtz2_tmp = current_settings_prt.type_mtz2;
   
   if (
       (type_mtz2_tmp >= TYPE_MTZ_DEPENDENT_A) &&
-      (type_mtz2_tmp <= TYPE_MTZ_DEPENDENT_C)
+      (type_mtz2_tmp <= TYPE_MTZ_DEPENDENT_RTV_I)
      )   
   {
-    register float K;
-    register float alpha;
-
-    switch (type_mtz2_tmp)
-    {
-    case TYPE_MTZ_DEPENDENT_A:
-      {
-        K = 0.14f;
-        alpha = 0.02f;
-        break;
-      }
-    case TYPE_MTZ_DEPENDENT_B:
-      {
-        K = 13.5f;
-        alpha = 1.0f;
-        break;
-      }
-    case TYPE_MTZ_DEPENDENT_C:
-      {
-        K = 80.0f;
-        alpha = 2.0f;
-        break;
-      }
-    default:
-      {
-        //Теоретично цього ніколи не мало б бути
-        total_error_sw_fixed(57);
-      }
-    }
-    
     unsigned int Iust = current_settings_prt.setpoint_mtz_2[number_group_stp];
     if (i > Iust)
     {
-      register float I_div_Iusy = ((float)i)/((float)Iust);
-      register float rising_to_power = powf(I_div_Iusy, alpha);
-      if (
-          (isnan(rising_to_power) != 0) || 
-          (isinf(rising_to_power) != 0) ||
-          (rising_to_power == 1)
-        )
-      {
-        //Теоретично цього ніколи не мало б бути
-        total_error_sw_fixed(42);
-      }
-  
       register float timeout = (((float)current_settings_prt.timeout_mtz_2[number_group_stp])/1000.0f);
-      register float timeout_dependent = K*timeout/(rising_to_power - 1);
+      register float timeout_dependent = 0;
+      
+      if (
+          (type_mtz2_tmp >= TYPE_MTZ_DEPENDENT_A) &&
+          (type_mtz2_tmp <= TYPE_MTZ_DEPENDENT_C)
+         )   
+      {
+        register float K;
+        register float alpha;
+
+        switch (type_mtz2_tmp)
+        {
+          case TYPE_MTZ_DEPENDENT_A:
+          {
+            K = 0.14f;
+            alpha = 0.02f;
+            break;
+          }
+        case TYPE_MTZ_DEPENDENT_B:
+          {
+            K = 13.5f;
+            alpha = 1.0f;
+            break;
+          }
+        case TYPE_MTZ_DEPENDENT_C:
+          {
+            K = 80.0f;
+            alpha = 2.0f;
+            break;
+          }
+        default:
+          {
+            //Теоретично цього ніколи не мало б бути
+            total_error_sw_fixed(42);
+          }
+        }
+    
+        register float I_div_Iusy = ((float)i)/((float)Iust);
+        register float rising_to_power = powf(I_div_Iusy, alpha);
+        if (
+            (isnan(rising_to_power) != 0) || 
+            (isinf(rising_to_power) != 0) ||
+            (rising_to_power <= 1)
+          )
+        {
+          //Теоретично цього ніколи не мало б бути
+          total_error_sw_fixed(57);
+        }
+  
+        timeout_dependent = K*timeout/(rising_to_power - 1);
+      }
+      else if (
+               (type_mtz2_tmp >= TYPE_MTZ_DEPENDENT_RT_80) &&
+               (type_mtz2_tmp <= TYPE_MTZ_DEPENDENT_RTV_I)
+              )   
+      {
+        register float I_div_Iusy = ((float)i)/((float)Iust);
+        I_div_Iusy = I_div_Iusy - 1.0f;
+
+        register float K;
+        register float alpha;
+
+        switch (type_mtz2_tmp)
+        {
+        case TYPE_MTZ_DEPENDENT_RT_80:
+          {
+            K = 20.0f;
+            alpha = 1.8f;
+          
+            I_div_Iusy /= 6.0f;
+            break;
+          }
+        case TYPE_MTZ_DEPENDENT_RTV_I:
+          {
+            K = 30.0f;
+            alpha = 3.0f;
+            break;
+          } 
+        default:
+          {
+            //Теоретично цього ніколи не мало б бути
+            total_error_sw_fixed(87);
+          }
+        }
+      
+        register float rising_to_power = powf(I_div_Iusy, alpha);
+        if (
+            (isnan(rising_to_power) != 0) || 
+            (isinf(rising_to_power) != 0) ||
+            (rising_to_power <= 0)
+           )
+        {
+          //Теоретично цього ніколи не мало б бути
+          total_error_sw_fixed(86);
+        }
+      
+        timeout_dependent = 1.0f/(K*rising_to_power)+ timeout;
+      }
 
       int timeout_dependent_int = (int)timeout_dependent;
       if (timeout_dependent_int > (TIMEOUT_MTZ2_MAX/1000)) timeout_dependent = (TIMEOUT_MTZ2_MAX/1000);
@@ -2195,7 +2251,7 @@ inline void mtz_handler(volatile unsigned int *p_active_functions, unsigned int 
       unsigned int i_max = measurement[IM_IA];
       if (i_max < measurement[IM_IB]) i_max = measurement[IM_IB];
       if (i_max < measurement[IM_IC]) i_max = measurement[IM_IC];
-      _TIMER_T_0_LOCK(INDEX_TIMER_MTZ2_DEPENDENT, timeout_dependent_general(i_max, number_group_stp, current_settings_prt.type_mtz2), tmp, 5, p_global_trigger_state_mtz2, 0);
+      _TIMER_T_0_LOCK(INDEX_TIMER_MTZ2_DEPENDENT, timeout_dependent_general(i_max, number_group_stp), tmp, 5, p_global_trigger_state_mtz2, 0);
       _TIMER_T_0(INDEX_TIMER_MTZ2_PR, current_settings_prt.timeout_mtz_2_pr[number_group_stp], tmp, 6, tmp, 15);
       _TIMER_T_0(INDEX_TIMER_MTZ2, current_settings_prt.timeout_mtz_2[number_group_stp], tmp, 7, tmp, 16);
       _TIMER_T_0(INDEX_TIMER_MTZ2_N_VPERED, current_settings_prt.timeout_mtz_2_n_vpered[number_group_stp], tmp, 8, tmp, 17);

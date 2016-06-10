@@ -172,7 +172,7 @@ extern void d_xor_handler(volatile unsigned int*);
 extern void d_not_handler(volatile unsigned int*);
 extern void mtz_handler(volatile unsigned int*, unsigned int);
 extern void zdz_handler(volatile unsigned int*);
-extern int timeout_dependent_general(unsigned int, unsigned int, int);
+extern int timeout_dependent_general(unsigned int, unsigned int);
 extern void zop_handler(volatile unsigned int*, unsigned int);
 extern void umin1_handler(volatile unsigned int*, unsigned int);
 extern void umin2_handler(volatile unsigned int*, unsigned int);
