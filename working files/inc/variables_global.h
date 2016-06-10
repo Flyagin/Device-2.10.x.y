@@ -90,13 +90,13 @@ float frequency_val_1_min = 50, frequency_val_1_max = 50;
 float frequency_val_2_min = 50, frequency_val_2_max = 50;
 unsigned int command_restart_monitoring_frequency = 0;
 
-const unsigned int index_GND_ADC1[NUMBER_GND_ADC1] = {C_GND_ADC1_1, C_GND_ADC1_2, C_GND_ADC1_3, C_GND_ADC1_4, C_GND_ADC1_5, C_GND_ADC1_6, C_GND_ADC1_7, C_GND_ADC1_8};
+const unsigned int index_GND_ADC1[NUMBER_GND_ADC1] = {C_GND_ADC1_1, C_GND_ADC1_2, C_GND_ADC1_3, C_GND_ADC1_4, C_GND_ADC1_5};
 unsigned int gnd_adc1_moment_value[NUMBER_GND_ADC1][NUMBER_POINT];
 unsigned int gnd_adc1_averange_sum[NUMBER_GND_ADC1];
 unsigned int gnd_adc1_averange[NUMBER_GND_ADC1];
 unsigned int gnd_adc1;
 
-const unsigned int index_GND_ADC2[NUMBER_GND_ADC2] = {C_GND_ADC2_1, C_GND_ADC2_2};
+const unsigned int index_GND_ADC2[NUMBER_GND_ADC2] = {C_GND_ADC2_1, C_GND_ADC2_2, C_GND_ADC2_3};
 unsigned int gnd_adc2_moment_value[NUMBER_GND_ADC2][NUMBER_POINT];
 unsigned int gnd_adc2_averange_sum[NUMBER_GND_ADC2];
 unsigned int gnd_adc2_averange[NUMBER_GND_ADC2];
