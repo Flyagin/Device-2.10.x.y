@@ -338,11 +338,8 @@ typedef struct
 {
   unsigned char label_start_record;
   unsigned char time[7]; 
-  unsigned int T0;
   unsigned int TCurrent;
-  unsigned int TCurrent04;
   unsigned int TVoltage;
-  unsigned int control_extra_settings_1;
   unsigned char name_of_cell[MAX_CHAR_IN_NAME_OF_CELL];
 } __HEADER_AR;
 

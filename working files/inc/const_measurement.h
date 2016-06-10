@@ -202,7 +202,7 @@ Koef_1 = 64,883134509545420915167731259667 (4152/64 = 64,875)
 #define DATA_VAL_1_READ           (1 << DATA_VAL_1_READ_BIT)
 #define DATA_VAL_2_READ_BIT       1
 #define DATA_VAL_2_READ           (1 << DATA_VAL_2_READ_BIT)
-#define TEST_VAL_READ_BIT         1
+#define TEST_VAL_READ_BIT         2
 #define TEST_VAL_READ             (1 << TEST_VAL_READ_BIT)
 
 #define NUMBER_GND_ADC1         8
@@ -262,12 +262,12 @@ enum _full_ort_index
 FULL_ORT_Ua1 = 0,
 FULL_ORT_Ub1,
 FULL_ORT_Uc1,
-FULL_ORT_Uab1,
-FULL_ORT_Ubc1,
-FULL_ORT_Uca1,
 FULL_ORT_Ua2,
 FULL_ORT_Ub2,
 FULL_ORT_Uc2,
+FULL_ORT_Uab1,
+FULL_ORT_Ubc1,
+FULL_ORT_Uca1,
 FULL_ORT_Uab2,
 FULL_ORT_Ubc2,
 FULL_ORT_Uca2,

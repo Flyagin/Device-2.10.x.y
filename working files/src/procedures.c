@@ -342,7 +342,6 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_INPUT    + 
                   NUMBER_MTZ_SIGNAL_FOR_RANG_INPUT        +
-                  NUMBER_MTZ04_SIGNAL_FOR_RANG_INPUT      +
                   i
                  )
                 );
@@ -354,7 +353,6 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
-                  NUMBER_MTZ04_SIGNAL_FOR_RANG      +
                   i
                  )
                 );
@@ -364,8 +362,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
       maska_2 =(
                 maska_2 << (
                             NUMBER_GENERAL_SIGNAL_FOR_RANG_BUTTON    + 
-                            NUMBER_MTZ_SIGNAL_FOR_RANG_BUTTON        +
-                            NUMBER_MTZ04_SIGNAL_FOR_RANG_BUTTON
+                            NUMBER_MTZ_SIGNAL_FOR_RANG_BUTTON
                            )
                );
 
@@ -457,10 +454,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_INPUT + 
                   NUMBER_MTZ_SIGNAL_FOR_RANG_INPUT     +
-                  NUMBER_MTZ04_SIGNAL_FOR_RANG_INPUT   +
                   NUMBER_ZDZ_SIGNAL_FOR_RANG_INPUT     +
-                  NUMBER_ZZ_SIGNAL_FOR_RANG_INPUT      +
-                  NUMBER_TZNP_SIGNAL_FOR_RANG_INPUT    +
                   i
                  )
                 );
@@ -472,10 +466,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG + 
                   NUMBER_MTZ_SIGNAL_FOR_RANG     +
-                  NUMBER_MTZ04_SIGNAL_FOR_RANG   +
                   NUMBER_ZDZ_SIGNAL_FOR_RANG     +
-                  NUMBER_ZZ_SIGNAL_FOR_RANG      +
-                  NUMBER_TZNP_SIGNAL_FOR_RANG    +
                   i
                  )
                 );
@@ -486,10 +477,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                 maska_2 << (
                             NUMBER_GENERAL_SIGNAL_FOR_RANG_BUTTON + 
                             NUMBER_MTZ_SIGNAL_FOR_RANG_BUTTON     + 
-                            NUMBER_MTZ04_SIGNAL_FOR_RANG_BUTTON   +
-                            NUMBER_ZDZ_SIGNAL_FOR_RANG_BUTTON     + 
-                            NUMBER_ZZ_SIGNAL_FOR_RANG_BUTTON      +
-                            NUMBER_TZNP_SIGNAL_FOR_RANG_BUTTON
+                            NUMBER_ZDZ_SIGNAL_FOR_RANG_BUTTON
                            )
                );
 
@@ -580,12 +568,8 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_INPUT    + 
                   NUMBER_MTZ_SIGNAL_FOR_RANG_INPUT        +
-                  NUMBER_MTZ04_SIGNAL_FOR_RANG_INPUT      +
                   NUMBER_ZDZ_SIGNAL_FOR_RANG_INPUT        +
-                  NUMBER_ZZ_SIGNAL_FOR_RANG_INPUT         +
-                  NUMBER_TZNP_SIGNAL_FOR_RANG_INPUT       +
                   NUMBER_APV_SIGNAL_FOR_RANG_INPUT        +
-                  NUMBER_ACHR_CHAPV_SIGNAL_FOR_RANG_INPUT +
                   i
                  )
                 );
@@ -597,12 +581,8 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
-                  NUMBER_MTZ04_SIGNAL_FOR_RANG      +
                   NUMBER_ZDZ_SIGNAL_FOR_RANG        +
-                  NUMBER_ZZ_SIGNAL_FOR_RANG         +
-                  NUMBER_TZNP_SIGNAL_FOR_RANG       +
                   NUMBER_APV_SIGNAL_FOR_RANG        +
-                  NUMBER_ACHR_CHAPV_SIGNAL_FOR_RANG +
                   i
                  )
                 );
@@ -613,12 +593,8 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                 maska_2 << (
                             NUMBER_GENERAL_SIGNAL_FOR_RANG_BUTTON    + 
                             NUMBER_MTZ_SIGNAL_FOR_RANG_BUTTON        +
-                            NUMBER_MTZ04_SIGNAL_FOR_RANG_BUTTON      +
                             NUMBER_ZDZ_SIGNAL_FOR_RANG_BUTTON        +
-                            NUMBER_ZZ_SIGNAL_FOR_RANG_BUTTON         +
-                            NUMBER_TZNP_SIGNAL_FOR_RANG_BUTTON       +
-                            NUMBER_APV_SIGNAL_FOR_RANG_BUTTON        +
-                            NUMBER_ACHR_CHAPV_SIGNAL_FOR_RANG_BUTTON
+                            NUMBER_APV_SIGNAL_FOR_RANG_BUTTON
                            )
                );
 
@@ -712,12 +688,8 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_INPUT    + 
                   NUMBER_MTZ_SIGNAL_FOR_RANG_INPUT        +
-                  NUMBER_MTZ04_SIGNAL_FOR_RANG_INPUT      +
                   NUMBER_ZDZ_SIGNAL_FOR_RANG_INPUT        +
-                  NUMBER_ZZ_SIGNAL_FOR_RANG_INPUT         +
-                  NUMBER_TZNP_SIGNAL_FOR_RANG_INPUT       +
                   NUMBER_APV_SIGNAL_FOR_RANG_INPUT        +
-                  NUMBER_ACHR_CHAPV_SIGNAL_FOR_RANG_INPUT +
                   NUMBER_UROV_SIGNAL_FOR_RANG_INPUT       +
                   i
                  )
@@ -730,13 +702,9 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
-                  NUMBER_MTZ04_SIGNAL_FOR_RANG      +
                   NUMBER_ZDZ_SIGNAL_FOR_RANG        +
-                  NUMBER_ZZ_SIGNAL_FOR_RANG         +
-                  NUMBER_TZNP_SIGNAL_FOR_RANG       +
                   NUMBER_APV_SIGNAL_FOR_RANG        +
                   NUMBER_UROV_SIGNAL_FOR_RANG       +
-                  NUMBER_ACHR_CHAPV_SIGNAL_FOR_RANG +
                   i
                  )
                 );
@@ -747,12 +715,8 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                 maska_2 << (
                             NUMBER_GENERAL_SIGNAL_FOR_RANG_BUTTON    + 
                             NUMBER_MTZ_SIGNAL_FOR_RANG_BUTTON        +
-                            NUMBER_MTZ04_SIGNAL_FOR_RANG_BUTTON      +
                             NUMBER_ZDZ_SIGNAL_FOR_RANG_BUTTON        +
-                            NUMBER_ZZ_SIGNAL_FOR_RANG_BUTTON         +
-                            NUMBER_TZNP_SIGNAL_FOR_RANG_BUTTON       +
                             NUMBER_APV_SIGNAL_FOR_RANG_BUTTON        +
-                            NUMBER_ACHR_CHAPV_SIGNAL_FOR_RANG_BUTTON +
                             NUMBER_UROV_SIGNAL_FOR_RANG_BUTTON
                            )
                );
@@ -847,12 +811,8 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_INPUT    + 
                   NUMBER_MTZ_SIGNAL_FOR_RANG_INPUT        +
-                  NUMBER_MTZ04_SIGNAL_FOR_RANG_INPUT      +
                   NUMBER_ZDZ_SIGNAL_FOR_RANG_INPUT        +
-                  NUMBER_ZZ_SIGNAL_FOR_RANG_INPUT         +
-                  NUMBER_TZNP_SIGNAL_FOR_RANG_INPUT       +
                   NUMBER_APV_SIGNAL_FOR_RANG_INPUT        +
-                  NUMBER_ACHR_CHAPV_SIGNAL_FOR_RANG_INPUT +
                   NUMBER_UROV_SIGNAL_FOR_RANG_INPUT       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG_INPUT        +
                   i
@@ -866,12 +826,8 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
-                  NUMBER_MTZ04_SIGNAL_FOR_RANG      +
                   NUMBER_ZDZ_SIGNAL_FOR_RANG        +
-                  NUMBER_ZZ_SIGNAL_FOR_RANG         +
-                  NUMBER_TZNP_SIGNAL_FOR_RANG       +
                   NUMBER_APV_SIGNAL_FOR_RANG        +
-                  NUMBER_ACHR_CHAPV_SIGNAL_FOR_RANG +
                   NUMBER_UROV_SIGNAL_FOR_RANG       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG       +
                   i
@@ -884,12 +840,8 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                 maska_2 << (
                             NUMBER_GENERAL_SIGNAL_FOR_RANG_BUTTON    + 
                             NUMBER_MTZ_SIGNAL_FOR_RANG_BUTTON        +
-                            NUMBER_MTZ04_SIGNAL_FOR_RANG_BUTTON      +
                             NUMBER_ZDZ_SIGNAL_FOR_RANG_BUTTON        +
-                            NUMBER_ZZ_SIGNAL_FOR_RANG_BUTTON         +
-                            NUMBER_TZNP_SIGNAL_FOR_RANG_BUTTON       +
                             NUMBER_APV_SIGNAL_FOR_RANG_BUTTON        +
-                            NUMBER_ACHR_CHAPV_SIGNAL_FOR_RANG_BUTTON +
                             NUMBER_UROV_SIGNAL_FOR_RANG_BUTTON       +
                             NUMBER_ZOP_SIGNAL_FOR_RANG_BUTTON
                            )
@@ -985,12 +937,8 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_INPUT    + 
                   NUMBER_MTZ_SIGNAL_FOR_RANG_INPUT        +
-                  NUMBER_MTZ04_SIGNAL_FOR_RANG_INPUT      +
                   NUMBER_ZDZ_SIGNAL_FOR_RANG_INPUT        +
-                  NUMBER_ZZ_SIGNAL_FOR_RANG_INPUT         +
-                  NUMBER_TZNP_SIGNAL_FOR_RANG_INPUT       +
                   NUMBER_APV_SIGNAL_FOR_RANG_INPUT        +
-                  NUMBER_ACHR_CHAPV_SIGNAL_FOR_RANG_INPUT +
                   NUMBER_UROV_SIGNAL_FOR_RANG_INPUT       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG_INPUT        +
                   NUMBER_UMIN_SIGNAL_FOR_RANG_INPUT       +
@@ -1005,12 +953,8 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
-                  NUMBER_MTZ04_SIGNAL_FOR_RANG      +
                   NUMBER_ZDZ_SIGNAL_FOR_RANG        +
-                  NUMBER_ZZ_SIGNAL_FOR_RANG         +
-                  NUMBER_TZNP_SIGNAL_FOR_RANG       +
                   NUMBER_APV_SIGNAL_FOR_RANG        +
-                  NUMBER_ACHR_CHAPV_SIGNAL_FOR_RANG +
                   NUMBER_UROV_SIGNAL_FOR_RANG       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG        +
                   NUMBER_UMIN_SIGNAL_FOR_RANG       +
@@ -1025,12 +969,8 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                 maska_2 << (
                             NUMBER_GENERAL_SIGNAL_FOR_RANG_BUTTON    + 
                             NUMBER_MTZ_SIGNAL_FOR_RANG_BUTTON        +
-                            NUMBER_MTZ04_SIGNAL_FOR_RANG_BUTTON      +
                             NUMBER_ZDZ_SIGNAL_FOR_RANG_BUTTON        +
-                            NUMBER_ZZ_SIGNAL_FOR_RANG_BUTTON         +
-                            NUMBER_TZNP_SIGNAL_FOR_RANG_BUTTON       +
                             NUMBER_APV_SIGNAL_FOR_RANG_BUTTON        +
-                            NUMBER_ACHR_CHAPV_SIGNAL_FOR_RANG_BUTTON +
                             NUMBER_UROV_SIGNAL_FOR_RANG_BUTTON       +
                             NUMBER_ZOP_SIGNAL_FOR_RANG_BUTTON        +
                             NUMBER_UMIN_SIGNAL_FOR_RANG_BUTTON
@@ -1125,10 +1065,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_INPUT    + 
                   NUMBER_MTZ_SIGNAL_FOR_RANG_INPUT        +
                   NUMBER_ZDZ_SIGNAL_FOR_RANG_INPUT        +
-                  NUMBER_ZZ_SIGNAL_FOR_RANG_INPUT         +
                   NUMBER_APV_SIGNAL_FOR_RANG_INPUT        +
-                  NUMBER_APV_ZMN_SIGNAL_FOR_RANG_INPUT    +
-                  NUMBER_ACHR_CHAPV_SIGNAL_FOR_RANG_INPUT +
                   NUMBER_UROV_SIGNAL_FOR_RANG_INPUT       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG_INPUT        +
                   NUMBER_UMIN_SIGNAL_FOR_RANG_INPUT       +
@@ -1143,21 +1080,18 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
       maska_1[3] = 0;
       maska_1[4] = 0;
       maska_1[5] = 0;
-      for (int i = 0; i < NUMBER_AVR_SIGNAL_FOR_RANG_OUTPUT_LED_DF_REG; i++)
+      for (int i = 0; i < NUMBER_AVR_SIGNAL_FOR_RANG; i++)
         _SET_BIT(
                  maska_1, 
                  (
-                  NUMBER_GENERAL_SIGNAL_FOR_RANG_OUTPUT_LED_DF_REG    + 
-                  NUMBER_MTZ_SIGNAL_FOR_RANG_OUTPUT_LED_DF_REG        +
-                  NUMBER_ZDZ_SIGNAL_FOR_RANG_OUTPUT_LED_DF_REG        +
-                  NUMBER_ZZ_SIGNAL_FOR_RANG_OUTPUT_LED_DF_REG         +
-                  NUMBER_APV_SIGNAL_FOR_RANG_OUTPUT_LED_DF_REG        +
-                  NUMBER_APV_ZMN_SIGNAL_FOR_RANG_OUTPUT_LED_DF_REG    +
-                  NUMBER_ACHR_CHAPV_SIGNAL_FOR_RANG_OUTPUT_LED_DF_REG +
-                  NUMBER_UROV_SIGNAL_FOR_RANG_OUTPUT_LED_DF_REG       +
-                  NUMBER_ZOP_SIGNAL_FOR_RANG_OUTPUT_LED_DF_REG        +
-                  NUMBER_UMIN_SIGNAL_FOR_RANG_OUTPUT_LED_DF_REG       +
-                  NUMBER_UMAX_SIGNAL_FOR_RANG_OUTPUT_LED_DF_REG       +
+                  NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
+                  NUMBER_MTZ_SIGNAL_FOR_RANG        +
+                  NUMBER_ZDZ_SIGNAL_FOR_RANG        +
+                  NUMBER_APV_SIGNAL_FOR_RANG        +
+                  NUMBER_UROV_SIGNAL_FOR_RANG       +
+                  NUMBER_ZOP_SIGNAL_FOR_RANG        +
+                  NUMBER_UMIN_SIGNAL_FOR_RANG       +
+                  NUMBER_UMAX_SIGNAL_FOR_RANG       +
                   i
                  )
                 );
@@ -1170,10 +1104,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                             NUMBER_GENERAL_SIGNAL_FOR_RANG_BUTTON    + 
                             NUMBER_MTZ_SIGNAL_FOR_RANG_BUTTON        +
                             NUMBER_ZDZ_SIGNAL_FOR_RANG_BUTTON        +
-                            NUMBER_ZZ_SIGNAL_FOR_RANG_BUTTON         +
                             NUMBER_APV_SIGNAL_FOR_RANG_BUTTON        +
-                            NUMBER_APV_ZMN_SIGNAL_FOR_RANG_BUTTON    +
-                            NUMBER_ACHR_CHAPV_SIGNAL_FOR_RANG_BUTTON +
                             NUMBER_UROV_SIGNAL_FOR_RANG_BUTTON       +
                             NUMBER_ZOP_SIGNAL_FOR_RANG_BUTTON        +
                             NUMBER_UMIN_SIGNAL_FOR_RANG_BUTTON       +
@@ -1299,17 +1230,13 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_INPUT    + 
                   NUMBER_MTZ_SIGNAL_FOR_RANG_INPUT        +
-                  NUMBER_MTZ04_SIGNAL_FOR_RANG_INPUT      +
                   NUMBER_ZDZ_SIGNAL_FOR_RANG_INPUT        +
-                  NUMBER_ZZ_SIGNAL_FOR_RANG_INPUT         +
-                  NUMBER_TZNP_SIGNAL_FOR_RANG_INPUT       +
                   NUMBER_APV_SIGNAL_FOR_RANG_INPUT        +
-                  NUMBER_ACHR_CHAPV_SIGNAL_FOR_RANG_INPUT +
                   NUMBER_UROV_SIGNAL_FOR_RANG_INPUT       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG_INPUT        +
                   NUMBER_UMIN_SIGNAL_FOR_RANG_INPUT       +
                   NUMBER_UMAX_SIGNAL_FOR_RANG_INPUT       +
-                  NUMBER_VMP_SIGNAL_FOR_RANG_INPUT        +
+                  NUMBER_AVR_SIGNAL_FOR_RANG_INPUT        +
                   i
                  )
                 );
@@ -1320,17 +1247,13 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
-                  NUMBER_MTZ04_SIGNAL_FOR_RANG      +
                   NUMBER_ZDZ_SIGNAL_FOR_RANG        +
-                  NUMBER_ZZ_SIGNAL_FOR_RANG         +
-                  NUMBER_TZNP_SIGNAL_FOR_RANG       +
                   NUMBER_APV_SIGNAL_FOR_RANG        +
-                  NUMBER_ACHR_CHAPV_SIGNAL_FOR_RANG +
                   NUMBER_UROV_SIGNAL_FOR_RANG       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG        +
                   NUMBER_UMIN_SIGNAL_FOR_RANG       +
                   NUMBER_UMAX_SIGNAL_FOR_RANG       +
-                  NUMBER_VMP_SIGNAL_FOR_RANG        +
+                  NUMBER_AVR_SIGNAL_FOR_RANG        +
                   i
                  )
                 );
@@ -1341,17 +1264,13 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                 maska_2 << (
                             NUMBER_GENERAL_SIGNAL_FOR_RANG_BUTTON    + 
                             NUMBER_MTZ_SIGNAL_FOR_RANG_BUTTON        +
-                            NUMBER_MTZ04_SIGNAL_FOR_RANG_BUTTON      +
                             NUMBER_ZDZ_SIGNAL_FOR_RANG_BUTTON        +
-                            NUMBER_ZZ_SIGNAL_FOR_RANG_BUTTON         +
-                            NUMBER_TZNP_SIGNAL_FOR_RANG_BUTTON       +
                             NUMBER_APV_SIGNAL_FOR_RANG_BUTTON        +
-                            NUMBER_ACHR_CHAPV_SIGNAL_FOR_RANG_BUTTON +
                             NUMBER_UROV_SIGNAL_FOR_RANG_BUTTON       +
                             NUMBER_ZOP_SIGNAL_FOR_RANG_BUTTON        +
                             NUMBER_UMIN_SIGNAL_FOR_RANG_BUTTON       +
                             NUMBER_UMAX_SIGNAL_FOR_RANG_BUTTON       +
-                            NUMBER_VMP_SIGNAL_FOR_RANG_BUTTON
+                            NUMBER_AVR_SIGNAL_FOR_RANG_BUTTON
                            )
                );
       

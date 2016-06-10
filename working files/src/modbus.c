@@ -140,16 +140,16 @@ void convert_order_list_function_to_gmm(unsigned int* input_array, unsigned shor
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_UROV         , (BIT_MA_PO_UROV          - BIT_MA_CURRENT_AF_BASE));
 
   //ÀÂÐ
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_OTKL_AVR               , (BIT_MA_OTKL_AVR                - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_SBROS_BLOCK_AVR        , (BIT_MA_SBROS_BLOCK_AVR         - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_STAT_BLOCK_AVR         , (BIT_MA_STAT_BLOCK_AVR          - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_BLOCK_AVR_VID_ZAKHYSTIV, (BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_PO_UAVR_MIN1           , (BIT_MA_PO_UAVR_MIN1            - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_PO_UAVR_MAX1           , (BIT_MA_PO_UAVR_MAX1            - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_PO_UAVR_MIN2           , (BIT_MA_PO_UAVR_MIN2            - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_PO_UAVR_MAX2           , (BIT_MA_PO_UAVR_MAX2            - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_BLOCK_KRATN_AVR        , (BIT_MA_BLOCK_KRATN_AVR         - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OUTPUT_LED_DF_REG_PUSK_AVR               , (BIT_MA_PUSK_AVR                - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OTKL_AVR               , (BIT_MA_OTKL_AVR                - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_SBROS_BLOCK_AVR        , (BIT_MA_SBROS_BLOCK_AVR         - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_STAT_BLOCK_AVR         , (BIT_MA_STAT_BLOCK_AVR          - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_AVR_VID_ZAKHYSTIV, (BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_UAVR_MIN1           , (BIT_MA_PO_UAVR_MIN1            - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_UAVR_MAX1           , (BIT_MA_PO_UAVR_MAX1            - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_UAVR_MIN2           , (BIT_MA_PO_UAVR_MIN2            - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_UAVR_MAX2           , (BIT_MA_PO_UAVR_MAX2            - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_KRATN_AVR        , (BIT_MA_BLOCK_KRATN_AVR         - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PUSK_AVR               , (BIT_MA_PUSK_AVR                - BIT_MA_CURRENT_AF_BASE));
 
   //ÎÔ
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_DF1_IN , (BIT_MA_INPUT_DF1  - BIT_MA_CURRENT_AF_BASE));
@@ -1643,52 +1643,52 @@ unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int nu
         rezultat = BIT_MA_UMAX2;
         break;
       }
-    case RANG_OUTPUT_LED_DF_REG_OTKL_AVR:
+    case RANG_OTKL_AVR:
       {
         rezultat = BIT_MA_OTKL_AVR;
         break;
       }
-    case RANG_OUTPUT_LED_DF_REG_SBROS_BLOCK_AVR:
+    case RANG_SBROS_BLOCK_AVR:
       {
         rezultat = BIT_MA_SBROS_BLOCK_AVR;
         break;
       }
-    case RANG_OUTPUT_LED_DF_REG_STAT_BLOCK_AVR:
+    case RANG_STAT_BLOCK_AVR:
       {
         rezultat = BIT_MA_STAT_BLOCK_AVR;
         break;
       }
-    case RANG_OUTPUT_LED_DF_REG_BLOCK_AVR_VID_ZAKHYSTIV:
+    case RANG_BLOCK_AVR_VID_ZAKHYSTIV:
       {
         rezultat = BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV;
         break;
       }
-    case RANG_OUTPUT_LED_DF_REG_PO_UAVR_MIN1:
+    case RANG_PO_UAVR_MIN1:
       {
         rezultat = BIT_MA_PO_UAVR_MIN1;
         break;
       }
-    case RANG_OUTPUT_LED_DF_REG_PO_UAVR_MAX1:
+    case RANG_PO_UAVR_MAX1:
       {
         rezultat = BIT_MA_PO_UAVR_MAX1;
         break;
       }
-    case RANG_OUTPUT_LED_DF_REG_PO_UAVR_MIN2:
+    case RANG_PO_UAVR_MIN2:
       {
         rezultat = BIT_MA_PO_UAVR_MIN2;
         break;
       }
-    case RANG_OUTPUT_LED_DF_REG_PO_UAVR_MAX2:
+    case RANG_PO_UAVR_MAX2:
       {
         rezultat = BIT_MA_PO_UAVR_MAX2;
         break;
       }
-    case RANG_OUTPUT_LED_DF_REG_BLOCK_KRATN_AVR:
+    case RANG_BLOCK_KRATN_AVR:
       {
         rezultat = BIT_MA_BLOCK_KRATN_AVR;
         break;
       }
-    case RANG_OUTPUT_LED_DF_REG_PUSK_AVR:
+    case RANG_PUSK_AVR:
       {
         rezultat = BIT_MA_PUSK_AVR;
         break;
@@ -3584,52 +3584,52 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
       }
     case BIT_MA_OTKL_AVR:
       {
-        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_OTKL_AVR);
+        _SET_BIT(set_array_rang, RANG_OTKL_AVR);
         break;
       }
     case BIT_MA_SBROS_BLOCK_AVR:
       {
-        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_SBROS_BLOCK_AVR);
+        _SET_BIT(set_array_rang, RANG_SBROS_BLOCK_AVR);
         break;
       }
     case BIT_MA_STAT_BLOCK_AVR:
       {
-        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_STAT_BLOCK_AVR);
+        _SET_BIT(set_array_rang, RANG_STAT_BLOCK_AVR);
         break;
       }
     case BIT_MA_PO_UAVR_MIN1:
       {
-        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_PO_UAVR_MIN1);
+        _SET_BIT(set_array_rang, RANG_PO_UAVR_MIN1);
         break;
       }
     case BIT_MA_PO_UAVR_MAX1:
       {
-        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_PO_UAVR_MAX1);
+        _SET_BIT(set_array_rang, RANG_PO_UAVR_MAX1);
         break;
       }
     case BIT_MA_PO_UAVR_MIN2:
       {
-        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_PO_UAVR_MIN2);
+        _SET_BIT(set_array_rang, RANG_PO_UAVR_MIN2);
         break;
       }
     case BIT_MA_PO_UAVR_MAX2:
       {
-        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_PO_UAVR_MAX2);
+        _SET_BIT(set_array_rang, RANG_PO_UAVR_MAX2);
         break;
       }
     case BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV:
       {
-        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_BLOCK_AVR_VID_ZAKHYSTIV);
+        _SET_BIT(set_array_rang, RANG_BLOCK_AVR_VID_ZAKHYSTIV);
         break;
       }
     case BIT_MA_BLOCK_KRATN_AVR:
       {
-        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_BLOCK_KRATN_AVR);
+        _SET_BIT(set_array_rang, RANG_BLOCK_KRATN_AVR);
         break;
       }
     case BIT_MA_PUSK_AVR:
       {
-        _SET_BIT(set_array_rang, RANG_OUTPUT_LED_DF_REG_PUSK_AVR);
+        _SET_BIT(set_array_rang, RANG_PUSK_AVR);
         break;
       }
     default:
@@ -5257,7 +5257,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         {
         case DR_OFFSET_MEASUREMENT_IA_1:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 3)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 0)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 2;
@@ -5265,7 +5265,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
           }
         case DR_OFFSET_MEASUREMENT_IB_1:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 4)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 1)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 2;
@@ -5273,7 +5273,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
           }
         case DR_OFFSET_MEASUREMENT_IC_1:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 5)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 2)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 2;
@@ -5281,7 +5281,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
           }
         case DR_OFFSET_MEASUREMENT_I1:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 7)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 4)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 2;
@@ -5289,7 +5289,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
           }
         case DR_OFFSET_MEASUREMENT_I2:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 6)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 3)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 2;
@@ -5297,7 +5297,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
           }
         case DR_OFFSET_MEASUREMENT_UAB_1:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 13)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 11)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 3;
@@ -5305,7 +5305,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
           }
         case DR_OFFSET_MEASUREMENT_UBC_1:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 14)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 12)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 3;
@@ -5313,7 +5313,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
           }
         case DR_OFFSET_MEASUREMENT_UCA_1:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 15)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 13)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 3;
@@ -5321,7 +5321,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
           }
         case DR_OFFSET_MEASUREMENT_UA_1:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 9)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 6)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 3;
@@ -5329,7 +5329,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
           }
         case DR_OFFSET_MEASUREMENT_UB_1:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 10)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 7)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 3;
@@ -5337,7 +5337,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
           }
         case DR_OFFSET_MEASUREMENT_UC_1:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 11)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 8)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 3;
@@ -5345,7 +5345,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
           }
         case DR_OFFSET_FREQUENCY_1:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 15)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 17)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value / 10;
@@ -5353,7 +5353,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
           }
         case DR_OFFSET_FREQUENCY_2:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 16)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 18)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value / 10;
@@ -5363,7 +5363,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         case DR_OFFSET_LABEL_TIME_MSW:
         case DR_OFFSET_LABEL_PROTECT:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 25)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 19)*sizeof(unsigned int);
             
             if (offset == DR_OFFSET_LABEL_TIME_LSW)
             {
@@ -5972,24 +5972,6 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
         if (temp_value <= TYPE_MTZ_VOLTAGE)
 #endif            
           target_label->type_mtz4 = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TYPE_MTZ04_2:
-      {
-        temp_value = data;
-        
-#if (TYPE_MTZ_SIMPLE != 0)          
-        if ((temp_value >= TYPE_MTZ_SIMPLE) && (temp_value <= (TYPE_MTZ_DEPENDENT_C - 2)))
-#else
-        if (temp_value <= (TYPE_MTZ_DEPENDENT_C - 2))
-#endif            
-        {
-          if (temp_value != TYPE_MTZ_SIMPLE) temp_value += 2;
-          target_label->type_mtz04_2 = temp_value;
-        }
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
 
@@ -6691,466 +6673,6 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_STP_MTZ04_1:
-      {
-        temp_value = data*10;
-    
-        if ((temp_value >= SETPOINT_MTZ04_1_MIN) && (temp_value <= SETPOINT_MTZ04_1_MAX))
-          target_label->setpoint_mtz04_1[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_MTZ04_1:
-      {
-        temp_value = data*10;
-        
-#if (TIMEOUT_MTZ04_1_MIN != 0)          
-        if ((temp_value >= TIMEOUT_MTZ04_1_MIN) && (temp_value <= TIMEOUT_MTZ04_1_MAX))
-#else
-        if (temp_value <= TIMEOUT_MTZ04_1_MAX)
-#endif            
-        {
-          target_label->timeout_mtz04_1[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_MTZ04_2:
-      {
-        temp_value = data*10;
-    
-        if ((temp_value >= SETPOINT_MTZ04_2_MIN) && (temp_value <= SETPOINT_MTZ04_2_MAX))
-          target_label->setpoint_mtz04_2[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_MTZ04_2:
-      {
-        temp_value = data*10;
-        
-#if (TIMEOUT_MTZ04_2_MIN != 0)          
-        if ((temp_value >= TIMEOUT_MTZ04_2_MIN) && (temp_value <= TIMEOUT_MTZ04_2_MAX))
-#else
-        if (temp_value <= TIMEOUT_MTZ04_2_MAX)
-#endif            
-        {
-          target_label->timeout_mtz04_2[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_MTZ04_2_VVID_PR:
-      {
-        temp_value = data*10;
-        
-#if (TIMEOUT_MTZ04_2_VVID_PR_MIN != 0)          
-        if ((temp_value >= TIMEOUT_MTZ04_2_VVID_PR_MIN) && (temp_value <= TIMEOUT_MTZ04_2_VVID_PR_MAX))
-#else
-        if (temp_value <= TIMEOUT_MTZ04_2_VVID_PR_MAX)
-#endif            
-        {
-          target_label->timeout_mtz04_2_vvid_pr[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_MTZ04_2_PR:
-      {
-        temp_value = data*10;
-        
-#if (TIMEOUT_MTZ04_2_PR_MIN != 0)          
-        if ((temp_value >= TIMEOUT_MTZ04_2_PR_MIN) && (temp_value <= TIMEOUT_MTZ04_2_PR_MAX))
-#else
-        if (temp_value <= TIMEOUT_MTZ04_2_PR_MAX)
-#endif            
-        {
-          target_label->timeout_mtz04_2_pr[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_NZZ1_3I0:
-      {
-        temp_value = data;
-    
-        if ((temp_value >= SETPOINT_ZZ_3I0_MIN) && (temp_value <= SETPOINT_ZZ_3I0_MAX))
-          target_label->setpoint_zz_3I0[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_NZZ1_3I0:
-      {
-        temp_value = data*10;
-        
-#if (TIMEOUT_ZZ_3I0_MIN != 0)          
-        if ((temp_value >= TIMEOUT_ZZ_3I0_MIN) && (temp_value <= TIMEOUT_ZZ_3I0_MAX))
-#else
-        if (temp_value <= TIMEOUT_ZZ_3I0_MAX)
-#endif            
-        {
-          target_label->timeout_zz_3I0[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_NZZ1_3U0:
-      {
-        temp_value = data*10;
-    
-        if ((temp_value >= SETPOINT_ZZ_3U0_MIN) && (temp_value <= SETPOINT_ZZ_3U0_MAX))
-          target_label->setpoint_zz_3U0[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_NZZ1_3U0:
-      {
-        temp_value = data*10;
-        
-#if (TIMEOUT_ZZ_3U0_MIN != 0)          
-        if ((temp_value >= TIMEOUT_ZZ_3U0_MIN) && (temp_value <= TIMEOUT_ZZ_3U0_MAX))
-#else
-        if (temp_value <= TIMEOUT_ZZ_3U0_MAX)
-#endif            
-        {
-          target_label->timeout_zz_3U0[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_NZZ1:
-      {
-        temp_value = data*10;
-        
-#if (TIMEOUT_ZZ_3U0_MIN != 0)          
-        if ((temp_value >= TIMEOUT_NZZ_MIN) && (temp_value <= TIMEOUT_NZZ_MAX))
-#else
-        if (temp_value <= TIMEOUT_NZZ_MAX)
-#endif            
-        {
-          target_label->timeout_nzz[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_TZNP1_3I0_VPERED:
-      {
-        temp_value = data*10;
-    
-        if ((temp_value >= SETPOINT_TZNP1_3I0_VPERED_MIN) && (temp_value <= SETPOINT_TZNP1_3I0_VPERED_MAX))
-          target_label->setpoint_tznp_1_3I0_vpered[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_TZNP1_3U0_VPERED:
-      {
-        temp_value = data*10;
-    
-        if ((temp_value >= SETPOINT_TZNP1_3U0_VPERED_MIN) && (temp_value <= SETPOINT_TZNP1_3U0_VPERED_MAX))
-          target_label->setpoint_tznp_1_3U0_vpered[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_TZNP1_VPERED:
-      {
-        temp_value = data*10;
-        
-#if (TIMEOUT_TZNP1_VPERED_MIN != 0)          
-        if ((temp_value >= TIMEOUT_TZNP1_VPERED_MIN) && (temp_value <= TIMEOUT_TZNP1_VPERED_MAX))
-#else
-        if (temp_value <= TIMEOUT_TZNP1_VPERED_MAX)
-#endif            
-        {
-          target_label->timeout_tznp_1_vpered[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_TZNP1_3I0_NAZAD:
-      {
-        temp_value = data*10;
-    
-        if ((temp_value >= SETPOINT_TZNP1_3I0_NAZAD_MIN) && (temp_value <= SETPOINT_TZNP1_3I0_NAZAD_MAX))
-          target_label->setpoint_tznp_1_3I0_nazad[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_TZNP1_3U0_NAZAD:
-      {
-        temp_value = data*10;
-    
-        if ((temp_value >= SETPOINT_TZNP1_3U0_NAZAD_MIN) && (temp_value <= SETPOINT_TZNP1_3U0_NAZAD_MAX))
-          target_label->setpoint_tznp_1_3U0_nazad[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_TZNP1_NAZAD:
-      {
-        temp_value = data*10;
-        
-#if (TIMEOUT_TZNP1_NAZAD_MIN != 0)          
-        if ((temp_value >= TIMEOUT_TZNP1_NAZAD_MIN) && (temp_value <= TIMEOUT_TZNP1_NAZAD_MAX))
-#else
-        if (temp_value <= TIMEOUT_TZNP1_NAZAD_MAX)
-#endif            
-        {
-          target_label->timeout_tznp_1_nazad[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_TZNP1_ANGLE:
-      {
-        temp_value = data;
-        
-#if (SETPOINT_TZNP1_ANGLE_MIN != 0)          
-        if ((temp_value >= SETPOINT_TZNP1_ANGLE_MIN) && (temp_value <= SETPOINT_TZNP1_ANGLE_MAX))
-#else
-        if (temp_value <= SETPOINT_TZNP1_ANGLE_MAX)
-#endif            
-        {
-          target_label->setpoint_tznp_1_angle[num_gr] = temp_value;
-
-          float temp_value_f = (float)temp_value;
-          target_label->setpoint_tznp_1_angle_cos[num_gr] = (int) (AMPLITUDA_FI*/*cos*/arm_cos_f32(/*(double)*/(PI*temp_value_f/180.0f)));
-          target_label->setpoint_tznp_1_angle_sin[num_gr] = (int) (AMPLITUDA_FI*/*sin*/arm_sin_f32(/*(double)*/(PI*temp_value_f/180.0f)));
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_TZNP2_3I0_VPERED:
-      {
-        temp_value = data*10;
-    
-        if ((temp_value >= SETPOINT_TZNP2_3I0_VPERED_MIN) && (temp_value <= SETPOINT_TZNP2_3I0_VPERED_MAX))
-          target_label->setpoint_tznp_2_3I0_vpered[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_TZNP2_3U0_VPERED:
-      {
-        temp_value = data*10;
-    
-        if ((temp_value >= SETPOINT_TZNP2_3U0_VPERED_MIN) && (temp_value <= SETPOINT_TZNP2_3U0_VPERED_MAX))
-          target_label->setpoint_tznp_2_3U0_vpered[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_TZNP2_VPERED:
-      {
-        temp_value = data*10;
-        
-#if (TIMEOUT_TZNP2_VPERED_MIN != 0)          
-        if ((temp_value >= TIMEOUT_TZNP2_VPERED_MIN) && (temp_value <= TIMEOUT_TZNP2_VPERED_MAX))
-#else
-        if (temp_value <= TIMEOUT_TZNP2_VPERED_MAX)
-#endif            
-        {
-          target_label->timeout_tznp_2_vpered[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_TZNP2_3I0_NAZAD:
-      {
-        temp_value = data*10;
-    
-        if ((temp_value >= SETPOINT_TZNP2_3I0_NAZAD_MIN) && (temp_value <= SETPOINT_TZNP2_3I0_NAZAD_MAX))
-          target_label->setpoint_tznp_2_3I0_nazad[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_TZNP2_3U0_NAZAD:
-      {
-        temp_value = data*10;
-    
-        if ((temp_value >= SETPOINT_TZNP2_3U0_NAZAD_MIN) && (temp_value <= SETPOINT_TZNP2_3U0_NAZAD_MAX))
-          target_label->setpoint_tznp_2_3U0_nazad[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_TZNP2_NAZAD:
-      {
-        temp_value = data*10;
-        
-#if (TIMEOUT_TZNP2_NAZAD_MIN != 0)          
-        if ((temp_value >= TIMEOUT_TZNP2_NAZAD_MIN) && (temp_value <= TIMEOUT_TZNP2_NAZAD_MAX))
-#else
-        if (temp_value <= TIMEOUT_TZNP2_NAZAD_MAX)
-#endif            
-        {
-          target_label->timeout_tznp_2_nazad[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_TZNP2_ANGLE:
-      {
-        temp_value = data;
-        
-#if (SETPOINT_TZNP2_ANGLE_MIN != 0)          
-        if ((temp_value >= SETPOINT_TZNP2_ANGLE_MIN) && (temp_value <= SETPOINT_TZNP2_ANGLE_MAX))
-#else
-        if (temp_value <= SETPOINT_TZNP2_ANGLE_MAX)
-#endif            
-        {
-          target_label->setpoint_tznp_2_angle[num_gr] = temp_value;
-
-          float temp_value_f = (float)temp_value;
-          target_label->setpoint_tznp_2_angle_cos[num_gr] = (int) (AMPLITUDA_FI*/*cos*/arm_cos_f32(/*(double)*/(PI*temp_value_f/180.0f)));
-          target_label->setpoint_tznp_2_angle_sin[num_gr] = (int) (AMPLITUDA_FI*/*sin*/arm_sin_f32(/*(double)*/(PI*temp_value_f/180.0f)));
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_TZNP3_3I0_VPERED:
-      {
-        temp_value = data*10;
-    
-        if ((temp_value >= SETPOINT_TZNP3_3I0_VPERED_MIN) && (temp_value <= SETPOINT_TZNP3_3I0_VPERED_MAX))
-          target_label->setpoint_tznp_3_3I0_vpered[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_TZNP3_3U0_VPERED:
-      {
-        temp_value = data*10;
-    
-        if ((temp_value >= SETPOINT_TZNP3_3U0_VPERED_MIN) && (temp_value <= SETPOINT_TZNP3_3U0_VPERED_MAX))
-          target_label->setpoint_tznp_3_3U0_vpered[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_TZNP3_VPERED:
-      {
-        temp_value = data*10;
-        
-#if (TIMEOUT_TZNP3_VPERED_MIN != 0)          
-        if ((temp_value >= TIMEOUT_TZNP3_VPERED_MIN) && (temp_value <= TIMEOUT_TZNP3_VPERED_MAX))
-#else
-        if (temp_value <= TIMEOUT_TZNP3_VPERED_MAX)
-#endif            
-        {
-          target_label->timeout_tznp_3_vpered[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_TZNP3_3I0_NAZAD:
-      {
-        temp_value = data*10;
-    
-        if ((temp_value >= SETPOINT_TZNP3_3I0_NAZAD_MIN) && (temp_value <= SETPOINT_TZNP3_3I0_NAZAD_MAX))
-          target_label->setpoint_tznp_3_3I0_nazad[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_TZNP3_3U0_NAZAD:
-      {
-        temp_value = data*10;
-    
-        if ((temp_value >= SETPOINT_TZNP3_3U0_NAZAD_MIN) && (temp_value <= SETPOINT_TZNP3_3U0_NAZAD_MAX))
-          target_label->setpoint_tznp_3_3U0_nazad[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_TZNP3_NAZAD:
-      {
-        temp_value = data*10;
-        
-#if (TIMEOUT_TZNP3_NAZAD_MIN != 0)          
-        if ((temp_value >= TIMEOUT_TZNP3_NAZAD_MIN) && (temp_value <= TIMEOUT_TZNP3_NAZAD_MAX))
-#else
-        if (temp_value <= TIMEOUT_TZNP3_NAZAD_MAX)
-#endif            
-        {
-          target_label->timeout_tznp_3_nazad[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_TZNP3_ANGLE:
-      {
-        temp_value = data;
-        
-#if (SETPOINT_TZNP3_ANGLE_MIN != 0)          
-        if ((temp_value >= SETPOINT_TZNP3_ANGLE_MIN) && (temp_value <= SETPOINT_TZNP3_ANGLE_MAX))
-#else
-        if (temp_value <= SETPOINT_TZNP3_ANGLE_MAX)
-#endif            
-        {
-          target_label->setpoint_tznp_3_angle[num_gr] = temp_value;
-
-          float temp_value_f = (float)temp_value;
-          target_label->setpoint_tznp_3_angle_cos[num_gr] = (int) (AMPLITUDA_FI*/*cos*/arm_cos_f32(/*(double)*/(PI*temp_value_f/180.0f)));
-          target_label->setpoint_tznp_3_angle_sin[num_gr] = (int) (AMPLITUDA_FI*/*sin*/arm_sin_f32(/*(double)*/(PI*temp_value_f/180.0f)));
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
     case MA_STP_ZOP1:
       {
         temp_value = data;
@@ -7358,6 +6880,129 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
+    case MA_STP_AVR_MIN1:
+      {
+        temp_value = data*100;
+    
+        if ((temp_value >= SETPOINT_AVR1_MIN) && (temp_value <= SETPOINT_AVR1_MAX))
+          target_label->setpoint_avr_min1[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_STP_AVR_MAX1:
+      {
+        temp_value = data*100;
+    
+        if ((temp_value >= SETPOINT_AVR1_MIN) && (temp_value <= SETPOINT_AVR1_MAX))
+          target_label->setpoint_avr_max1[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_STP_AVR_MIN2:
+      {
+        temp_value = data*100;
+    
+        if ((temp_value >= SETPOINT_AVR2_MIN) && (temp_value <= SETPOINT_AVR2_MAX))
+          target_label->setpoint_avr_min2[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_STP_AVR_MAX2:
+      {
+        temp_value = data*100;
+    
+        if ((temp_value >= SETPOINT_AVR2_MIN) && (temp_value <= SETPOINT_AVR2_MAX))
+          target_label->setpoint_avr_max2[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_STP_KRATN_AVR:
+      {
+        temp_value = data;
+    
+        if ((temp_value >= SETPOINT_AVR_KRATN_MIN) && (temp_value <= SETPOINT_AVR_KRATN_MAX))
+          target_label->setpoint_kratn_avr[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_AVR_RL:
+      {
+        temp_value = data*10;
+        
+#if (TIMEOUT_AVR_RL_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_RL_MIN) && (temp_value <= TIMEOUT_AVR_RL_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_RL_MAX)
+#endif            
+        {
+          target_label->timeout_avr_rl[num_gr] = temp_value;
+        }
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_AVR_OL:
+      {
+        temp_value = data*10;
+        
+#if (TIMEOUT_AVR_OL_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_OL_MIN) && (temp_value <= TIMEOUT_AVR_OL_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_OL_MAX)
+#endif            
+        {
+          target_label->timeout_avr_ol[num_gr] = temp_value;
+        }
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_AVR_ZAVERSHENNJA:
+      {
+        temp_value = data*10;
+        
+#if (TIMEOUT_AVR_ZAVERSHENNJA_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_ZAVERSHENNJA_MIN) && (temp_value <= TIMEOUT_AVR_ZAVERSHENNJA_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_ZAVERSHENNJA_MAX)
+#endif            
+        {
+          target_label->timeout_avr_zavershennja[num_gr] = temp_value;
+        }
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_AVR_RESET_BLK:
+      {
+        temp_value = data*10;
+        
+#if (TIMEOUT_AVR_RESET_BLK_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_RESET_BLK_MIN) && (temp_value <= TIMEOUT_AVR_RESET_BLK_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_RESET_BLK_MAX)
+#endif            
+        {
+          target_label->timeout_avr_reset_blk[num_gr] = temp_value;
+        }
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
     case MA_TO_APV_BLOCK_VID_VV:
       {
         temp_value = data*10;
@@ -7511,129 +7156,6 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_STP_ACHR1_F_RAB:
-      {
-        temp_value = data*10;
-    
-        if ((temp_value >= SETPOINT_ACHR1_F_RAB_MIN) && (temp_value <= SETPOINT_ACHR1_F_RAB_MAX))
-          target_label->setpoint_achr1_f_rab[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_ACHR2_F_RAB:
-      {
-        temp_value = data*10;
-    
-        if ((temp_value >= SETPOINT_ACHR2_F_RAB_MIN) && (temp_value <= SETPOINT_ACHR2_F_RAB_MAX))
-          target_label->setpoint_achr2_f_rab[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_CHAPV1_F_RAB:
-      {
-        temp_value = data*10;
-    
-        if ((temp_value >= SETPOINT_CHAPV1_F_RAB_MIN) && (temp_value <= SETPOINT_CHAPV1_F_RAB_MAX))
-          target_label->setpoint_chapv1_f_rab[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_CHAPV2_F_RAB:
-      {
-        temp_value = data*10;
-    
-        if ((temp_value >= SETPOINT_CHAPV2_F_RAB_MIN) && (temp_value <= SETPOINT_CHAPV2_F_RAB_MAX))
-          target_label->setpoint_chapv2_f_rab[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_ACHR_CHAPV_UF:
-      {
-        temp_value = data*100;
-    
-        if ((temp_value >= SETPOINT_ACHR_CHAPV_UF_MIN) && (temp_value <= SETPOINT_ACHR_CHAPV_UF_MAX))
-          target_label->setpoint_achr_chapv_uf[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_ACHR_1:
-      {
-        temp_value = data*10;
-
-#if (TIMEOUT_ACHR1_MIN != 0)          
-        if ((temp_value >= TIMEOUT_ACHR1_MIN) && (temp_value <= TIMEOUT_ACHR1_MAX))
-#else
-        if (temp_value <= TIMEOUT_ACHR1_MAX)
-#endif            
-        {
-          target_label->timeout_achr_1[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_ACHR_2:
-      {
-        temp_value = data*10;
-
-#if (TIMEOUT_ACHR2_MIN != 0)          
-        if ((temp_value >= TIMEOUT_ACHR2_MIN) && (temp_value <= TIMEOUT_ACHR2_MAX))
-#else
-        if (temp_value <= TIMEOUT_ACHR2_MAX)
-#endif            
-        {
-          target_label->timeout_achr_2[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_CHAPV_1:
-      {
-        temp_value = data*10;
-
-#if (TIMEOUT_CHAPV1_MIN != 0)          
-        if ((temp_value >= TIMEOUT_CHAPV1_MIN) && (temp_value <= TIMEOUT_CHAPV1_MAX))
-#else
-        if (temp_value <= TIMEOUT_CHAPV1_MAX)
-#endif            
-        {
-          target_label->timeout_chapv_1[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_CHAPV_2:
-      {
-        temp_value = data*10;
-
-#if (TIMEOUT_CHAPV2_MIN != 0)          
-        if ((temp_value >= TIMEOUT_CHAPV2_MIN) && (temp_value <= TIMEOUT_CHAPV2_MAX))
-#else
-        if (temp_value <= TIMEOUT_CHAPV2_MAX)
-#endif            
-        {
-          target_label->timeout_chapv_2[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
     default: break;
     }
   }
@@ -7642,88 +7164,6 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
     //Óñòàâêè ³ âèòðèìêè (ïðîäîâæåííÿ), íàëàøòóâàííÿ
     switch (address_data)
     {
-    case MA_LINE_1:
-    case MA_DOVGYNA_1_1:
-    case MA_OPIR_1_1:
-    case MA_DOVGYNA_1_2:
-    case MA_OPIR_1_2:
-    case MA_DOVGYNA_1_3:
-    case MA_OPIR_1_3:
-    case MA_DOVGYNA_1_4:
-    case MA_OPIR_1_4:
-    case MA_DOVGYNA_1_5:
-    case MA_OPIR_1_5:
-    case MA_DOVGYNA_1_6:
-    case MA_OPIR_1_6:
-    case MA_DOVGYNA_1_7:
-    case MA_OPIR_1_7:
-    case MA_DOVGYNA_1_8:
-    case MA_OPIR_1_8:
-    case MA_LINE_2:
-    case MA_DOVGYNA_2_1:
-    case MA_OPIR_2_1:
-    case MA_DOVGYNA_2_2:
-    case MA_OPIR_2_2:
-    case MA_DOVGYNA_2_3:
-    case MA_OPIR_2_3:
-    case MA_DOVGYNA_2_4:
-    case MA_OPIR_2_4:
-    case MA_DOVGYNA_2_5:
-    case MA_OPIR_2_5:
-    case MA_DOVGYNA_2_6:
-    case MA_OPIR_2_6:
-    case MA_DOVGYNA_2_7:
-    case MA_OPIR_2_7:
-    case MA_DOVGYNA_2_8:
-    case MA_OPIR_2_8:
-      {
-        temp_value = data;
-        
-        unsigned int base_address, line;
-        if(address_data < MA_LINE_2)
-        {
-          base_address = MA_LINE_1;
-          line = 0;
-        }
-        else
-        {
-          base_address = MA_LINE_2;
-          line = 1;
-        }
-
-        unsigned int shift_address =  address_data - base_address;
-        if (shift_address == 0) 
-        {
-          unsigned int min_value = (line == 0) ? NUMBER_LINES_FORWARD_MIN : NUMBER_LINES_BACKWARD_MIN;
-
-          if ((temp_value >= min_value) && (temp_value <= NUMBER_LINES_MAX))
-            target_label->lines[line] = temp_value;
-          else
-            error = ERROR_ILLEGAL_DATA_VALUE;
-        }
-        else
-        {
-          shift_address--;
-          if ((shift_address & 0x1) == 0)
-          {
-            //Äîâæèíà ë³í³¿
-            if ((temp_value >= SETPOINT_DOVGYNA_VMP_MIN) && (temp_value <= SETPOINT_DOVGYNA_VMP_MAX))
-              target_label->dovgyna[line][shift_address >> 1] = temp_value;
-            else
-              error = ERROR_ILLEGAL_DATA_VALUE;
-          }
-          else
-          {
-            //Îï³ð ë³í³¿
-            if ((temp_value >= SETPOINT_OPIR_VMP_MIN) && (temp_value <= SETPOINT_OPIR_VMP_MAX))
-              target_label->opir[line][shift_address >> 1] = temp_value;
-            else
-              error = ERROR_ILLEGAL_DATA_VALUE;
-          }
-        }
-        
-        break;
-      }
     case MA_TN1:
       {
         temp_value = data;
@@ -7741,28 +7181,6 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
     
         if ((temp_value >= KOEF_TT_MIN) && (temp_value <= KOEF_TT_MAX))
           target_label->TCurrent = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_T0:
-      {
-        temp_value = data;
-    
-        if ((temp_value >= KOEF_TO_MIN) && (temp_value <= KOEF_TO_MAX))
-          target_label->T0 = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TT04:
-      {
-        temp_value = data;
-    
-        if ((temp_value >= KOEF_TT04_MIN) && (temp_value <= KOEF_TT04_MAX))
-          target_label->TCurrent04 = temp_value;
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
 
@@ -8127,24 +7545,6 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_CONTROL_MTZ04:
-      {
-        if ((target_label->configuration & (1 << MTZ04_BIT_CONFIGURATION)) !=0 )
-        {
-          int output_value = 0;
-
-          output_value |= ((data >> (BIT_MA_CONTROL_MTZ04_1               - BIT_MA_CONTROL_MTZ04_BASE)) & 0x1) << N_BIT_CTRMTZ04_1;
-          output_value |= ((data >> (BIT_MA_CONTROL_MTZ04_2               - BIT_MA_CONTROL_MTZ04_BASE)) & 0x1) << N_BIT_CTRMTZ04_2;
-          output_value |= ((data >> (BIT_MA_CONTROL_MTZ04_2_PRYSKORENNJA  - BIT_MA_CONTROL_MTZ04_BASE)) & 0x1) << N_BIT_CTRMTZ04_2_PRYSKORENNJA;
-          output_value |= ((data >> (BIT_MA_CONTROL_MTZ04_2_PRYSKORENA    - BIT_MA_CONTROL_MTZ04_BASE)) & 0x1) << N_BIT_CTRMTZ04_2_PRYSKORENA;
-        
-          target_label->control_mtz04 = output_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_ADDRESS;
-
-        break;
-      }
     case MA_CONTROL_ZDZ:
       {
         if (
@@ -8181,62 +7581,6 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
           if ((target_label->configuration & (1 << ZDZ_BIT_CONFIGURATION)) == 0) error = ERROR_ILLEGAL_DATA_ADDRESS;
           else  error = ERROR_ILLEGAL_DATA_VALUE;
         }
-
-        break;
-      }
-    case MA_CONTROL_NZZ:
-      {
-        if (
-            ((target_label->configuration & (1 << ZZ_BIT_CONFIGURATION)) != 0 )
-            &&  
-            (
-             (((data >> (BIT_MA_CONTROL_NZZ_TYPE - BIT_MA_CONTROL_NZZ_BASE)) & 0x1) == 0)
-             ||
-             (
-              (((data >> (BIT_MA_CONTROL_NZZ_SECTOR - BIT_MA_CONTROL_NZZ_BASE)) & 0x1) == 0) &&
-              (((data >> (BIT_MA_CONTROL_NZZ        - BIT_MA_CONTROL_NZZ_BASE)) & 0x1) == 0)
-             )   
-            )
-           )   
-        {
-          int output_value = 0;
-
-          output_value |= ((data >> (BIT_MA_CONTROL_NZZ_3I0    - BIT_MA_CONTROL_NZZ_BASE)) & 0x1) << INDEX_ML_CTR_ZZ1_3I0_STATE;
-          output_value |= ((data >> (BIT_MA_CONTROL_NZZ_SECTOR - BIT_MA_CONTROL_NZZ_BASE)) & 0x1) << INDEX_ML_CTR_ZZ1_SECTOR;
-          output_value |= ((data >> (BIT_MA_CONTROL_NZZ        - BIT_MA_CONTROL_NZZ_BASE)) & 0x1) << INDEX_ML_CTR_ZZ1_NZZ_STATE;
-          output_value |= ((data >> (BIT_MA_CONTROL_NZZ_3U0    - BIT_MA_CONTROL_NZZ_BASE)) & 0x1) << INDEX_ML_CTR_ZZ1_3U0_STATE;
-          output_value |= ((data >> (BIT_MA_CONTROL_NZZ_TYPE   - BIT_MA_CONTROL_NZZ_BASE)) & 0x1) << INDEX_ML_CTR_ZZ1_TYPE_BIT;
-        
-          target_label->control_zz = output_value;
-        }
-        else
-        {
-          if ((target_label->configuration & (1 << ZZ_BIT_CONFIGURATION)) == 0) error = ERROR_ILLEGAL_DATA_ADDRESS;
-          else  error = ERROR_ILLEGAL_DATA_VALUE;
-        }
-
-        break;
-      }
-    case MA_CONTROL_TZNP:
-      {
-        if ((target_label->configuration & (1 << TZNP_BIT_CONFIGURATION)) !=0 )
-        {
-          int output_value = 0;
-
-          output_value |= ((data >> (BIT_MA_CONTROL_TZNP1        - BIT_MA_CONTROL_TZNP_BASE)) & 0x1) << INDEX_ML_CTR_TZNP1;
-          output_value |= ((data >> (BIT_MA_CONTROL_TZNP1_VPERED - BIT_MA_CONTROL_TZNP_BASE)) & 0x1) << INDEX_ML_CTR_TZNP1_VPERED;
-          output_value |= ((data >> (BIT_MA_CONTROL_TZNP1_NAZAD  - BIT_MA_CONTROL_TZNP_BASE)) & 0x1) << INDEX_ML_CTR_TZNP1_NAZAD;
-          output_value |= ((data >> (BIT_MA_CONTROL_TZNP2        - BIT_MA_CONTROL_TZNP_BASE)) & 0x1) << INDEX_ML_CTR_TZNP2;
-          output_value |= ((data >> (BIT_MA_CONTROL_TZNP2_VPERED - BIT_MA_CONTROL_TZNP_BASE)) & 0x1) << INDEX_ML_CTR_TZNP2_VPERED;
-          output_value |= ((data >> (BIT_MA_CONTROL_TZNP2_NAZAD  - BIT_MA_CONTROL_TZNP_BASE)) & 0x1) << INDEX_ML_CTR_TZNP2_NAZAD;
-          output_value |= ((data >> (BIT_MA_CONTROL_TZNP3        - BIT_MA_CONTROL_TZNP_BASE)) & 0x1) << INDEX_ML_CTR_TZNP3;
-          output_value |= ((data >> (BIT_MA_CONTROL_TZNP3_VPERED - BIT_MA_CONTROL_TZNP_BASE)) & 0x1) << INDEX_ML_CTR_TZNP3_VPERED;
-          output_value |= ((data >> (BIT_MA_CONTROL_TZNP3_NAZAD  - BIT_MA_CONTROL_TZNP_BASE)) & 0x1) << INDEX_ML_CTR_TZNP3_NAZAD;
-        
-          target_label->control_tznp = output_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_ADDRESS;
 
         break;
       }
@@ -8301,17 +7645,6 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_CONTROL_558:
-      {
-        int output_value = target_label->control_extra_settings_1 & ((unsigned int)(~(CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE | CTR_EXTRA_SETTINGS_1_CTRL_IB_I04)));
-        
-        output_value |= ((data >> (BIT_MA_CONTROL_PHASE_LINE - BIT_MA_CONTROL_558_BASE)) & 0x1) << INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_PHASE_LINE;
-        output_value |= ((data >> (BIT_MA_CONTROL_IB_I04     - BIT_MA_CONTROL_558_BASE)) & 0x1) << INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_IB_I04;
-        
-        target_label->control_extra_settings_1 = output_value;
-
-        break;
-      }
     case MA_CONTROL_UROV_PART1:
       {
         if (
@@ -8326,32 +7659,6 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
               (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) == 0) &&
               (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) == 0)
              ) 
-            )
-            &&  
-            (
-             ((target_label->configuration & (1 << MTZ04_BIT_CONFIGURATION)) != 0)
-             ||
-             (
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ04_1 - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) == 0) &&
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ04_2 - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) == 0)
-             ) 
-            )
-            &&  
-            (
-             ((target_label->configuration & (1 << ZZ_BIT_CONFIGURATION)) != 0)
-             ||
-             (
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_3I0 - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) == 0) &&
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_NZZ - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) == 0)
-             ) 
-            )
-            &&  
-            (
-             ((target_label->control_zz & CTR_ZZ1_TYPE) == 0)
-             ||
-             (
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_NZZ - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) == 0)
-             )   
             )
             &&  
             (
@@ -8388,15 +7695,11 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
                                              CTR_UROV_STARTED_FROM_MTZ2    | 
                                              CTR_UROV_STARTED_FROM_MTZ3    | 
                                              CTR_UROV_STARTED_FROM_MTZ4    |
-                                             CTR_UROV_STARTED_FROM_MTZ04_1 | 
-                                             CTR_UROV_STARTED_FROM_MTZ04_2 | 
                                              CTR_UROV_STARTED_FROM_UMAX1   | 
                                              CTR_UROV_STARTED_FROM_UMAX2   | 
                                              CTR_UROV_STARTED_FROM_UMIN1   | 
                                              CTR_UROV_STARTED_FROM_UMIN2   |
-                                             CTR_UROV_STARTED_FROM_ZOP1    | 
-                                             CTR_UROV_STARTED_FROM_NZZ     | 
-                                             CTR_UROV_STARTED_FROM_3I0
+                                             CTR_UROV_STARTED_FROM_ZOP1     
                                           ));
 
           output_value |= ((data >> (BIT_MA_CONTROL_UROV_STATE                - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STATE;
@@ -8404,15 +7707,11 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
           output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ2    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ2;
           output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ3    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ3;
           output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ4    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ4;
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ04_1 - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ04_1;
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ04_2 - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ04_2;
           output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX1   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMAX1;
           output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX2   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMAX2;
           output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN1   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMIN1;
           output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN2   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMIN2;
           output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_ZOP1    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_ZOP1;
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_NZZ     - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_NZZ;
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_3I0     - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_3I0;
         
           target_label->control_urov = output_value;
         }
@@ -8430,59 +7729,20 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
             ((target_label->configuration & (1 << UROV_BIT_CONFIGURATION)) != 0)
             &&  
             (
-             ((target_label->configuration & (1 << ZZ_BIT_CONFIGURATION)) != 0)
-             ||
-             (
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_3U0 - BIT_MA_CONTROL_UROV_BASE_PART2)) & 0x1) == 0)
-             ) 
-            )
-            &&  
-            (
-             ((target_label->configuration & (1 << TZNP_BIT_CONFIGURATION)) != 0)
-             ||
-             (
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_TZNP1 - BIT_MA_CONTROL_UROV_BASE_PART2)) & 0x1) == 0) &&
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_TZNP2 - BIT_MA_CONTROL_UROV_BASE_PART2)) & 0x1) == 0) &&
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_TZNP3 - BIT_MA_CONTROL_UROV_BASE_PART2)) & 0x1) == 0)
-             ) 
-            )
-            &&  
-            (
              ((target_label->configuration & (1 << ZDZ_BIT_CONFIGURATION)) != 0)
              ||
              (
               (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_ZDZ - BIT_MA_CONTROL_UROV_BASE_PART2)) & 0x1) == 0)
              ) 
             )
-            &&  
-            (
-             ((target_label->configuration & (1 << ACHR_CHAPV_BIT_CONFIGURATION)) != 0)
-             ||
-             (
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_ACHR1 - BIT_MA_CONTROL_UROV_BASE_PART2)) & 0x1) == 0) &&
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_ACHR2 - BIT_MA_CONTROL_UROV_BASE_PART2)) & 0x1) == 0)
-             ) 
-            )
            )   
         {
           int output_value = target_label->control_urov & 
                             (unsigned int)(~(
-                                             CTR_UROV_STARTED_FROM_3U0   |
-                                             CTR_UROV_STARTED_FROM_TZNP1 |
-                                             CTR_UROV_STARTED_FROM_TZNP2 |
-                                             CTR_UROV_STARTED_FROM_TZNP3 |
-                                             CTR_UROV_STARTED_FROM_ZDZ   |
-                                             CTR_UROV_STARTED_FROM_ACHR1 |
-                                             CTR_UROV_STARTED_FROM_ACHR2
+                                             CTR_UROV_STARTED_FROM_ZDZ
                                           ));
 
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_3U0   - BIT_MA_CONTROL_UROV_BASE_PART2)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_3U0;
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_TZNP1 - BIT_MA_CONTROL_UROV_BASE_PART2)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_TZNP1;
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_TZNP2 - BIT_MA_CONTROL_UROV_BASE_PART2)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_TZNP2;
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_TZNP3 - BIT_MA_CONTROL_UROV_BASE_PART2)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_TZNP3;
           output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_ZDZ   - BIT_MA_CONTROL_UROV_BASE_PART2)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_ZDZ;
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_ACHR1 - BIT_MA_CONTROL_UROV_BASE_PART2)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_ACHR1;
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_ACHR2 - BIT_MA_CONTROL_UROV_BASE_PART2)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_ACHR2;
         
           target_label->control_urov = output_value;
         }
@@ -8491,6 +7751,22 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
           if ((target_label->configuration & (1 << UROV_BIT_CONFIGURATION)) == 0) error = ERROR_ILLEGAL_DATA_ADDRESS;
           else  error = ERROR_ILLEGAL_DATA_VALUE;
         }
+
+        break;
+      }
+    case MA_CONTROL_AVR:
+      {
+        if ((target_label->configuration & (1 << AVR_BIT_CONFIGURATION)) !=0 )
+        {
+          int output_value = 0;
+
+          output_value |= ((data >> (BIT_MA_CONTROL_AVR                       - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR;
+          output_value |= ((data >> (BIT_MA_CONTROL_AVR_OTKL_BLK_VID_ZAHYSTIV - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR_OTKL_BLK_VID_ZAHYSTIV;
+        
+          target_label->control_avr = output_value;
+        }
+        else
+          error = ERROR_ILLEGAL_DATA_ADDRESS;
 
         break;
       }
@@ -8536,25 +7812,6 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_CONTROL_ACHR_CHAPV:
-      {
-        if ((target_label->configuration & (1 << ACHR_CHAPV_BIT_CONFIGURATION)) !=0 )
-        {
-          int output_value = 0;
-
-          output_value |= ((data >> (BIT_MA_CONTROL_ACHR1_STATE        - BIT_MA_CONTROL_ACHR_CHAPV_BASE)) & 0x1) << INDEX_CTR_ACHR1;
-          output_value |= ((data >> (BIT_MA_CONTROL_ACHR2_STATE        - BIT_MA_CONTROL_ACHR_CHAPV_BASE)) & 0x1) << INDEX_CTR_ACHR2;
-          output_value |= ((data >> (BIT_MA_CONTROL_CHAPV1_STATE       - BIT_MA_CONTROL_ACHR_CHAPV_BASE)) & 0x1) << INDEX_CTR_CHAPV1;
-          output_value |= ((data >> (BIT_MA_CONTROL_CHAPV2_STATE       - BIT_MA_CONTROL_ACHR_CHAPV_BASE)) & 0x1) << INDEX_CTR_CHAPV2;
-          output_value |= ((data >> (BIT_MA_CONTROL_CHAPV_VID_DV_STATE - BIT_MA_CONTROL_ACHR_CHAPV_BASE)) & 0x1) << INDEX_CTR_CHAPV_VID_DV;
-        
-          target_label->control_achr_chapv = output_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_ADDRESS;
-
-        break;
-      }
     case MA_CONTROL_CTRL_VV:
       {
         int output_value = 0;
@@ -8578,68 +7835,32 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_CONTROL_VMP:
-      {
-        if ((target_label->configuration & (1 << VMP_BIT_CONFIGURATION)) !=0 )
-        {
-          int output_value = 0;
-
-          output_value |= ((data >> (BIT_MA_CONTROL_VMP_STATE - BIT_MA_CONTROL_VMP_BASE)) & 0x1) << INDEX_CTR_VMP_STATE;
-        
-          target_label->control_vmp = output_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_ADDRESS;
-
-        break;
-      }
     case MA_CONFIGURATION_PART1:
       {
-        if (
-            (
-             ((target_label->control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0) &&
-             ((data & (1 << (BIT_MA_CONFIGURATION_MTZ04 - BIT_MA_CONFIGURATION_BASE_PART1))) == 0)
-            )   
-            ||  
-            (
-             ((target_label->control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0) &&
-             ((data & (1 << (BIT_MA_CONFIGURATION_TZNP - BIT_MA_CONFIGURATION_BASE_PART1))) == 0)
-            )   
-           )
-        {
-          int output_value = target_label->configuration & 
-                              (unsigned int)(~(
-                                               (1 << MTZ_BIT_CONFIGURATION       ) | 
-                                               (1 << MTZ04_BIT_CONFIGURATION     ) | 
-                                               (1 << ZDZ_BIT_CONFIGURATION       ) | 
-                                               (1 << ZZ_BIT_CONFIGURATION        ) |
-                                               (1 << TZNP_BIT_CONFIGURATION      ) | 
-                                               (1 << ZOP_BIT_CONFIGURATION       ) | 
-                                               (1 << ACHR_CHAPV_BIT_CONFIGURATION) |
-                                               (1 << UMIN_BIT_CONFIGURATION      ) | 
-                                               (1 << UMAX_BIT_CONFIGURATION      ) | 
-                                               (1 << APV_BIT_CONFIGURATION       ) | 
-                                               (1 << UROV_BIT_CONFIGURATION      )
-                                              ));
+        int output_value = target_label->configuration & 
+                            (unsigned int)(~(
+                                             (1 << MTZ_BIT_CONFIGURATION       ) | 
+                                             (1 << ZDZ_BIT_CONFIGURATION       ) | 
+                                             (1 << ZOP_BIT_CONFIGURATION       ) | 
+                                             (1 << UMIN_BIT_CONFIGURATION      ) | 
+                                             (1 << UMAX_BIT_CONFIGURATION      ) | 
+                                             (1 << APV_BIT_CONFIGURATION       ) | 
+                                             (1 << UROV_BIT_CONFIGURATION      ) |
+                                             (1 << AVR_BIT_CONFIGURATION       )
+                                            ));
 
-          output_value |= ((data >> (BIT_MA_CONFIGURATION_MTZ        - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << MTZ_BIT_CONFIGURATION;
-          output_value |= ((data >> (BIT_MA_CONFIGURATION_MTZ04      - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << MTZ04_BIT_CONFIGURATION;
-          output_value |= ((data >> (BIT_MA_CONFIGURATION_ZDZ        - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << ZDZ_BIT_CONFIGURATION;
-          output_value |= ((data >> (BIT_MA_CONFIGURATION_ZZ         - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << ZZ_BIT_CONFIGURATION;
-          output_value |= ((data >> (BIT_MA_CONFIGURATION_TZNP       - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << TZNP_BIT_CONFIGURATION;
-          output_value |= ((data >> (BIT_MA_CONFIGURATION_ZOP        - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << ZOP_BIT_CONFIGURATION;
-          output_value |= ((data >> (BIT_MA_CONFIGURATION_ACHR_CHAPV - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << ACHR_CHAPV_BIT_CONFIGURATION;
-          output_value |= ((data >> (BIT_MA_CONFIGURATION_UMIN       - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << UMIN_BIT_CONFIGURATION;
-          output_value |= ((data >> (BIT_MA_CONFIGURATION_UMAX       - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << UMAX_BIT_CONFIGURATION;
-          output_value |= ((data >> (BIT_MA_CONFIGURATION_APV        - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << APV_BIT_CONFIGURATION;
-          output_value |= ((data >> (BIT_MA_CONFIGURATION_UROV       - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << UROV_BIT_CONFIGURATION;
+        output_value |= ((data >> (BIT_MA_CONFIGURATION_MTZ        - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << MTZ_BIT_CONFIGURATION;
+        output_value |= ((data >> (BIT_MA_CONFIGURATION_ZDZ        - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << ZDZ_BIT_CONFIGURATION;
+        output_value |= ((data >> (BIT_MA_CONFIGURATION_ZOP        - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << ZOP_BIT_CONFIGURATION;
+        output_value |= ((data >> (BIT_MA_CONFIGURATION_UMIN       - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << UMIN_BIT_CONFIGURATION;
+        output_value |= ((data >> (BIT_MA_CONFIGURATION_UMAX       - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << UMAX_BIT_CONFIGURATION;
+        output_value |= ((data >> (BIT_MA_CONFIGURATION_APV        - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << APV_BIT_CONFIGURATION;
+        output_value |= ((data >> (BIT_MA_CONFIGURATION_UROV       - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << UROV_BIT_CONFIGURATION;
+        output_value |= ((data >> (BIT_MA_CONFIGURATION_AVR        - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << AVR_BIT_CONFIGURATION;
         
-          //Îáíîâëþºìî âñ³ ïîëÿ ñòðóêòóðè íàñòðîéîê. ÿê³ çâ'ÿçàí³ ³ç êîíô³ãóðàö³ºþ ïðèëàäó, ÿêùî öÿ îïåðàö³ÿ äîñòóïíà (ìè íå çíàõîäèìîñÿ ó â³êí³, ÿêå íå äîçâîëÿº êîíô³ãóðàö³þ)
-          if(action_after_changing_of_configuration(output_value, target_label) != 0)
-            error = ERROR_SLAVE_DEVICE_BUSY;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_ADDRESS;
+        //Îáíîâëþºìî âñ³ ïîëÿ ñòðóêòóðè íàñòðîéîê. ÿê³ çâ'ÿçàí³ ³ç êîíô³ãóðàö³ºþ ïðèëàäó, ÿêùî öÿ îïåðàö³ÿ äîñòóïíà (ìè íå çíàõîäèìîñÿ ó â³êí³, ÿêå íå äîçâîëÿº êîíô³ãóðàö³þ)
+        if(action_after_changing_of_configuration(output_value, target_label) != 0)
+          error = ERROR_SLAVE_DEVICE_BUSY;
 
         break;
       }
@@ -8647,11 +7868,9 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
       {
         int output_value = target_label->configuration & 
                             (unsigned int)(~(
-                                             (1 << VMP_BIT_CONFIGURATION) |
                                              (1 << EL_BIT_CONFIGURATION )
                                             ));
 
-        output_value |= ((data >> (BIT_MA_CONFIGURATION_VMP - BIT_MA_CONFIGURATION_BASE_PART2)) & 0x1) << VMP_BIT_CONFIGURATION;
         output_value |= ((data >> (BIT_MA_CONFIGURATION_EL  - BIT_MA_CONFIGURATION_BASE_PART2)) & 0x1) << EL_BIT_CONFIGURATION;
         
         //Îáíîâëþºìî âñ³ ïîëÿ ñòðóêòóðè íàñòðîéîê. ÿê³ çâ'ÿçàí³ ³ç êîíô³ãóðàö³ºþ ïðèëàäó, ÿêùî öÿ îïåðàö³ÿ äîñòóïíà (ìè íå çíàõîäèìîñÿ ó â³êí³, ÿêå íå äîçâîëÿº êîíô³ãóðàö³þ)
@@ -9926,11 +9145,10 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
           case 7:
           case 8:
           case 9:
+          case 10:
             {
               if (length <= 27)
               {
-                unsigned int phase_line = header_ar_tmp.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE;
-                unsigned int Ib_I04 = header_ar_tmp.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04;
                 unsigned int i = 0;
                 while (i < length)
                 {
@@ -9943,51 +9161,16 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                   {
                     //²äåíòèòèô³êàòîð êàíàëó - 16 ASCII ñèìâîë³â
                     char idetyficator[NUMBER_ANALOG_CANALES][16] = {
-                    "3I0             ",
                     "Ia              ",
-                    "                ",
+                    "Ib              ",
                     "Ic              ",
-                    "                ",
-                    "                ",
-                    "                ",
-                    "3U0             "
+                    "Ua1             ",
+                    "Ub1             ",
+                    "Uc1             ",
+                    "Ua2             ",
+                    "Ub2             ",
+                    "Uc2             "
                     };
-                    
-                    {
-                      const char idetyficator_current[2][16] = 
-                      {
-                        "Ib              ",
-                        "I 0,4kV         "
-                      };
-                      for (unsigned int k = 0; k < 16; k++) idetyficator[I_Ib_I04][k] = idetyficator_current[Ib_I04 != 0][k];
-                    }
-
-                    if (phase_line == 0)
-                    {
-                      const char idetyficator_phase[3][16] = {
-                      "Ua              ",
-                      "Ub              ",
-                      "Uc              "
-                      };
-                      char *point_to_changed_name = idetyficator[I_Ua + 0];
-                      for (unsigned int j = 0; j < 3; j++)
-                      {
-                        for (unsigned int k = 0; k < 16; k++) *(point_to_changed_name + j*16 + k) = idetyficator_phase[j][k];
-                      }
-                    }
-                    else
-                    {
-                      const char idetyficator_line[3][16] = {
-                      "Uab             ",
-                      "Ubc             ",
-                      "Uca             "
-                      };
-                      char *point_to_changed_name = idetyficator[I_Ua + 0];
-                      for (unsigned int j = 0; j < 3; j++)
-                      {
-                        for (unsigned int k = 0; k < 16; k++) *(point_to_changed_name + j*16 + k) = idetyficator_line[j][k];
-                      }
-                    }
                     
                     unsigned int index_cell;
                     
@@ -9998,51 +9181,16 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                   {
                     //Ôàçà êàíàëó - 2 ASCII ñèìâîë³â
                     char phase[NUMBER_ANALOG_CANALES][2] = {
-                    "I0",
                     "A ",
-                    "  ",
+                    "B ",
                     "C ",
-                    "  ",
-                    "  ",
-                    "  ",
-                    "U0"
+                    "A ",
+                    "B ",
+                    "C ",
+                    "A ",
+                    "B ",
+                    "C "
                     };
-                    
-                    {
-                      const char phase_c[2][2] = 
-                      {
-                        "B ",
-                        "04"
-                      };
-                      for (unsigned int k = 0; k < 2; k++) phase[I_Ib_I04][k] = phase_c[Ib_I04 != 0][k];
-                    }
-
-                    if (phase_line == 0)
-                    {
-                      const char phase_p[3][2] = {
-                      "A ",
-                      "B ",
-                      "C "
-                      };
-                      char *point_to_changed_name = phase[I_Ua + 0];
-                      for (unsigned int j = 0; j < 3; j++)
-                      {
-                        for (unsigned int k = 0; k < 2; k++) *(point_to_changed_name + j*2 + k) = phase_p[j][k];
-                      }
-                    }
-                    else
-                    {
-                      const char pase_l[3][2] = {
-                      "AB",
-                      "BC",
-                      "CA"
-                      };
-                      char *point_to_changed_name = phase[I_Ua + 0];
-                      for (unsigned int j = 0; j < 3; j++)
-                      {
-                        for (unsigned int k = 0; k < 2; k++) *(point_to_changed_name + j*2 + k) = pase_l[j][k];
-                      }
-                    }
                     
                     temp_data  = phase[number_record - 2][0] | (phase[number_record - 2][1]<<8);
                   }
@@ -10064,9 +9212,8 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                   else if ( i == 19)
                   {
                     //Êîåô³ö³ºíò êàíàëó
-                    if      (number_record == (2 + I_3I0)) temp_data  = (1000*MNOGNYK_3I0) >> (VAGA_DILENNJA_3I0 + 8);
-                    else if (number_record <= (2 + I_Ic )) temp_data  = (1000*MNOGNYK_I)   >> (VAGA_DILENNJA_I   + 4);
-                    else                                   temp_data  = (1000*MNOGNYK_U)   >> (VAGA_DILENNJA_U   + 4);
+                    if (number_record <= (2 + I_Ic )) temp_data  = (1000*MNOGNYK_I)   >> (VAGA_DILENNJA_I   + 4);
+                    else                              temp_data  = (1000*MNOGNYK_U)   >> (VAGA_DILENNJA_U   + 4);
                   }
                   else if ( i == 20)
                   {
@@ -10091,23 +9238,9 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                   else if ( i == 24)
                   {
                     //Ïåðâèííèé êîåô³ö³ºíò òðàíñôîðìàö³¿
-                    if (number_record == (2 + I_3I0)) 
+                    if (number_record <= (2 + I_Ic )) 
                     {
-                      temp_data  = header_ar_tmp.T0;
-                    }
-                    else if (number_record <= (2 + I_Ic )) 
-                    {
-                      if (
-                          (number_record != (2 + I_Ib_I04 )) ||
-                          (I_Ib_I04 == 0)
-                         )
-                      {
-                        temp_data  = header_ar_tmp.TCurrent;
-                      }
-                      else
-                      {
-                        temp_data  = header_ar_tmp.TCurrent04;
-                      }
+                      temp_data  = header_ar_tmp.TCurrent;
                     }
                     else
                     {
@@ -10312,52 +9445,6 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
           case (179 + NUMBER_ANALOG_CANALES):
           case (180 + NUMBER_ANALOG_CANALES):
           case (181 + NUMBER_ANALOG_CANALES):
-          case (182 + NUMBER_ANALOG_CANALES):
-          case (183 + NUMBER_ANALOG_CANALES):
-          case (184 + NUMBER_ANALOG_CANALES):
-          case (185 + NUMBER_ANALOG_CANALES):
-          case (186 + NUMBER_ANALOG_CANALES):
-          case (187 + NUMBER_ANALOG_CANALES):
-          case (188 + NUMBER_ANALOG_CANALES):
-          case (189 + NUMBER_ANALOG_CANALES):
-          case (190 + NUMBER_ANALOG_CANALES):
-          case (191 + NUMBER_ANALOG_CANALES):
-          case (192 + NUMBER_ANALOG_CANALES):
-          case (193 + NUMBER_ANALOG_CANALES):
-          case (194 + NUMBER_ANALOG_CANALES):
-          case (195 + NUMBER_ANALOG_CANALES):
-          case (196 + NUMBER_ANALOG_CANALES):
-          case (197 + NUMBER_ANALOG_CANALES):
-          case (198 + NUMBER_ANALOG_CANALES):
-          case (199 + NUMBER_ANALOG_CANALES):
-          case (200 + NUMBER_ANALOG_CANALES):
-          case (201 + NUMBER_ANALOG_CANALES):
-          case (202 + NUMBER_ANALOG_CANALES):
-          case (203 + NUMBER_ANALOG_CANALES):
-          case (204 + NUMBER_ANALOG_CANALES):
-          case (205 + NUMBER_ANALOG_CANALES):
-          case (206 + NUMBER_ANALOG_CANALES):
-          case (207 + NUMBER_ANALOG_CANALES):
-          case (208 + NUMBER_ANALOG_CANALES):
-          case (209 + NUMBER_ANALOG_CANALES):
-          case (210 + NUMBER_ANALOG_CANALES):
-          case (211 + NUMBER_ANALOG_CANALES):
-          case (212 + NUMBER_ANALOG_CANALES):
-          case (213 + NUMBER_ANALOG_CANALES):
-          case (214 + NUMBER_ANALOG_CANALES):
-          case (215 + NUMBER_ANALOG_CANALES):
-          case (216 + NUMBER_ANALOG_CANALES):
-          case (217 + NUMBER_ANALOG_CANALES):
-          case (218 + NUMBER_ANALOG_CANALES):
-          case (219 + NUMBER_ANALOG_CANALES):
-          case (220 + NUMBER_ANALOG_CANALES):
-          case (221 + NUMBER_ANALOG_CANALES):
-          case (222 + NUMBER_ANALOG_CANALES):
-          case (223 + NUMBER_ANALOG_CANALES):
-          case (224 + NUMBER_ANALOG_CANALES):
-          case (225 + NUMBER_ANALOG_CANALES):
-          case (226 + NUMBER_ANALOG_CANALES):
-          case (227 + NUMBER_ANALOG_CANALES):
             {
               if (length <= 19)
               {
@@ -10443,70 +9530,14 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "      ÌÒÇ4      ",
                         " ÏÎ áëîê.U ÌÒÇÍ ",
                         "    ÍÖÍ-ÌÒÇ     ",
-                        "Áëîê.ÌÒÇ 0,4êÂ 1",
-                        "Áëîê.ÌÒÇ 0,4êÂ 2",
-                        "Áë.ó.ÌÒÇ 0,4êÂ 2",
-                        " ÏÎ ÌÒÇ 0,4êÂ 1 ",
-                        "  ÌÒÇ 0,4êÂ 1   ",
-                        " ÏÎ ÌÒÇ 0,4êÂ 2 ",
-                        "  ÌÒÇ 0,4êÂ 2   ",
                         " Ïóñê ÇÄÇ îò ÄÂ ",
                         "      ÇÄÇ       ",
-                        "    Áëîê.ÍÇÇ    ",
-                        "     ÏÎ ÍÇÇ     ",
-                        "      ÍÇÇ       ",
-                        "   ÏÎ ÇÇ(3I0)   ",
-                        "    ÇÇ(3I0)     ",
-                        "   ÏÎ ÇÇ(3U0)   ",
-                        "    ÇÇ(3U0)     ",
-                        "   Ñåêòîð ÍÇÇ   ",
-                        "   Áëîê.ÒÇÍÏ1   ",
-                        " Ñåêò.ÒÇÍÏ1 âï. ",
-                        " Ñåêò.ÒÇÍÏ1 íàç.",
-                        "ÏÎ 3I0 ÒÇÍÏ1 âï.",
-                        "ÏÎ 3I0 ÒÇÍÏ1 íàç",
-                        "ÏÎ 3U0 ÒÇÍÏ1 âï.",
-                        "ÏÎ 3U0 ÒÇÍÏ1 íàç",
-                        "  ÏÎ ÒÇÍÏ1 âï.  ",
-                        " ÏÎ ÒÇÍÏ1 íàç.  ",
-                        "     ÒÇÍÏ1      ",
-                        "   Áëîê.ÒÇÍÏ2   ",
-                        " Ñåêò.ÒÇÍÏ2 âï. ",
-                        " Ñåêò.ÒÇÍÏ2 íàç.",
-                        "ÏÎ 3I0 ÒÇÍÏ2 âï.",
-                        "ÏÎ 3I0 ÒÇÍÏ2 íàç",
-                        "ÏÎ 3U0 ÒÇÍÏ2 âï.",
-                        "ÏÎ 3U0 ÒÇÍÏ2 íàç",
-                        "  ÏÎ ÒÇÍÏ2 âï.  ",
-                        " ÏÎ ÒÇÍÏ2 íàç.  ",
-                        "     ÒÇÍÏ2      ",
-                        "   Áëîê.ÒÇÍÏ3   ",
-                        " Ñåêò.ÒÇÍÏ3 âï. ",
-                        " Ñåêò.ÒÇÍÏ3 íàç.",
-                        "ÏÎ 3I0 ÒÇÍÏ3 âï.",
-                        "ÏÎ 3I0 ÒÇÍÏ3 íàç",
-                        "ÏÎ 3U0 ÒÇÍÏ3 âï.",
-                        "ÏÎ 3U0 ÒÇÍÏ3 íàç",
-                        "  ÏÎ ÒÇÍÏ3 âï.  ",
-                        " ÏÎ ÒÇÍÏ3 íàç.  ",
-                        "     ÒÇÍÏ3      ",
                         " Ñòàò.áëîê.ÀÏÂ  ",
                         "      ÀÏÂ       ",
                         "      ÀÏÂ2      ",
                         "      ÀÏÂ3      ",
                         "      ÀÏÂ4      ",
                         "   Ðàáîòà ÀÏÂ   ",
-                        " À×Ð/×ÀÏÂ îò ÄÂ ",
-                        "   Áëîê.À×Ð1    ",
-                        "   Áëîê.À×Ð2    ",
-                        "   Ðàçð.×ÀÏÂ    ",
-                        "   Áëîê.×ÀÏÂ    ",
-                        "    ÏÎ À×Ð1     ",
-                        "    ÏÎ ×ÀÏÂ1    ",
-                        "   À×Ð/×ÀÏÂ1    ",
-                        "    ÏÎ À×Ð2     ",
-                        "    ÏÎ ×ÀÏÂ2    ",
-                        "   À×Ð/×ÀÏÂ2    ",
                         " Ïóñê ÓÐÎÂ îò ÄÂ",
                         "    ÏÎ ÓÐÎÂ     ",
                         "     ÓÐÎÂ1      ",
@@ -10532,6 +9563,16 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "  Áëîê.ÇÍìàêñ2  ",
                         "   ÏÎ ÇÍìàêñ2   ",
                         "    ÇÍìàêñ2     ",
+                        "  Âí.Îòêë.ÀÂÐ   ",
+                        " Ñáðîñ Áëîê.ÀÂÐ ",
+                        " Ñòàò.áëîê.ÀÂÐ  ",
+                        " Áë.ÀÂÐ îò çàùèò",
+                        " ÏÎ U ÀÂÐ ìèí.1 ",
+                        " ÏÎ U ÀÂÐ ìàêñ.1",
+                        " ÏÎ U ÀÂÐ ìèí.2 ",
+                        " ÏÎ U ÀÂÐ ìàêñ.2",
+                        "  Áëîê.êð.ÀÂÐ   ",
+                        "    Ïóñê ÀÂÐ    ",
                         " Âõ.Î-ôóíêöèè1  ",
                         " Âûõ.Î-ôóíêöèè1 ",
                         " Âõ.Î-ôóíêöèè2  ",
@@ -10617,7 +9658,7 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         " Ïåðåâ.Iâ.íîì.  ",
                         " Êðèò.Ðåñóðñ ÂÂ ",
                         " Âè÷.Ðåñóðñ ÂÂ  ",
-                        " Íåñïð. Çàãàëüíà",
+                        " Íåñïð.Çàãàëüíà ",
                         "  Íåñïð.Àâàð.   ",
                         " Ðîá.Àí.Ðåºñòð. ",
                         " Ðîá.Ä.Ðåºñòð.  ",
@@ -10671,70 +9712,14 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "      ÌÑÇ4      ",
                         " ÏÎ áëîê.U ÌÑÇÍ ",
                         "    ÍÊÍ-ÌÑÇ     ",
-                        "Áëîê.ÌÑÇ 0,4êÂ 1",
-                        "Áëîê.ÌÑÇ 0,4êÂ 2",
-                        "Áë.ï.ÌÑÇ 0,4êÂ 2",
-                        " ÏÎ ÌÑÇ 0,4êÂ 1 ",
-                        "  ÌÑÇ 0,4êÂ 1   ",
-                        " ÏÎ ÌÑÇ 0,4êÂ 2 ",
-                        "  ÌÑÇ 0,4êÂ 2   ",
                         " Ïóñê ÇÄÇ â³ä ÄÂ",
                         "      ÇÄÇ       ",
-                        "    Áëîê.ÍÇÇ    ",
-                        "     ÏÎ ÍÇÇ     ",
-                        "      ÍÇÇ       ",
-                        "   ÏÎ ÇÇ(3I0)   ",
-                        "    ÇÇ(3I0)     ",
-                        "   ÏÎ ÇÇ(3U0)   ",
-                        "    ÇÇ(3U0)     ",
-                        "   Ñåêòîð ÍÇÇ   ",
-                        "   Áëîê.ÑÇÍÏ1   ",
-                        " Ñåêò.ÑÇÍÏ1 âï. ",
-                        " Ñåêò.ÑÇÍÏ1 íàç.",
-                        "ÏÎ 3I0 ÑÇÍÏ1 âï.",
-                        "ÏÎ 3I0 ÑÇÍÏ1 íàç",
-                        "ÏÎ 3U0 ÑÇÍÏ1 âï.",
-                        "ÏÎ 3U0 ÑÇÍÏ1 íàç",
-                        "  ÏÎ ÑÇÍÏ1 âï.  ",
-                        " ÏÎ ÑÇÍÏ1 íàç.  ",
-                        "     ÑÇÍÏ1      ",
-                        "   Áëîê.ÑÇÍÏ2   ",
-                        " Ñåêò.ÑÇÍÏ2 âï. ",
-                        " Ñåêò.ÑÇÍÏ2 íàç.",
-                        "ÏÎ 3I0 ÑÇÍÏ2 âï.",
-                        "ÏÎ 3I0 ÑÇÍÏ2 íàç",
-                        "ÏÎ 3U0 ÑÇÍÏ2 âï.",
-                        "ÏÎ 3U0 ÑÇÍÏ2 íàç",
-                        "  ÏÎ ÑÇÍÏ2 âï.  ",
-                        " ÏÎ ÑÇÍÏ2 íàç.  ",
-                        "     ÑÇÍÏ2      ",
-                        "   Áëîê.ÑÇÍÏ3   ",
-                        " Ñåêò.ÑÇÍÏ3 âï. ",
-                        " Ñåêò.ÑÇÍÏ3 íàç.",
-                        "ÏÎ 3I0 ÑÇÍÏ3 âï.",
-                        "ÏÎ 3I0 ÑÇÍÏ3 íàç",
-                        "ÏÎ 3U0 ÑÇÍÏ3 âï.",
-                        "ÏÎ 3U0 ÑÇÍÏ3 íàç",
-                        "  ÏÎ ÑÇÍÏ3 âï.  ",
-                        " ÏÎ ÑÇÍÏ3 íàç.  ",
-                        "     ÑÇÍÏ3      ",
                         " Ñòàò.áëîê.ÀÏÂ  ",
                         "      ÀÏÂ       ",
                         "      ÀÏÂ2      ",
                         "      ÀÏÂ3      ",
                         "      ÀÏÂ4      ",
                         "   Ðîáîòà ÀÏÂ   ",
-                        " À×Ð/×ÀÏÂ â³ä ÄÂ",
-                        "   Áëîê.À×Ð1    ",
-                        "   Áëîê.À×Ð2    ",
-                        "  Äîçâ³ë ×ÀÏÂ   ",
-                        "   Áëîê.×ÀÏÂ    ",
-                        "    ÏÎ À×Ð1     ",
-                        "    ÏÎ ×ÀÏÂ1    ",
-                        "   À×Ð/×ÀÏÂ1    ",
-                        "    ÏÎ À×Ð2     ",
-                        "    ÏÎ ×ÀÏÂ2    ",
-                        "   À×Ð/×ÀÏÂ2    ",
                         "Ïóñê ÏÐÂÂ â³ä ÄÂ",
                         "    ÏÎ ÏÐÂÂ     ",
                         "     ÏÐÂÂ1      ",
@@ -10760,6 +9745,16 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "  Áëîê.ÇÍìàêñ2  ",
                         "   ÏÎ ÇÍìàêñ2   ",
                         "    ÇÍìàêñ2     ",
+                        " Çîâí.Âèìê.ÀÂÐ  ",
+                        " Ñêèä.Áëîê.ÀÂÐ  ",
+                        " Ñòàò.áëîê.ÀÂÐ  ",
+                        " Áë.ÀÂÐ â³ä çàõ.",
+                        " ÏÎ U ÀÂÐ ì³í.1 ",
+                        " ÏÎ U ÀÂÐ ìàêñ.1",
+                        " ÏÎ U ÀÂÐ ì³í.2 ",
+                        " ÏÎ U ÀÂÐ ìàêñ.2",
+                        "  Áëîê.êð.ÀÂÐ   ",
+                        "    Ïóñê ÀÂÐ    ",
                         " Âõ.Â-ôóíêö³¿1  ",
                         " Âèõ.Â-ôóíêö³¿1 ",
                         " Âõ.Â-ôóíêö³¿2  ",
@@ -10899,70 +9894,14 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "      OCP4      ",
                         " ÏÎ áëîê.U ÌÒÇÍ ",
                         "    ÍÖÍ-ÌÒÇ     ",
-                        "OCP 0,4kV 1 Blc.",
-                        "OCP 0,4kV 2 Blc.",
-                        "OCP 0,4kV 2 Ac.B",
-                        " OCP 0,4kV 1 SE ",
-                        "  OCP 0,4kV 1   ",
-                        " OCP 0,4kV 2 SE ",
-                        "  OCP 0,4kV 2   ",
                         " Ïóñê ÇÄÇ îò ÄÂ ",
                         "      ÇÄÇ       ",
-                        "    Áëîê.ÍÇÇ    ",
-                        "     ÏÎ ÍÇÇ     ",
-                        "      ÍÇÇ       ",
-                        "  SGFP(3Io) SE  ",
-                        "   SGFP(3Io)    ",
-                        "   ÏÎ ÇÇ(3U0)   ",
-                        "    ÇÇ(3U0)     ",
-                        "   Ñåêòîð ÍÇÇ   ",
-                        "   Áëîê.ÒÇÍÏ1   ",
-                        " Ñåêò.ÒÇÍÏ1 âï. ",
-                        " Ñåêò.ÒÇÍÏ1 íàç.",
-                        "ÏÎ 3I0 ÒÇÍÏ1 âï.",
-                        "ÏÎ 3I0 ÒÇÍÏ1 íàç",
-                        "ÏÎ 3U0 ÒÇÍÏ1 âï.",
-                        "ÏÎ 3U0 ÒÇÍÏ1 íàç",
-                        "  ÏÎ ÒÇÍÏ1 âï.  ",
-                        " ÏÎ ÒÇÍÏ1 íàç.  ",
-                        "     ÒÇÍÏ1      ",
-                        "   Áëîê.ÒÇÍÏ2   ",
-                        " Ñåêò.ÒÇÍÏ2 âï. ",
-                        " Ñåêò.ÒÇÍÏ2 íàç.",
-                        "ÏÎ 3I0 ÒÇÍÏ2 âï.",
-                        "ÏÎ 3I0 ÒÇÍÏ2 íàç",
-                        "ÏÎ 3U0 ÒÇÍÏ2 âï.",
-                        "ÏÎ 3U0 ÒÇÍÏ2 íàç",
-                        "  ÏÎ ÒÇÍÏ2 âï.  ",
-                        " ÏÎ ÒÇÍÏ2 íàç.  ",
-                        "     ÒÇÍÏ2      ",
-                        "   Áëîê.ÒÇÍÏ3   ",
-                        " Ñåêò.ÒÇÍÏ3 âï. ",
-                        " Ñåêò.ÒÇÍÏ3 íàç.",
-                        "ÏÎ 3I0 ÒÇÍÏ3 âï.",
-                        "ÏÎ 3I0 ÒÇÍÏ3 íàç",
-                        "ÏÎ 3U0 ÒÇÍÏ3 âï.",
-                        "ÏÎ 3U0 ÒÇÍÏ3 íàç",
-                        "  ÏÎ ÒÇÍÏ3 âï.  ",
-                        " ÏÎ ÒÇÍÏ3 íàç.  ",
-                        "     ÒÇÍÏ3      ",
                         " Ñòàò.áëîê.ÀÏÂ  ",
                         "       AR       ",
                         "      AR2       ",
                         "      AR3       ",
                         "      AR4       ",
                         "   Ðàáîòà ÀÏÂ   ",
-                        "UFLS/FAR from DI",
-                        "   Áëîê.À×Ð1    ",
-                        "   Áëîê.À×Ð2    ",
-                        "   Ðàçð.×ÀÏÂ    ",
-                        "   Áëîê.×ÀÏÂ    ",
-                        "    ÏÎ À×Ð1     ",
-                        "   ÏÎ ×ÀÏÂ1     ",
-                        "   UFLS/FAR1    ",
-                        "    ÏÎ À×Ð2     ",
-                        "   ÏÎ ×ÀÏÂ2     ",
-                        "   UFLS/FAR2    ",
                         " CBFP Start f.DI",
                         "    CBFP SE     ",
                         "     CBFP1      ",
@@ -10988,6 +9927,16 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "   Áëîê.Umax2   ",
                         "    ÏÎ Umax2    ",
                         "     Umax2      ",
+                        "  Âí.Îòêë.ÀÂÐ   ",
+                        " Ñáðîñ Áëîê.ÀÂÐ ",
+                        " Ñòàò.áëîê.ÀÂÐ  ",
+                        " Áë.ÀÂÐ îò çàùèò",
+                        " ÏÎ U ÀÂÐ ìèí.1 ",
+                        " ÏÎ U ÀÂÐ ìàêñ.1",
+                        " ÏÎ U ÀÂÐ ìèí.2 ",
+                        " ÏÎ U ÀÂÐ ìàêñ.2",
+                        "  Áëîê.êð.ÀÂÐ   ",
+                        "    Ïóñê ÀÂÐ    ",
                         "    UDF1 In     ",
                         "    UDF1 Out    ",
                         "    UDF2 In     ",
@@ -11127,70 +10076,14 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "      ÌÒÇ4      ",
                         " ÏÎ áëîê.U ÌÒÇÍ ",
                         "    ÍÖÍ-ÌÒÇ     ",
-                        "Áëîê.ÌÒÇ 0,4êÂ 1",
-                        "Áëîê.ÌÒÇ 0,4êÂ 2",
-                        "Áë.ó.ÌÒÇ 0,4êÂ 2",
-                        " ÏÎ ÌÒÇ 0,4êÂ 1 ",
-                        "  ÌÒÇ 0,4êÂ 1   ",
-                        " ÏÎ ÌÒÇ 0,4êÂ 2 ",
-                        "  ÌÒÇ 0,4êÂ 2   ",
                         " Ïóñê ÇÄÇ îò ÄÂ ",
                         "      ÇÄÇ       ",
-                        "    Áëîê.ÍÇÇ    ",
-                        "     ÏÎ ÍÇÇ     ",
-                        "      ÍÇÇ       ",
-                        "   ÏÎ ÇÇ(3I0)   ",
-                        "    ÇÇ(3I0)     ",
-                        "   ÏÎ ÇÇ(3U0)   ",
-                        "    ÇÇ(3U0)     ",
-                        "   Ñåêòîð ÍÇÇ   ",
-                        "   Áëîê.ÒÇÍÏ1   ",
-                        " Ñåêò.ÒÇÍÏ1 âï. ",
-                        " Ñåêò.ÒÇÍÏ1 íàç.",
-                        "ÏÎ 3I0 ÒÇÍÏ1 âï.",
-                        "ÏÎ 3I0 ÒÇÍÏ1 íàç",
-                        "ÏÎ 3U0 ÒÇÍÏ1 âï.",
-                        "ÏÎ 3U0 ÒÇÍÏ1 íàç",
-                        "  ÏÎ ÒÇÍÏ1 âï.  ",
-                        " ÏÎ ÒÇÍÏ1 íàç.  ",
-                        "     ÒÇÍÏ1      ",
-                        "   Áëîê.ÒÇÍÏ2   ",
-                        " Ñåêò.ÒÇÍÏ2 âï. ",
-                        " Ñåêò.ÒÇÍÏ2 íàç.",
-                        "ÏÎ 3I0 ÒÇÍÏ2 âï.",
-                        "ÏÎ 3I0 ÒÇÍÏ2 íàç",
-                        "ÏÎ 3U0 ÒÇÍÏ2 âï.",
-                        "ÏÎ 3U0 ÒÇÍÏ2 íàç",
-                        "  ÏÎ ÒÇÍÏ2 âï.  ",
-                        " ÏÎ ÒÇÍÏ2 íàç.  ",
-                        "     ÒÇÍÏ2      ",
-                        "   Áëîê.ÒÇÍÏ3   ",
-                        " Ñåêò.ÒÇÍÏ3 âï. ",
-                        " Ñåêò.ÒÇÍÏ3 íàç.",
-                        "ÏÎ 3I0 ÒÇÍÏ3 âï.",
-                        "ÏÎ 3I0 ÒÇÍÏ3 íàç",
-                        "ÏÎ 3U0 ÒÇÍÏ3 âï.",
-                        "ÏÎ 3U0 ÒÇÍÏ3 íàç",
-                        "  ÏÎ ÒÇÍÏ3 âï.  ",
-                        " ÏÎ ÒÇÍÏ3 íàç.  ",
-                        "     ÒÇÍÏ3      ",
                         " Ñòàò.áëîê.ÀÏÂ  ",
                         "      ÀÏÂ       ",
                         "      ÀÏÂ2      ",
                         "      ÀÏÂ3      ",
                         "      ÀÏÂ4      ",
                         "   Ðàáîòà ÀÏÂ   ",
-                        " À×Ð/×ÀÏÂ îò ÄÂ ",
-                        "   Áëîê.À×Ð1    ",
-                        "   Áëîê.À×Ð2    ",
-                        "   Ðàçð.×ÀÏÂ    ",
-                        "   Áëîê.×ÀÏÂ    ",
-                        "    ÏÎ À×Ð1     ",
-                        "    ÏÎ ×ÀÏÂ1    ",
-                        "   À×Ð/×ÀÏÂ1    ",
-                        "    ÏÎ À×Ð2     ",
-                        "    ÏÎ ×ÀÏÂ2    ",
-                        "   À×Ð/×ÀÏÂ2    ",
                         " Ïóñê ÓÐÎÂ îò ÄÂ",
                         "    ÏÎ ÓÐÎÂ     ",
                         "     ÓÐÎÂ1      ",
@@ -11216,6 +10109,16 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "  Áëîê.ÇÍìàêñ2  ",
                         "   ÏÎ ÇÍìàêñ2   ",
                         "    ÇÍìàêñ2     ",
+                        "  Âí.Îòêë.ÀÂÐ   ",
+                        " Ñáðîñ Áëîê.ÀÂÐ ",
+                        " Ñòàò.áëîê.ÀÂÐ  ",
+                        " Áë.ÀÂÐ îò çàùèò",
+                        " ÏÎ U ÀÂÐ ìèí.1 ",
+                        " ÏÎ U ÀÂÐ ìàêñ.1",
+                        " ÏÎ U ÀÂÐ ìèí.2 ",
+                        " ÏÎ U ÀÂÐ ìàêñ.2",
+                        "  Áëîê.êð.ÀÂÐ   ",
+                        "    Ïóñê ÀÂÐ    ",
                         " Âõ.Î-ôóíêöèè1  ",
                         " Âûõ.Î-ôóíêöèè1 ",
                         " Âõ.Î-ôóíêöèè2  ",
@@ -11934,52 +10837,6 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
           case 179:
           case 180:
           case 181:
-          case 182:
-          case 183:
-          case 184:
-          case 185:
-          case 186:
-          case 187:
-          case 188:
-          case 189:
-          case 190:
-          case 191:
-          case 192:
-          case 193:
-          case 194:
-          case 195:
-          case 196:
-          case 197:
-          case 198:
-          case 199:
-          case 200:
-          case 201:
-          case 202:
-          case 203:
-          case 204:
-          case 205:
-          case 206:
-          case 207:
-          case 208:
-          case 209:
-          case 210:
-          case 211:
-          case 212:
-          case 213:
-          case 214:
-          case 215:
-          case 216:
-          case 217:
-          case 218:
-          case 219:
-          case 220:
-          case 221:
-          case 222:
-          case 223:
-          case 224:
-          case 225:
-          case 226:
-          case 227:
             {
               if (length <= 19)
               {
@@ -12065,70 +10922,14 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "      ÌÒÇ4      ",
                         " ÏÎ áëîê.U ÌÒÇÍ ",
                         "    ÍÖÍ-ÌÒÇ     ",
-                        "Áëîê.ÌÒÇ 0,4êÂ 1",
-                        "Áëîê.ÌÒÇ 0,4êÂ 2",
-                        "Áë.ó.ÌÒÇ 0,4êÂ 2",
-                        " ÏÎ ÌÒÇ 0,4êÂ 1 ",
-                        "  ÌÒÇ 0,4êÂ 1   ",
-                        " ÏÎ ÌÒÇ 0,4êÂ 2 ",
-                        "  ÌÒÇ 0,4êÂ 2   ",
                         " Ïóñê ÇÄÇ îò ÄÂ ",
                         "      ÇÄÇ       ",
-                        "    Áëîê.ÍÇÇ    ",
-                        "     ÏÎ ÍÇÇ     ",
-                        "      ÍÇÇ       ",
-                        "   ÏÎ ÇÇ(3I0)   ",
-                        "    ÇÇ(3I0)     ",
-                        "   ÏÎ ÇÇ(3U0)   ",
-                        "    ÇÇ(3U0)     ",
-                        "   Ñåêòîð ÍÇÇ   ",
-                        "   Áëîê.ÒÇÍÏ1   ",
-                        " Ñåêò.ÒÇÍÏ1 âï. ",
-                        " Ñåêò.ÒÇÍÏ1 íàç.",
-                        "ÏÎ 3I0 ÒÇÍÏ1 âï.",
-                        "ÏÎ 3I0 ÒÇÍÏ1 íàç",
-                        "ÏÎ 3U0 ÒÇÍÏ1 âï.",
-                        "ÏÎ 3U0 ÒÇÍÏ1 íàç",
-                        "  ÏÎ ÒÇÍÏ1 âï.  ",
-                        " ÏÎ ÒÇÍÏ1 íàç.  ",
-                        "     ÒÇÍÏ1      ",
-                        "   Áëîê.ÒÇÍÏ2   ",
-                        " Ñåêò.ÒÇÍÏ2 âï. ",
-                        " Ñåêò.ÒÇÍÏ2 íàç.",
-                        "ÏÎ 3I0 ÒÇÍÏ2 âï.",
-                        "ÏÎ 3I0 ÒÇÍÏ2 íàç",
-                        "ÏÎ 3U0 ÒÇÍÏ2 âï.",
-                        "ÏÎ 3U0 ÒÇÍÏ2 íàç",
-                        "  ÏÎ ÒÇÍÏ2 âï.  ",
-                        " ÏÎ ÒÇÍÏ2 íàç.  ",
-                        "     ÒÇÍÏ2      ",
-                        "   Áëîê.ÒÇÍÏ3   ",
-                        " Ñåêò.ÒÇÍÏ3 âï. ",
-                        " Ñåêò.ÒÇÍÏ3 íàç.",
-                        "ÏÎ 3I0 ÒÇÍÏ3 âï.",
-                        "ÏÎ 3I0 ÒÇÍÏ3 íàç",
-                        "ÏÎ 3U0 ÒÇÍÏ3 âï.",
-                        "ÏÎ 3U0 ÒÇÍÏ3 íàç",
-                        "  ÏÎ ÒÇÍÏ3 âï.  ",
-                        " ÏÎ ÒÇÍÏ3 íàç.  ",
-                        "     ÒÇÍÏ3      ",
                         " Ñòàò.áëîê.ÀÏÂ  ",
                         "      ÀÏÂ       ",
                         "      ÀÏÂ2      ",
                         "      ÀÏÂ3      ",
                         "      ÀÏÂ4      ",
                         "   Ðàáîòà ÀÏÂ   ",
-                        " À×Ð/×ÀÏÂ îò ÄÂ ",
-                        "   Áëîê.À×Ð1    ",
-                        "   Áëîê.À×Ð2    ",
-                        "   Ðàçð.×ÀÏÂ    ",
-                        "   Áëîê.×ÀÏÂ    ",
-                        "    ÏÎ À×Ð1     ",
-                        "    ÏÎ ×ÀÏÂ1    ",
-                        "   À×Ð/×ÀÏÂ1    ",
-                        "    ÏÎ À×Ð2     ",
-                        "    ÏÎ ×ÀÏÂ2    ",
-                        "   À×Ð/×ÀÏÂ2    ",
                         " Ïóñê ÓÐÎÂ îò ÄÂ",
                         "    ÏÎ ÓÐÎÂ     ",
                         "     ÓÐÎÂ1      ",
@@ -12154,6 +10955,16 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "  Áëîê.ÇÍìàêñ2  ",
                         "   ÏÎ ÇÍìàêñ2   ",
                         "    ÇÍìàêñ2     ",
+                        "  Âí.Îòêë.ÀÂÐ   ",
+                        " Ñáðîñ Áëîê.ÀÂÐ ",
+                        " Ñòàò.áëîê.ÀÂÐ  ",
+                        " Áë.ÀÂÐ îò çàùèò",
+                        " ÏÎ U ÀÂÐ ìèí.1 ",
+                        " ÏÎ U ÀÂÐ ìàêñ.1",
+                        " ÏÎ U ÀÂÐ ìèí.2 ",
+                        " ÏÎ U ÀÂÐ ìàêñ.2",
+                        "  Áëîê.êð.ÀÂÐ   ",
+                        "    Ïóñê ÀÂÐ    ",
                         " Âõ.Î-ôóíêöèè1  ",
                         " Âûõ.Î-ôóíêöèè1 ",
                         " Âõ.Î-ôóíêöèè2  ",
@@ -12239,7 +11050,7 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         " Ïåðåâ.Iâ.íîì.  ",
                         " Êðèò.Ðåñóðñ ÂÂ ",
                         " Âè÷.Ðåñóðñ ÂÂ  ",
-                        " Íåñïð. Çàãàëüíà",
+                        " Íåñïð.Çàãàëüíà ",
                         "  Íåñïð.Àâàð.   ",
                         " Ðîá.Àí.Ðåºñòð. ",
                         " Ðîá.Ä.Ðåºñòð.  ",
@@ -12293,70 +11104,14 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "      ÌÑÇ4      ",
                         " ÏÎ áëîê.U ÌÑÇÍ ",
                         "    ÍÊÍ-ÌÑÇ     ",
-                        "Áëîê.ÌÑÇ 0,4êÂ 1",
-                        "Áëîê.ÌÑÇ 0,4êÂ 2",
-                        "Áë.ï.ÌÑÇ 0,4êÂ 2",
-                        " ÏÎ ÌÑÇ 0,4êÂ 1 ",
-                        "  ÌÑÇ 0,4êÂ 1   ",
-                        " ÏÎ ÌÑÇ 0,4êÂ 2 ",
-                        "  ÌÑÇ 0,4êÂ 2   ",
                         " Ïóñê ÇÄÇ â³ä ÄÂ",
                         "      ÇÄÇ       ",
-                        "    Áëîê.ÍÇÇ    ",
-                        "     ÏÎ ÍÇÇ     ",
-                        "      ÍÇÇ       ",
-                        "   ÏÎ ÇÇ(3I0)   ",
-                        "    ÇÇ(3I0)     ",
-                        "   ÏÎ ÇÇ(3U0)   ",
-                        "    ÇÇ(3U0)     ",
-                        "   Ñåêòîð ÍÇÇ   ",
-                        "   Áëîê.ÑÇÍÏ1   ",
-                        " Ñåêò.ÑÇÍÏ1 âï. ",
-                        " Ñåêò.ÑÇÍÏ1 íàç.",
-                        "ÏÎ 3I0 ÑÇÍÏ1 âï.",
-                        "ÏÎ 3I0 ÑÇÍÏ1 íàç",
-                        "ÏÎ 3U0 ÑÇÍÏ1 âï.",
-                        "ÏÎ 3U0 ÑÇÍÏ1 íàç",
-                        "  ÏÎ ÑÇÍÏ1 âï.  ",
-                        " ÏÎ ÑÇÍÏ1 íàç.  ",
-                        "     ÑÇÍÏ1      ",
-                        "   Áëîê.ÑÇÍÏ2   ",
-                        " Ñåêò.ÑÇÍÏ2 âï. ",
-                        " Ñåêò.ÑÇÍÏ2 íàç.",
-                        "ÏÎ 3I0 ÑÇÍÏ2 âï.",
-                        "ÏÎ 3I0 ÑÇÍÏ2 íàç",
-                        "ÏÎ 3U0 ÑÇÍÏ2 âï.",
-                        "ÏÎ 3U0 ÑÇÍÏ2 íàç",
-                        "  ÏÎ ÑÇÍÏ2 âï.  ",
-                        " ÏÎ ÑÇÍÏ2 íàç.  ",
-                        "     ÑÇÍÏ2      ",
-                        "   Áëîê.ÑÇÍÏ3   ",
-                        " Ñåêò.ÑÇÍÏ3 âï. ",
-                        " Ñåêò.ÑÇÍÏ3 íàç.",
-                        "ÏÎ 3I0 ÑÇÍÏ3 âï.",
-                        "ÏÎ 3I0 ÑÇÍÏ3 íàç",
-                        "ÏÎ 3U0 ÑÇÍÏ3 âï.",
-                        "ÏÎ 3U0 ÑÇÍÏ3 íàç",
-                        "  ÏÎ ÑÇÍÏ3 âï.  ",
-                        " ÏÎ ÑÇÍÏ3 íàç.  ",
-                        "     ÑÇÍÏ3      ",
                         " Ñòàò.áëîê.ÀÏÂ  ",
                         "      ÀÏÂ       ",
                         "      ÀÏÂ2      ",
                         "      ÀÏÂ3      ",
                         "      ÀÏÂ4      ",
                         "   Ðîáîòà ÀÏÂ   ",
-                        " À×Ð/×ÀÏÂ â³ä ÄÂ",
-                        "   Áëîê.À×Ð1    ",
-                        "   Áëîê.À×Ð2    ",
-                        "  Äîçâ³ë ×ÀÏÂ   ",
-                        "   Áëîê.×ÀÏÂ    ",
-                        "    ÏÎ À×Ð1     ",
-                        "    ÏÎ ×ÀÏÂ1    ",
-                        "   À×Ð/×ÀÏÂ1    ",
-                        "    ÏÎ À×Ð2     ",
-                        "    ÏÎ ×ÀÏÂ2    ",
-                        "   À×Ð/×ÀÏÂ2    ",
                         "Ïóñê ÏÐÂÂ â³ä ÄÂ",
                         "    ÏÎ ÏÐÂÂ     ",
                         "     ÏÐÂÂ1      ",
@@ -12382,6 +11137,16 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "  Áëîê.ÇÍìàêñ2  ",
                         "   ÏÎ ÇÍìàêñ2   ",
                         "    ÇÍìàêñ2     ",
+                        " Çîâí.Âèìê.ÀÂÐ  ",
+                        " Ñêèä.Áëîê.ÀÂÐ  ",
+                        " Ñòàò.áëîê.ÀÂÐ  ",
+                        " Áë.ÀÂÐ â³ä çàõ.",
+                        " ÏÎ U ÀÂÐ ì³í.1 ",
+                        " ÏÎ U ÀÂÐ ìàêñ.1",
+                        " ÏÎ U ÀÂÐ ì³í.2 ",
+                        " ÏÎ U ÀÂÐ ìàêñ.2",
+                        "  Áëîê.êð.ÀÂÐ   ",
+                        "    Ïóñê ÀÂÐ    ",
                         " Âõ.Â-ôóíêö³¿1  ",
                         " Âèõ.Â-ôóíêö³¿1 ",
                         " Âõ.Â-ôóíêö³¿2  ",
@@ -12463,10 +11228,10 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         " On CB Control  ",
                         "     Off CB     ",
                         " Off CB Control ",
+                        "  CB Actuator   ",
                         " Ïðåâ.Iîò.íîì.  ",
                         " Êðèò.Ðåñóðñ ÂÂ ",
                         " Èñ÷.Ðåñóðñ ÂÂ  ",
-                        "  CB Actuator   ",
                         "  Total Fault   ",
                         " Emergence Fault",
                         "An.Rec.Operation",
@@ -12521,70 +11286,14 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "      OCP4      ",
                         " ÏÎ áëîê.U ÌÒÇÍ ",
                         "    ÍÖÍ-ÌÒÇ     ",
-                        "OCP 0,4kV 1 Blc.",
-                        "OCP 0,4kV 2 Blc.",
-                        "OCP 0,4kV 2 Ac.B",
-                        " OCP 0,4kV 1 SE ",
-                        "  OCP 0,4kV 1   ",
-                        " OCP 0,4kV 2 SE ",
-                        "  OCP 0,4kV 2   ",
                         " Ïóñê ÇÄÇ îò ÄÂ ",
                         "      ÇÄÇ       ",
-                        "    Áëîê.ÍÇÇ    ",
-                        "     ÏÎ ÍÇÇ     ",
-                        "      ÍÇÇ       ",
-                        "  SGFP(3Io) SE  ",
-                        "   SGFP(3Io)    ",
-                        "   ÏÎ ÇÇ(3U0)   ",
-                        "    ÇÇ(3U0)     ",
-                        "   Ñåêòîð ÍÇÇ   ",
-                        "   Áëîê.ÒÇÍÏ1   ",
-                        " Ñåêò.ÒÇÍÏ1 âï. ",
-                        " Ñåêò.ÒÇÍÏ1 íàç.",
-                        "ÏÎ 3I0 ÒÇÍÏ1 âï.",
-                        "ÏÎ 3I0 ÒÇÍÏ1 íàç",
-                        "ÏÎ 3U0 ÒÇÍÏ1 âï.",
-                        "ÏÎ 3U0 ÒÇÍÏ1 íàç",
-                        "  ÏÎ ÒÇÍÏ1 âï.  ",
-                        " ÏÎ ÒÇÍÏ1 íàç.  ",
-                        "     ÒÇÍÏ1      ",
-                        "   Áëîê.ÒÇÍÏ2   ",
-                        " Ñåêò.ÒÇÍÏ2 âï. ",
-                        " Ñåêò.ÒÇÍÏ2 íàç.",
-                        "ÏÎ 3I0 ÒÇÍÏ2 âï.",
-                        "ÏÎ 3I0 ÒÇÍÏ2 íàç",
-                        "ÏÎ 3U0 ÒÇÍÏ2 âï.",
-                        "ÏÎ 3U0 ÒÇÍÏ2 íàç",
-                        "  ÏÎ ÒÇÍÏ2 âï.  ",
-                        " ÏÎ ÒÇÍÏ2 íàç.  ",
-                        "     ÒÇÍÏ2      ",
-                        "   Áëîê.ÒÇÍÏ3   ",
-                        " Ñåêò.ÒÇÍÏ3 âï. ",
-                        " Ñåêò.ÒÇÍÏ3 íàç.",
-                        "ÏÎ 3I0 ÒÇÍÏ3 âï.",
-                        "ÏÎ 3I0 ÒÇÍÏ3 íàç",
-                        "ÏÎ 3U0 ÒÇÍÏ3 âï.",
-                        "ÏÎ 3U0 ÒÇÍÏ3 íàç",
-                        "  ÏÎ ÒÇÍÏ3 âï.  ",
-                        " ÏÎ ÒÇÍÏ3 íàç.  ",
-                        "     ÒÇÍÏ3      ",
                         " Ñòàò.áëîê.ÀÏÂ  ",
                         "       AR       ",
                         "      AR2       ",
                         "      AR3       ",
                         "      AR4       ",
                         "   Ðàáîòà ÀÏÂ   ",
-                        "UFLS/FAR from DI",
-                        "   Áëîê.À×Ð1    ",
-                        "   Áëîê.À×Ð2    ",
-                        "   Ðàçð.×ÀÏÂ    ",
-                        "   Áëîê.×ÀÏÂ    ",
-                        "    ÏÎ À×Ð1     ",
-                        "   ÏÎ ×ÀÏÂ1     ",
-                        "   UFLS/FAR1    ",
-                        "    ÏÎ À×Ð2     ",
-                        "   ÏÎ ×ÀÏÂ2     ",
-                        "   UFLS/FAR2    ",
                         " CBFP Start f.DI",
                         "    CBFP SE     ",
                         "     CBFP1      ",
@@ -12610,6 +11319,16 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "   Áëîê.Umax2   ",
                         "    ÏÎ Umax2    ",
                         "     Umax2      ",
+                        "  Âí.Îòêë.ÀÂÐ   ",
+                        " Ñáðîñ Áëîê.ÀÂÐ ",
+                        " Ñòàò.áëîê.ÀÂÐ  ",
+                        " Áë.ÀÂÐ îò çàùèò",
+                        " ÏÎ U ÀÂÐ ìèí.1 ",
+                        " ÏÎ U ÀÂÐ ìàêñ.1",
+                        " ÏÎ U ÀÂÐ ìèí.2 ",
+                        " ÏÎ U ÀÂÐ ìàêñ.2",
+                        "  Áëîê.êð.ÀÂÐ   ",
+                        "    Ïóñê ÀÂÐ    ",
                         "    UDF1 In     ",
                         "    UDF1 Out    ",
                         "    UDF2 In     ",
@@ -12749,70 +11468,14 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "      ÌÒÇ4      ",
                         " ÏÎ áëîê.U ÌÒÇÍ ",
                         "    ÍÖÍ-ÌÒÇ     ",
-                        "Áëîê.ÌÒÇ 0,4êÂ 1",
-                        "Áëîê.ÌÒÇ 0,4êÂ 2",
-                        "Áë.ó.ÌÒÇ 0,4êÂ 2",
-                        " ÏÎ ÌÒÇ 0,4êÂ 1 ",
-                        "  ÌÒÇ 0,4êÂ 1   ",
-                        " ÏÎ ÌÒÇ 0,4êÂ 2 ",
-                        "  ÌÒÇ 0,4êÂ 2   ",
                         " Ïóñê ÇÄÇ îò ÄÂ ",
                         "      ÇÄÇ       ",
-                        "    Áëîê.ÍÇÇ    ",
-                        "     ÏÎ ÍÇÇ     ",
-                        "      ÍÇÇ       ",
-                        "   ÏÎ ÇÇ(3I0)   ",
-                        "    ÇÇ(3I0)     ",
-                        "   ÏÎ ÇÇ(3U0)   ",
-                        "    ÇÇ(3U0)     ",
-                        "   Ñåêòîð ÍÇÇ   ",
-                        "   Áëîê.ÒÇÍÏ1   ",
-                        " Ñåêò.ÒÇÍÏ1 âï. ",
-                        " Ñåêò.ÒÇÍÏ1 íàç.",
-                        "ÏÎ 3I0 ÒÇÍÏ1 âï.",
-                        "ÏÎ 3I0 ÒÇÍÏ1 íàç",
-                        "ÏÎ 3U0 ÒÇÍÏ1 âï.",
-                        "ÏÎ 3U0 ÒÇÍÏ1 íàç",
-                        "  ÏÎ ÒÇÍÏ1 âï.  ",
-                        " ÏÎ ÒÇÍÏ1 íàç.  ",
-                        "     ÒÇÍÏ1      ",
-                        "   Áëîê.ÒÇÍÏ2   ",
-                        " Ñåêò.ÒÇÍÏ2 âï. ",
-                        " Ñåêò.ÒÇÍÏ2 íàç.",
-                        "ÏÎ 3I0 ÒÇÍÏ2 âï.",
-                        "ÏÎ 3I0 ÒÇÍÏ2 íàç",
-                        "ÏÎ 3U0 ÒÇÍÏ2 âï.",
-                        "ÏÎ 3U0 ÒÇÍÏ2 íàç",
-                        "  ÏÎ ÒÇÍÏ2 âï.  ",
-                        " ÏÎ ÒÇÍÏ2 íàç.  ",
-                        "     ÒÇÍÏ2      ",
-                        "   Áëîê.ÒÇÍÏ3   ",
-                        " Ñåêò.ÒÇÍÏ3 âï. ",
-                        " Ñåêò.ÒÇÍÏ3 íàç.",
-                        "ÏÎ 3I0 ÒÇÍÏ3 âï.",
-                        "ÏÎ 3I0 ÒÇÍÏ3 íàç",
-                        "ÏÎ 3U0 ÒÇÍÏ3 âï.",
-                        "ÏÎ 3U0 ÒÇÍÏ3 íàç",
-                        "  ÏÎ ÒÇÍÏ3 âï.  ",
-                        " ÏÎ ÒÇÍÏ3 íàç.  ",
-                        "     ÒÇÍÏ3      ",
                         " Ñòàò.áëîê.ÀÏÂ  ",
                         "      ÀÏÂ       ",
                         "      ÀÏÂ2      ",
                         "      ÀÏÂ3      ",
                         "      ÀÏÂ4      ",
                         "   Ðàáîòà ÀÏÂ   ",
-                        " À×Ð/×ÀÏÂ îò ÄÂ ",
-                        "   Áëîê.À×Ð1    ",
-                        "   Áëîê.À×Ð2    ",
-                        "   Ðàçð.×ÀÏÂ    ",
-                        "   Áëîê.×ÀÏÂ    ",
-                        "    ÏÎ À×Ð1     ",
-                        "    ÏÎ ×ÀÏÂ1    ",
-                        "   À×Ð/×ÀÏÂ1    ",
-                        "    ÏÎ À×Ð2     ",
-                        "    ÏÎ ×ÀÏÂ2    ",
-                        "   À×Ð/×ÀÏÂ2    ",
                         " Ïóñê ÓÐÎÂ îò ÄÂ",
                         "    ÏÎ ÓÐÎÂ     ",
                         "     ÓÐÎÂ1      ",
@@ -12838,6 +11501,16 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "  Áëîê.ÇÍìàêñ2  ",
                         "   ÏÎ ÇÍìàêñ2   ",
                         "    ÇÍìàêñ2     ",
+                        "  Âí.Îòêë.ÀÂÐ   ",
+                        " Ñáðîñ Áëîê.ÀÂÐ ",
+                        " Ñòàò.áëîê.ÀÂÐ  ",
+                        " Áë.ÀÂÐ îò çàùèò",
+                        " ÏÎ U ÀÂÐ ìèí.1 ",
+                        " ÏÎ U ÀÂÐ ìàêñ.1",
+                        " ÏÎ U ÀÂÐ ìèí.2 ",
+                        " ÏÎ U ÀÂÐ ìàêñ.2",
+                        "  Áëîê.êð.ÀÂÐ   ",
+                        "    Ïóñê ÀÂÐ    ",
                         " Âõ.Î-ôóíêöèè1  ",
                         " Âûõ.Î-ôóíêöèè1 ",
                         " Âõ.Î-ôóíêöèè2  ",

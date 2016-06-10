@@ -122,7 +122,7 @@
 #define MAX_TIME_OFFSET_FROM_START                      0xFFFFFF // 4 год. 39 хв. 37 сек. 215 мілісек.
 #define MAX_EVENTS_IN_ONE_RECORD                        42
 #define MAX_NUMBER_FIX_MAX_MEASUREMENTS                 10
-#define SIZE_ARRAY_FIX_MAX_MEASUREMENTS                 (NUMBER_ANALOG_CANALES + 2*(3 + 1) + 2)
+#define SIZE_ARRAY_FIX_MAX_MEASUREMENTS                 (NUMBER_ANALOG_CANALES + 2*(3 + 1) + 2 + 1)
 
 #define LABEL_START_RECORD_DR           0xA5
 

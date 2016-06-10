@@ -250,29 +250,6 @@ unsigned int Uxy_bilshe_porogu[3] = {0, 0, 0};
 unsigned int Ix_bilshe_porogu[3] = {0, 0, 0};
 unsigned int temp_states_for_mtz = 0;
 
-//НЗЗ
-int sector_1[8];
-int sector_2[8];
-volatile unsigned int sector_i_minus_u_1 = 0;
-volatile unsigned int sector_i_minus_u_2 = 0;
-unsigned int po_3I0     = 0; /*0 - зрівнювання з уставкою спрацювання, відмінне від нуля - зрівнювання з уставкою відпускання*/
-unsigned int po_3U0     = 0; /*0 - зрівнювання з уставкою спрацювання, відмінне від нуля - зрівнювання з уставкою відпускання*/
-unsigned int sector_NZZ = 0; /*0 - зрівнювання з сектором спрацювання, відмінне від нуля - зрівнювання з сектором відпускання*/
-/*
-0  - кут різниці векторів 3I0 і 3U0 у "сірій" області
-1  - кут різниці векторів 3I0 і 3U0 у 1-ому квадранті
-2  - кут різниці векторів 3I0 і 3U0 у 2-ому квадранті
-3  - кут різниці векторів 3I0 і 3U0 у 3-ому квадранті
-4  - кут різниці векторів 3I0 і 3U0 у 4-ому квадранті
-*/
-unsigned int Nzz_3U0_bilshe_porogu = 0, Nzz_3I0_bilshe_porogu = 0;
-
-//ТЗНП
-unsigned int TZNP_3U0_bilshe_porogu = 0;
-unsigned int TZNP_3I0_r_bilshe_porogu = 0;
-unsigned int sector_directional_tznp[3] = {0, 0, 0};
-
-
 unsigned int i1_bilshe_porogu = 0, i2_bilshe_porogu = 0;
 
 volatile unsigned int state_inputs = 0; //"є сигнал " - відповідає встановленому біту (1); "немає сигналу" - відповідає скинутому біту (0)
@@ -308,13 +285,12 @@ unsigned int etap_execution_df[NUMBER_DEFINED_FUNCTIONS]; //Етап виконання опред
 unsigned int previous_states_APV_0 = 0;
 unsigned int trigger_APV_0 = 0;
 
-_Bool previous_state_po_achr_chapv_uaf1 = 0;
-_Bool previous_state_po_achr_chapv_ubf1 = 0;
-_Bool previous_state_po_achr_chapv_ucf1 = 0;
-_Bool previous_states_CHAPV1 = 0;
-_Bool previous_states_CHAPV2 = 0;
-_Bool trigger_CHAPV1 = 0;
-_Bool trigger_CHAPV2 = 0;
+_Bool previous_states_AVR_0 = 0;
+_Bool previous_states_AVR_1 = 0;
+_Bool trigger_AVR_0 = 0;
+_Bool trigger_AVR_1 = 0;
+_Bool previous_state_avr_counter = 0;
+unsigned int avr_counter = 0;
 
 _Bool previous_states_ready_tu = 0;
 _Bool trigger_ready_tu = 0;
@@ -507,26 +483,16 @@ unsigned int part_reading_dr_from_dataflash_for_USB = 0;
 unsigned int part_reading_dr_from_dataflash_for_RS485 = 0;
 unsigned int state_current_monitoring;
 unsigned int measurements_phase_max_dr[SIZE_ARRAY_FIX_MAX_MEASUREMENTS];        //частоти + розрахункові величини + величина типу unsigned int (найстарший байт - це мітка типу запуску, а решта байт - це мітка часу)
-unsigned int measurements_phase04_max_dr[SIZE_ARRAY_FIX_MAX_MEASUREMENTS];      //частоти + розрахункові величини + величина типу unsigned int (найстарший байт - це мітка типу запуску, а решта байт - це мітка часу)
-unsigned int measurements_3I0_max_dr[SIZE_ARRAY_FIX_MAX_MEASUREMENTS];          //частоти + розрахункові величини + величина типу unsigned int (найстарший байт - це мітка типу запуску, а решта байт - це мітка часу)
-unsigned int measurements_3U0_max_dr[SIZE_ARRAY_FIX_MAX_MEASUREMENTS];          //частоти + розрахункові величини + величина типу unsigned int (найстарший байт - це мітка типу запуску, а решта байт - це мітка часу)
 unsigned int measurements_U_min_dr[SIZE_ARRAY_FIX_MAX_MEASUREMENTS];            //частоти + розрахункові величини + величина типу unsigned int (найстарший байт - це мітка типу запуску, а решта байт - це мітка часу)
 unsigned int measurements_U_max_dr[SIZE_ARRAY_FIX_MAX_MEASUREMENTS];            //частоти + розрахункові величини + величина типу unsigned int (найстарший байт - це мітка типу запуску, а решта байт - це мітка часу)
 unsigned int measurements_ZOP_max_dr[SIZE_ARRAY_FIX_MAX_MEASUREMENTS];          //частоти + розрахункові величини + величина типу unsigned int (найстарший байт - це мітка типу запуску, а решта байт - це мітка часу)
-unsigned int measurements_f_min_achr_dr[SIZE_ARRAY_FIX_MAX_MEASUREMENTS];       //частоти + розрахункові величини + величина типу unsigned int (найстарший байт - це мітка типу запуску, а решта байт - це мітка часу)
-unsigned int measurements_f_chapv_dr[SIZE_ARRAY_FIX_MAX_MEASUREMENTS];          //частоти + розрахункові величини + величина типу unsigned int (найстарший байт - це мітка типу запуску, а решта байт - це мітка часу)
 unsigned int max_phase_current_dr;   //максимальний фазний струм
 unsigned int min_voltage_dr;  //мінімальнва фазна/лінійна напруга
 unsigned int max_voltage_dr;  //максимальна фазна/лінійна напруга
 unsigned int number_max_phase_dr;
-unsigned int number_max_phase04_dr;
-unsigned int number_max_3I0_dr;
-unsigned int number_max_3U0_dr;
 unsigned int number_min_U_dr;
 unsigned int number_max_U_dr;
 unsigned int number_max_ZOP_dr;
-unsigned int number_min_f_achr_dr;
-unsigned int number_f_chapv_dr;
 unsigned int type_view_max_values_dr;
 int index_cell_into_array_for_min_max_measurement_dr;
 

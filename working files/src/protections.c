@@ -159,157 +159,6 @@ inline void velychyna_zvorotnoi_poslidovnosti(int ortogonal_local_calc[])
 }
 /*****************************************************/
 
-/*****************************************************
-ort_i  - вказівник на ортогональні 3I0
-ort_u  - вказівник на ортогональні 3U0
-*****************************************************/
-inline void detector_kuta_nzz(int ortogonal_local_calc[]) 
-{
-  int cos_fi, sin_fi;
-
-#define SIN_3I0   ortogonal_local_calc[2*FULL_ORT_3I0    ]
-#define COS_3I0   ortogonal_local_calc[2*FULL_ORT_3I0 + 1]
-#define SIN_3U0   ortogonal_local_calc[2*FULL_ORT_3U0    ]
-#define COS_3U0   ortogonal_local_calc[2*FULL_ORT_3U0 + 1]
-
-  /***
-  Тригонометричні координати вектора різниці 
-  ***/
-  cos_fi = COS_3I0*COS_3U0 + SIN_3I0*SIN_3U0;
-  sin_fi = -(SIN_3I0*COS_3U0 - COS_3I0*SIN_3U0);//З розділу: "Неймовірно, але факт", тобто що я не можу пояснити
-  /***/
-
-#undef SIN_3I0
-#undef COS_3I0
-#undef SIN_3U0
-#undef COS_3U0
-
-  /*
-  З наведених теоретичних роззрахунків у функції обрахунку діючих значень (calc_measurement())
-  випливає, що ортогональні складові векторів 3I0 і 3U0 є 15-бітні чилс + знак.
-  Тоді COS і SIN різниці цих векторів може бути 31-бітне число
-  Вектьорні координати границь секторів задано 7-бінтими числами + знак
-  Тоді щоб не отримати переповнення треба гарантувати, що розрядність різниці векторів
-  COS і SIN буде = 31 - (7 + 1) = 23
-  7 - це розрядність координат векторів границь секторів
-  1 - це врахування що ми використовіємо формулу (ab+cd)
-  */
-  unsigned int order_cos, order_sin, max_order, shift = 0;
-  order_cos = get_order(cos_fi);
-  order_sin = get_order(sin_fi);
-  if (order_cos > order_sin) max_order = order_cos; else max_order = order_sin;
-  if (max_order > 23) shift = max_order - 23;
-  
-  /*
-  Сам зсув я роблю після визначення квадранта - це хоч і втрата на розмірі програмного коду,
-  але мало б підвищити точність визначення квадранту.
-  Хоч може тут я перемудровую?..
-  */
-
-  /***
-  Визначення квадранта
-  ***/
-  int sin_fi1_minus_fi2;
-  if ((cos_fi >= 0) && (sin_fi >= 0))
-  {
-    //1-ий квадрант
-    cos_fi = cos_fi >> shift;
-    sin_fi = sin_fi >> shift;
-
-#define COS_SECTOR sector_1[0]    
-#define SIN_SECTOR sector_1[1]    
-
-    sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
-    sector_i_minus_u_1 = (sin_fi1_minus_fi2 < 0) ?  0 : 1;
-    
-#undef COS_SECTOR    
-#undef SIN_SECTOR    
-
-#define COS_SECTOR sector_2[0]    
-#define SIN_SECTOR sector_2[1]    
-
-    sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
-    sector_i_minus_u_2 = (sin_fi1_minus_fi2 < 0) ?  0 : 1;
-    
-#undef COS_SECTOR    
-#undef SIN_SECTOR    
-  }
-  else if ((cos_fi < 0) && (sin_fi >= 0))
-  {
-     //2-ий квадрант
-    cos_fi = cos_fi >> shift;
-    sin_fi = sin_fi >> shift;
-
-#define COS_SECTOR sector_1[2]    
-#define SIN_SECTOR sector_1[3]    
-
-    sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
-    sector_i_minus_u_1 = (sin_fi1_minus_fi2 > 0) ?  0 : 2;
-    
-#undef COS_SECTOR    
-#undef SIN_SECTOR    
-
-#define COS_SECTOR sector_2[2]    
-#define SIN_SECTOR sector_2[3]    
-
-    sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
-    sector_i_minus_u_2 = (sin_fi1_minus_fi2 > 0) ?  0 : 2;
-    
-#undef COS_SECTOR    
-#undef SIN_SECTOR    
-  }
-  else if ((cos_fi < 0) && (sin_fi < 0))
-  {
-    //3-ій квадрант
-    cos_fi = cos_fi >> shift;
-    sin_fi = sin_fi >> shift;
-
-#define COS_SECTOR sector_1[4]    
-#define SIN_SECTOR sector_1[5]    
-
-    sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
-    sector_i_minus_u_1 = (sin_fi1_minus_fi2 < 0) ?  0 : 3;
-    
-#undef COS_SECTOR    
-#undef SIN_SECTOR    
-
-#define COS_SECTOR sector_2[4]    
-#define SIN_SECTOR sector_2[5]    
-
-    sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
-    sector_i_minus_u_2 = (sin_fi1_minus_fi2 < 0) ?  0 : 3;
-    
-#undef COS_SECTOR    
-#undef SIN_SECTOR    
-  }
-  else
-  {
-    //4-ий квадрант
-    cos_fi = cos_fi >> shift;
-    sin_fi = sin_fi >> shift;
-
-#define COS_SECTOR sector_1[6]    
-#define SIN_SECTOR sector_1[7]    
-
-    sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
-    sector_i_minus_u_1 = (sin_fi1_minus_fi2 > 0) ?  0 : 4;
-    
-#undef COS_SECTOR    
-#undef SIN_SECTOR    
-
-#define COS_SECTOR sector_2[6]    
-#define SIN_SECTOR sector_2[7]    
-
-    sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
-    sector_i_minus_u_2 = (sin_fi1_minus_fi2 > 0) ?  0 : 4;
-    
-#undef COS_SECTOR    
-#undef SIN_SECTOR    
-  }
-  /***/
-}
-/*****************************************************/
-
 /*****************************************************/
 //Направленість МТЗ з визначенням секторів
 /*****************************************************/
@@ -372,30 +221,30 @@ inline void directional_mtz(int ortogonal_local_calc[], unsigned int number_grou
       case 0:
         {
           index_I = IM_IA;
-          index_U = IM_UBC;
+          index_U = IM_UBC1;
 
           index_I_ort = FULL_ORT_Ia;
-          index_U_ort = FULL_ORT_Ubc;
+          index_U_ort = FULL_ORT_Ubc1;
 
           break;
         }
       case 1:
         {
           index_I = IM_IB;
-          index_U = IM_UCA;
+          index_U = IM_UCA1;
 
           index_I_ort = FULL_ORT_Ib;
-          index_U_ort = FULL_ORT_Uca;
+          index_U_ort = FULL_ORT_Uca1;
 
           break;
         }
       case 2:
         {
           index_I = IM_IC;
-          index_U = IM_UAB;
+          index_U = IM_UAB1;
 
           index_I_ort = FULL_ORT_Ic;
-          index_U_ort = FULL_ORT_Uab;
+          index_U_ort = FULL_ORT_Uab1;
 
           break;
         }
@@ -559,267 +408,6 @@ inline void directional_mtz(int ortogonal_local_calc[], unsigned int number_grou
 /*****************************************************/
 
 /*****************************************************/
-//Направленість ТЗНП з визначенням секторів
-/*****************************************************/
-inline void directional_tznp(int ortogonal_local_calc[], unsigned int number_group_stp) 
-{
-  for (unsigned int tznp = 0; tznp < 3; tznp++)
-  {
-    int a_cos_fi, a_sin_fi;
-    switch (tznp)
-    {
-    case 0:
-      {
-        a_cos_fi = current_settings_prt.setpoint_tznp_1_angle_cos[number_group_stp];
-        a_sin_fi = current_settings_prt.setpoint_tznp_1_angle_sin[number_group_stp];
-        
-        break;
-      }
-    case 1:
-      {
-        a_cos_fi = current_settings_prt.setpoint_tznp_2_angle_cos[number_group_stp];
-        a_sin_fi = current_settings_prt.setpoint_tznp_2_angle_sin[number_group_stp];
-        
-        break;
-      }
-    case 2:
-      {
-        a_cos_fi = current_settings_prt.setpoint_tznp_3_angle_cos[number_group_stp];
-        a_sin_fi = current_settings_prt.setpoint_tznp_3_angle_sin[number_group_stp];
-        
-        break;
-      }
-    default:
-      {
-        //Теоретично цього ніколи не мало б бути
-        total_error_sw_fixed(81);
-      }
-    }
-    a_sin_fi = -a_sin_fi; //З розділу: "Неймовірно, але факт", тобто що я не можу пояснити
-
-    //Робимо доповорот на встановлений кут
-    /*
-    За розрахунком описаним при розрахунку діючих значень наші ортогональні є у ворматі (15 біт + знак) = 16-розряжне число
-    */
-    unsigned int porig_U;
-    if (TZNP_3U0_bilshe_porogu == 0) porig_U = PORIG_CHUTLYVOSTI_VOLTAGE*KOEF_POVERNENNJA_SECTOR_BLK/100;
-    else porig_U = PORIG_CHUTLYVOSTI_VOLTAGE;
-    unsigned int U_bilshe_porogu_tmp = TZNP_3U0_bilshe_porogu = (measurement[IM_3U0] >= porig_U);
-      
-    unsigned int porig_I;
-    if (TZNP_3I0_r_bilshe_porogu == 0) porig_I = PORIG_CHUTLYVOSTI_CURRENT*KOEF_POVERNENNJA_SECTOR_BLK/100;
-    else porig_I = PORIG_CHUTLYVOSTI_CURRENT;
-    unsigned int I_bilshe_porogu_tmp = TZNP_3I0_r_bilshe_porogu  = (measurement[IM_3I0_r] >= porig_I);
-
-    if (
-        (U_bilshe_porogu_tmp != 0) &&
-        (I_bilshe_porogu_tmp != 0)
-       )
-    {
-      /*
-      Згідно з ТЗ напругу треба довернути на 180 градусів.
-      cos(phi + Pi) = -cos(phi)
-      sin(phi + Pi) = -sin(phi)
-      Тому COS_U змінюємо знак
-      */
-#define SIN_I           ( ortogonal_local_calc[2*FULL_ORT_3I0_r    ])
-#define COS_I           ( ortogonal_local_calc[2*FULL_ORT_3I0_r + 1])
-#define SIN_U_plus_Pi   (-ortogonal_local_calc[2*FULL_ORT_3U0      ])
-#define COS_U_plus_Pi   (-ortogonal_local_calc[2*FULL_ORT_3U0   + 1])
-
-      int cos_I_fi = (COS_I*a_cos_fi - SIN_I*a_sin_fi) >> AMPLITUDA_FI_VAGA; //З поверненням до початкової розрядності ортогональних
-      int sin_I_fi = (SIN_I*a_cos_fi + COS_I*a_sin_fi) >> AMPLITUDA_FI_VAGA; //З поверненням до початкової розрядності ортогональних
-
-      //Вираховуємо COS і SIN кута різниці між (3I0_r+fi) і (3U0 + 180°)
-      int cos_fi, sin_fi;
-      /*
-      З наведених теоретичних роззрахунків у функції обрахунку діючих значень (calc_measurement())
-      випливає, що максимальне значення ортогональних для струму може бути 0x6E51, для фазної напруги (3U0)
-      0x907E, то добуток їх має дати 0x3E43DBDE  - 30 бітне число (плюс знак біту)
-      Тобто ми акладаємося у тип int.
-      */
-      cos_fi = cos_I_fi*COS_U_plus_Pi + sin_I_fi*SIN_U_plus_Pi;
-      sin_fi = -(sin_I_fi*COS_U_plus_Pi - cos_I_fi*SIN_U_plus_Pi);//З розділу: "Неймовірно, але факт", тобто що я не можу пояснити
-
-#undef SIN_I
-#undef COS_I
-#undef SIN_U_plus_Pi
-#undef COS_U_plus_Pi
-
-      /*
-      З вище наведених розрахунків виходить, що COS і SIN різниці струму і напруги може бути 31(30)-бітне число
-      Векторні координати границь секторів задано 7-бінтими числами + знак
-      Тоді щоб не отримати переповнення треба гарантувати, що розрядність різниці векторів
-      COS і SIN буде = 31 - (7 + 1) = 23
-      7 - це розрядність координат векторів границь секторів
-      1 - це врахування що ми використовіємо формулу (ab+cd)
-      */
-      unsigned int order_cos, order_sin, max_order, shift = 0;
-      order_cos = get_order(cos_fi);
-      order_sin = get_order(sin_fi);
-      if (order_cos > order_sin) max_order = order_cos; else max_order = order_sin;
-      if (max_order > 23) shift = max_order - 23;
-  
-      /*
-      Сам зсув я роблю після визначення квадранта - це хоч і втрата на розмірі програмного коду,
-      але мало б підвищити точність визначення квадранту.
-      Хоч може тут я перемудровую?..
-      */
-
-      //Визначення сектору
-      int sin_fi1_minus_fi2;
-      int *sector;
-      if ((sin_fi >= 0) && (cos_fi >= 0))
-      {
-        //1-ий квадрант
-        cos_fi = cos_fi >> shift;
-        sin_fi = sin_fi >> shift;
-          
-        if (sector_directional_tznp[tznp] != 1)
-          sector = sector_1_mtz_tznp;
-        else
-          sector = sector_2_mtz_tznp;
-          
-#define COS_SECTOR sector[0]    
-#define SIN_SECTOR sector[1]    
-
-        sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
-        sector_directional_tznp[tznp] = (sin_fi1_minus_fi2 <= 0) ?  1 : 0;
-    
-#undef COS_SECTOR    
-#undef SIN_SECTOR   
-      }
-      else if ((sin_fi >= 0) && (cos_fi < 0))
-      {
-        //2-ий квадрант
-        cos_fi = cos_fi >> shift;
-        sin_fi = sin_fi >> shift;
-
-        if (sector_directional_tznp[tznp] != 2)
-          sector = sector_1_mtz_tznp;
-        else
-          sector = sector_2_mtz_tznp;
-
-#define COS_SECTOR sector[2]    
-#define SIN_SECTOR sector[3]    
-
-        sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
-        sector_directional_tznp[tznp] = (sin_fi1_minus_fi2 >= 0) ?  2 : 0;
-    
-#undef COS_SECTOR    
-#undef SIN_SECTOR    
-      }
-      else if ((sin_fi < 0) && (cos_fi < 0))
-      {
-        //3-ий квадрант
-        cos_fi = cos_fi >> shift;
-        sin_fi = sin_fi >> shift;
-
-        if (sector_directional_tznp[tznp] != 2)
-          sector = sector_1_mtz_tznp;
-        else
-          sector = sector_2_mtz_tznp;
-
-#define COS_SECTOR sector[4]    
-#define SIN_SECTOR sector[5]    
-
-        sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
-        sector_directional_tznp[tznp] = (sin_fi1_minus_fi2 <= 0) ?  2 : 0;
-    
-#undef COS_SECTOR    
-#undef SIN_SECTOR    
-      }
-      else
-      {
-        //4-ий квадрант
-        cos_fi = cos_fi >> shift;
-        sin_fi = sin_fi >> shift;
-
-        if (sector_directional_tznp[tznp] != 1)
-          sector = sector_1_mtz_tznp;
-        else
-          sector = sector_2_mtz_tznp;
-
-#define COS_SECTOR sector[6]    
-#define SIN_SECTOR sector[7]    
-
-        sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
-        sector_directional_tznp[tznp] = (sin_fi1_minus_fi2 >= 0) ?  1 : 0;
-    
-#undef COS_SECTOR    
-#undef SIN_SECTOR    
-      }
-    }
-    else
-    {
-      sector_directional_tznp[tznp] = 0;
-    }
-  }
-}
-/*****************************************************/
-
-/*****************************************************/
-//Визначенням опорів
-/*****************************************************/
-inline void calc_resistance(int ortogonal_local_calc[], int resistance_output[]) 
-{
-  const unsigned int index_line_voltage[3]  = {FULL_ORT_Uab, FULL_ORT_Ubc, FULL_ORT_Uca};
-  const unsigned int index_begin_current[3] = {FULL_ORT_Ia , FULL_ORT_Ib , FULL_ORT_Ic };
-  const unsigned int index_end_current[3]   = {FULL_ORT_Ib , FULL_ORT_Ic , FULL_ORT_Ia };
-  
-  for (unsigned int i = 0; i < 3; i++)
-  {
-    //Розраховуємо координати струму Ixy
-    int _a2, _b2;
-    /*
-    З наведених теоретичних роззрахунків у функції обрахунку діючих значень (calc_measurement())
-    випливає, що максимальне значення ортогональних для струму може бути 0x6E51, для лінійної напруги 
-    0x120FC
-
-    З фазних струмів розраховуються лінійні струми, то, якщо припустити що вектори розврнуті у різні сторони, то  максимальне
-    значення ортогональних може бути
-    0x6E51*2 = 0xDCA2 це є 16 бітне число (+ можливий знак) - тобто число виходить 17-бітне
-    */
-    
-    _a2 = ortogonal_local_calc[2*index_begin_current[i] + 0] - ortogonal_local_calc[2*index_end_current[i] + 0];
-    _b2 = ortogonal_local_calc[2*index_begin_current[i] + 1] - ortogonal_local_calc[2*index_end_current[i] + 1];
-
-#define _A1     ortogonal_local_calc[2*index_line_voltage[i] + 0]
-#define _B1     ortogonal_local_calc[2*index_line_voltage[i] + 1]
-    
-    long long mod = (long long)_a2*(long long)_a2 + (long long)_b2*(long long)_b2;
-    
-    //Розраховуємо амплітуду струму Ixy
-    unsigned int Ixy = ( MNOGNYK_I_DIJUCHE*(sqrt_64(mod)) ) >> (VAGA_DILENNJA_I_DIJUCHE + 4);
-    
-    if (Ixy >= PORIG_Ixy)
-    {
-      //Можна розраховувати міжфазний опір
-      /*
-       .
-      Uxy   Re(Uxy) + iIm(Uxy)   a1 + ib1    (a1 + ib1)(a2 - ib2)    (a1a2 + b1b2) + i(a2b1 - a1b2)    a1a2 + b1b2      a2b1 - a1b2
-      --- = ------------------ = --------- = --------------------- = ------------------------------ =  ------------ + i--------------
-       .                                                                     2      2                     2      2         2      2
-      Ixy   Re(Ixy) + iIm(Ixy)   a2 + ib2    (a2 + ib2)(a2 - ib2)          a2   + b2                    a2   + b2        a2   + b2
-      */
-      
-      resistance_output[2*i    ] = (int)(MNOGNYK_R_FLOAT*((float)((long long)_A1*(long long)_a2 + (long long)_B1*(long long)_b2))/((float)mod));
-      resistance_output[2*i + 1] = (int)(MNOGNYK_R_FLOAT*((float)((long long)_a2*(long long)_B1 - (long long)_A1*(long long)_b2))/((float)mod));
-    }
-    else
-    {
-      //Не можна розраховувати міжфазний опір
-      resistance_output[2*i    ] = UNDEF_RESISTANCE;
-      resistance_output[2*i + 1] = UNDEF_RESISTANCE;
-    }
-    
-#undef _A1
-#undef _B1
-  }
-}
-/*****************************************************/
-
-/*****************************************************/
 //Визначенням миттєвої потужності
 /*****************************************************/
 inline void calc_power(int ortogonal_local_calc[]) 
@@ -833,13 +421,13 @@ inline void calc_power(int ortogonal_local_calc[])
   
 #define IA_SIN          ortogonal_local_calc[2*FULL_ORT_Ia + 1]
 #define IA_COS          ortogonal_local_calc[2*FULL_ORT_Ia + 0]
-#define UAB_SIN         ortogonal_local_calc[2*FULL_ORT_Uab + 1]
-#define UAB_COS         ortogonal_local_calc[2*FULL_ORT_Uab + 0]
+#define UAB_SIN         ortogonal_local_calc[2*FULL_ORT_Uab1 + 1]
+#define UAB_COS         ortogonal_local_calc[2*FULL_ORT_Uab1 + 0]
   
 #define IC_SIN          ortogonal_local_calc[2*FULL_ORT_Ic + 1]
 #define IC_COS          ortogonal_local_calc[2*FULL_ORT_Ic + 0]
-#define UBC_SIN         ortogonal_local_calc[2*FULL_ORT_Ubc + 1]
-#define UBC_COS         ortogonal_local_calc[2*FULL_ORT_Ubc + 0]
+#define UBC_SIN         ortogonal_local_calc[2*FULL_ORT_Ubc1 + 1]
+#define UBC_COS         ortogonal_local_calc[2*FULL_ORT_Ubc1 + 0]
   
   long long Re_IaUab, Im_IaUab;
   if (measurement[IM_IA] >= PORIG_I_ENERGY)
@@ -950,11 +538,7 @@ inline void calc_power(int ortogonal_local_calc[])
 inline void calc_measurement(unsigned int number_group_stp)
 {
   int ortogonal_local[2*NUMBER_ANALOG_CANALES];
-  unsigned long long sum_sqr_data_3I0_local;
-  float value_3I0_i_float, value_3I0_f_float;
-
   //Виставляємо семафор заборони обновлення значень з вимірювальної системи
-//  semaphore_measure_values = 1;
 
   //Копіюємо вхідні велечини у локальні змінні
   /*
@@ -995,18 +579,10 @@ inline void calc_measurement(unsigned int number_group_stp)
   {
     ortogonal_local[i] = ortogonal[i][bank_ortogonal_tmp];
   }
-  
-  /*
-  Оскільки для інтеградбного розгахунку сума квадратів з період ділиться на період, 
-  що для дискретного випадку аналогічн діленню на кількість виборок, то ми це ділення якраз і робимо зміщенням
-  */
-//  sum_sqr_data_3I0_period_local = sum_sqr_data_3I0_period;
-  sum_sqr_data_3I0_local = sum_sqr_data_3I0[bank_ortogonal_tmp];
-
   bank_ortogonal = bank_ortogonal_tmp;
-  
-  //Знімаємо семафор заборони обновлення значень з вимірювальної системи
-//  semaphore_measure_values = 0;
+
+  unsigned int copy_to_low_tasks = (semaphore_measure_values_low == 0) ? true : false;
+  if (copy_to_low_tasks == true) current_delta_phi();
   
   /*******************************************************/
   //Перевіряємо, чи відбувалися зміни юстування
@@ -1029,14 +605,24 @@ inline void calc_measurement(unsigned int number_group_stp)
   /***
   Довертаємо кути і копіюємо ортогональні для низькопріоритетних задач
   ***/
-  unsigned int copy_to_low_tasks = (semaphore_measure_values_low == 0) ? true : false;
   for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES; i++)
   {
     float sin_alpha = ((float)ortogonal_local[2*i    ])/((float)((1 << (VAGA_NUMBER_POINT - 1))));
     float cos_alpha = ((float)ortogonal_local[2*i + 1])/((float)((1 << (VAGA_NUMBER_POINT - 1))));
     
-    float sin_beta =  phi_ustuvannja_sin_cos_meas[2*i    ];
-    float cos_beta =  phi_ustuvannja_sin_cos_meas[2*i + 1];
+    float sin_beta;
+    float cos_beta;
+    if (i < I_Ua2)
+    {
+      sin_beta =  phi_ustuvannja_sin_cos_meas[2*i    ];
+      cos_beta =  phi_ustuvannja_sin_cos_meas[2*i + 1];
+    }
+    else
+    {
+       unsigned int frequency_locking_bank_tmp = frequency_locking_bank & 0x1;
+       sin_beta = phi_ustuvannja_sin_cos_meas[2*i    ]*frequency_locking_cos[frequency_locking_bank_tmp] + phi_ustuvannja_sin_cos_meas[2*i + 1]*frequency_locking_sin[frequency_locking_bank_tmp];
+       cos_beta = phi_ustuvannja_sin_cos_meas[2*i + 1]*frequency_locking_cos[frequency_locking_bank_tmp] - phi_ustuvannja_sin_cos_meas[2*i    ]*frequency_locking_sin[frequency_locking_bank_tmp];
+    }
     
     unsigned int new_index = index_converter_Ib_p[i];
     int ortogonal_sin = ortogonal_calc[2*new_index    ] = (int)(sin_alpha*cos_beta + cos_alpha*sin_beta);
@@ -1050,31 +636,6 @@ inline void calc_measurement(unsigned int number_group_stp)
       ortogonal_calc_low[2*new_index + 1] = ortogonal_cos;
     }
   }
-  /***/
-  
-  /***/
-  //Розраховуємо діюче значення 3I0 по інтегральній сформулі
-  /***/
-  /*Добуваємо квадратний корінь*/
-  sum_sqr_data_3I0_local = sqrt_64(sum_sqr_data_3I0_local);
-  
-  /*Для приведення цього значення у мА треба помножити на свій коефіцієнт*/
-  /*Ще сигнал зараз є підсиленим у 256 раз, тому ділим його на 256*/
-  /*Крім того запам'ятовуємо це значенян для розрахунку діючого значення ішних гармонфік*/
-
-  /*
-  Ми маємо ще отримане число поділити на корнь з NUMBER_POINT = 32 = 16*2
-  Тобто ми маємо поділити на 4*sqrt(2)
-  4 це зміщення на 2
-  ((MNOGNYK_3I0_D * X )>> VAGA_DILENNJA_3I0_D)/sqrt(2) тотожне
-   (MNOGNYK_3I0_DIJUCHE_D * X )>> VAGA_DILENNJA_3I0_DIJUCHE_D 
-  
-  Якщо робити через пари (MNOGNYK_3I0_DIJUCHE_D;VAGA_DILENNJA_3I0_DIJUCHE_D) і (MNOGNYK_3I0_D;VAGA_DILENNJA_3I0_D)
-  то виникає похибка при розрахунку вищих гармонік.
-  Тому треба іти на такі спрощення виразів
-  */
-  value_3I0_i_float = (unsigned int)(MNOGNYK_3I0_FLOAT*((float)sum_sqr_data_3I0_local)/(1024.0f)); /*1024 = 4*256. 256 - це підсилення каналу 3I0; 4 - це sqrt(16), а 16 береться з того. що 32 = 16*2 */
-  measurement[IM_3I0_i] = (unsigned int)value_3I0_i_float; 
   /***/
   
   /*
@@ -1119,95 +680,23 @@ inline void calc_measurement(unsigned int number_group_stp)
   /***/
   for(unsigned int i = 0; i < NUMBER_ANALOG_CANALES; i++)
   {
-    if (i == I_3I0)
+#if (I_Ia == 0)
+    if (i <= I_Ic)
+#else
+    if ((i >= I_Ia) && (i <= I_Ic))
+#endif
     {
-      long long a, b;
-      a = (long long)ortogonal_calc[2*FULL_ORT_3I0];
-      b = (long long)ortogonal_calc[2*FULL_ORT_3I0 + 1];
-      unsigned long long a2, b2, c;
-      a2 = a*a;
-      b2 = b*b;
-      c = a2 + b2;
-      unsigned int d;
-      d = sqrt_64(c);
-      value_3I0_f_float = (unsigned int)(MNOGNYK_3I0_FLOAT*((float)d)/(256.0f)); /*256 - це підсиланне сигналу 3I0*/
-
-      measurement[IM_3I0] = (unsigned int)value_3I0_f_float;
-    }
-    else if ((i >= I_Ia) && (i <= I_Ic))
-    {
-      unsigned int index_m, index_ort;
-      switch (i)
-      {
-      case I_Ia:
-        {
-          index_m = IM_IA;
-          index_ort = FULL_ORT_Ia;
-          break;
-        }
-      case I_Ib_I04:
-        {
-          if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
-          {
-            index_m = IM_IB;
-            index_ort = FULL_ORT_Ib;
-          }
-          else
-          {
-            index_m = IM_I04;
-            index_ort = FULL_ORT_I04;
-          }
-          break;
-        }
-      case I_Ic:
-        {
-          index_m = IM_IC;
-          index_ort = FULL_ORT_Ic;
-          break;
-        }
-      default:
-        {
-          //Теоретично цього ніколи не мало б бути
-          total_error_sw_fixed(66);
-        }
-      }
+      unsigned int delta_index = (i - I_Ia);
+      unsigned int index_m = IM_IA + delta_index;
+      unsigned int index_ort = FULL_ORT_Ia + delta_index;
       
       measurement[index_m] = ( MNOGNYK_I_DIJUCHE*(sqrt_32((unsigned int)(ortogonal_calc[2*index_ort]*ortogonal_calc[2*index_ort]) + (unsigned int)(ortogonal_calc[2*index_ort+1]*ortogonal_calc[2*index_ort+1]))) ) >> (VAGA_DILENNJA_I_DIJUCHE + 4);
     }
     else
     {
-      unsigned int index_m, index_ort;
-      switch (i)
-      {
-      case I_Ua:
-      case I_Ub:
-      case I_Uc:
-        {
-          unsigned int delta_index = (i - I_Ua);
-          if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)
-          {
-            index_m = IM_UA + delta_index;
-            index_ort = FULL_ORT_Ua + delta_index;
-          }
-          else
-          {
-            index_m = IM_UAB + delta_index;
-            index_ort = FULL_ORT_Uab + delta_index;
-          }
-          break;
-        }
-      case I_3U0:
-        {
-          index_m = IM_3U0;
-          index_ort = FULL_ORT_3U0;
-          break;
-        }
-      default:
-        {
-          //Теоретично цього ніколи не мало б бути
-          total_error_sw_fixed(67);
-        }
-      }
+      unsigned int delta_index = (i - I_Ua1);
+      unsigned int index_m = IM_UA1 + delta_index;
+      unsigned int index_ort = FULL_ORT_Ua1 + delta_index;
       
       measurement[index_m] = ( MNOGNYK_U_DIJUCHE*(sqrt_32((unsigned int)(ortogonal_calc[2*index_ort]*ortogonal_calc[2*index_ort]) + (unsigned int)(ortogonal_calc[2*index_ort+1]*ortogonal_calc[2*index_ort+1]))) ) >> (VAGA_DILENNJA_U_DIJUCHE + 4);
     }
@@ -1215,148 +704,66 @@ inline void calc_measurement(unsigned int number_group_stp)
   }
   /***/
 
-  /***/
-  //Розраховуємо діюче значення вищих гармонік 3I0
-  /***/
-  if (value_3I0_i_float > value_3I0_f_float)
-  {
-    float in_square_root, out_square_root;
-    in_square_root = value_3I0_i_float*value_3I0_i_float - value_3I0_f_float*value_3I0_f_float;
-    if (arm_sqrt_f32(in_square_root, &out_square_root) == ARM_MATH_SUCCESS)
-    {
-      measurement[IM_3I0_other_g] = (unsigned int)out_square_root;
-    }
-    else
-    {
-      //Якщо сюди дійшла програма, значить відбулася недопустива помилка, тому треба зациклити програму, щоб вона пішла на перезагрузку
-      total_error_sw_fixed(59);
-    }
-  }
-  else
-    measurement[IM_3I0_other_g] = 0;
-  /***/
-
-  /***
-  Дорозраховунок 3I0(розрахункове, якщо є Ib), лінійних напруг і Ib(якщо Ib немає)
-  ***/
   int _x, _y;
-
-  if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
-  {   
-    //3I0(розрахункове), стрму I0.4 немає
-    
-    ortogonal_calc[2*FULL_ORT_I04 + 0] = 0;
-    ortogonal_calc[2*FULL_ORT_I04 + 1] = 0;
-    measurement[IM_I04] = 0;
-    
-    _x = ortogonal_calc[2*FULL_ORT_3I0_r + 0] = ortogonal_calc[2*FULL_ORT_Ia    ] + ortogonal_calc[2*FULL_ORT_Ib    ] + ortogonal_calc[2*FULL_ORT_Ic    ];
-    _y = ortogonal_calc[2*FULL_ORT_3I0_r + 1] = ortogonal_calc[2*FULL_ORT_Ia + 1] + ortogonal_calc[2*FULL_ORT_Ib + 1] + ortogonal_calc[2*FULL_ORT_Ic + 1];
-    if (copy_to_low_tasks == true)
-    {
-      ortogonal_calc_low[2*FULL_ORT_I04 + 0] = 0;
-      ortogonal_calc_low[2*FULL_ORT_I04 + 1] = 0;
-      
-      ortogonal_calc_low[2*FULL_ORT_3I0_r + 0] = _x;
-      ortogonal_calc_low[2*FULL_ORT_3I0_r + 1] = _y;
-    }
-    measurement[IM_3I0_r] = ( MNOGNYK_I_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_I_DIJUCHE + 4);
-  }
-  else
+  //Ubc1
+  _x = ortogonal_calc[2*FULL_ORT_Ubc1 + 0] = ortogonal_calc[2*FULL_ORT_Ub1    ] - ortogonal_calc[2*FULL_ORT_Uc1    ];
+  _y = ortogonal_calc[2*FULL_ORT_Ubc1 + 1] = ortogonal_calc[2*FULL_ORT_Ub1 + 1] - ortogonal_calc[2*FULL_ORT_Uc1 + 1];
+  if (copy_to_low_tasks == true)
   {
-    //Ib(розрахункове), струму 3I0(розрахункове) немає
-    
-    ortogonal_calc[2*FULL_ORT_3I0_r + 0] = 0;
-    ortogonal_calc[2*FULL_ORT_3I0_r + 1] = 0;
-    measurement[IM_3I0_r] = 0;
-    
-    int ortogonal_local_3I0[2];
-  
-#if (4 + VAGA_DILENNJA_3I0_DIJUCHE_D_mA) >= VAGA_DILENNJA_I_DIJUCHE  
-    ortogonal_local_3I0[0] = ((MNOGNYK_3I0_DIJUCHE_D_mA*ortogonal_calc[2*FULL_ORT_3I0 + 0]) >> (4 + VAGA_DILENNJA_3I0_DIJUCHE_D_mA - VAGA_DILENNJA_I_DIJUCHE))/MNOGNYK_I_DIJUCHE;
-    ortogonal_local_3I0[1] = ((MNOGNYK_3I0_DIJUCHE_D_mA*ortogonal_calc[2*FULL_ORT_3I0 + 1]) >> (4 + VAGA_DILENNJA_3I0_DIJUCHE_D_mA - VAGA_DILENNJA_I_DIJUCHE))/MNOGNYK_I_DIJUCHE;
-#else
-    ortogonal_local_3I0[0] = ((MNOGNYK_3I0_DIJUCHE_D_mA*ortogonal_calc[2*FULL_ORT_3I0 + 0]) << (VAGA_DILENNJA_I_DIJUCHE - (VAGA_DILENNJA_3I0_DIJUCHE_D_mA + 4)))/MNOGNYK_I_DIJUCHE;
-    ortogonal_local_3I0[1] = ((MNOGNYK_3I0_DIJUCHE_D_mA*ortogonal_calc[2*FULL_ORT_3I0 + 1]) << (VAGA_DILENNJA_I_DIJUCHE - (VAGA_DILENNJA_3I0_DIJUCHE_D_mA + 4)))/MNOGNYK_I_DIJUCHE;
-#endif
-  
-    _x = ortogonal_calc[2*FULL_ORT_Ib + 0] = ortogonal_local_3I0[0] - (ortogonal_calc[2*FULL_ORT_Ia + 0] + ortogonal_calc[2*FULL_ORT_Ic + 0]);
-    _y = ortogonal_calc[2*FULL_ORT_Ib + 1] = ortogonal_local_3I0[1] - (ortogonal_calc[2*FULL_ORT_Ia + 1] + ortogonal_calc[2*FULL_ORT_Ic + 1]);
-    if (copy_to_low_tasks == true)
-    {
-      ortogonal_calc_low[2*FULL_ORT_3I0_r + 0] = 0;
-      ortogonal_calc_low[2*FULL_ORT_3I0_r + 1] = 0;
-
-      ortogonal_calc_low[2*FULL_ORT_Ib + 0] = _x;
-      ortogonal_calc_low[2*FULL_ORT_Ib + 1] = _y;
-    }
-    measurement[IM_IB] = ( MNOGNYK_I_DIJUCHE*(sqrt_32((unsigned int)(_x*_x) + (unsigned int)(_y*_y))) ) >> (VAGA_DILENNJA_I_DIJUCHE + 4);
+    ortogonal_calc_low[2*FULL_ORT_Ubc1 + 0] = _x;
+    ortogonal_calc_low[2*FULL_ORT_Ubc1 + 1] = _y;
   }
-    
-  if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)
+  measurement[IM_UBC1] = ( MNOGNYK_U_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_U_DIJUCHE + 4);
+  
+  //Uca1
+  _x = ortogonal_calc[2*FULL_ORT_Uca1 + 0] = ortogonal_calc[2*FULL_ORT_Uc1    ] - ortogonal_calc[2*FULL_ORT_Ua1    ];
+  _y = ortogonal_calc[2*FULL_ORT_Uca1 + 1] = ortogonal_calc[2*FULL_ORT_Uc1 + 1] - ortogonal_calc[2*FULL_ORT_Ua1 + 1];
+  if (copy_to_low_tasks == true)
   {
-    //Ubc
-    _x = ortogonal_calc[2*FULL_ORT_Ubc + 0] = ortogonal_calc[2*FULL_ORT_Ub    ] - ortogonal_calc[2*FULL_ORT_Uc    ];
-    _y = ortogonal_calc[2*FULL_ORT_Ubc + 1] = ortogonal_calc[2*FULL_ORT_Ub + 1] - ortogonal_calc[2*FULL_ORT_Uc + 1];
-    if (copy_to_low_tasks == true)
-    {
-      ortogonal_calc_low[2*FULL_ORT_Ubc + 0] = _x;
-      ortogonal_calc_low[2*FULL_ORT_Ubc + 1] = _y;
-    }
-    measurement[IM_UBC] = ( MNOGNYK_U_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_U_DIJUCHE + 4);
-  
-    //Uca
-    _x = ortogonal_calc[2*FULL_ORT_Uca + 0] = ortogonal_calc[2*FULL_ORT_Uc    ] - ortogonal_calc[2*FULL_ORT_Ua    ];
-    _y = ortogonal_calc[2*FULL_ORT_Uca + 1] = ortogonal_calc[2*FULL_ORT_Uc + 1] - ortogonal_calc[2*FULL_ORT_Ua + 1];
-    if (copy_to_low_tasks == true)
-    {
-      ortogonal_calc_low[2*FULL_ORT_Uca + 0] = _x;
-      ortogonal_calc_low[2*FULL_ORT_Uca + 1] = _y;
-    }
-    measurement[IM_UCA] = ( MNOGNYK_U_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_U_DIJUCHE + 4);
-
-    //Uab
-    _x = ortogonal_calc[2*FULL_ORT_Uab + 0] = ortogonal_calc[2*FULL_ORT_Ua    ] - ortogonal_calc[2*FULL_ORT_Ub    ];
-    _y = ortogonal_calc[2*FULL_ORT_Uab + 1] = ortogonal_calc[2*FULL_ORT_Ua + 1] - ortogonal_calc[2*FULL_ORT_Ub + 1];
-    if (copy_to_low_tasks == true)
-    {
-      ortogonal_calc_low[2*FULL_ORT_Uab + 0] = _x;
-      ortogonal_calc_low[2*FULL_ORT_Uab + 1] = _y;
-    }
-    measurement[IM_UAB] = ( MNOGNYK_U_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_U_DIJUCHE + 4);
+    ortogonal_calc_low[2*FULL_ORT_Uca1 + 0] = _x;
+    ortogonal_calc_low[2*FULL_ORT_Uca1 + 1] = _y;
   }
-  else
+  measurement[IM_UCA1] = ( MNOGNYK_U_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_U_DIJUCHE + 4);
+
+  //Uab1
+  _x = ortogonal_calc[2*FULL_ORT_Uab1 + 0] = ortogonal_calc[2*FULL_ORT_Ua1    ] - ortogonal_calc[2*FULL_ORT_Ub1    ];
+  _y = ortogonal_calc[2*FULL_ORT_Uab1 + 1] = ortogonal_calc[2*FULL_ORT_Ua1 + 1] - ortogonal_calc[2*FULL_ORT_Ub1 + 1];
+  if (copy_to_low_tasks == true)
   {
-    //Ua
-    ortogonal_calc[2*FULL_ORT_Ua + 0] = 0;
-    ortogonal_calc[2*FULL_ORT_Ua + 1] = 0;
-    measurement[IM_UA] = 0;
-
-    //Ub
-    ortogonal_calc[2*FULL_ORT_Ub + 0] = 0;
-    ortogonal_calc[2*FULL_ORT_Ub + 1] = 0;
-    measurement[IM_UB] = 0;
-
-    //Uc
-    ortogonal_calc[2*FULL_ORT_Uc + 0] = 0;
-    ortogonal_calc[2*FULL_ORT_Uc + 1] = 0;
-    measurement[IM_UC] = 0;
-    
-    if (copy_to_low_tasks == true)
-    {
-      //Ua
-      ortogonal_calc_low[2*FULL_ORT_Ua + 0] = 0;
-      ortogonal_calc_low[2*FULL_ORT_Ua + 1] = 0;
-
-      //Ub
-      ortogonal_calc_low[2*FULL_ORT_Ub + 0] = 0;
-      ortogonal_calc_low[2*FULL_ORT_Ub + 1] = 0;
-
-      //Uc
-      ortogonal_calc_low[2*FULL_ORT_Uc + 0] = 0;
-      ortogonal_calc_low[2*FULL_ORT_Uc + 1] = 0;
-    }
-  
+    ortogonal_calc_low[2*FULL_ORT_Uab1 + 0] = _x;
+    ortogonal_calc_low[2*FULL_ORT_Uab1 + 1] = _y;
   }
+  measurement[IM_UAB1] = ( MNOGNYK_U_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_U_DIJUCHE + 4);
+
+  //Ubc2
+  _x = ortogonal_calc[2*FULL_ORT_Ubc2 + 0] = ortogonal_calc[2*FULL_ORT_Ub2    ] - ortogonal_calc[2*FULL_ORT_Uc2    ];
+  _y = ortogonal_calc[2*FULL_ORT_Ubc2 + 1] = ortogonal_calc[2*FULL_ORT_Ub2 + 1] - ortogonal_calc[2*FULL_ORT_Uc2 + 1];
+  if (copy_to_low_tasks == true)
+  {
+    ortogonal_calc_low[2*FULL_ORT_Ubc2 + 0] = _x;
+    ortogonal_calc_low[2*FULL_ORT_Ubc2 + 1] = _y;
+  }
+  measurement[IM_UBC2] = ( MNOGNYK_U_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_U_DIJUCHE + 4);
+  
+  //Uca2
+  _x = ortogonal_calc[2*FULL_ORT_Uca2 + 0] = ortogonal_calc[2*FULL_ORT_Uc2    ] - ortogonal_calc[2*FULL_ORT_Ua2    ];
+  _y = ortogonal_calc[2*FULL_ORT_Uca2 + 1] = ortogonal_calc[2*FULL_ORT_Uc2 + 1] - ortogonal_calc[2*FULL_ORT_Ua2 + 1];
+  if (copy_to_low_tasks == true)
+  {
+    ortogonal_calc_low[2*FULL_ORT_Uca2 + 0] = _x;
+    ortogonal_calc_low[2*FULL_ORT_Uca2 + 1] = _y;
+  }
+  measurement[IM_UCA2] = ( MNOGNYK_U_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_U_DIJUCHE + 4);
+
+  //Uab2
+  _x = ortogonal_calc[2*FULL_ORT_Uab2 + 0] = ortogonal_calc[2*FULL_ORT_Ua2    ] - ortogonal_calc[2*FULL_ORT_Ub2    ];
+  _y = ortogonal_calc[2*FULL_ORT_Uab2 + 1] = ortogonal_calc[2*FULL_ORT_Ua2 + 1] - ortogonal_calc[2*FULL_ORT_Ub2 + 1];
+  if (copy_to_low_tasks == true)
+  {
+    ortogonal_calc_low[2*FULL_ORT_Uab2 + 0] = _x;
+    ortogonal_calc_low[2*FULL_ORT_Uab2 + 1] = _y;
+  }
+  measurement[IM_UAB2] = ( MNOGNYK_U_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_U_DIJUCHE + 4);
   /***/
 
   /***/
@@ -1365,42 +772,12 @@ inline void calc_measurement(unsigned int number_group_stp)
   directional_mtz(ortogonal_calc, number_group_stp);
   /***/
 
-  if (
-      ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0) &&
-      ((current_settings_prt.configuration & (1<<TZNP_BIT_CONFIGURATION)) != 0)
-     )   
-  {
-    /***/
-    //Фазочутливий елемент для ТЗНП (всіх ступенів)
-    /***/
-    directional_tznp(ortogonal_calc, number_group_stp);
-    /***/
-  }
-  
-  if ((current_settings_prt.configuration & (1<<ZZ_BIT_CONFIGURATION)) != 0)
-  {
-    if ((current_settings_prt.control_zz & CTR_ZZ1_TYPE) == 0)
-    {
-      /***/
-      //Фазочутливий елемент для НЗЗ
-      /***/
-      detector_kuta_nzz(ortogonal_calc);
-      /***/
-    }
-  }
-  
   /***/
   //Розраховуємо струм зворотньої послідовності
   /***/
   velychyna_zvorotnoi_poslidovnosti(ortogonal_calc);
   /***/
   
-  /***/
-  //Розраховуємо опори
-  /***/
-  calc_resistance(ortogonal_calc, resistance);
-  /***/
-
   if(++number_inputs_for_fix_one_period >= 20)
   {
     /***/
@@ -2549,9 +1926,9 @@ inline void mtz_handler(volatile unsigned int *p_active_functions, unsigned int 
             u_linear_nom_const * U_DOWN / 100 :
             u_linear_nom_const;
   
-  previous_state_mtz_po_uncn = ((measurement[IM_UAB] <= po_u_ncn_setpoint) &&
-                                (measurement[IM_UBC] <= po_u_ncn_setpoint) &&
-                                (measurement[IM_UCA] <= po_u_ncn_setpoint));
+  previous_state_mtz_po_uncn = ((measurement[IM_UAB1] <= po_u_ncn_setpoint) &&
+                                (measurement[IM_UBC1] <= po_u_ncn_setpoint) &&
+                                (measurement[IM_UCA1] <= po_u_ncn_setpoint));
   
   ctr_mtz_nespr_kil_napr = ctr_mtz_nespr_kil_napr && previous_state_mtz_po_incn && previous_state_mtz_po_uncn; //Неисправность цепей напряжения (_AND3)
   
@@ -2666,9 +2043,9 @@ inline void mtz_handler(volatile unsigned int *p_active_functions, unsigned int 
            PORIG_CHUTLYVOSTI_VOLTAGE :
            PORIG_CHUTLYVOSTI_VOLTAGE * U_DOWN / 100;
     
-    tmp_value |= ((measurement[IM_UAB] <= po_block_u_mtzn_x_setpoint) &&
-                  (measurement[IM_UBC] <= po_block_u_mtzn_x_setpoint) &&
-                  (measurement[IM_UCA] <= po_block_u_mtzn_x_setpoint)) << 14; //ПО U блок. МТЗНх
+    tmp_value |= ((measurement[IM_UAB1] <= po_block_u_mtzn_x_setpoint) &&
+                  (measurement[IM_UBC1] <= po_block_u_mtzn_x_setpoint) &&
+                  (measurement[IM_UCA1] <= po_block_u_mtzn_x_setpoint)) << 14; //ПО U блок. МТЗНх
     
     //ПО U блок. МТЗНх
     if (_GET_OUTPUT_STATE(tmp_value, 14))
@@ -2691,9 +2068,9 @@ inline void mtz_handler(volatile unsigned int *p_active_functions, unsigned int 
             *(setpoint_mtz_U[mtz_level] + number_group_stp) * U_DOWN / 100:
             *(setpoint_mtz_U[mtz_level] + number_group_stp) ;
     
-    tmp_value |= ((measurement[IM_UAB] <= po_u_mtzpn_x_setpoint) ||
-                  (measurement[IM_UBC] <= po_u_mtzpn_x_setpoint) ||
-                  (measurement[IM_UCA] <= po_u_mtzpn_x_setpoint)) << 16; //ПО U МТЗПНх
+    tmp_value |= ((measurement[IM_UAB1] <= po_u_mtzpn_x_setpoint) ||
+                  (measurement[IM_UBC1] <= po_u_mtzpn_x_setpoint) ||
+                  (measurement[IM_UCA1] <= po_u_mtzpn_x_setpoint)) << 16; //ПО U МТЗПНх
     
     //ПО U МТЗПНх
     if (_GET_OUTPUT_STATE(tmp_value, 16))
@@ -2894,634 +2271,6 @@ inline void zdz_handler(volatile unsigned int *p_active_functions)
 /*****************************************************/
 
 /*****************************************************/
-// ЗЗ
-/*****************************************************/
-inline void zz_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
-{
-  /********************************
-  Сектор НЗЗ
-
-  "Сектор НЗЗ" визначається при порогах:
-  
-  Струм 3I0 (вимірюється у десятих міліамперів) > 5 (мА)
-  Струм 3U0 (вимірюється у         мілівольтах) > 6 (В)
-  
-  *********************************/
-  unsigned int porig_3I0;
-  if (Nzz_3I0_bilshe_porogu == 0) porig_3I0 = PORIG_CHUTLYVOSTI_3I0*KOEF_POVERNENNJA_SECTOR_BLK/100;
-  else porig_3I0 = PORIG_CHUTLYVOSTI_3I0;
-  unsigned int Nzz_3I0_bilshe_porogu_tmp = Nzz_3I0_bilshe_porogu = (measurement[IM_3I0] >= porig_3I0);
-
-  unsigned int porig_3U0;
-  if (Nzz_3U0_bilshe_porogu == 0) porig_3U0 = PORIG_CHUTLYVOSTI_3U0*KOEF_POVERNENNJA_SECTOR_BLK/100;
-  else porig_3U0 = PORIG_CHUTLYVOSTI_3U0;
-  unsigned int Nzz_3U0_bilshe_porogu_tmp = Nzz_3U0_bilshe_porogu = (measurement[IM_3U0] >= porig_3U0);
-      
-  if (
-      ((current_settings_prt.control_zz & CTR_ZZ1_TYPE) == 0) &&
-      (Nzz_3I0_bilshe_porogu_tmp != 0) &&
-      (Nzz_3U0_bilshe_porogu_tmp != 0)
-     )
-  {
-    unsigned int sector_i_minus_u;
-    if (sector_NZZ == 0)
-    {
-      //Працюємо по сектору спрацювання для НЗЗ
-      sector_i_minus_u = sector_i_minus_u_1;
-    }
-    else
-    {
-      //Працюємо по сектору відпускання для НЗЗ
-      sector_i_minus_u = sector_i_minus_u_2;
-    }
-  
-    if ((current_settings_prt.control_zz & CTR_ZZ1_SECTOR) != 0)
-    {
-      //Працюємо по сектору "ВПЕРЕД" (квадранти 1 і 2 без "сірої області")
-      if ((sector_i_minus_u == 1) || (sector_i_minus_u == 2))
-      {
-        /*
-        Будь-яке ненульове значення означає, що ми в секторі спрацювання
-        */
-        sector_NZZ = 0xff;
-      }
-      else
-      {
-        /*
-        Нульове значення означає, що ми не в секторі спрацювання
-        */
-        sector_NZZ = 0;
-      }
-    }
-    else
-    {
-      //Працюємо по сектору "НАЗАД" (квадранти 3 і 4 без "сірої області")
-      if ((sector_i_minus_u == 3) || (sector_i_minus_u == 4))
-      {
-        /*
-        Будь-яке ненульове значення означає, що ми в секторі спрацювання
-        */
-        sector_NZZ = 0xff;
-      }
-      else
-      {
-        /*
-        Нульове значення означає, що ми не в секторі спрацювання
-        */
-        sector_NZZ = 0;
-      }
-    }
-  }
-  else sector_NZZ = 0;
-
-  
-  //Встановлюємо сигнал "Сектор НЗЗ",якщо він потрібний - у іншому випадку він скинутий
-  if (sector_NZZ != 0)
-    _SET_BIT(p_active_functions, RANG_SECTOR_NZZ);
-  else
-    _CLEAR_BIT(p_active_functions, RANG_SECTOR_NZZ);
-  /*******************************/
-
-  /*******************************/
-  //Визначаємо по якому вимірюванню будемо аналізувати і який коефіцієнт повернення
-  /*******************************/
-  unsigned int max_3i0_current, koef_povernennja;
-  
-  if((current_settings_prt.control_zz & CTR_ZZ1_TYPE) == 0)
-  {
-    max_3i0_current = measurement[IM_3I0];
-    koef_povernennja = KOEF_POVERNENNJA_GENERAL;
-  }
-  else
-  {
-    max_3i0_current = measurement[IM_3I0_other_g];
-    koef_povernennja = KOEF_POVERNENNJA_3I0_OTHER;
-  }
-  /*******************************/
-  
-  unsigned int setpoint;
-  /********************************
-  ПО 3I0 (на рівні вимірювальної величини, уставкм спрацювання/відпускання)
-  ********************************/
-  /*
-  Оскільки вимірювання у нас з точністю до десятих міліампер, а уставка у нас у міліамперах,
-  то множимо устаку на 10, щоб отримати її також у десятих міліамперів
-  */
-  if (po_3I0 == 0)
-  {
-    //Працюємо по уставці спрацювання для 3I0
-    setpoint = current_settings_prt.setpoint_zz_3I0[number_group_stp]*10;
-  }
-  else
-  {
-    //Працюємо по уставці відпускання для 3I0
-    /*
-    Алгебраїчне спрощення виразу
-    setpoint = (current_settings_prt.setpoint_zz_3I0[number_group_stp]*koef_povernennja/100)*10 =  current_settings_prt.setpoint_zz_3I0[number_group_stp]*koef_povernennja/10
-    */
-    setpoint = current_settings_prt.setpoint_zz_3I0[number_group_stp]*koef_povernennja/10;
-  }
-  
-  if (max_3i0_current >= setpoint)
-  {
-    /*
-    Будь-яке ненульове значення означає, що вимірюване значення вище-рівне порогу порівнювальної уставки
-    */
-    po_3I0 = 0xff;
-  }
-  else
-  {
-    /*
-    Нульове значення означає, що вимірюване значення нижче порогу порівнювальної уставки
-    */
-    po_3I0 = 0;
-  }
-  /*******************************/
-
-  /********************************
-  ПО 3U0 (на рівні вимірювальної величини, уставкм спрацювання/відпускання)
-  ********************************/
-  if (po_3U0 == 0)
-  {
-    //Працюємо по уставці спрацювання для 3U0
-    setpoint = current_settings_prt.setpoint_zz_3U0[number_group_stp];
-  }
-  else
-  {
-    //Працюємо по уставці відпускання для 3U0
-    setpoint = current_settings_prt.setpoint_zz_3U0[number_group_stp]*KOEF_POVERNENNJA_3U0/100;
-  }
-  
-  if (measurement[IM_3U0] >= setpoint)
-  {
-    /*
-    Будь-яке ненульове значення означає, що вимірюване значення вище-рівне порогу порівнювальної уставки
-    */
-    po_3U0 = 0xff;
-  }
-  else
-  {
-    /*
-    Нульове значення означає, що вимірюване значення нижче порогу порівнювальної уставки
-    */
-    po_3U0 = 0;
-  }
-  /*******************************/
-  
-  if (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_NZZ) == 0)
-  {
-    //НЗЗ, ЗЗ/3I0 і ЗЗ/3U0 не блокується з дискретного входу
-    /*******************************/
-    //НЗЗ
-    /*******************************/
-    if (
-        ((current_settings_prt.control_zz & CTR_ZZ1_NZZ_STATE) != 0) &&
-        ((current_settings_prt.control_zz & CTR_ZZ1_TYPE) == 0)
-       )   
-    {
-      //1 ступінь ЗЗ/3U0 включена, дозволена і не блокується
-    
-      unsigned int previous_state_po_nzz = _CHECK_SET_BIT(p_active_functions, RANG_PO_NZZ);
-    
-      //Виставляємо, або скидаємо сигнал "ПО NZZ"
-      if (
-          (po_3I0     != 0) &&
-          (po_3U0     != 0) &&
-          (sector_NZZ != 0)
-         )
-      {
-        //Існує умова роботи ПО НЗЗ
-        if(previous_state_po_nzz == 0)
-        {
-          //Встановлюємо сигнал "ПО NZZ"
-          _SET_BIT(p_active_functions, RANG_PO_NZZ);
-      
-          //Запускаємо таймер НЗЗ, якщо він ще не запущений
-          global_timers[INDEX_TIMER_NZZ] = 0;
-        }
-      }
-      else 
-      {
-        //Не існує умова роботи ПО НЗЗ
-        if(previous_state_po_nzz != 0)
-        {
-          //Скидаємо сигнал "ПО НЗЗ"
-          _CLEAR_BIT(p_active_functions, RANG_PO_NZZ);
-          //Це є умовою також скидання сигналу "Сраб. НЗЗ"
-          _CLEAR_BIT(p_active_functions, RANG_NZZ);
-          //Якщо таймер ще не скинутий, то скидаємо його
-          if ( global_timers[INDEX_TIMER_NZZ] >=0) global_timers[INDEX_TIMER_NZZ] = -1;
-        }
-      }
-    
-      if(global_timers[INDEX_TIMER_NZZ] >= current_settings_prt.timeout_nzz[number_group_stp])
-      {
-        //Якщо витримана "Витримка НЗЗ" то встановлюємо сигнал "Сраб. НЗЗ"
-        _SET_BIT(p_active_functions, RANG_NZZ);
-
-        //Скидаємо таймер ПО НЗЗ
-        global_timers[INDEX_TIMER_NZZ] = -1;
-      }
-    }
-    else
-    {
-      //Якщо НЗЗ не встановлена, то треба скинути всі таймери і сигнали, які за неї відповідають
-      _CLEAR_BIT(p_active_functions, RANG_PO_NZZ);
-      _CLEAR_BIT(p_active_functions, RANG_NZZ);
-      global_timers[INDEX_TIMER_NZZ] = -1;
-    }  
-    /*******************************/
-
-    /*******************************/
-    //1 ступінь ЗЗ/3U0
-    /*******************************/
-    if ((current_settings_prt.control_zz & CTR_ZZ1_3U0_STATE) != 0)
-    {
-      //1 ступінь ЗЗ/3U0 включена і не блокується
-    
-      unsigned int previous_state_po_3U0 = _CHECK_SET_BIT(p_active_functions, RANG_PO_3U0);
-    
-      //Виставляємо, або скидаємо сигнал "ПО ЗЗ/3U0"
-      if (po_3U0 != 0)
-      {
-        //Максимальна напругу 3U0 перевищує свою уставку
-        if(previous_state_po_3U0 == 0)
-        {
-          //Встановлюємо сигнал "ПО ЗЗ/3U0"
-          _SET_BIT(p_active_functions, RANG_PO_3U0);
-        
-          //Запускаємо таймер ЗЗ/3U0, якщо він ще не запущений
-          global_timers[INDEX_TIMER_ZZ_3U0] = 0;
-        }
-      }
-      else 
-      {
-        //Максимальна напругу 3I0 нижче уставки
-        if(previous_state_po_3U0 != 0)
-        {
-          //Скидаємо сигнал "ПО ЗЗ/3U0"
-          _CLEAR_BIT(p_active_functions, RANG_PO_3U0);
-          //Це є умовою також скидання сигналу "Сраб. ЗЗ/3U0"
-          _CLEAR_BIT(p_active_functions, RANG_3U0);
-          //Якщо таймер ще не скинутий, то скидаємо його
-          if ( global_timers[INDEX_TIMER_ZZ_3U0] >=0) global_timers[INDEX_TIMER_ZZ_3U0] = -1;
-        }
-      }
-    
-      if(global_timers[INDEX_TIMER_ZZ_3U0] >= current_settings_prt.timeout_zz_3U0[number_group_stp])
-      {
-        //Якщо витримана "Витримка ЗЗ/3U0" то встановлюємо сигнал "Сраб. ЗЗ/3U0"
-        _SET_BIT(p_active_functions, RANG_3U0);
-
-        //Скидаємо таймер ПО ЗЗ/3U0
-        global_timers[INDEX_TIMER_ZZ_3U0] = -1;
-      }
-    }
-    else
-    {
-      //Якщо 1 ступінь ЗЗ/3U0 не встановлена, то треба скинути всі таймери і сигнали, які за неї відповідають
-      _CLEAR_BIT(p_active_functions, RANG_PO_3U0);
-      _CLEAR_BIT(p_active_functions, RANG_3U0);
-      global_timers[INDEX_TIMER_ZZ_3U0] = -1;
-    }    
-    /*******************************/
-  
-    /*******************************/
-    //1 ступінь ЗЗ/3I0
-    /*******************************/
-    if ((current_settings_prt.control_zz & CTR_ZZ1_3I0_STATE) != 0)
-    {
-      //1 ступінь ЗЗ/3I0 включена і не блокується
-    
-      unsigned int previous_state_po_3I0 = _CHECK_SET_BIT(p_active_functions, RANG_PO_3I0);
-    
-      //Виставляємо, або скидаємо сигнал "ПО ЗЗ/3I0"
-      if (po_3I0 != 0)
-      {
-        //Максимальний стум 3I0 перевищує свою уставку
-        if(previous_state_po_3I0 == 0)
-        {
-          //Встановлюємо сигнал "ПО ЗЗ/3I0"
-          _SET_BIT(p_active_functions, RANG_PO_3I0);
-      
-          //Запускаємо таймер ЗЗ/3I0, якщо він ще не запущений
-          global_timers[INDEX_TIMER_ZZ_3I0] = 0;
-        }
-      }
-      else 
-      {
-        //Максимальний стум 3I0 нижче уставки
-        if(previous_state_po_3I0 != 0)
-        {
-          //Скидаємо сигнал "ПО ЗЗ/3I0"
-          _CLEAR_BIT(p_active_functions, RANG_PO_3I0);
-          //Це є умовою також скидання сигналу "Сраб. ЗЗ/3I0"
-          _CLEAR_BIT(p_active_functions, RANG_3I0);
-          //Якщо таймер ще не скинутий, то скидаємо його
-          if ( global_timers[INDEX_TIMER_ZZ_3I0] >=0) global_timers[INDEX_TIMER_ZZ_3I0] = -1;
-        }
-      }
-    
-      if(global_timers[INDEX_TIMER_ZZ_3I0] >= current_settings_prt.timeout_zz_3I0[number_group_stp])
-      {
-        //Якщо витримана "Витримка ЗЗ/3I0" то встановлюємо сигнал "Сраб. ЗЗ"
-        _SET_BIT(p_active_functions, RANG_3I0);
-
-        //Скидаємо таймер ПО ЗЗ/3I0
-        global_timers[INDEX_TIMER_ZZ_3I0] = -1;
-      }
-    }
-    else
-    {
-      //Якщо 1 ступінь ЗЗ/3I0 не встановлена, то треба скинути всі таймери і сигнали, які за неї відповідають
-      _CLEAR_BIT(p_active_functions, RANG_PO_3I0);
-      _CLEAR_BIT(p_active_functions, RANG_3I0);
-      global_timers[INDEX_TIMER_ZZ_3I0] = -1;
-    }  
-    /*******************************/
-  }
-  else
-  {
-    //Захисти ЗЗ/НЗЗ блокується з дискретного входу, то треба скинути всі таймери і сигнали, які за них відповідають
-    _CLEAR_BIT(p_active_functions, RANG_PO_NZZ);
-    _CLEAR_BIT(p_active_functions, RANG_NZZ);
-    _CLEAR_BIT(p_active_functions, RANG_PO_3I0);
-    _CLEAR_BIT(p_active_functions, RANG_3I0);
-    _CLEAR_BIT(p_active_functions, RANG_PO_3U0);
-    _CLEAR_BIT(p_active_functions, RANG_3U0);
-
-    global_timers[INDEX_TIMER_NZZ   ] = -1;
-    global_timers[INDEX_TIMER_ZZ_3U0] = -1;
-    global_timers[INDEX_TIMER_ZZ_3I0] = -1;
-  }  
-}
-/*****************************************************/
-
-/*****************************************************/
-//ТЗНП
-/*****************************************************/
-inline void tznp_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
-{
-#define CTR_TZNP                CTR_TZNP1      
-#define CTR_TZNP_VPERED         CTR_TZNP1_VPERED      
-#define CTR_TZNP_NAZAD          CTR_TZNP1_NAZAD      
-
-#define RANG_BLOCK_TZNP         RANG_BLOCK_TZNP1
-#define RANG_SECTOR_TZNP_VPERED RANG_SECTOR_TZNP1_VPERED
-#define RANG_SECTOR_TZNP_NAZAD  RANG_SECTOR_TZNP1_NAZAD
-#define RANG_PO_3I0_TZNP_VPERED RANG_PO_3I0_TZNP1_VPERED
-#define RANG_PO_3I0_TZNP_NAZAD  RANG_PO_3I0_TZNP1_NAZAD
-#define RANG_PO_3U0_TZNP_VPERED RANG_PO_3U0_TZNP1_VPERED
-#define RANG_PO_3U0_TZNP_NAZAD  RANG_PO_3U0_TZNP1_NAZAD
-#define RANG_PO_TZNP_VPERED     RANG_PO_TZNP1_VPERED
-#define RANG_PO_TZNP_NAZAD      RANG_PO_TZNP1_NAZAD
-#define RANG_TZNP               RANG_TZNP1
-  
-  unsigned int maska_ctrl_bits = CTR_TZNP | CTR_TZNP_VPERED | CTR_TZNP_NAZAD;
-  
-  for (unsigned int tznp = 0; tznp < 3; tznp++)
-  {
-    unsigned int setpoint_tznp_3I0_vpered;
-    unsigned int setpoint_tznp_3U0_vpered;
-    unsigned int setpoint_tznp_3I0_nazad;
-    unsigned int setpoint_tznp_3U0_nazad;
-
-    int timeout_tznp_vpered;
-    int timeout_tznp_nazad;
-    
-    unsigned int index_timer_vpered;
-    unsigned int index_timer_nazad;
-    
-    unsigned int control_tznp;
-    
-    unsigned int shift_to_base_rang_index;
-    
-    switch(tznp)
-    {
-    case 0:
-      {
-        setpoint_tznp_3I0_vpered = current_settings_prt.setpoint_tznp_1_3I0_vpered[number_group_stp];
-        setpoint_tznp_3U0_vpered = current_settings_prt.setpoint_tznp_1_3U0_vpered[number_group_stp];
-        setpoint_tznp_3I0_nazad  = current_settings_prt.setpoint_tznp_1_3I0_nazad[number_group_stp];
-        setpoint_tznp_3U0_nazad  = current_settings_prt.setpoint_tznp_1_3U0_nazad[number_group_stp];
-        
-        timeout_tznp_vpered = current_settings_prt.timeout_tznp_1_vpered[number_group_stp];
-        timeout_tznp_nazad  = current_settings_prt.timeout_tznp_1_nazad[number_group_stp]; 
-        
-        index_timer_vpered = INDEX_TIMER_TZNP1_VPERED; 
-        index_timer_nazad  = INDEX_TIMER_TZNP1_VPERED;
-        
-        control_tznp = (current_settings_prt.control_tznp >> INDEX_ML_CTR_TZNP1) & maska_ctrl_bits;
-        
-        shift_to_base_rang_index = RANG_BLOCK_TZNP1 - RANG_BLOCK_TZNP;
-        
-        break;
-      }
-    case 1:
-      {
-        setpoint_tznp_3I0_vpered = current_settings_prt.setpoint_tznp_2_3I0_vpered[number_group_stp];
-        setpoint_tznp_3U0_vpered = current_settings_prt.setpoint_tznp_2_3U0_vpered[number_group_stp];
-        setpoint_tznp_3I0_nazad  = current_settings_prt.setpoint_tznp_2_3I0_nazad[number_group_stp];
-        setpoint_tznp_3U0_nazad  = current_settings_prt.setpoint_tznp_2_3U0_nazad[number_group_stp];
-        
-        timeout_tznp_vpered = current_settings_prt.timeout_tznp_2_vpered[number_group_stp];
-        timeout_tznp_nazad  = current_settings_prt.timeout_tznp_2_nazad[number_group_stp]; 
-        
-        index_timer_vpered = INDEX_TIMER_TZNP2_VPERED; 
-        index_timer_nazad  = INDEX_TIMER_TZNP2_VPERED;
-        
-        control_tznp = (current_settings_prt.control_tznp >> INDEX_ML_CTR_TZNP2) & maska_ctrl_bits;
-        
-        shift_to_base_rang_index = RANG_BLOCK_TZNP2 - RANG_BLOCK_TZNP;
-        
-        break;
-      }
-    case 2:
-      {
-        setpoint_tznp_3I0_vpered = current_settings_prt.setpoint_tznp_3_3I0_vpered[number_group_stp];
-        setpoint_tznp_3U0_vpered = current_settings_prt.setpoint_tznp_3_3U0_vpered[number_group_stp];
-        setpoint_tznp_3I0_nazad  = current_settings_prt.setpoint_tznp_3_3I0_nazad[number_group_stp];
-        setpoint_tznp_3U0_nazad  = current_settings_prt.setpoint_tznp_3_3U0_nazad[number_group_stp];
-        
-        timeout_tznp_vpered = current_settings_prt.timeout_tznp_3_vpered[number_group_stp];
-        timeout_tznp_nazad  = current_settings_prt.timeout_tznp_3_nazad[number_group_stp]; 
-        
-        index_timer_vpered = INDEX_TIMER_TZNP3_VPERED; 
-        index_timer_nazad  = INDEX_TIMER_TZNP3_VPERED;
-        
-        control_tznp = (current_settings_prt.control_tznp >> INDEX_ML_CTR_TZNP3) & maska_ctrl_bits;
-        
-        shift_to_base_rang_index = RANG_BLOCK_TZNP3 - RANG_BLOCK_TZNP;
-        
-        break;
-      }
-    default:
-      {
-        //Теоретично цього ніколи не мало б бути
-        total_error_sw_fixed(82);
-      }
-    }
-
-    unsigned int logic_TZNP_0 = 0;
-    unsigned int setpoint;
-    
-    /***
-    Сектор вперед
-    ***/
-    if(sector_directional_tznp[tznp] == 1)
-    {
-      logic_TZNP_0 |= 1 << 0;
-      _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_SECTOR_TZNP_VPERED));
-    }
-    else _CLEAR_BIT(p_active_functions, (shift_to_base_rang_index + RANG_SECTOR_TZNP_VPERED));
-    /***/
-    
-    /***
-    Сектор назад
-    ***/
-    if(sector_directional_tznp[tznp] == 2)
-    {
-      logic_TZNP_0 |= 1 << 1;
-      _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_SECTOR_TZNP_NAZAD));
-    }
-    else _CLEAR_BIT(p_active_functions, (shift_to_base_rang_index + RANG_SECTOR_TZNP_NAZAD));
-    /***/
-    
-    /***
-    ПО 3I0 ВПЕРЕД
-    ***/
-    if (_CHECK_SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_VPERED)) == 0)
-    {
-      //Працюємо по уставці спрацювання
-      setpoint = setpoint_tznp_3I0_vpered;
-    }
-    else
-    {
-      //Працюємо по уставці відпускання
-      setpoint = setpoint_tznp_3I0_vpered*KOEF_POVERNENNJA_GENERAL/100;
-    }
-    if (measurement[IM_3I0_r] >= setpoint)
-    {
-      logic_TZNP_0 |=  1 << 3;
-      _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_VPERED));
-    }
-    else _CLEAR_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_VPERED));
-    /***/
-    
-    /***
-    ПО 3U0 ВПЕРЕД
-    ***/
-    if (_CHECK_SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3U0_TZNP_VPERED)) == 0)
-    {
-      //Працюємо по уставці спрацювання
-      setpoint = setpoint_tznp_3U0_vpered;
-    }
-    else
-    {
-      //Працюємо по уставці відпускання
-      setpoint = setpoint_tznp_3U0_vpered*KOEF_POVERNENNJA_3U0/100;
-    }
-    if (measurement[IM_3U0] >= setpoint)
-    {
-      logic_TZNP_0 |=  1 << 4;
-      _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3U0_TZNP_VPERED));
-    }
-    else _CLEAR_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3U0_TZNP_VPERED));
-    /***/
-    
-    /***
-    ПО 3I0 НАЗАД
-    ***/
-    if (_CHECK_SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_NAZAD)) == 0)
-    {
-      //Працюємо по уставці спрацювання
-      setpoint = setpoint_tznp_3I0_nazad;
-    }
-    else
-    {
-      //Працюємо по уставці відпускання
-      setpoint = setpoint_tznp_3I0_nazad*KOEF_POVERNENNJA_GENERAL/100;
-    }
-    if (measurement[IM_3I0_r] >= setpoint)
-    {
-      logic_TZNP_0 |=  1 << 5;
-      _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_NAZAD));
-    }
-    else _CLEAR_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_NAZAD));
-    /***/
-    
-    /***
-    ПО 3U0 НАЗАД
-    ***/
-    if (_CHECK_SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3U0_TZNP_NAZAD)) == 0)
-    {
-      //Працюємо по уставці спрацювання
-      setpoint = setpoint_tznp_3U0_nazad;
-    }
-    else
-    {
-      //Працюємо по уставці відпускання
-      setpoint = setpoint_tznp_3U0_nazad*KOEF_POVERNENNJA_3U0/100;
-    }
-    if (measurement[IM_3U0] >= setpoint)
-    {
-      logic_TZNP_0 |=  1 << 6;
-      _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3U0_TZNP_NAZAD));
-    }
-    else _CLEAR_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3U0_TZNP_NAZAD));
-    /***/
-    
-    //Стан ступеню захисту
-    logic_TZNP_0 |= ((control_tznp & CTR_TZNP) != 0) << 7;
-    
-    //Стан блокування захисту
-    logic_TZNP_0 |= (_CHECK_SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_BLOCK_TZNP)) == 0) << 8;
-    
-    //Стан напрямку ВПЕРЕД
-    logic_TZNP_0 |= ((control_tznp & CTR_TZNP_VPERED) != 0) << 10;
-    
-    //Стан напрямку НАЗАД
-    logic_TZNP_0 |= ((control_tznp & CTR_TZNP_NAZAD) != 0) << 11;
-
-    _AND2(logic_TZNP_0, 7, logic_TZNP_0, 8, logic_TZNP_0, 9);
-
-    //ПО ТЗНП вперед
-    _AND5(logic_TZNP_0, 9, logic_TZNP_0, 10, logic_TZNP_0, 3, logic_TZNP_0, 4, logic_TZNP_0, 0, logic_TZNP_0, 12);
-    if (_GET_OUTPUT_STATE(logic_TZNP_0, 12)) _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_TZNP_VPERED));
-    else _CLEAR_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_TZNP_VPERED));
-      
-    //ПО ТЗНП назад
-    _AND5(logic_TZNP_0, 9, logic_TZNP_0, 11, logic_TZNP_0, 5, logic_TZNP_0, 6, logic_TZNP_0, 1, logic_TZNP_0, 13);
-    if (_GET_OUTPUT_STATE(logic_TZNP_0, 13)) _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_TZNP_NAZAD));
-    else _CLEAR_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_TZNP_NAZAD));
-
-    _TIMER_T_0(index_timer_vpered, timeout_tznp_vpered, logic_TZNP_0, 12, logic_TZNP_0, 14);
-    _TIMER_T_0(index_timer_nazad,  timeout_tznp_nazad,  logic_TZNP_0, 13, logic_TZNP_0, 15);
-    
-    //ТЗНП
-    _OR2(logic_TZNP_0, 14, logic_TZNP_0, 15, logic_TZNP_0, 16);
-    if (_GET_OUTPUT_STATE(logic_TZNP_0, 16)) _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_TZNP));
-    else _CLEAR_BIT(p_active_functions, (shift_to_base_rang_index + RANG_TZNP));
-  }
-
-#undef CTR_TZNP
-#undef CTR_TZNP_VPERED
-#undef CTR_TZNP_NAZAD
-
-#undef RANG_BLOCK_TZNP
-#undef RANG_SECTOR_TZNP_VPERED
-#undef RANG_SECTOR_TZNP_NAZAD
-#undef RANG_PO_3I0_TZNP_VPERED
-#undef RANG_PO_3I0_TZNP_NAZAD
-#undef RANG_PO_3U0_TZNP_VPERED
-#undef RANG_PO_3U0_TZNP_NAZAD
-#undef RANG_PO_TZNP_VPERED
-#undef RANG_PO_TZNP_NAZAD
-#undef RANG_TZNP
-}
-/*****************************************************/
-
-/*****************************************************/
 // ЗОП(КОФ)
 /*****************************************************/
 inline void zop_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
@@ -3645,19 +2394,19 @@ void umin1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
           current_settings_prt.setpoint_Umin1[number_group_stp] * U_DOWN / 100 :
           current_settings_prt.setpoint_Umin1[number_group_stp];
   
-  _Bool Uab_is_smaller_than_Umin1 = measurement[IM_UAB] <= setpoint1;
-  _Bool Ubc_is_smaller_than_Umin1 = measurement[IM_UBC] <= setpoint1;
-  _Bool Uca_is_smaller_than_Umin1 = measurement[IM_UCA] <= setpoint1;
+//  _Bool Uab_is_smaller_than_Umin1 = measurement[IM_UAB1] <= setpoint1;
+//  _Bool Ubc_is_smaller_than_Umin1 = measurement[IM_UBC1] <= setpoint1;
+//  _Bool Uca_is_smaller_than_Umin1 = measurement[IM_UCA1] <= setpoint1;
   
-  _Bool Ua_is_smaller_than_Umin1 = measurement[IM_UA] <= setpoint1;
-  _Bool Ub_is_smaller_than_Umin1 = measurement[IM_UB] <= setpoint1;
-  _Bool Uc_is_smaller_than_Umin1 = measurement[IM_UC] <= setpoint1;
+  _Bool Ua_is_smaller_than_Umin1 = measurement[IM_UA1] <= setpoint1;
+  _Bool Ub_is_smaller_than_Umin1 = measurement[IM_UB1] <= setpoint1;
+  _Bool Uc_is_smaller_than_Umin1 = measurement[IM_UC1] <= setpoint1;
   
   unsigned int setpoint2 = previous_state_po_ublk_umin1 ?
           KOEF_MIN_UMIN * U_DOWN / 100 : KOEF_MIN_UMIN;
           
-  _Bool Ua_or_Ub_or_Uc_is_smaller_than_250mV = (measurement[IM_UA] <= setpoint2) || (measurement[IM_UB] <= setpoint2) || (measurement[IM_UC] <= setpoint2);
-  _Bool Uab_or_Ubc_or_Uca_is_smaller_than_250mV = (measurement[IM_UAB] <= setpoint2) || (measurement[IM_UBC] <= setpoint2) || (measurement[IM_UCA] <= setpoint2);
+  _Bool Ua_or_Ub_or_Uc_is_smaller_than_250mV = (measurement[IM_UA1] <= setpoint2) || (measurement[IM_UB1] <= setpoint2) || (measurement[IM_UC1] <= setpoint2);
+//  _Bool Uab_or_Ubc_or_Uca_is_smaller_than_250mV = (measurement[IM_UAB1] <= setpoint2) || (measurement[IM_UBC1] <= setpoint2) || (measurement[IM_UCA1] <= setpoint2);
   
   unsigned int setpoint3 = previous_state_po_iblk_umin1 ?
           current_settings_prt.setpoint_Umin1_Iblk[number_group_stp] * KOEF_POVERNENNJA_GENERAL / 100 :
@@ -3666,7 +2415,8 @@ void umin1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
   _Bool Ia_or_Ic_is_larger_than_Iust = (measurement[IM_IA] >= setpoint3) ||
                                        (measurement[IM_IC] >= setpoint3);
   //М
-  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)         << 0;
+  unsigned int tmp_value = 0;
+//  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)         << 0;
 //  tmp_value |= ((current_settings_prt.control_Umin & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
 //  _INVERTOR(tmp_value, 1, tmp_value, 1);
   tmp_value |= ((current_settings_prt.control_Umin & CTR_UMIN1) != 0)                                                            << 2;
@@ -3681,7 +2431,7 @@ void umin1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
   
 //  _AND2(tmp_value, 0, tmp_value, 1, tmp_value, 8);
   
-  if (_GET_OUTPUT_STATE(tmp_value, 0)) 
+//  if (_GET_OUTPUT_STATE(tmp_value, 0)) 
   {
     //Фазные
     _AND4(Ua_is_smaller_than_Umin1, 0, Ub_is_smaller_than_Umin1, 0, Uc_is_smaller_than_Umin1, 0, tmp_value, 3, tmp_value, 9);
@@ -3698,23 +2448,23 @@ void umin1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
     else
       _CLEAR_BIT(p_active_functions, RANG_PO_UBLK_UMIN1);
   } 
-  else 
-  {
-    //Линейные
-    _AND4(Uab_is_smaller_than_Umin1, 0, Ubc_is_smaller_than_Umin1, 0, Uca_is_smaller_than_Umin1, 0, tmp_value, 3, tmp_value, 9);
-    _OR3(Uab_is_smaller_than_Umin1, 0, Ubc_is_smaller_than_Umin1, 0, Uca_is_smaller_than_Umin1, 0, tmp_value, 10);
-    _INVERTOR(tmp_value, 3, tmp_value, 3);
-    _AND2(tmp_value, 10, tmp_value, 3, tmp_value, 11);
-    _AND2(tmp_value, 5, Ia_or_Ic_is_larger_than_Iust, 0, tmp_value, 12);
-    _INVERTOR(tmp_value, 5, tmp_value, 5);
-    _AND3(Uab_or_Ubc_or_Uca_is_smaller_than_250mV, 0, tmp_value, 4, tmp_value, 5, tmp_value, 13);
-    
-    //ПО Uблк. Umin1
-    if (Uab_or_Ubc_or_Uca_is_smaller_than_250mV)
-      _SET_BIT(p_active_functions, RANG_PO_UBLK_UMIN1);
-    else
-      _CLEAR_BIT(p_active_functions, RANG_PO_UBLK_UMIN1);
-  }
+//  else 
+//  {
+//    //Линейные
+//    _AND4(Uab_is_smaller_than_Umin1, 0, Ubc_is_smaller_than_Umin1, 0, Uca_is_smaller_than_Umin1, 0, tmp_value, 3, tmp_value, 9);
+//    _OR3(Uab_is_smaller_than_Umin1, 0, Ubc_is_smaller_than_Umin1, 0, Uca_is_smaller_than_Umin1, 0, tmp_value, 10);
+//    _INVERTOR(tmp_value, 3, tmp_value, 3);
+//    _AND2(tmp_value, 10, tmp_value, 3, tmp_value, 11);
+//    _AND2(tmp_value, 5, Ia_or_Ic_is_larger_than_Iust, 0, tmp_value, 12);
+//    _INVERTOR(tmp_value, 5, tmp_value, 5);
+//    _AND3(Uab_or_Ubc_or_Uca_is_smaller_than_250mV, 0, tmp_value, 4, tmp_value, 5, tmp_value, 13);
+//    
+//    //ПО Uблк. Umin1
+//    if (Uab_or_Ubc_or_Uca_is_smaller_than_250mV)
+//      _SET_BIT(p_active_functions, RANG_PO_UBLK_UMIN1);
+//    else
+//      _CLEAR_BIT(p_active_functions, RANG_PO_UBLK_UMIN1);
+//  }
   _INVERTOR(tmp_value, 12, tmp_value, 12);
   _INVERTOR(tmp_value, 13, tmp_value, 13);
   _OR3(tmp_value, 7, tmp_value, 9, tmp_value, 11, tmp_value, 14);
@@ -3756,19 +2506,19 @@ void umin2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
           current_settings_prt.setpoint_Umin2[number_group_stp] * U_DOWN / 100 :
           current_settings_prt.setpoint_Umin2[number_group_stp];
   
-  _Bool Uab_is_smaller_than_Umin2 = measurement[IM_UAB] <= setpoint1;
-  _Bool Ubc_is_smaller_than_Umin2 = measurement[IM_UBC] <= setpoint1;
-  _Bool Uca_is_smaller_than_Umin2 = measurement[IM_UCA] <= setpoint1;
+//  _Bool Uab_is_smaller_than_Umin2 = measurement[IM_UAB1] <= setpoint1;
+//  _Bool Ubc_is_smaller_than_Umin2 = measurement[IM_UBC1] <= setpoint1;
+//  _Bool Uca_is_smaller_than_Umin2 = measurement[IM_UCA1] <= setpoint1;
   
-  _Bool Ua_is_smaller_than_Umin2 = measurement[IM_UA] <= setpoint1;
-  _Bool Ub_is_smaller_than_Umin2 = measurement[IM_UB] <= setpoint1;
-  _Bool Uc_is_smaller_than_Umin2 = measurement[IM_UC] <= setpoint1;
+  _Bool Ua_is_smaller_than_Umin2 = measurement[IM_UA1] <= setpoint1;
+  _Bool Ub_is_smaller_than_Umin2 = measurement[IM_UB1] <= setpoint1;
+  _Bool Uc_is_smaller_than_Umin2 = measurement[IM_UC1] <= setpoint1;
   
   unsigned int setpoint2 = previous_state_po_ublk_umin2 ?
           KOEF_MIN_UMIN * U_DOWN / 100 : KOEF_MIN_UMIN;
           
-  _Bool Ua_or_Ub_or_Uc_is_smaller_than_250mV = (measurement[IM_UA] <= setpoint2) || (measurement[IM_UB] <= setpoint2) || (measurement[IM_UC] <= setpoint2);
-  _Bool Uab_or_Ubc_or_Uca_is_smaller_than_250mV = (measurement[IM_UAB] <= setpoint2) || (measurement[IM_UBC] <= setpoint2) || (measurement[IM_UCA] <= setpoint2);
+  _Bool Ua_or_Ub_or_Uc_is_smaller_than_250mV = (measurement[IM_UA1] <= setpoint2) || (measurement[IM_UB1] <= setpoint2) || (measurement[IM_UC1] <= setpoint2);
+//  _Bool Uab_or_Ubc_or_Uca_is_smaller_than_250mV = (measurement[IM_UAB1] <= setpoint2) || (measurement[IM_UBC1] <= setpoint2) || (measurement[IM_UCA1] <= setpoint2);
   
   unsigned int setpoint3 = previous_state_po_iblk_umin2 ?
           current_settings_prt.setpoint_Umin2_Iblk[number_group_stp] * KOEF_POVERNENNJA_GENERAL / 100 :
@@ -3777,7 +2527,8 @@ void umin2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
   _Bool Ia_or_Ic_is_larger_than_Iust = (measurement[IM_IA] >= setpoint3) ||
                                        (measurement[IM_IC] >= setpoint3);
   //М
-  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)         << 0;
+  unsigned int tmp_value = 0;
+//  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)         << 0;
 //  tmp_value |= ((current_settings_prt.control_Umin & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
 //  _INVERTOR(tmp_value, 1, tmp_value, 1);
   tmp_value |= ((current_settings_prt.control_Umin & CTR_UMIN2) != 0)                                                            << 2;
@@ -3792,7 +2543,7 @@ void umin2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
   
 //  _AND2(tmp_value, 0, tmp_value, 1, tmp_value, 8);
   
-  if (_GET_OUTPUT_STATE(tmp_value, 0))
+//  if (_GET_OUTPUT_STATE(tmp_value, 0))
   {
     //Фазные
     _AND4(Ua_is_smaller_than_Umin2, 0, Ub_is_smaller_than_Umin2, 0, Uc_is_smaller_than_Umin2, 0, tmp_value, 3, tmp_value, 9);
@@ -3810,23 +2561,23 @@ void umin2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
       _CLEAR_BIT(p_active_functions, RANG_PO_UBLK_UMIN2);
     
   } 
-  else 
-  {
-    //Линейные
-    _AND4(Uab_is_smaller_than_Umin2, 0, Ubc_is_smaller_than_Umin2, 0, Uca_is_smaller_than_Umin2, 0, tmp_value, 3, tmp_value, 9);
-    _OR3(Uab_is_smaller_than_Umin2, 0, Ubc_is_smaller_than_Umin2, 0, Uca_is_smaller_than_Umin2, 0, tmp_value, 10);
-    _INVERTOR(tmp_value, 3, tmp_value, 3);
-    _AND2(tmp_value, 10, tmp_value, 3, tmp_value, 11);
-    _AND2(tmp_value, 5, Ia_or_Ic_is_larger_than_Iust, 0, tmp_value, 12);
-    _INVERTOR(tmp_value, 5, tmp_value, 5);
-    _AND3(Uab_or_Ubc_or_Uca_is_smaller_than_250mV, 0, tmp_value, 4, tmp_value, 5, tmp_value, 13);
-    
-    //ПО Uблк. Umin2
-    if (Uab_or_Ubc_or_Uca_is_smaller_than_250mV)
-      _SET_BIT(p_active_functions, RANG_PO_UBLK_UMIN2);
-    else
-      _CLEAR_BIT(p_active_functions, RANG_PO_UBLK_UMIN2);
-  }
+//  else 
+//  {
+//    //Линейные
+//    _AND4(Uab_is_smaller_than_Umin2, 0, Ubc_is_smaller_than_Umin2, 0, Uca_is_smaller_than_Umin2, 0, tmp_value, 3, tmp_value, 9);
+//    _OR3(Uab_is_smaller_than_Umin2, 0, Ubc_is_smaller_than_Umin2, 0, Uca_is_smaller_than_Umin2, 0, tmp_value, 10);
+//    _INVERTOR(tmp_value, 3, tmp_value, 3);
+//    _AND2(tmp_value, 10, tmp_value, 3, tmp_value, 11);
+//    _AND2(tmp_value, 5, Ia_or_Ic_is_larger_than_Iust, 0, tmp_value, 12);
+//    _INVERTOR(tmp_value, 5, tmp_value, 5);
+//    _AND3(Uab_or_Ubc_or_Uca_is_smaller_than_250mV, 0, tmp_value, 4, tmp_value, 5, tmp_value, 13);
+//    
+//    //ПО Uблк. Umin2
+//    if (Uab_or_Ubc_or_Uca_is_smaller_than_250mV)
+//      _SET_BIT(p_active_functions, RANG_PO_UBLK_UMIN2);
+//    else
+//      _CLEAR_BIT(p_active_functions, RANG_PO_UBLK_UMIN2);
+//  }
   _INVERTOR(tmp_value, 12, tmp_value, 12);
   _INVERTOR(tmp_value, 13, tmp_value, 13);
   _OR3(tmp_value, 7, tmp_value, 9, tmp_value, 11, tmp_value, 14);
@@ -3856,166 +2607,6 @@ void umin2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
 /*****************************************************/
 
 /*****************************************************/
-// МТЗ04
-/*****************************************************/
-void mtz04_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
-{
- //проверка предыдущего состояния ПО МТЗ04_1
-  _Bool previous_state_po_mtz04_1 = _CHECK_SET_BIT(p_active_functions, RANG_PO_MTZ04_1) > 0;
-  _Bool previous_state_po_mtz04_2 = _CHECK_SET_BIT(p_active_functions, RANG_PO_MTZ04_2) > 0;
-//пороги сраб и возв для ПО в зависимости от гр уставок
-  unsigned int setpoint1 = previous_state_po_mtz04_1 ?
-          current_settings_prt.setpoint_mtz04_1[number_group_stp] * U_UP / 100 :
-          current_settings_prt.setpoint_mtz04_1[number_group_stp];
-
-  unsigned int setpoint2 = previous_state_po_mtz04_2 ?
-          current_settings_prt.setpoint_mtz04_2[number_group_stp] * U_UP / 100 :
-          current_settings_prt.setpoint_mtz04_2[number_group_stp];
-
-//#define IM_I04         9
-  _Bool I04_is_larger_than_ust1 = measurement[IM_I04] >= setpoint1;
-  _Bool I04_is_larger_than_ust2 = measurement[IM_I04] >= setpoint2;
-  //М
-  //ВКЛ-ОТКЛ  МТЗ04_1
-  unsigned int tmp_value = ((current_settings_prt.control_mtz04 & CTR_MTZ04_1) != 0)  << 0;
-  //ВКЛ-ОТКЛ  МТЗ04_2
-  tmp_value |= ((current_settings_prt.control_mtz04 & CTR_MTZ04_2) != 0) << 1;
-  //ВКЛ-ОТКЛ  УСКОРЕНИЕ МТЗ04_2
-  tmp_value |= ((current_settings_prt.control_mtz04 & CTR_MTZ04_2_PRYSKORENNJA) != 0) << 2;
-  //ВКЛ-ОТКЛ  УСКОРЕННАЯ МТЗ04_2
-  tmp_value |= ((current_settings_prt.control_mtz04 & CTR_MTZ04_2_PRYSKORENA) != 0) << 3;
-  //ДВ блок МТЗ04_1
-  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_MTZ04_1) != 0) << 4;
-  //ДВ блок МТЗ04_2
-  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_MTZ04_2) != 0) << 5;
-  //ДВ блок ускорения МТЗ04_2
-  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_USK_MTZ04_2) != 0) << 6;
-  //Полож ВВ
-  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV) != 0)  << 7;
-/*
-//ТИП МТЗ04
- unsigned int tmp3=0;
- //Простая
- if(current_settings_prt.type_mtz04_2==0) _SET_BIT(tmp3, 0);
-  unsigned int type_mtz04 = 0;
- //Зависимая А
- if(current_settings_prt.type_mtz04_2==3) type_mtz04 = TYPE_MTZ_DEPENDENT_A;
- //Зависимая В
- if(current_settings_prt.type_mtz04_2==4) type_mtz04 = TYPE_MTZ_DEPENDENT_B;
- //Зависимая С
- if(current_settings_prt.type_mtz04_2==5) type_mtz04 = TYPE_MTZ_DEPENDENT_C;
-*/
-//RANG_BLOCK_MTZ04_1,
- //MTZ04_1 LOGIKA
-  _INVERTOR(tmp_value, 4, tmp_value, 8);
-        //ПО МТЗ04_1
-  _AND3(I04_is_larger_than_ust1, 0, 
-        //ВКЛ-ОТКЛ  МТЗ04_1
-        tmp_value, 0,
-        //INVERTOR
-        tmp_value, 8, tmp_value, 9);
-  //Сраб.ПО MTZ04_1
-  if (_GET_OUTPUT_STATE(tmp_value, 9)) 
-  {
-     //PO MTZ04_1
-    _SET_BIT(p_active_functions, RANG_PO_MTZ04_1);
-  }
-  else _CLEAR_BIT(p_active_functions, RANG_PO_MTZ04_1);
-
-    _TIMER_T_0(INDEX_TIMER_MTZ04_1, current_settings_prt.timeout_mtz04_1[number_group_stp], tmp_value, 9, tmp_value, 10);
-  //Сраб. MTZ04_1
-  if (_GET_OUTPUT_STATE(tmp_value, 10)) 
-  {
-     //MTZ04_1
-    _SET_BIT(p_active_functions, RANG_MTZ04_1);
-  }
-  else _CLEAR_BIT(p_active_functions, RANG_MTZ04_1);
-    
-//MTZ04_2
-//RANG_STATE_VV,
-//ПОЛОЖ ВВ
-//  if (_GET_OUTPUT_STATE(p_active_functions, RANG_STATE_VV)) {
-//  }//if
-
- unsigned int tmp2=0;
-  _AND2(tmp_value, 7, 
-        //УСКОРЕНИЕ МТЗ04_2
-        tmp_value, 2, tmp2, 0);
-
-  _TIMER_IMPULSE(INDEX_TIMER_MTZ04_2, current_settings_prt.timeout_mtz04_2_vvid_pr[number_group_stp],
-                 previous_states_MTZ04_vvid_pr_0, 0, tmp2, 0, tmp2, 1);
-//Ускоренная
-  _OR2(tmp_value, 3, 
-        tmp2, 1, tmp2, 2);
-  _INVERTOR(tmp_value, 6, tmp2, 3);
-  _AND2(tmp2, 3, 
-        tmp2, 2, tmp2, 4);
-  _INVERTOR(tmp2, 4, tmp2, 5);
-  _INVERTOR(tmp_value, 5, tmp2, 6);
-  _AND3(I04_is_larger_than_ust2, 0, 
-        tmp_value, 1, 
-        tmp2, 6, tmp2, 7);
-  //Сраб.ПО MTZ04_2
-  if (_GET_OUTPUT_STATE(tmp2, 7)) 
-  {
-     //PO MTZ04_2
-    _SET_BIT(p_active_functions, RANG_PO_MTZ04_2);
-  }
-  else _CLEAR_BIT(p_active_functions, RANG_PO_MTZ04_2);
-    
-//ускорение
-  _AND2(tmp2, 4, 
-        tmp2, 7, tmp2, 8);
-//Простая
-//ТИП МТЗ04
- unsigned int tmp3=0;
- //Простая
-// if(current_settings_prt.type_mtz04_2==0){
-//   _SET_STATE(tmp3, 0);
-// }//if
-  _AND2(tmp2, 5, 
-        tmp2, 7, 
-             tmp2, 10);
-//Зависимая А B C
-//  _INVERTOR(tmp2, 9, tmp2, 10);
-//  _AND3(tmp2, 4, 
-  //      tmp2, 7, 
-    //    tmp3, 0, tmp2, 10);
-//ускорение
-  _TIMER_T_0(INDEX_TIMER_MTZ04_3, current_settings_prt.timeout_mtz04_2_pr[number_group_stp], tmp2, 8, tmp3, 4);
-  int timout_univ=0;
-//Простая
- switch(current_settings_prt.type_mtz04_2){
-  case 0:
-   timout_univ = current_settings_prt.timeout_mtz04_2[number_group_stp];
-  break;
-  case TYPE_MTZ_DEPENDENT_A:
-  case TYPE_MTZ_DEPENDENT_B:
-  case TYPE_MTZ_DEPENDENT_C:
-//расчет выдержки
-   timout_univ = timeout_dependent_general(measurement[IM_I04], number_group_stp, current_settings_prt.type_mtz04_2);
-  break;
- }
-
-  _TIMER_T_0(INDEX_TIMER_MTZ04_4, timout_univ, tmp2, 10, tmp3, 6);
-  _OR2(tmp3, 4, 
-       tmp3, 6, tmp3, 7);
-  //Сраб. MTZ04_2
-  if (_GET_OUTPUT_STATE(tmp3, 7))
-  {
-     //MTZ04_1
-    _SET_BIT(p_active_functions, RANG_MTZ04_2);
-  }
-  else _CLEAR_BIT(p_active_functions, RANG_MTZ04_2);
-
-//Зависимая 
-//  if (_GET_OUTPUT_STATE(tmp2, 10)) {
-  //}//if
- // _TIMER_T_0(INDEX_TIMER_MTZ04_5, timeout_dependent_general(i_max, number_group_stp, type_mtz04), tmp2, 10, tmp3, 6);
-
-}//mtz04
-
-/*****************************************************/
 // ЗНМАКС1
 /*****************************************************/
 void umax1_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
@@ -4026,16 +2617,17 @@ void umax1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
           current_settings_prt.setpoint_Umax1[number_group_stp] * U_UP / 100 :
           current_settings_prt.setpoint_Umax1[number_group_stp];
   
-  _Bool Uab_is_larger_than_Umax1 = measurement[IM_UAB] >= setpoint1;
-  _Bool Ubc_is_larger_than_Umax1 = measurement[IM_UBC] >= setpoint1;
-  _Bool Uca_is_larger_than_Umax1 = measurement[IM_UCA] >= setpoint1;
+//  _Bool Uab_is_larger_than_Umax1 = measurement[IM_UAB1] >= setpoint1;
+//  _Bool Ubc_is_larger_than_Umax1 = measurement[IM_UBC1] >= setpoint1;
+//  _Bool Uca_is_larger_than_Umax1 = measurement[IM_UCA1] >= setpoint1;
   
-  _Bool Ua_is_larger_than_Umax1 = measurement[IM_UA] >= setpoint1;
-  _Bool Ub_is_larger_than_Umax1 = measurement[IM_UB] >= setpoint1;
-  _Bool Uc_is_larger_than_Umax1 = measurement[IM_UC] >= setpoint1;
+  _Bool Ua_is_larger_than_Umax1 = measurement[IM_UA1] >= setpoint1;
+  _Bool Ub_is_larger_than_Umax1 = measurement[IM_UB1] >= setpoint1;
+  _Bool Uc_is_larger_than_Umax1 = measurement[IM_UC1] >= setpoint1;
   
   //М
-  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)         << 0;
+  unsigned int tmp_value = 0;
+//  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)         << 0;
 //  tmp_value |= ((current_settings_prt.control_Umax & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
 //  _INVERTOR(tmp_value, 1, tmp_value, 1);
   tmp_value |= ((current_settings_prt.control_Umax & CTR_PO_UMAX1_OR_AND) != 0)                                                  << 2;
@@ -4044,13 +2636,16 @@ void umax1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
   //ДВ
   tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_UMAX1) != 0)                                    << 4;
   
-  if (_GET_OUTPUT_STATE(tmp_value, 0)) {
+//  if (_GET_OUTPUT_STATE(tmp_value, 0)) 
+  {
     _AND4(Ua_is_larger_than_Umax1, 0, Ub_is_larger_than_Umax1, 0, Uc_is_larger_than_Umax1, 0, tmp_value, 2, tmp_value, 5);
     _OR3(Ua_is_larger_than_Umax1, 0, Ub_is_larger_than_Umax1, 0, Uc_is_larger_than_Umax1, 0, tmp_value, 6);
-  } else {
-    _AND4(Uab_is_larger_than_Umax1, 0, Ubc_is_larger_than_Umax1, 0, Uca_is_larger_than_Umax1, 0, tmp_value, 2, tmp_value, 5);
-    _OR3(Uab_is_larger_than_Umax1, 0, Ubc_is_larger_than_Umax1, 0, Uca_is_larger_than_Umax1, 0, tmp_value, 6);
-  }
+  } 
+//  else 
+//  {
+//    _AND4(Uab_is_larger_than_Umax1, 0, Ubc_is_larger_than_Umax1, 0, Uca_is_larger_than_Umax1, 0, tmp_value, 2, tmp_value, 5);
+//    _OR3(Uab_is_larger_than_Umax1, 0, Ubc_is_larger_than_Umax1, 0, Uca_is_larger_than_Umax1, 0, tmp_value, 6);
+//  }
   
   _INVERTOR(tmp_value, 2, tmp_value, 2);
   _AND2(tmp_value, 6, tmp_value, 2, tmp_value, 7);
@@ -4085,16 +2680,17 @@ void umax2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
           current_settings_prt.setpoint_Umax2[number_group_stp] * U_UP / 100 :
           current_settings_prt.setpoint_Umax2[number_group_stp];
   
-  _Bool Uab_is_larger_than_Umax2 = measurement[IM_UAB] >= setpoint1;
-  _Bool Ubc_is_larger_than_Umax2 = measurement[IM_UBC] >= setpoint1;
-  _Bool Uca_is_larger_than_Umax2 = measurement[IM_UCA] >= setpoint1;
+//  _Bool Uab_is_larger_than_Umax2 = measurement[IM_UAB1] >= setpoint1;
+//  _Bool Ubc_is_larger_than_Umax2 = measurement[IM_UBC1] >= setpoint1;
+//  _Bool Uca_is_larger_than_Umax2 = measurement[IM_UCA1] >= setpoint1;
   
-  _Bool Ua_is_larger_than_Umax2 = measurement[IM_UA] >= setpoint1;
-  _Bool Ub_is_larger_than_Umax2 = measurement[IM_UB] >= setpoint1;
-  _Bool Uc_is_larger_than_Umax2 = measurement[IM_UC] >= setpoint1;
+  _Bool Ua_is_larger_than_Umax2 = measurement[IM_UA1] >= setpoint1;
+  _Bool Ub_is_larger_than_Umax2 = measurement[IM_UB1] >= setpoint1;
+  _Bool Uc_is_larger_than_Umax2 = measurement[IM_UC1] >= setpoint1;
   
   //М
-  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)         << 0;
+  unsigned int tmp_value = 0;
+//  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)         << 0;
 //  tmp_value |= ((current_settings_prt.control_Umax & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
 //  _INVERTOR(tmp_value, 1, tmp_value, 1);
   tmp_value |= ((current_settings_prt.control_Umax & CTR_PO_UMAX2_OR_AND) != 0)                                                  << 2;
@@ -4103,13 +2699,16 @@ void umax2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
   //ДВ
   tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_UMAX2) != 0)                                    << 4;
   
-  if (_GET_OUTPUT_STATE(tmp_value, 0)) {
+//  if (_GET_OUTPUT_STATE(tmp_value, 0)) 
+  {
     _AND4(Ua_is_larger_than_Umax2, 0, Ub_is_larger_than_Umax2, 0, Uc_is_larger_than_Umax2, 0, tmp_value, 2, tmp_value, 5);
     _OR3(Ua_is_larger_than_Umax2, 0, Ub_is_larger_than_Umax2, 0, Uc_is_larger_than_Umax2, 0, tmp_value, 6);
-  } else {
-    _AND4(Uab_is_larger_than_Umax2, 0, Ubc_is_larger_than_Umax2, 0, Uca_is_larger_than_Umax2, 0, tmp_value, 2, tmp_value, 5);
-    _OR3(Uab_is_larger_than_Umax2, 0, Ubc_is_larger_than_Umax2, 0, Uca_is_larger_than_Umax2, 0, tmp_value, 6);
-  }
+  } 
+//  else 
+//  {
+//    _AND4(Uab_is_larger_than_Umax2, 0, Ubc_is_larger_than_Umax2, 0, Uca_is_larger_than_Umax2, 0, tmp_value, 2, tmp_value, 5);
+//    _OR3(Uab_is_larger_than_Umax2, 0, Ubc_is_larger_than_Umax2, 0, Uca_is_larger_than_Umax2, 0, tmp_value, 6);
+//  }
   
   _INVERTOR(tmp_value, 2, tmp_value, 2);
   _AND2(tmp_value, 6, tmp_value, 2, tmp_value, 7);
@@ -4134,407 +2733,179 @@ void umax2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
 /*****************************************************/
 
 /*****************************************************/
-// АЧР ЧАПВ
+// АВР
 /*****************************************************/
-void achr_chapv_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
+void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
 {
-//RANG_ACHR_CHAPV_VID_DV,
-/*
-  //пред сост ПО АЧР
-  _Bool previous_state_po_f1_achr = _CHECK_SET_BIT(p_active_functions, RANG_PO_ACHR1);
-  //пред сост ПО ЧАПВ
-  _Bool previous_state_po_f1_chapv = _CHECK_SET_BIT(p_active_functions, RANG_PO_CHAPV1);
- // 
-раздвоение
-*/
-  //пред сост ПО АЧР1
-  _Bool previous_state_po_f1_achr1  = _CHECK_SET_BIT(p_active_functions, RANG_PO_ACHR1);
-  //пред сост ПО ЧАПВ1
-  _Bool previous_state_po_f1_chapv1 = _CHECK_SET_BIT(p_active_functions, RANG_PO_CHAPV1);
-  //пред сост ПО АЧР2
-  _Bool previous_state_po_f1_achr2  = _CHECK_SET_BIT(p_active_functions, RANG_PO_ACHR2);
-  //пред сост ПО ЧАПВ2
-  _Bool previous_state_po_f1_chapv2 = _CHECK_SET_BIT(p_active_functions, RANG_PO_CHAPV2);
-//----------
-/*
-неизменно
-*/
-
-  unsigned int setpoint1 = previous_state_po_achr_chapv_uaf1 ?
-          current_settings_prt.setpoint_achr_chapv_uf[number_group_stp] * U_UP / 100 :
-          current_settings_prt.setpoint_achr_chapv_uf[number_group_stp];
-          
-  unsigned int setpoint2 = previous_state_po_achr_chapv_ubf1 ?
-          current_settings_prt.setpoint_achr_chapv_uf[number_group_stp] * U_UP / 100 :
-          current_settings_prt.setpoint_achr_chapv_uf[number_group_stp];
-  unsigned int setpoint3 = previous_state_po_achr_chapv_ucf1 ?
-          current_settings_prt.setpoint_achr_chapv_uf[number_group_stp] * U_UP / 100 :
-          current_settings_prt.setpoint_achr_chapv_uf[number_group_stp];
+  _Bool previous_state_po_uavr_min1 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MIN1);
+  _Bool previous_state_po_uavr_max1 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MAX1);
+  _Bool previous_state_po_uavr_min2 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MIN2);
+  _Bool previous_state_po_uavr_max2 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MAX2);
   
-  //Линейные
-  _Bool Uab_is_larger_than_UF1 = measurement[IM_UAB] >= setpoint1;
-  _Bool Ubc_is_larger_than_UF1 = measurement[IM_UBC] >= setpoint2;
-  _Bool Uca_is_larger_than_UF1 = measurement[IM_UCA] >= setpoint3;
+  unsigned int setpoint1 = previous_state_po_uavr_min1 ?
+          current_settings_prt.setpoint_avr_min1[number_group_stp] * U_DOWN / 100 :
+          current_settings_prt.setpoint_avr_min1[number_group_stp];
   
-  //Фазные
-  _Bool Ua_is_larger_than_UF1 = measurement[IM_UA] >= setpoint1;
-  _Bool Ub_is_larger_than_UF1 = measurement[IM_UB] >= setpoint2;
-  _Bool Uc_is_larger_than_UF1 = measurement[IM_UC] >= setpoint3;
+  _Bool Uab_and_Ubc_is_smaller_than_Uavrmin1 = (measurement[IM_UAB1] <= setpoint1) &&
+                                              (measurement[IM_UBC1] <= setpoint1);
   
-  /*----------------Выбор фазные/линейные-------------------------------------*/
-  _Bool UF1_phase = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0);
-  /*--------------------------------------------------------------------------*/
+  unsigned int setpoint2 = previous_state_po_uavr_max1 ?
+          current_settings_prt.setpoint_avr_max1[number_group_stp] * U_UP / 100 :
+          current_settings_prt.setpoint_avr_max1[number_group_stp];
   
-  _Bool timer1 = 0;
-  _Bool UF1_is_larger_than_U_setpoint_F1 = 0;
-//  _Bool UF1_is_smaller_than_U_setpoint_F1 = 0;
-  //ПО ФАЗНЫЕ-ЛИНЕЙНЫЕ
-  if (UF1_phase)
-  {
-    //ПО UAF1
-    previous_state_po_achr_chapv_uaf1 = Ua_is_larger_than_UF1;
-    //ПО UBF1
-    previous_state_po_achr_chapv_ubf1 = Ub_is_larger_than_UF1;
-    //ПО UCF1
-    previous_state_po_achr_chapv_ucf1 = Uc_is_larger_than_UF1;
-    _AND3(Ua_is_larger_than_UF1, 0, Ub_is_larger_than_UF1, 0, Uc_is_larger_than_UF1, 0, timer1, 0);
-  }
-  else 
-  {
-    //ПО UAF1
-    previous_state_po_achr_chapv_uaf1 = Uab_is_larger_than_UF1;
-    //ПО UBF1
-    previous_state_po_achr_chapv_ubf1 = Ubc_is_larger_than_UF1;
-    //ПО UCF1
-    previous_state_po_achr_chapv_ucf1 = Uca_is_larger_than_UF1;
-    _AND3(Uab_is_larger_than_UF1, 0, Ubc_is_larger_than_UF1, 0, Uca_is_larger_than_UF1, 0, timer1, 0);
-  }
-  _TIMER_T_0(INDEX_TIMER_ACHR_CHAPV_100MS_1, TIMEOUT_ACHR_CHAPV_100MS, timer1, 0, UF1_is_larger_than_U_setpoint_F1, 0);
-  //L1
-//  UF1_is_smaller_than_U_setpoint_F1 = !UF1_is_larger_than_U_setpoint_F1;
- //L2, 3 
-  int F1 = (int) (frequency * 100);
-/*
-  _Bool po_f1_achr_rab = F1 <= ((int)current_settings_prt.setpoint_achr1_f_rab[number_group_stp]);
-  _Bool po_f1_chapv_rab = F1 >= ((int)current_settings_prt.setpoint_chapv1_f_rab[number_group_stp]);
-  _Bool po_f1_achr = 0;
-раздвоение
-*/
-  _Bool po_f1_achr1_rab = F1 <= ((int)current_settings_prt.setpoint_achr1_f_rab[number_group_stp]);
-  _Bool po_f1_chapv1_rab = F1 >= ((int)current_settings_prt.setpoint_chapv1_f_rab[number_group_stp]);
-  _Bool po_f1_achr1 = 0;
-  _Bool po_f1_achr2_rab = F1 <= ((int)current_settings_prt.setpoint_achr1_f_rab[number_group_stp]);
-  _Bool po_f1_chapv2_rab = F1 >= ((int)current_settings_prt.setpoint_chapv1_f_rab[number_group_stp]);
-  _Bool po_f1_achr2 = 0;
-//----------
-
-/*  
+  _Bool Uab_and_Ubc_is_larger_than_Uavrmax1 = (measurement[IM_UAB1] >= setpoint2) &&
+                                              (measurement[IM_UBC1] >= setpoint2);
+  
+  unsigned int setpoint3 = previous_state_po_uavr_min2 ?
+          current_settings_prt.setpoint_avr_min2[number_group_stp] * U_DOWN / 100 :
+          current_settings_prt.setpoint_avr_min2[number_group_stp];
+  
+  _Bool Uab2_is_smaller_than_Uavrmin2 = measurement[IM_UAB2] <= setpoint3;
+  _Bool Ubc2_is_smaller_than_Uavrmin2 = measurement[IM_UBC2] <= setpoint3;
+  
+  unsigned int setpoint4 = previous_state_po_uavr_max2 ?
+          current_settings_prt.setpoint_avr_max2[number_group_stp] * U_UP / 100 :
+          current_settings_prt.setpoint_avr_max2[number_group_stp];
+  
+  _Bool Uab2_is_larger_than_Uavrmax2 = measurement[IM_UAB2] >= setpoint4;
+  _Bool Ubc2_is_larger_than_Uavrmax2 = measurement[IM_UBC2] >= setpoint4;
+  
+  _Bool pryvid_vv = _CHECK_SET_BIT(p_active_functions, RANG_PRYVID_VV);
+  _Bool block_avr_vid_zovn_zakhystiv = _CHECK_SET_BIT(p_active_functions, RANG_OTKL_VID_ZOVN_ZAHYSTIV);
+  _Bool vidkl_block_avr_vid_zahystiv = ((current_settings_prt.control_avr & CTR_AVR_OTKL_BLK_VID_ZAHYSTIV) != 0);
+//  unsigned int tmp_value = (_CHECK_SET_BIT(p_active_functions, RANG_MTZ1) != 0)               << 0;
+//  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_MTZ2) != 0)                           << 1;
+//  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_MTZ3) != 0)                           << 2;
+//  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_MTZ4) != 0)                           << 3;
+  unsigned int tmp_value = (_CHECK_SET_BIT(p_active_functions, RANG_APV_WORK) != 0)           << 4;
+  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_OTKL_VV) != 0)                        << 5;
+  tmp_value |= (_CHECK_SET_BIT(active_functions, RANG_VIDKL_VID_ZAKHYSTIV) != 0)            << 6;
+//  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_UMIN1) != 0)                          << 6;
+//  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_UMIN2) != 0)                          << 7;
+//  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_UMAX1) != 0)                          << 8;
+//  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_UMAX2) != 0)                          << 9;
+//  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_3I0) != 0)                            << 10;
+  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_OTKL_AVR) != 0)                       << 11;
+  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_SBROS_BLOCK_AVR) != 0)                << 12;
+  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV) != 0)                       << 13;
+  _INVERTOR(tmp_value, 13, tmp_value, 13);
+  
   //ДВ
-  unsigned int tmp_value = (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_ACHR1) != 0) << 0;
-  //L5
-  _INVERTOR(tmp_value, 0, tmp_value, 0);
-раздвоение
-*/
-  //ДВ
-  unsigned int tmp_value1 = (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_ACHR1) != 0) << 0;
-  //L5.1
-  _INVERTOR(tmp_value1, 0, tmp_value1, 0);
-  //ДВ
-  unsigned int tmp_value2 = (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_ACHR2) != 0) << 0;
-  //L5
-  _INVERTOR(tmp_value2, 0, tmp_value2, 0);
-//----------
-
-/*  
-  //М
-  tmp_value |= ((current_settings_prt.control_achr_chapv & CTR_ACHR1) != 0) << 1;
-  //L4
-  _AND3_INVERTOR(tmp_value, 0, tmp_value, 1, UF1_is_larger_than_U_setpoint_F1, 0, tmp_value, 3);
-раздвоение
-*/
-  //М
-  tmp_value1 |= ((current_settings_prt.control_achr_chapv & CTR_ACHR1) != 0) << 1;
-  //L4.1
-  _AND3_INVERTOR(tmp_value1, 0, tmp_value1, 1, UF1_is_larger_than_U_setpoint_F1, 0, tmp_value1, 3);
-  //М
-  tmp_value2 |= ((current_settings_prt.control_achr_chapv & CTR_ACHR2) != 0) << 1;
-  //L4.2
-  _AND3_INVERTOR(tmp_value2, 0, tmp_value2, 1, UF1_is_larger_than_U_setpoint_F1, 0, tmp_value2, 3);
-//----------
-/*
-  //Reset канал L2
-  if (!_GET_OUTPUT_STATE(tmp_value, 3))
-  {
-    //ПО АЧР1
-    if (previous_state_po_f1_achr) 
-    {
-      //отпускание АЧР
-//  _Bool po_f1_chapv_rab = F1 >= ((int)current_settings_prt.setpoint_chapv1_f_rab[number_group_stp]);
-      if (!po_f1_chapv_rab) 
-      {
-        //после сработки 1 будет держаться до тех пор пока не сработает po_f1_chapv_rab (условие отпускания)
-        _SET_BIT(p_active_functions, RANG_PO_ACHR1);
-        po_f1_achr = 1;
-      }
-    }
-    else
-    {
-      //сработка
-//  _Bool po_f1_achr_rab = F1 <= ((int)current_settings_prt.setpoint_achr1_f_rab[number_group_stp]);
-      
-      if (po_f1_achr_rab)
-      {
-        _SET_BIT(p_active_functions, RANG_PO_ACHR1);
-        po_f1_achr = 1;
-      }
-    }
-  }//if
-раздвоение
-*/
-//---1----
-  //Reset канал L2
-  if (!_GET_OUTPUT_STATE(tmp_value1, 3))
-  {
-    //ПО АЧР1
-    if (previous_state_po_f1_achr1) 
-    {
-      //отпускание АЧР
-//  _Bool po_f1_chapv_rab = F1 >= ((int)current_settings_prt.setpoint_chapv1_f_rab[number_group_stp]);
-      if (!po_f1_chapv1_rab) 
-      {
-        //после сработки 1 будет держаться до тех пор пока не сработает po_f1_chapv_rab (условие отпускания)
-        _SET_BIT(p_active_functions, RANG_PO_ACHR1);
-        po_f1_achr1 = 1;
-      }
-      else _CLEAR_BIT(p_active_functions, RANG_PO_ACHR1);
-    }
-    else
-    {
-      //сработка
-//  _Bool po_f1_achr_rab = F1 <= ((int)current_settings_prt.setpoint_achr1_f_rab[number_group_stp]);
-      
-      if (po_f1_achr1_rab)
-      {
-        _SET_BIT(p_active_functions, RANG_PO_ACHR1);
-        po_f1_achr1 = 1;
-      }
-      else _CLEAR_BIT(p_active_functions, RANG_PO_ACHR1);
-    }
-  }//if
-  else
-  {
-    _CLEAR_BIT(p_active_functions, RANG_PO_ACHR1);
-  }
-//----2----
-  //Reset канал L2
-  if (!_GET_OUTPUT_STATE(tmp_value2, 3))
-  {
-    //ПО АЧР1
-    if (previous_state_po_f1_achr2) 
-    {
-      //отпускание АЧР
-//  _Bool po_f1_chapv_rab = F1 >= ((int)current_settings_prt.setpoint_chapv1_f_rab[number_group_stp]);
-      if (!po_f1_chapv2_rab) 
-      {
-        //после сработки 1 будет держаться до тех пор пока не сработает po_f1_chapv_rab (условие отпускания)
-        _SET_BIT(p_active_functions, RANG_PO_ACHR2);
-        po_f1_achr2 = 1;
-      }
-      else _CLEAR_BIT(p_active_functions, RANG_PO_ACHR2);
-    }
-    else
-    {
-      //сработка
-//  _Bool po_f1_achr_rab = F1 <= ((int)current_settings_prt.setpoint_achr1_f_rab[number_group_stp]);
-      
-      if (po_f1_achr2_rab)
-      {
-        _SET_BIT(p_active_functions, RANG_PO_ACHR2);
-        po_f1_achr2 = 1;
-      }
-      else _CLEAR_BIT(p_active_functions, RANG_PO_ACHR2);
-    }
-  }//if
-  else
-  {
-    _CLEAR_BIT(p_active_functions, RANG_PO_ACHR2);
-  }
-//--------------  
-/*
-  _TIMER_T_0(INDEX_TIMER_ACHR1, current_settings_prt.timeout_achr_1[number_group_stp], po_f1_achr, 0, tmp_value, 5);
-раздвоение
-*/
-//---1---
-  _TIMER_T_0(INDEX_TIMER_ACHR1, current_settings_prt.timeout_achr_1[number_group_stp], po_f1_achr1, 0, tmp_value1, 5);
-//---2---
-  _TIMER_T_0(INDEX_TIMER_ACHR2, current_settings_prt.timeout_achr_2[number_group_stp], po_f1_achr2, 0, tmp_value2, 5);
-//-------
+  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_STAT_BLOCK_AVR) != 0)                 << 14;
+  _INVERTOR(tmp_value, 14, tmp_value, 14);
   
-  //Разр ЧАПВ
-  if (UF1_is_larger_than_U_setpoint_F1)
-    _SET_BIT(p_active_functions, RANG_RAZR_CHAPV);
-  else
-    _CLEAR_BIT(p_active_functions, RANG_RAZR_CHAPV);
-
-/*  
-  _Bool tmp1 = 0;
-  do 
-  {
-    //L7
-    _OR2(tmp_value, 3, !trigger_CHAPV1, 0, tmp_value, 30);
-    
-    //ПО ЧАПВ1
-    _Bool po_f1_chapv = 0;
-    if (previous_state_po_f1_chapv) 
-    {
-      po_f1_chapv = !po_f1_achr_rab;
-    }
-    else 
-    {
-      po_f1_chapv = po_f1_chapv_rab;
-    }
-    //L3
-    _Bool po_f1_chapv_tmp = (!_GET_OUTPUT_STATE(tmp_value, 30) && po_f1_chapv);
-    if (po_f1_chapv_tmp) 
-    {
-      _SET_BIT(p_active_functions, RANG_PO_CHAPV1);
-    }
-    
-    _TIMER_T_0(INDEX_TIMER_CHAPV1, current_settings_prt.timeout_chapv_1[number_group_stp], po_f1_chapv_tmp, 0, tmp_value, 6);
-    //L8
-    _AND2(po_f1_achr, 0, !po_f1_chapv_tmp, 0, tmp_value, 12);
-    //L9
-    _OR2(tmp_value, 5, tmp_value, 6, tmp_value, 13);
-
-    _D_TRIGGER(_GET_OUTPUT_STATE(tmp_value, 12), 0, _GET_OUTPUT_STATE(UF1_is_smaller_than_U_setpoint_F1, 0), previous_states_CHAPV1, 0, tmp_value, 13, trigger_CHAPV1, 0);
-    if (tmp1 == trigger_CHAPV1) break;
-    
-    tmp1 = trigger_CHAPV1;
-  } 
-  while(1);
-раздвоение
-*/
-//----1----
-  _Bool tmp1_1 = 0;
-  do 
-  {
-    //L7_1
-    _OR2(tmp_value1, 3, !trigger_CHAPV1, 0, tmp_value1, 30);
-    
-    //ПО ЧАПВ1
-    _Bool po_f1_chapv1 = 0;
-    if (previous_state_po_f1_chapv1) 
-    {
-      po_f1_chapv1 = !po_f1_achr1_rab;
-    }
-    else 
-    {
-      po_f1_chapv1 = po_f1_chapv1_rab;
-    }
-    //L3
-    _Bool po_f1_chapv1_tmp = (!_GET_OUTPUT_STATE(tmp_value1, 30) && po_f1_chapv1);
-    if (po_f1_chapv1_tmp) 
-      _SET_BIT(p_active_functions, RANG_PO_CHAPV1);
-    else
-      _CLEAR_BIT(p_active_functions, RANG_PO_CHAPV1);
-    
-    _TIMER_T_0(INDEX_TIMER_CHAPV1, current_settings_prt.timeout_chapv_1[number_group_stp], po_f1_chapv1_tmp, 0, tmp_value1, 6);
-    //L8
-    _AND2(po_f1_achr1, 0, !po_f1_chapv1_tmp, 0, tmp_value1, 12);
-    //L9
-    _OR2(tmp_value1, 5, tmp_value1, 6, tmp_value1, 13);
-
-    _D_TRIGGER(_GET_OUTPUT_STATE(tmp_value1, 12), 0, _GET_OUTPUT_STATE(tmp_value1, 3), previous_states_CHAPV1, 0, tmp_value1, 13, trigger_CHAPV1, 0);
-    if (tmp1_1 == trigger_CHAPV1) break;
-    
-    tmp1_1 = trigger_CHAPV1;
-  } 
-  while(1);
-//----2----
-  _Bool tmp1_2 = 0;
-  do 
-  {
-    //L7_2
-    _OR2(tmp_value2, 3, !trigger_CHAPV2, 0, tmp_value2, 30);
-    
-    //ПО ЧАПВ2
-    _Bool po_f1_chapv2 = 0;
-    if (previous_state_po_f1_chapv2) 
-    {
-      po_f1_chapv2 = !po_f1_achr2_rab;
-    }
-    else 
-    {
-      po_f1_chapv2 = po_f1_chapv2_rab;
-    }
-    //L3_2
-    _Bool po_f1_chapv2_tmp = (!_GET_OUTPUT_STATE(tmp_value2, 30) && po_f1_chapv2);
-    if (po_f1_chapv2_tmp) 
-      _SET_BIT(p_active_functions, RANG_PO_CHAPV2);
-    else
-      _CLEAR_BIT(p_active_functions, RANG_PO_CHAPV2);
-    
-    _TIMER_T_0(INDEX_TIMER_CHAPV2, current_settings_prt.timeout_chapv_2[number_group_stp], po_f1_chapv2_tmp, 0, tmp_value2, 6);
-    //L8_2
-    _AND2(po_f1_achr2, 0, !po_f1_chapv2_tmp, 0, tmp_value2, 12);
-    //L9_2
-    _OR2(tmp_value2, 5, tmp_value2, 6, tmp_value2, 13);
-
-    _D_TRIGGER(_GET_OUTPUT_STATE(tmp_value2, 12), 0, _GET_OUTPUT_STATE(tmp_value2, 3), previous_states_CHAPV2, 0, tmp_value2, 13, trigger_CHAPV2, 0);
-    if (tmp1_2 == trigger_CHAPV2) break;
-    
-    tmp1_2 = trigger_CHAPV2;
-  } 
-  while(1);
-//---------
-/*  
-  //АЧР/ЧАПВ
-  if (_GET_OUTPUT_STATE(trigger_CHAPV1, 0)) 
-  {
-    _SET_BIT(p_active_functions, RANG_ACHR_CHAPV1);
+  //М
+  tmp_value |= ((current_settings_prt.control_avr & CTR_AVR) != 0)                                               << 15;
+//  tmp_value |= ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_3U0_Ubc_TN2) == 0)    << 17; //Выбор 3U0
+  
+//  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_RESET_KRATN_SPRAC_AVR) != 0)          << 18;
+  
+  //ПО UАВРmin1
+  if (Uab_and_Ubc_is_smaller_than_Uavrmin1) {
+    _SET_BIT(p_active_functions, RANG_PO_UAVR_MIN1);
   }
   
-  _Bool chapv_timer_1ms = 0;
-  _Bool razr_chapv_inv = 0;
-  _TIMER_0_T(INDEX_TIMER_CHAPV_1MS, TIMEOUT_CHAPV_1MS, trigger_CHAPV1, 0, chapv_timer_1ms, 0);
-  _INVERTOR(UF1_is_larger_than_U_setpoint_F1, 0, razr_chapv_inv, 0);
-  _AND2(chapv_timer_1ms, 0, razr_chapv_inv, 0, tmp_value, 24);
-  _TIMER_0_T(INDEX_TIMER_BLOCK_CHAPV_5MS, TIMEOUT_BLOCK_CHAPV_5MS, tmp_value, 24, tmp_value, 25);
-раздвоение
-*/
-//----1----
-  //АЧР/ЧАПВ
-  if (_GET_OUTPUT_STATE(trigger_CHAPV1, 0)) 
-    _SET_BIT(p_active_functions, RANG_ACHR_CHAPV1);
-  else
-    _CLEAR_BIT(p_active_functions, RANG_ACHR_CHAPV1);
-
-//----2----
-  //АЧР/ЧАПВ
-  if (_GET_OUTPUT_STATE(trigger_CHAPV2, 0)) 
-    _SET_BIT(p_active_functions, RANG_ACHR_CHAPV2);
-  else
-    _CLEAR_BIT(p_active_functions, RANG_ACHR_CHAPV2);
-
-  //Блокування ЧАПВ
-  unsigned int tmp_value_g = 0;
-  _TIMER_0_T(INDEX_TIMER_CHAPV1_1MS, TIMEOUT_CHAPV_1MS, trigger_CHAPV1, 0, tmp_value_g, 0);
-  _TIMER_0_T(INDEX_TIMER_CHAPV2_1MS, TIMEOUT_CHAPV_1MS, trigger_CHAPV2, 0, tmp_value_g, 1);
+  //ПО UАВРmax1
+  if (Uab_and_Ubc_is_larger_than_Uavrmax1) {
+    _SET_BIT(p_active_functions, RANG_PO_UAVR_MAX1);
+  }
   
-  _AND2(tmp_value_g, 0, tmp_value1, 3, tmp_value_g, 2);
-  _AND2(tmp_value_g, 1, tmp_value2, 3, tmp_value_g, 3);
+//  if (_GET_OUTPUT_STATE(tmp_value, 17) /*Проверка выбора 3U0*/) 
+//  {
+//    //ПО UАВРmax2
+//    if (Uab2_is_larger_than_Uavrmax2) 
+//    {
+//      _SET_BIT(p_active_functions, RANG_PO_UAVR_MAX2);
+//    }
+//    //ПО UАBPmin2
+//    if (Uab2_is_smaller_than_Uavrmin2) 
+//    {
+//      _SET_BIT(p_active_functions, RANG_PO_UAVR_MIN2);
+//    }
+//  }
+//  else 
+  {
+    //ПО UАВРmax2
+    if (Uab2_is_larger_than_Uavrmax2 && Ubc2_is_larger_than_Uavrmax2) 
+    {
+      _SET_BIT(p_active_functions, RANG_PO_UAVR_MAX2);
+    }
+    //ПО UАBPmin2
+    if (Uab2_is_smaller_than_Uavrmin2 && Ubc2_is_smaller_than_Uavrmin2) 
+    {
+      _SET_BIT(p_active_functions, RANG_PO_UAVR_MIN2);
+    }
+  }
   
-  _TIMER_0_T(INDEX_TIMER_BLOCK_CHAPV1_5MS, TIMEOUT_BLOCK_CHAPV_5MS, tmp_value_g, 2, tmp_value_g, 4);
-  _TIMER_0_T(INDEX_TIMER_BLOCK_CHAPV2_5MS, TIMEOUT_BLOCK_CHAPV_5MS, tmp_value_g, 3, tmp_value_g, 5);
+//  _OR6(tmp_value, 0, tmp_value, 1, tmp_value, 2, tmp_value, 3, tmp_value, 4, tmp_value, 5, tmp_value, 19);
+//  _OR6(tmp_value, 6, tmp_value, 7, tmp_value, 8, tmp_value, 9, tmp_value, 10, tmp_value, 11, tmp_value, 20);
+  _OR6(tmp_value, 4, tmp_value, 5, tmp_value, 6, tmp_value, 11, block_avr_vid_zovn_zakhystiv, 0, pryvid_vv, 0, tmp_value, 21);
   
-  _OR2(tmp_value_g, 4, tmp_value_g, 5, tmp_value_g, 6);
-
-  if (_GET_OUTPUT_STATE(tmp_value_g, 6))
-      _SET_BIT(p_active_functions, RANG_VN_BLOCK_CHAPV);
-  else
-      _CLEAR_BIT(p_active_functions, RANG_VN_BLOCK_CHAPV);
+//  if (_GET_OUTPUT_STATE(tmp_value, 17) /*Проверка выбора 3U0*/)
+//  {
+//    _AND2(Uab_and_Ubc_is_smaller_than_Uavrmin1, 0, Uab2_is_larger_than_Uavrmax2, 0, tmp_value, 22);
+//    _AND2(Uab2_is_larger_than_Uavrmax2, 0, Uab_and_Ubc_is_larger_than_Uavrmax1, 0, tmp_value, 23);
+//    _AND2(Uab_and_Ubc_is_larger_than_Uavrmax1, 0, Uab2_is_smaller_than_Uavrmin2, 0, tmp_value, 24);
+//  } 
+//  else
+  {
+    _Bool bool_value1 = Uab2_is_larger_than_Uavrmax2 && Ubc2_is_larger_than_Uavrmax2;
+    _Bool bool_value2 = Uab2_is_smaller_than_Uavrmin2 && Ubc2_is_smaller_than_Uavrmin2;
+    _AND2(Uab_and_Ubc_is_smaller_than_Uavrmin1, 0, bool_value1, 0, tmp_value, 22);
+    _AND2(bool_value1, 0, Uab_and_Ubc_is_larger_than_Uavrmax1, 0, tmp_value, 23);
+    _AND2(Uab_and_Ubc_is_larger_than_Uavrmax1, 0, bool_value2, 0, tmp_value, 24);
+  }
+  
+  _Bool tmr_avr_reset_blk = 0;
+  _TIMER_T_0(INDEX_TIMER_AVR_RESET_BLK, current_settings_prt.timeout_avr_reset_blk[number_group_stp],
+               tmp_value, 23, tmr_avr_reset_blk, 0);
+  
+  _OR3(vidkl_block_avr_vid_zahystiv, 0, tmp_value, 12, tmr_avr_reset_blk, 0, tmp_value, 25);
+  _D_TRIGGER(1,  0, _GET_OUTPUT_STATE(tmp_value, 25), previous_states_AVR_0, 0, tmp_value, 21, trigger_AVR_0, 0);
+  
+  //Блок. АВР от защит
+  if (_GET_OUTPUT_STATE(trigger_AVR_0, 0)) {
+    _SET_BIT(p_active_functions, RANG_BLOCK_AVR_VID_ZAKHYSTIV);
+  }
+  
+  _Bool tmp = 0;
+  do {
+    _AND5(!trigger_AVR_0, 0, tmp_value, 15, tmp_value, 13, tmp_value, 14, !trigger_AVR_1, 0, tmp_value, 27);
+    _AND2(tmp_value, 27, tmp_value, 22, tmp_value, 29);
+    _AND2(tmp_value, 27, tmp_value, 24, tmp_value, 30);
+    _TIMER_T_0(INDEX_TIMER_AVR_RL, current_settings_prt.timeout_avr_rl[number_group_stp], tmp_value, 30, tmp_value, 31);
+    _TIMER_T_0(INDEX_TIMER_AVR_OL, current_settings_prt.timeout_avr_ol[number_group_stp], tmp_value, 29, tmp_value, 0);
+    _OR2(tmp_value, 31, tmp_value, 0, tmp_value, 1);
+    //Пуск АВР
+    
+    _Bool pusk_avr = _GET_OUTPUT_STATE(tmp_value, 1);
+    if (pusk_avr) {
+      _SET_BIT(p_active_functions, RANG_PUSK_AVR);
+    }
+    
+    _Bool tmr_avr_zavershennja = 0;
+    _TIMER_T_0(INDEX_TIMER_AVR_ZAVERSHENNJA, current_settings_prt.timeout_avr_zavershennja[number_group_stp],
+               !pusk_avr, 0, tmr_avr_zavershennja, 0);
+    
+    _Bool reset_counter = 0;
+    _OR3(tmp_value, 12, tmr_avr_zavershennja, 0, trigger_AVR_1, 0, reset_counter, 0);
+    
+    _Bool counter_signal = 0;
+    _COUNTER(_GET_OUTPUT_STATE(reset_counter, 0), previous_state_avr_counter, 0, pusk_avr, 0,
+             avr_counter, current_settings_prt.setpoint_kratn_avr[number_group_stp], counter_signal, 0);
+    
+    _D_TRIGGER(1, 0, _GET_OUTPUT_STATE(tmp_value, 12), previous_states_AVR_1, 0, counter_signal, 0, trigger_AVR_1, 0);
+    if (tmp == trigger_AVR_1) {
+      break;
+    }
+    tmp = trigger_AVR_1;
+  } while(1);
+  
+  //Блокування кратності АВР
+  if (trigger_AVR_1) {
+    _SET_BIT(p_active_functions, RANG_BLOCK_KRATN_AVR);
+  }
 }
-
 /*****************************************************/
 
 /*****************************************************/
@@ -4588,22 +2959,12 @@ inline void urov_handler(volatile unsigned int *p_active_functions, unsigned int
       ( ((current_settings_prt.control_urov & CTR_UROV_STARTED_FROM_MTZ2   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_MTZ2             ) != 0)) ||
       ( ((current_settings_prt.control_urov & CTR_UROV_STARTED_FROM_MTZ3   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_MTZ3             ) != 0)) ||
       ( ((current_settings_prt.control_urov & CTR_UROV_STARTED_FROM_MTZ4   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_MTZ4             ) != 0)) ||
-      ( ((current_settings_prt.control_urov & CTR_UROV_STARTED_FROM_MTZ04_1) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_MTZ04_1          ) != 0)) ||
-      ( ((current_settings_prt.control_urov & CTR_UROV_STARTED_FROM_MTZ04_2) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_MTZ04_2          ) != 0)) ||
       ( ((current_settings_prt.control_urov & CTR_UROV_STARTED_FROM_ZDZ    ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_ZDZ              ) != 0)) ||
-      ( ((current_settings_prt.control_urov & CTR_UROV_STARTED_FROM_3I0    ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_3I0              ) != 0)) ||
-      ( ((current_settings_prt.control_urov & CTR_UROV_STARTED_FROM_3U0    ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_3U0              ) != 0)) ||
-      ( ((current_settings_prt.control_urov & CTR_UROV_STARTED_FROM_NZZ    ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_NZZ              ) != 0)) ||
-      ( ((current_settings_prt.control_urov & CTR_UROV_STARTED_FROM_TZNP1  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP1            ) != 0)) ||
-      ( ((current_settings_prt.control_urov & CTR_UROV_STARTED_FROM_TZNP2  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP2            ) != 0)) ||
-      ( ((current_settings_prt.control_urov & CTR_UROV_STARTED_FROM_TZNP3  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP3            ) != 0)) ||
       ( ((current_settings_prt.control_urov & CTR_UROV_STARTED_FROM_ZOP1   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_ZOP              ) != 0)) ||
       ( ((current_settings_prt.control_urov & CTR_UROV_STARTED_FROM_UMIN1  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMIN1            ) != 0)) ||
       ( ((current_settings_prt.control_urov & CTR_UROV_STARTED_FROM_UMIN2  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMIN2            ) != 0)) ||
       ( ((current_settings_prt.control_urov & CTR_UROV_STARTED_FROM_UMAX1  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMAX1            ) != 0)) ||
       ( ((current_settings_prt.control_urov & CTR_UROV_STARTED_FROM_UMAX2  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMAX2            ) != 0)) ||
-      ( ((current_settings_prt.control_urov & CTR_UROV_STARTED_FROM_ACHR1  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_ACHR_CHAPV1      ) != 0)) ||
-      ( ((current_settings_prt.control_urov & CTR_UROV_STARTED_FROM_ACHR2  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_ACHR_CHAPV2      ) != 0)) ||
       (                                                                               (_CHECK_SET_BIT(p_active_functions, RANG_PUSK_UROV_VID_DV ) != 0))
      )     
     )
@@ -4733,31 +3094,13 @@ inline void apv_handler(volatile unsigned int *p_active_functions, unsigned int 
   _OR4(logic_APV_0, 4, logic_APV_0, 7, logic_APV_0, 10, logic_APV_0, 13, logic_APV_0, 14);
   _TIMER_0_T(INDEX_TIMER_APV_TMP1, 1, logic_APV_0, 14, logic_APV_0, 15);
 
-  //М:"ЧАПВ 1"
-  logic_APV_0 |= ((current_settings_prt.control_achr_chapv & CTR_CHAPV1) != 0) << 16;
-  //"АЧР/ЧАПВ 1"
-  logic_APV_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_ACHR_CHAPV1) != 0) << 21;
-  //М:"ЧАПВ 2"
-  logic_APV_1 |= ((current_settings_prt.control_achr_chapv & CTR_CHAPV2) != 0) << 27;
-  //"АЧР/ЧАПВ 2"
-  logic_APV_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_ACHR_CHAPV2) != 0) << 28;
-  //"Разр ЧАПВ"
-  logic_APV_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_RAZR_CHAPV) != 0) << 20;
-
   //"АЧР/ЧАПВ від ДВ"
-  logic_APV_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_ACHR_CHAPV_VID_DV) != 0) << 17;
+  logic_APV_0 |= 0/*(_CHECK_SET_BIT(p_active_functions, RANG_ACHR_CHAPV_VID_DV) != 0)*/ << 17;
   //М:"ЧАПВ від ДВ"
-  logic_APV_1 |= ((current_settings_prt.control_achr_chapv & CTR_CHAPV_VID_DV) != 0) << 22;
+  logic_APV_1 |= 0/*((current_settings_prt.control_achr_chapv & CTR_CHAPV_VID_DV) != 0)*/ << 22;
   
-  _AND3(logic_APV_0, 16, logic_APV_1, 21, logic_APV_1, 20, logic_APV_1, 23);
-  _AND3(logic_APV_1, 27, logic_APV_1, 28, logic_APV_1, 20, logic_APV_1, 29);
-  _AND2(logic_APV_0, 17, logic_APV_1, 22, logic_APV_1, 24);
-  _OR3(logic_APV_1, 23, logic_APV_1, 29, logic_APV_1, 24, logic_APV_0, 18)
-
-  //"Блок.ЧАПВ"
-  logic_APV_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_VN_BLOCK_CHAPV) != 0) << 25;
-  _OR2(logic_APV_0, 18, logic_APV_1, 25, logic_APV_1, 26);
-    
+  _AND2(logic_APV_0, 17, logic_APV_1, 22, logic_APV_0, 18);
+  
   _TIMER_0_T(INDEX_TIMER_ACHR_CHAPV, MAX_VALUE_TIMER_FOR_COUNT_SIGNAL_ACHR_CHAPV, logic_APV_0, 18, logic_APV_0, 19);
 
   _OR2_INVERTOR(logic_APV_0, 15, logic_APV_0, 19, logic_APV_0, 20);
@@ -4824,7 +3167,7 @@ inline void apv_handler(volatile unsigned int *p_active_functions, unsigned int 
     
     //АПВ1
     _OR6(logic_APV_1, 19, logic_APV_0, 14,                   trigger_APV_0, 1, trigger_APV_0, 2, trigger_APV_0, 3, logic_APV_0, 31, logic_APV_1, 4);
-    _OR6(logic_APV_1, 26, logic_APV_0, 22, logic_APV_0, 24, logic_APV_1, 3, logic_APV_1, 0, logic_APV_1, 4, logic_APV_1, 8);
+    _OR6(logic_APV_0, 18, logic_APV_0, 22, logic_APV_0, 24, logic_APV_1, 3, logic_APV_1, 0, logic_APV_1, 4, logic_APV_1, 8);
     _D_TRIGGER(_GET_OUTPUT_STATE(logic_APV_0, 1),  0, _GET_OUTPUT_STATE(logic_APV_1, 8), previous_states_APV_0, 5, logic_APV_0, 20, trigger_APV_0, 0);                 
     _TIMER_T_0(INDEX_TIMER_APV_1, current_settings_prt.timeout_apv_1[number_group_stp], trigger_APV_0, 0, logic_APV_1, 9);
     /*
@@ -4841,7 +3184,7 @@ inline void apv_handler(volatile unsigned int *p_active_functions, unsigned int 
     //АПВ2
     _AND2_INVERTOR(logic_APV_0, 31, logic_APV_0, 15, logic_APV_1, 10);
     _OR6(logic_APV_1, 19, logic_APV_0, 14, trigger_APV_0, 0,                   trigger_APV_0, 2, trigger_APV_0, 3, logic_APV_1,  0, logic_APV_1, 5);
-    _OR6(logic_APV_1, 26, logic_APV_0, 24, logic_APV_0, 26, logic_APV_1, 2, logic_APV_1, 1, logic_APV_1, 5, logic_APV_1, 11);
+    _OR6(logic_APV_0, 18, logic_APV_0, 24, logic_APV_0, 26, logic_APV_1, 2, logic_APV_1, 1, logic_APV_1, 5, logic_APV_1, 11);
     _D_TRIGGER(1,  0, _GET_OUTPUT_STATE(logic_APV_1, 11), previous_states_APV_0, 6, logic_APV_1, 10, trigger_APV_0, 1);    
     _TIMER_T_0(INDEX_TIMER_APV_2, current_settings_prt.timeout_apv_2[number_group_stp], trigger_APV_0, 1, logic_APV_1, 12);
     /*
@@ -4858,7 +3201,7 @@ inline void apv_handler(volatile unsigned int *p_active_functions, unsigned int 
     //АПВ3
     _AND2_INVERTOR(logic_APV_1, 0, logic_APV_0, 15, logic_APV_1, 13);
     _OR6(logic_APV_1, 19, logic_APV_0, 14, trigger_APV_0, 0, trigger_APV_0, 1,                   trigger_APV_0, 3, logic_APV_1,  1, logic_APV_1, 6);
-    _OR5(logic_APV_1, 26, logic_APV_0, 24, logic_APV_0, 28, logic_APV_1, 2, logic_APV_1, 6, logic_APV_1, 14);
+    _OR5(logic_APV_0, 18, logic_APV_0, 24, logic_APV_0, 28, logic_APV_1, 2, logic_APV_1, 6, logic_APV_1, 14);
     _D_TRIGGER(1,  0, _GET_OUTPUT_STATE(logic_APV_1, 14), previous_states_APV_0, 7, logic_APV_1, 13, trigger_APV_0, 2);                 
     _TIMER_T_0(INDEX_TIMER_APV_3, current_settings_prt.timeout_apv_3[number_group_stp], trigger_APV_0, 2, logic_APV_1, 15);
     /*
@@ -4875,7 +3218,7 @@ inline void apv_handler(volatile unsigned int *p_active_functions, unsigned int 
     //АПВ4
     _AND2_INVERTOR(logic_APV_1, 1, logic_APV_0, 15, logic_APV_1, 16);
     _OR6(logic_APV_1, 19, logic_APV_0, 14, trigger_APV_0, 0, trigger_APV_0, 1, trigger_APV_0, 2,                   logic_APV_1,  2, logic_APV_1, 7);
-    _OR4(logic_APV_1, 26, logic_APV_0, 24, logic_APV_0, 30, logic_APV_1, 7, logic_APV_1, 17);
+    _OR4(logic_APV_0, 18, logic_APV_0, 24, logic_APV_0, 30, logic_APV_1, 7, logic_APV_1, 17);
     _D_TRIGGER(1,  0, _GET_OUTPUT_STATE(logic_APV_1, 17), previous_states_APV_0, 8, logic_APV_1, 16, trigger_APV_0, 3);                 
     _TIMER_T_0(INDEX_TIMER_APV_4, current_settings_prt.timeout_apv_4[number_group_stp], trigger_APV_0, 3, logic_APV_1, 18);
     /*
@@ -5105,30 +3448,6 @@ inline void on_off_handler(volatile unsigned int *p_active_functions)
             _CLEAR_BIT(temp_array_of_outputs, RANG_MTZ4);
           }
           
-          //МТЗ1 04 кВ
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_MTZ04_1) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_MTZ04_1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_MTZ04_1);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_MTZ04_1][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_MTZ04_1);
-          }
-          
-          //МТЗ2 04кВ
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_MTZ04_2) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_MTZ04_2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_MTZ04_2);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_MTZ04_2][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_MTZ04_2);
-          }
-          
           //ЗДЗ
           if(
              (_CHECK_SET_BIT(temp_array_of_outputs, RANG_ZDZ) != 0) &&
@@ -5139,114 +3458,6 @@ inline void on_off_handler(volatile unsigned int *p_active_functions)
             for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_ZDZ][j] = *(label_to_time_array + j);
 
             _CLEAR_BIT(temp_array_of_outputs, RANG_ZDZ);
-          }
-          
-          //ЗЗ/3I0
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_3I0) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_3I0) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_3I0);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_3I0][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_3I0);
-          }
-          
-          //ЗЗ/3U0
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_3U0) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_3U0) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_3U0);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_3U0][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_3U0);
-          }
-          
-          //НЗЗ
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_NZZ) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_NZZ) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_NZZ);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_NZZ][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_NZZ);
-          }
-          
-          //ТЗНП1
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_TZNP1) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_TZNP1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_TZNP1);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_TZNP1][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_TZNP1);
-          }
-
-          //ТЗНП2
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_TZNP2) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_TZNP2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_TZNP2);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_TZNP2][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_TZNP2);
-          }
-
-          //ТЗНП3
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_TZNP3) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_TZNP3) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_TZNP3);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_TZNP3][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_TZNP3);
-          }
-
-          //АЧР/ЧАПВ від ДВ
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_ACHR_CHAPV_VID_DV) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_ACHR_CHAPV_VID_DV) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_ACHR_CHAPV_VID_DV);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_ACHR_CHAPV_VID_DV][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_ACHR_CHAPV_VID_DV);
-          }
-          
-          //АЧР/ЧАПВ1
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_ACHR_CHAPV1) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_ACHR_CHAPV1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_ACHR_CHAPV1);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_ACHR_CHAPV1][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_ACHR_CHAPV1);
-          }
-          
-          //АЧР/ЧАПВ2
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_ACHR_CHAPV2) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_ACHR_CHAPV2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_ACHR_CHAPV2);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_ACHR_CHAPV2][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_ACHR_CHAPV2);
           }
           
           //УРОВ1
@@ -5462,187 +3673,6 @@ inline void on_off_handler(volatile unsigned int *p_active_functions)
   /*********************/
   for (i = 0; i < N_BIG; i++) previous_active_functions[i] = p_active_functions[i];
   /*********************/
-}
-/*****************************************************/
-
-/*****************************************************/
-//Визначення місця до пошкодження
-/*****************************************************/
-inline void vmp_handler(volatile unsigned int p_active_functions[])
-{
-  //Перевіряємо чи стоїть фіксуються спрацювання від КЗ на фазних лініях
-  if(
-     ((p_active_functions[0] & MASKA_MONITOTYNG_PHASE_SIGNALES_KZ_0) != 0) ||
-     ((p_active_functions[1] & MASKA_MONITOTYNG_PHASE_SIGNALES_KZ_1) != 0) ||
-     ((p_active_functions[2] & MASKA_MONITOTYNG_PHASE_SIGNALES_KZ_2) != 0) ||
-     ((p_active_functions[3] & MASKA_MONITOTYNG_PHASE_SIGNALES_KZ_3) != 0) ||
-     ((p_active_functions[4] & MASKA_MONITOTYNG_PHASE_SIGNALES_KZ_4) != 0) ||
-     ((p_active_functions[5] & MASKA_MONITOTYNG_PHASE_SIGNALES_KZ_5) != 0) ||
-     ((p_active_functions[6] & MASKA_MONITOTYNG_PHASE_SIGNALES_KZ_6) != 0) ||
-     ((p_active_functions[7] & MASKA_MONITOTYNG_PHASE_SIGNALES_KZ_7) != 0)
-    )
-  {
-    //Є фазне КЗ
-    VMP_last_KZ = UNDEF_VMP; /*Помічаємо, що визначення місця до пошкодження ще не визначене*/
-    
-    //Перевіряємо чи подається команда на вимкнення ВВ ("Робота БО")
-    vymknennja_vid_KZ_prt = _CHECK_SET_BIT(p_active_functions, RANG_WORK_BO);
-
-    
-    //Фіксуємо максимальний фазний струм при КЗ
-    unsigned int max_faze_current = measurement[IM_IA];
-    if (max_faze_current < measurement[IM_IB]) max_faze_current = measurement[IM_IB];
-    if (max_faze_current < measurement[IM_IC]) max_faze_current = measurement[IM_IC];
-    
-    if (max_faze_current > I_max_KZ_prt)
-    {
-      //Зафіксовано нове значення максимального фазного струму при КЗ
-      I_max_KZ_prt = max_faze_current;
-      
-      //Визначаємо скільки фаз бере учать у КЗ
-      unsigned int I_max_KZ_0_9 = (unsigned int)(0.9f*((float)max_faze_current));
-      
-      unsigned int number_of_phases_tmp = 0;
-      if (measurement[IM_IA] >= I_max_KZ_0_9) number_of_phases_tmp++;
-      if (measurement[IM_IB] >= I_max_KZ_0_9) number_of_phases_tmp++;
-      if (measurement[IM_IC] >= I_max_KZ_0_9) number_of_phases_tmp++;
-      number_of_phases_KZ_prt = number_of_phases_tmp;
-        
-      int X_resistance[3] = {resistance[X_AB], resistance[X_BC], resistance[X_CA]};
-      if (
-          (((unsigned int)X_resistance[0]) != ((unsigned int)UNDEF_RESISTANCE)) ||
-          (((unsigned int)X_resistance[1]) != ((unsigned int)UNDEF_RESISTANCE)) ||
-          (((unsigned int)X_resistance[2]) != ((unsigned int)UNDEF_RESISTANCE))
-         )
-      {
-        //Є реально розраховані міжфазні опори
-
-        //Фіксуємо мінімальний міжфазний реактивний опір при КЗ
-        //Етап 1: Знаходим перший визначений фіжфазний опір і помічаємо його значення як найменше
-        unsigned int min_interphase_X;
-        int R_KZ_tmp;
-        if (((unsigned int)X_resistance[0]) != ((unsigned int)UNDEF_RESISTANCE))
-        {
-          min_interphase_X = abs(X_resistance[0]);
-          R_KZ_tmp = resistance[R_AB];
-        }
-        else if (((unsigned int)X_resistance[1]) != ((unsigned int)UNDEF_RESISTANCE))
-        {
-          min_interphase_X = abs(X_resistance[1]);
-          R_KZ_tmp = resistance[R_BC];
-        }
-        else if (((unsigned int)X_resistance[2]) != ((unsigned int)UNDEF_RESISTANCE))
-        {
-          min_interphase_X = abs(X_resistance[2]);
-          R_KZ_tmp = resistance[R_CA];
-        }
-        else
-        {
-          //Теоретично цього ніколи не мало б бути
-          total_error_sw_fixed(68);
-        }
-      
-        //Етап 2: Серед всіх визначених міжфазних опорів знаходимо найменше
-        unsigned int X_mod;
-        if ((((unsigned int)X_resistance[0]) != ((unsigned int)UNDEF_RESISTANCE)) && (min_interphase_X > (X_mod = abs(X_resistance[0])))) 
-        {
-          min_interphase_X = X_mod;
-          R_KZ_tmp = resistance[R_AB];
-        }
-        if ((((unsigned int)X_resistance[1]) != ((unsigned int)UNDEF_RESISTANCE)) && (min_interphase_X > (X_mod = abs(X_resistance[1]))))
-        {
-          min_interphase_X = X_mod;
-          R_KZ_tmp = resistance[R_BC];
-        }
-        if ((((unsigned int)X_resistance[2]) != ((unsigned int)UNDEF_RESISTANCE)) && (min_interphase_X > (X_mod = abs(X_resistance[2]))))
-        {
-          min_interphase_X = X_mod;
-          R_KZ_tmp = resistance[R_CA];
-        }
-      
-        //Зафіксовано мінімальное значення міжфазного опору при КЗ
-        X_min_KZ_prt = min_interphase_X;
-        R_KZ_prt = R_KZ_tmp; //Поки що це число потрібно тільки для визначення знаку (щоб визначити у якому напямку відбулося КЗ)
-
-//        //Етап 3: Перевіряємо чи мінімальний опір на цей момент не є мінімальним з початку виникнення КЗ
-//        if (
-//            (X_min_KZ_prt == ((unsigned int)UNDEF_RESISTANCE)) || /*Це є ознакою, що для даного КЗ ми перший раз фіксуємо мінімальний опір, тому і його значення помічаємо як мінімальне*/
-//            (X_min_KZ_prt > min_interphase_X)
-//           )
-//        {
-//          //Зафіксовано нове значення мінімального міжфазного опору при КЗ
-//          X_min_KZ_prt = min_interphase_X;
-//          R_KZ_prt = R_KZ_tmp; //Поки що це число потрібно тільки для визначення знаку (щоб визначити у якому напямку відбулося КЗ)
-//        }
-      }
-      else
-      {
-        X_min_KZ_prt = (unsigned int)UNDEF_RESISTANCE;
-      }
-    }
-  }
-  else
-  {
-    //На даний момент немає фазного КЗ
-    if(
-       (vymknennja_vid_KZ_prt != 0) &&  /*Умова, що відбувалося вимкнення під час останнього КЗ*/
-       ((number_of_phases_last_KZ = number_of_phases_KZ_prt) > 1) && /*Умова, що КЗ є міжфазним*/
-       ((current_settings_prt.control_vmp & CTR_VMP_STATE) != 0) && /*ВМП ввімкнено*/ 
-       (X_min_KZ_prt != ((unsigned int)UNDEF_RESISTANCE)) /*Умова, що хоча б один міжфазний опір був визначений, а тому і є зафіксований мінімальний реактивний міжфазний опір*/
-      )
-    {
-      //Визначаємо віддаль до мсця пошкодження поки що без напрямку 
-      unsigned int X_tmp = X_min_KZ_prt*current_settings_prt.TVoltage/current_settings_prt.TCurrent; /*Перерозраховуємо опір на первинну обмотку. Значення залишаємо у мОм*/
-      
-      unsigned int forward_backward = (R_KZ_prt < 0);
-      unsigned int lines_tmp = current_settings_prt.lines[forward_backward];
-      unsigned int defined_VMP = false;
-      unsigned int i = 0;
-      int VMP_tmp = 0;
-      while ((defined_VMP == false) && (i < lines_tmp))
-      {
-        unsigned int dovgyna_tmp = current_settings_prt.dovgyna[forward_backward][i];
-        unsigned int opir_tmp = current_settings_prt.opir[forward_backward][i];
-        unsigned int X_current_line = dovgyna_tmp*opir_tmp/1000; /*розмірності*[м]x[мОм/км] =  [м]x[мОм/1000м] =[мОм]/1000 */
-        if (X_tmp <= X_current_line)
-        {
-          //На даній ділянці зафіксовано пошкодження
-//          VMP_tmp += (int)(((unsigned long long)dovgyna_tmp)*((unsigned long long)X_tmp)/((unsigned long long)X_current_line));
-          VMP_tmp += X_tmp*1000/opir_tmp;
-          defined_VMP = true;
-        }
-        else
-        {
-          //На даній ділянці ще не зафіксовано пошкодження
-          VMP_tmp += dovgyna_tmp;
-          X_tmp -= X_current_line;
-        }
-          
-        i++;
-      }
-      
-      //Остаточно визначаємо ВМП
-      equal_more_KZ = defined_VMP;
-      if(forward_backward == 0) VMP_last_KZ = VMP_tmp;
-      else VMP_last_KZ = -VMP_tmp;
-    }
-
-    /*
-    Повертаємо пограмне забезпечення у стан очікування нового КЗ
-    
-    Цю операцію може б треба було виконувати тільки раз після попереднрього КЗ,
-    але оскільки  я не фіксую наявнясть КЗ, а тільки вимкнення при КЗ (короткочасне КЗ
-    може не привести до вимкнення, або якщо сигнали працювали на сигналізацію, а не
-    на вимкнення) - то щоб не ускладнювати програму, я зробив ці операції постійними коли немає КЗ
-    Я думаю, що їх не так багато і вони б не мали сильно знизити ресурс процесора
-    */
-    vymknennja_vid_KZ_prt = 0;
-    I_max_KZ_prt = 0;
-    number_of_phases_KZ_prt = 0;
-    X_min_KZ_prt = (unsigned int)UNDEF_RESISTANCE;
-    R_KZ_prt = 0;
-  }
-      
 }
 /*****************************************************/
 
@@ -5873,8 +3903,6 @@ inline unsigned int stop_regisrator(volatile unsigned int* carrent_active_functi
                   (global_timers[i] < current_settings_prt.timeout_pryvoda_VV) 
                  )   
                 ) 
-                &&
-                (i != INDEX_TIMER_ACHR_CHAPV_100MS_1)
                )
             global_timers_work = 1;
           }
@@ -5920,42 +3948,39 @@ inline void start_monitoring_max_phase_current(unsigned int time_tmp)
   number_max_phase_dr++;
   
   //Помічаємо, що будем виходити з того, що зараз значення тільки починають моніторитися, тому приймаємо їх за найбільші
-  int frequency_int = (int)frequency;
-  if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
+  int frequency_val_1_int = (int)frequency_val_1;
+  if (frequency_val_1_int >= 0) frequency_val_1_int = (int)(frequency_val_1*1000);
   
-  measurements_phase_max_dr[ 0] = measurement[IM_3I0];
-  measurements_phase_max_dr[ 1] = measurement[IM_3I0_other_g];
-  measurements_phase_max_dr[ 2] = measurement[IM_3I0_r];
-  measurements_phase_max_dr[ 3] = measurement[IM_IA];
-  measurements_phase_max_dr[ 4] = measurement[IM_IB];
-  measurements_phase_max_dr[ 5] = measurement[IM_IC];
-  measurements_phase_max_dr [6] = measurement[IM_I2];
-  measurements_phase_max_dr[ 7] = measurement[IM_I1];
-  measurements_phase_max_dr[ 8] = measurement[IM_I04];
-  measurements_phase_max_dr[ 9] = measurement[IM_UA];
-  measurements_phase_max_dr[10] = measurement[IM_UB];
-  measurements_phase_max_dr[11] = measurement[IM_UC];
-  measurements_phase_max_dr[12] = measurement[IM_3U0];
-  measurements_phase_max_dr[13] = measurement[IM_UAB];
-  measurements_phase_max_dr[14] = measurement[IM_UBC];
-  measurements_phase_max_dr[15] = measurement[IM_UCA];
-  measurements_phase_max_dr[16] = (unsigned int)frequency_int;
-  measurements_phase_max_dr[17] = (unsigned int)resistance[R_AB];
-  measurements_phase_max_dr[18] = (unsigned int)resistance[X_AB];
-  measurements_phase_max_dr[19] = (unsigned int)resistance[R_BC];
-  measurements_phase_max_dr[20] = (unsigned int)resistance[X_BC];
-  measurements_phase_max_dr[21] = (unsigned int)resistance[R_CA];
-  measurements_phase_max_dr[22] = (unsigned int)resistance[X_CA];
-  measurements_phase_max_dr[23] = (unsigned int)UNDEF_VMP;
-  measurements_phase_max_dr[24] = 0;
+  int frequency_val_2_int = (int)frequency_val_2;
+  if (frequency_val_2_int >= 0) frequency_val_2_int = (int)(frequency_val_2*1000);
+
+  measurements_phase_max_dr[ 0] = measurement[IM_IA];
+  measurements_phase_max_dr[ 1] = measurement[IM_IB];
+  measurements_phase_max_dr[ 2] = measurement[IM_IC];
+  measurements_phase_max_dr [3] = measurement[IM_I2];
+  measurements_phase_max_dr[ 4] = measurement[IM_I1];
+  measurements_phase_max_dr[ 5] = measurement[IM_UA1];
+  measurements_phase_max_dr[ 6] = measurement[IM_UB1];
+  measurements_phase_max_dr[ 7] = measurement[IM_UC1];
+  measurements_phase_max_dr[ 8] = measurement[IM_UA2];
+  measurements_phase_max_dr[ 9] = measurement[IM_UB2];
+  measurements_phase_max_dr[10] = measurement[IM_UC2];
+  measurements_phase_max_dr[11] = measurement[IM_UAB1];
+  measurements_phase_max_dr[12] = measurement[IM_UBC1];
+  measurements_phase_max_dr[13] = measurement[IM_UCA1];
+  measurements_phase_max_dr[14] = measurement[IM_UAB2];
+  measurements_phase_max_dr[15] = measurement[IM_UBC2];
+  measurements_phase_max_dr[16] = measurement[IM_UCA2];
+  measurements_phase_max_dr[17] = (unsigned int)frequency_val_1_int;
+  measurements_phase_max_dr[18] = (unsigned int)frequency_val_2_int;
   
   //Визначаємо макисальний фазний струм між трьома фазами
-  max_phase_current_dr = measurements_phase_max_dr[2];
-  if (max_phase_current_dr < measurements_phase_max_dr[3]) max_phase_current_dr = measurements_phase_max_dr[3];
-  if (max_phase_current_dr < measurements_phase_max_dr[4]) max_phase_current_dr = measurements_phase_max_dr[4];
+  max_phase_current_dr = measurements_phase_max_dr[0];
+  if (max_phase_current_dr < measurements_phase_max_dr[1]) max_phase_current_dr = measurements_phase_max_dr[1];
+  if (max_phase_current_dr < measurements_phase_max_dr[2]) max_phase_current_dr = measurements_phase_max_dr[2];
 
   //Фіксуємо час з моменту початку аварійного запису
-  measurements_phase_max_dr[25] = time_tmp;
+  measurements_phase_max_dr[19] = time_tmp;
 
   //Помічаємо, що ми на стадії моніторингу максимального фазного струму
   state_current_monitoring |= (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE);
@@ -5975,316 +4000,38 @@ inline void continue_monitoring_max_phase_current(unsigned int time_tmp)
      )
   {
     //Зафіксовано зріз при найвищому фазовому струмі з моменту початку спостереження за ним
-    int frequency_int = (int)frequency;
-    if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
+    int frequency_val_1_int = (int)frequency_val_1;
+    if (frequency_val_1_int >= 0) frequency_val_1_int = (int)(frequency_val_1*1000);
   
-    measurements_phase_max_dr[ 0] = measurement[IM_3I0];
-    measurements_phase_max_dr[ 1] = measurement[IM_3I0_other_g];
-    measurements_phase_max_dr[ 2] = measurement[IM_3I0_r];
-    measurements_phase_max_dr[ 3] = measurement[IM_IA];
-    measurements_phase_max_dr[ 4] = measurement[IM_IB];
-    measurements_phase_max_dr[ 5] = measurement[IM_IC];
-    measurements_phase_max_dr [6] = measurement[IM_I2];
-    measurements_phase_max_dr[ 7] = measurement[IM_I1];
-    measurements_phase_max_dr[ 8] = measurement[IM_I04];
-    measurements_phase_max_dr[ 9] = measurement[IM_UA];
-    measurements_phase_max_dr[10] = measurement[IM_UB];
-    measurements_phase_max_dr[11] = measurement[IM_UC];
-    measurements_phase_max_dr[12] = measurement[IM_3U0];
-    measurements_phase_max_dr[13] = measurement[IM_UAB];
-    measurements_phase_max_dr[14] = measurement[IM_UBC];
-    measurements_phase_max_dr[15] = measurement[IM_UCA];
-    measurements_phase_max_dr[16] = (unsigned int)frequency_int;
-    measurements_phase_max_dr[17] = (unsigned int)resistance[R_AB];
-    measurements_phase_max_dr[18] = (unsigned int)resistance[X_AB];
-    measurements_phase_max_dr[19] = (unsigned int)resistance[R_BC];
-    measurements_phase_max_dr[20] = (unsigned int)resistance[X_BC];
-    measurements_phase_max_dr[21] = (unsigned int)resistance[R_CA];
-    measurements_phase_max_dr[22] = (unsigned int)resistance[X_CA];
+    int frequency_val_2_int = (int)frequency_val_2;
+    if (frequency_val_2_int >= 0) frequency_val_2_int = (int)(frequency_val_2*1000);
 
-    max_phase_current_dr = measurements_phase_max_dr[2];
-    if (max_phase_current_dr < measurements_phase_max_dr[3]) max_phase_current_dr = measurements_phase_max_dr[3];
-    if (max_phase_current_dr < measurements_phase_max_dr[4]) max_phase_current_dr = measurements_phase_max_dr[4];
+    measurements_phase_max_dr[ 0] = measurement[IM_IA];
+    measurements_phase_max_dr[ 1] = measurement[IM_IB];
+    measurements_phase_max_dr[ 2] = measurement[IM_IC];
+    measurements_phase_max_dr [3] = measurement[IM_I2];
+    measurements_phase_max_dr[ 4] = measurement[IM_I1];
+    measurements_phase_max_dr[ 5] = measurement[IM_UA1];
+    measurements_phase_max_dr[ 6] = measurement[IM_UB1];
+    measurements_phase_max_dr[ 7] = measurement[IM_UC1];
+    measurements_phase_max_dr[ 8] = measurement[IM_UA2];
+    measurements_phase_max_dr[ 9] = measurement[IM_UB2];
+    measurements_phase_max_dr[10] = measurement[IM_UC2];
+    measurements_phase_max_dr[11] = measurement[IM_UAB1];
+    measurements_phase_max_dr[12] = measurement[IM_UBC1];
+    measurements_phase_max_dr[13] = measurement[IM_UCA1];
+    measurements_phase_max_dr[14] = measurement[IM_UAB2];
+    measurements_phase_max_dr[15] = measurement[IM_UBC2];
+    measurements_phase_max_dr[16] = measurement[IM_UCA2];
+    measurements_phase_max_dr[17] = (unsigned int)frequency_val_1_int;
+    measurements_phase_max_dr[18] = (unsigned int)frequency_val_2_int;
 
-    //Фіксуємо час з моменту початку аварійного запису
-    measurements_phase_max_dr[25] = time_tmp;
-  }
-}
-/*****************************************************/
-
-/*****************************************************/
-//Початок моніторингу максимального фазного струму зі сторони 0,4кВ
-/*****************************************************/
-inline void start_monitoring_max_phase04_current(unsigned int time_tmp)
-{
-  //Збільшуємо кількість фіксованих значень максимального фазного струму зі сторони 0,4кВ
-  number_max_phase04_dr++;
-  
-  //Помічаємо, що будем виходити з того, що зараз значення тільки починають моніторитися, тому приймаємо їх за найбільші
-  int frequency_int = (int)frequency;
-  if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
-  
-  measurements_phase04_max_dr[ 0] = measurement[IM_3I0];
-  measurements_phase04_max_dr[ 1] = measurement[IM_3I0_other_g];
-  measurements_phase04_max_dr[ 2] = measurement[IM_3I0_r];
-  measurements_phase04_max_dr[ 3] = measurement[IM_IA];
-  measurements_phase04_max_dr[ 4] = measurement[IM_IB];
-  measurements_phase04_max_dr[ 5] = measurement[IM_IC];
-  measurements_phase04_max_dr [6] = measurement[IM_I2];
-  measurements_phase04_max_dr[ 7] = measurement[IM_I1];
-  measurements_phase04_max_dr[ 8] = measurement[IM_I04];
-  measurements_phase04_max_dr[ 9] = measurement[IM_UA];
-  measurements_phase04_max_dr[10] = measurement[IM_UB];
-  measurements_phase04_max_dr[11] = measurement[IM_UC];
-  measurements_phase04_max_dr[12] = measurement[IM_3U0];
-  measurements_phase04_max_dr[13] = measurement[IM_UAB];
-  measurements_phase04_max_dr[14] = measurement[IM_UBC];
-  measurements_phase04_max_dr[15] = measurement[IM_UCA];
-  measurements_phase04_max_dr[16] = (unsigned int)frequency_int;
-  measurements_phase04_max_dr[17] = (unsigned int)resistance[R_AB];
-  measurements_phase04_max_dr[18] = (unsigned int)resistance[X_AB];
-  measurements_phase04_max_dr[19] = (unsigned int)resistance[R_BC];
-  measurements_phase04_max_dr[20] = (unsigned int)resistance[X_BC];
-  measurements_phase04_max_dr[21] = (unsigned int)resistance[R_CA];
-  measurements_phase04_max_dr[22] = (unsigned int)resistance[X_CA];
-  measurements_phase04_max_dr[23] = (unsigned int)UNDEF_VMP;
-  measurements_phase04_max_dr[24] = 0;
-  
-  //Фіксуємо час з моменту початку аварійного запису
-  measurements_phase04_max_dr[25] = time_tmp;
-
-  //Помічаємо, що ми на стадії моніторингу максимального фазного струму зі сторони 0,4кВ
-  state_current_monitoring |= (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04);
-}
-/*****************************************************/
-
-/*****************************************************/
-//Продовження моніторингу максимального фазного струму зі сторони 0,4кВ
-/*****************************************************/
-inline void continue_monitoring_max_phase04_current(unsigned int time_tmp)
-{
-  //Перевірка, чи не є зарза фазний струм більший, ніж той що помічений максимальним
-  if(measurements_phase04_max_dr[8] < measurement[IM_I04])
-  {
-    //Зафіксовано зріз при найвищому фазовому струмі з моменту початку спостереження за ним
-    int frequency_int = (int)frequency;
-    if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
-  
-    measurements_phase04_max_dr[ 0] = measurement[IM_3I0];
-    measurements_phase04_max_dr[ 1] = measurement[IM_3I0_other_g];
-    measurements_phase04_max_dr[ 2] = measurement[IM_3I0_r];
-    measurements_phase04_max_dr[ 3] = measurement[IM_IA];
-    measurements_phase04_max_dr[ 4] = measurement[IM_IB];
-    measurements_phase04_max_dr[ 5] = measurement[IM_IC];
-    measurements_phase04_max_dr [6] = measurement[IM_I2];
-    measurements_phase04_max_dr[ 7] = measurement[IM_I1];
-    measurements_phase04_max_dr[ 8] = measurement[IM_I04];
-    measurements_phase04_max_dr[ 9] = measurement[IM_UA];
-    measurements_phase04_max_dr[10] = measurement[IM_UB];
-    measurements_phase04_max_dr[11] = measurement[IM_UC];
-    measurements_phase04_max_dr[12] = measurement[IM_3U0];
-    measurements_phase04_max_dr[13] = measurement[IM_UAB];
-    measurements_phase04_max_dr[14] = measurement[IM_UBC];
-    measurements_phase04_max_dr[15] = measurement[IM_UCA];
-    measurements_phase04_max_dr[16] = (unsigned int)frequency_int;
-    measurements_phase04_max_dr[17] = (unsigned int)resistance[R_AB];
-    measurements_phase04_max_dr[18] = (unsigned int)resistance[X_AB];
-    measurements_phase04_max_dr[19] = (unsigned int)resistance[R_BC];
-    measurements_phase04_max_dr[20] = (unsigned int)resistance[X_BC];
-    measurements_phase04_max_dr[21] = (unsigned int)resistance[R_CA];
-    measurements_phase04_max_dr[22] = (unsigned int)resistance[X_CA];
+    max_phase_current_dr = measurements_phase_max_dr[0];
+    if (max_phase_current_dr < measurements_phase_max_dr[1]) max_phase_current_dr = measurements_phase_max_dr[1];
+    if (max_phase_current_dr < measurements_phase_max_dr[2]) max_phase_current_dr = measurements_phase_max_dr[2];
 
     //Фіксуємо час з моменту початку аварійного запису
-    measurements_phase04_max_dr[25] = time_tmp;
-  }
-}
-/*****************************************************/
-
-/*****************************************************/
-//Початок моніторингу максимального струму 3I0
-/*****************************************************/
-inline void start_monitoring_max_3I0(unsigned int time_tmp)
-{
-  //Збільшуємо кількість фіксованих значень максимального 3I0
-  number_max_3I0_dr++;
-  
-  //Помічаємо, що будем виходити з того, що зараз значення тільки починають моніторитися, тому приймаємо їх за найбільші
-  int frequency_int = (int)frequency;
-  if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
-  
-  measurements_3I0_max_dr[ 0] = measurement[IM_3I0];
-  measurements_3I0_max_dr[ 1] = measurement[IM_3I0_other_g];
-  measurements_3I0_max_dr[ 2] = measurement[IM_3I0_r];
-  measurements_3I0_max_dr[ 3] = measurement[IM_IA];
-  measurements_3I0_max_dr[ 4] = measurement[IM_IB];
-  measurements_3I0_max_dr[ 5] = measurement[IM_IC];
-  measurements_3I0_max_dr [6] = measurement[IM_I2];
-  measurements_3I0_max_dr[ 7] = measurement[IM_I1];
-  measurements_3I0_max_dr[ 8] = measurement[IM_I04];
-  measurements_3I0_max_dr[ 9] = measurement[IM_UA];
-  measurements_3I0_max_dr[10] = measurement[IM_UB];
-  measurements_3I0_max_dr[11] = measurement[IM_UC];
-  measurements_3I0_max_dr[12] = measurement[IM_3U0];
-  measurements_3I0_max_dr[13] = measurement[IM_UAB];
-  measurements_3I0_max_dr[14] = measurement[IM_UBC];
-  measurements_3I0_max_dr[15] = measurement[IM_UCA];
-  measurements_3I0_max_dr[16] = (unsigned int)frequency_int;
-  measurements_3I0_max_dr[17] = (unsigned int)resistance[R_AB];
-  measurements_3I0_max_dr[18] = (unsigned int)resistance[X_AB];
-  measurements_3I0_max_dr[19] = (unsigned int)resistance[R_BC];
-  measurements_3I0_max_dr[20] = (unsigned int)resistance[X_BC];
-  measurements_3I0_max_dr[21] = (unsigned int)resistance[R_CA];
-  measurements_3I0_max_dr[22] = (unsigned int)resistance[X_CA];
-  measurements_3I0_max_dr[23] = (unsigned int)UNDEF_VMP;
-  measurements_3I0_max_dr[24] = 0;
-  
-  //Фіксуємо час з моменту початку аварійного запису
-  measurements_3I0_max_dr[25] = time_tmp;
-  
-  //Помічаємо, що ми на стадії моніторингу максимального струму 3I0
-  state_current_monitoring |= (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_3I0);
-}
-/*****************************************************/
-
-/*****************************************************/
-//Продовження моніторингу максимального струму 3I0
-/*****************************************************/
-inline void continue_monitoring_max_3I0(unsigned int time_tmp)
-{
-  //Перевірка, чи не є зарза струм 3I0 більший, ніж той що помічений максимальним
-  if(
-     (
-      ((current_settings_prt.configuration & (1<<TZNP_BIT_CONFIGURATION)) != 0) && 
-      (                                                            (measurements_3I0_max_dr[2] < measurement[IM_3I0_r]))
-     )   
-     ||
-     (
-      ((current_settings_prt.configuration & (1<<TZNP_BIT_CONFIGURATION)) == 0) &&
-      (
-       (((current_settings_prt.control_zz & CTR_ZZ1_TYPE) == 0) && (measurements_3I0_max_dr[0] < measurement[IM_3I0])) ||
-       (((current_settings_prt.control_zz & CTR_ZZ1_TYPE) != 0) && (measurements_3I0_max_dr[1] < measurement[IM_3I0_other_g]))
-      )   
-     )   
-    )
-  {
-    //Зафіксовано зріз при найвищому струмі 3I0 з моменту спостереження за ним
-    int frequency_int = (int)frequency;
-    if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
-  
-    measurements_3I0_max_dr[ 0] = measurement[IM_3I0];
-    measurements_3I0_max_dr[ 1] = measurement[IM_3I0_other_g];
-    measurements_3I0_max_dr[ 2] = measurement[IM_3I0_r];
-    measurements_3I0_max_dr[ 3] = measurement[IM_IA];
-    measurements_3I0_max_dr[ 4] = measurement[IM_IB];
-    measurements_3I0_max_dr[ 5] = measurement[IM_IC];
-    measurements_3I0_max_dr [6] = measurement[IM_I2];
-    measurements_3I0_max_dr[ 7] = measurement[IM_I1];
-    measurements_3I0_max_dr[ 8] = measurement[IM_I04];
-    measurements_3I0_max_dr[ 9] = measurement[IM_UA];
-    measurements_3I0_max_dr[10] = measurement[IM_UB];
-    measurements_3I0_max_dr[11] = measurement[IM_UC];
-    measurements_3I0_max_dr[12] = measurement[IM_3U0];
-    measurements_3I0_max_dr[13] = measurement[IM_UAB];
-    measurements_3I0_max_dr[14] = measurement[IM_UBC];
-    measurements_3I0_max_dr[15] = measurement[IM_UCA];
-    measurements_3I0_max_dr[16] = (unsigned int)frequency_int;
-    measurements_3I0_max_dr[17] = (unsigned int)resistance[R_AB];
-    measurements_3I0_max_dr[18] = (unsigned int)resistance[X_AB];
-    measurements_3I0_max_dr[19] = (unsigned int)resistance[R_BC];
-    measurements_3I0_max_dr[20] = (unsigned int)resistance[X_BC];
-    measurements_3I0_max_dr[21] = (unsigned int)resistance[R_CA];
-    measurements_3I0_max_dr[22] = (unsigned int)resistance[X_CA];
-
-    //Фіксуємо час з моменту початку аварійного запису
-    measurements_3I0_max_dr[25] = time_tmp;
-  }
-}
-/*****************************************************/
-
-/*****************************************************/
-//Початок моніторингу максимальну напругу 3U0
-/*****************************************************/
-inline void start_monitoring_max_3U0(unsigned int time_tmp)
-{
-  //Збільшуємо кількість фіксованих значень максимальної 3U0
-  number_max_3U0_dr++;
-  
-  //Помічаємо, що будем виходити з того, що зараз значення тільки починають моніторитися, тому приймаємо їх за найбільші
-  int frequency_int = (int)frequency;
-  if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
-  
-  measurements_3U0_max_dr[ 0] = measurement[IM_3I0];
-  measurements_3U0_max_dr[ 1] = measurement[IM_3I0_other_g];
-  measurements_3U0_max_dr[ 2] = measurement[IM_3I0_r];
-  measurements_3U0_max_dr[ 3] = measurement[IM_IA];
-  measurements_3U0_max_dr[ 4] = measurement[IM_IB];
-  measurements_3U0_max_dr[ 5] = measurement[IM_IC];
-  measurements_3U0_max_dr[ 6] = measurement[IM_I2];
-  measurements_3U0_max_dr[ 7] = measurement[IM_I1];
-  measurements_3U0_max_dr[ 8] = measurement[IM_I04];
-  measurements_3U0_max_dr[ 9] = measurement[IM_UA];
-  measurements_3U0_max_dr[10] = measurement[IM_UB];
-  measurements_3U0_max_dr[11] = measurement[IM_UC];
-  measurements_3U0_max_dr[12] = measurement[IM_3U0];
-  measurements_3U0_max_dr[13] = measurement[IM_UAB];
-  measurements_3U0_max_dr[14] = measurement[IM_UBC];
-  measurements_3U0_max_dr[15] = measurement[IM_UCA];
-  measurements_3U0_max_dr[16] = (unsigned int)frequency_int;
-  measurements_3U0_max_dr[17] = (unsigned int)resistance[R_AB];
-  measurements_3U0_max_dr[18] = (unsigned int)resistance[X_AB];
-  measurements_3U0_max_dr[19] = (unsigned int)resistance[R_BC];
-  measurements_3U0_max_dr[20] = (unsigned int)resistance[X_BC];
-  measurements_3U0_max_dr[21] = (unsigned int)resistance[R_CA];
-  measurements_3U0_max_dr[22] = (unsigned int)resistance[X_CA];
-  measurements_3U0_max_dr[23] = (unsigned int)UNDEF_VMP;
-  measurements_3U0_max_dr[24] = 0;
-  
-  //Фіксуємо час з моменту початку аварійного запису
-  measurements_3U0_max_dr[25] = time_tmp;
-  
-  //Помічаємо, що ми на стадії моніторингу максимальної напруги 3U0
-  state_current_monitoring |= (1<<IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE_3U0);
-}
-/*****************************************************/
-
-/*****************************************************/
-//Продовження моніторингу максимального струму 3U0
-/*****************************************************/
-inline void continue_monitoring_max_3U0(unsigned int time_tmp)
-{
-  //Перевірка, чи не є зарза напруга 3U0 більша, ніж та що помічена максимальною
-  if(measurements_3U0_max_dr[12] < measurement[IM_3U0])
-  {
-    //Зафіксовано зріз при найвищому струмі 3I0 з моменту спостереження за ним
-    int frequency_int = (int)frequency;
-    if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
-  
-    measurements_3U0_max_dr[ 0] = measurement[IM_3I0];
-    measurements_3U0_max_dr[ 1] = measurement[IM_3I0_other_g];
-    measurements_3U0_max_dr[ 2] = measurement[IM_3I0_r];
-    measurements_3U0_max_dr[ 3] = measurement[IM_IA];
-    measurements_3U0_max_dr[ 4] = measurement[IM_IB];
-    measurements_3U0_max_dr[ 5] = measurement[IM_IC];
-    measurements_3U0_max_dr[ 6] = measurement[IM_I2];
-    measurements_3U0_max_dr[ 7] = measurement[IM_I1];
-    measurements_3U0_max_dr[ 8] = measurement[IM_I04];
-    measurements_3U0_max_dr[ 9] = measurement[IM_UA];
-    measurements_3U0_max_dr[10] = measurement[IM_UB];
-    measurements_3U0_max_dr[11] = measurement[IM_UC];
-    measurements_3U0_max_dr[12] = measurement[IM_3U0];
-    measurements_3U0_max_dr[13] = measurement[IM_UAB];
-    measurements_3U0_max_dr[14] = measurement[IM_UBC];
-    measurements_3U0_max_dr[15] = measurement[IM_UCA];
-    measurements_3U0_max_dr[16] = (unsigned int)frequency_int;
-    measurements_3U0_max_dr[17] = (unsigned int)resistance[R_AB];
-    measurements_3U0_max_dr[18] = (unsigned int)resistance[X_AB];
-    measurements_3U0_max_dr[19] = (unsigned int)resistance[R_BC];
-    measurements_3U0_max_dr[20] = (unsigned int)resistance[X_BC];
-    measurements_3U0_max_dr[21] = (unsigned int)resistance[R_CA];
-    measurements_3U0_max_dr[22] = (unsigned int)resistance[X_CA];
-
-    //Фіксуємо час з моменту початку аварійного запису
-    measurements_3U0_max_dr[25] = time_tmp;
+    measurements_phase_max_dr[19] = time_tmp;
   }
 }
 /*****************************************************/
@@ -6298,52 +4045,39 @@ inline void start_monitoring_min_U(unsigned int time_tmp)
   number_min_U_dr++;
   
   //Помічаємо, що будем виходити з того, що зараз значення тільки починають моніторитися, тому приймаємо їх за найменші
-  int frequency_int = (int)frequency;
-  if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
+  int frequency_val_1_int = (int)frequency_val_1;
+  if (frequency_val_1_int >= 0) frequency_val_1_int = (int)(frequency_val_1*1000);
   
-  measurements_U_min_dr[ 0] = measurement[IM_3I0];
-  measurements_U_min_dr[ 1] = measurement[IM_3I0_other_g];
-  measurements_U_min_dr[ 2] = measurement[IM_3I0_r];
-  measurements_U_min_dr[ 3] = measurement[IM_IA];
-  measurements_U_min_dr[ 4] = measurement[IM_IB];
-  measurements_U_min_dr[ 5] = measurement[IM_IC];
-  measurements_U_min_dr[ 6] = measurement[IM_I2];
-  measurements_U_min_dr[ 7] = measurement[IM_I1];
-  measurements_U_min_dr[ 8] = measurement[IM_I04];
-  measurements_U_min_dr[ 9] = measurement[IM_UA];
-  measurements_U_min_dr[10] = measurement[IM_UB];
-  measurements_U_min_dr[11] = measurement[IM_UC];
-  measurements_U_min_dr[12] = measurement[IM_3U0];
-  measurements_U_min_dr[13] = measurement[IM_UAB];
-  measurements_U_min_dr[14] = measurement[IM_UBC];
-  measurements_U_min_dr[15] = measurement[IM_UCA];
-  measurements_U_min_dr[16] = (unsigned int)frequency_int;
-  measurements_U_min_dr[17] = (unsigned int)resistance[R_AB];
-  measurements_U_min_dr[18] = (unsigned int)resistance[X_AB];
-  measurements_U_min_dr[19] = (unsigned int)resistance[R_BC];
-  measurements_U_min_dr[20] = (unsigned int)resistance[X_BC];
-  measurements_U_min_dr[21] = (unsigned int)resistance[R_CA];
-  measurements_U_min_dr[22] = (unsigned int)resistance[X_CA];
-  measurements_U_min_dr[23] = (unsigned int)UNDEF_VMP;
-  measurements_U_min_dr[24] = 0;
+  int frequency_val_2_int = (int)frequency_val_2;
+  if (frequency_val_2_int >= 0) frequency_val_2_int = (int)(frequency_val_2*1000);
+
+  measurements_U_min_dr[ 0] = measurement[IM_IA];
+  measurements_U_min_dr[ 1] = measurement[IM_IB];
+  measurements_U_min_dr[ 2] = measurement[IM_IC];
+  measurements_U_min_dr [3] = measurement[IM_I2];
+  measurements_U_min_dr[ 4] = measurement[IM_I1];
+  measurements_U_min_dr[ 5] = measurement[IM_UA1];
+  measurements_U_min_dr[ 6] = measurement[IM_UB1];
+  measurements_U_min_dr[ 7] = measurement[IM_UC1];
+  measurements_U_min_dr[ 8] = measurement[IM_UA2];
+  measurements_U_min_dr[ 9] = measurement[IM_UB2];
+  measurements_U_min_dr[10] = measurement[IM_UC2];
+  measurements_U_min_dr[11] = measurement[IM_UAB1];
+  measurements_U_min_dr[12] = measurement[IM_UBC1];
+  measurements_U_min_dr[13] = measurement[IM_UCA1];
+  measurements_U_min_dr[14] = measurement[IM_UAB2];
+  measurements_U_min_dr[15] = measurement[IM_UBC2];
+  measurements_U_min_dr[16] = measurement[IM_UCA2];
+  measurements_U_min_dr[17] = (unsigned int)frequency_val_1_int;
+  measurements_U_min_dr[18] = (unsigned int)frequency_val_2_int;
   
-  if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)
-  {
-    //Визначаємо мінімальної фазну напругу між трьома фазами
-    min_voltage_dr = measurements_U_min_dr[9];
-    if (min_voltage_dr > measurements_U_min_dr[10]) min_voltage_dr = measurements_U_min_dr[10];
-    if (min_voltage_dr > measurements_U_min_dr[11]) min_voltage_dr = measurements_U_min_dr[11];
-  }
-  else
-  {
-    //Визначаємо мінімальної лінійну напругу між трьома фазами
-    min_voltage_dr = measurements_U_min_dr[13];
-    if (min_voltage_dr > measurements_U_min_dr[14]) min_voltage_dr = measurements_U_min_dr[14];
-    if (min_voltage_dr > measurements_U_min_dr[15]) min_voltage_dr = measurements_U_min_dr[15];
-  }
+  //Визначаємо мінімальної фазну напругу між трьома фазами
+  min_voltage_dr = measurements_U_min_dr[6];
+  if (min_voltage_dr > measurements_U_min_dr[7]) min_voltage_dr = measurements_U_min_dr[7];
+  if (min_voltage_dr > measurements_U_min_dr[8]) min_voltage_dr = measurements_U_min_dr[8];
 
   //Фіксуємо час з моменту початку аварійного запису
-  measurements_U_min_dr[25] = time_tmp;
+  measurements_U_min_dr[19] = time_tmp;
 
   //Помічаємо, що ми на стадії моніторингу мінімальної фазної/лінійної напруги
   state_current_monitoring |= (1<<IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE);
@@ -6357,70 +4091,45 @@ inline void continue_monitoring_min_U(unsigned int time_tmp)
 {
   //Перевірка, чи не є зарза досліджувана напуга менша, ніж та що помічена мінімальною
   if (
-      (
-       ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0) &&
-       (  
-        (min_voltage_dr > measurement[IM_UA]) ||
-        (min_voltage_dr > measurement[IM_UB]) ||
-        (min_voltage_dr > measurement[IM_UC])
-       )
-      )   
-      || 
-      (
-       ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0) &&
-       (  
-        (min_voltage_dr > measurement[IM_UAB]) ||
-        (min_voltage_dr > measurement[IM_UBC]) ||
-        (min_voltage_dr > measurement[IM_UCA])
-       )
+      (min_voltage_dr > measurement[IM_UA1]) ||
+      (min_voltage_dr > measurement[IM_UB1]) ||
+      (min_voltage_dr > measurement[IM_UC1])
      )
-    )    
   {
     //Зафіксовано зріз при найнижчій досліджуваній напрузі з моменту початку спостереження за нею
-    int frequency_int = (int)frequency;
-    if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
+    int frequency_val_1_int = (int)frequency_val_1;
+    if (frequency_val_1_int >= 0) frequency_val_1_int = (int)(frequency_val_1*1000);
   
-    measurements_U_min_dr[ 0] = measurement[IM_3I0];
-    measurements_U_min_dr[ 1] = measurement[IM_3I0_other_g];
-    measurements_U_min_dr[ 2] = measurement[IM_3I0_r];
-    measurements_U_min_dr[ 3] = measurement[IM_IA];
-    measurements_U_min_dr[ 4] = measurement[IM_IB];
-    measurements_U_min_dr[ 5] = measurement[IM_IC];
-    measurements_U_min_dr[ 6] = measurement[IM_I2];
-    measurements_U_min_dr[ 7] = measurement[IM_I1];
-    measurements_U_min_dr[ 8] = measurement[IM_I04];
-    measurements_U_min_dr[ 9] = measurement[IM_UA];
-    measurements_U_min_dr[10] = measurement[IM_UB];
-    measurements_U_min_dr[11] = measurement[IM_UC];
-    measurements_U_min_dr[12] = measurement[IM_3U0];
-    measurements_U_min_dr[13] = measurement[IM_UAB];
-    measurements_U_min_dr[14] = measurement[IM_UBC];
-    measurements_U_min_dr[15] = measurement[IM_UCA];
-    measurements_U_min_dr[16] = (unsigned int)frequency_int;
-    measurements_U_min_dr[17] = (unsigned int)resistance[R_AB];
-    measurements_U_min_dr[18] = (unsigned int)resistance[X_AB];
-    measurements_U_min_dr[19] = (unsigned int)resistance[R_BC];
-    measurements_U_min_dr[20] = (unsigned int)resistance[X_BC];
-    measurements_U_min_dr[21] = (unsigned int)resistance[R_CA];
-    measurements_U_min_dr[22] = (unsigned int)resistance[X_CA];
+    int frequency_val_2_int = (int)frequency_val_2;
+    if (frequency_val_2_int >= 0) frequency_val_2_int = (int)(frequency_val_2*1000);
 
-    if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)
-    {
-      //Визначаємо мінімальну фазну напругу між трьома фазами
-      min_voltage_dr = measurements_U_min_dr[9];
-      if (min_voltage_dr > measurements_U_min_dr[10]) min_voltage_dr = measurements_U_min_dr[10];
-      if (min_voltage_dr > measurements_U_min_dr[11]) min_voltage_dr = measurements_U_min_dr[11];
-    }
-    else
-    {
-      //Визначаємо мінімальну лінійну напругу між трьома фазами
-      min_voltage_dr = measurements_U_min_dr[13];
-      if (min_voltage_dr > measurements_U_min_dr[14]) min_voltage_dr = measurements_U_min_dr[14];
-      if (min_voltage_dr > measurements_U_min_dr[15]) min_voltage_dr = measurements_U_min_dr[15];
-    }
+    measurements_U_min_dr[ 0] = measurement[IM_IA];
+    measurements_U_min_dr[ 1] = measurement[IM_IB];
+    measurements_U_min_dr[ 2] = measurement[IM_IC];
+    measurements_U_min_dr [3] = measurement[IM_I2];
+    measurements_U_min_dr[ 4] = measurement[IM_I1];
+    measurements_U_min_dr[ 5] = measurement[IM_UA1];
+    measurements_U_min_dr[ 6] = measurement[IM_UB1];
+    measurements_U_min_dr[ 7] = measurement[IM_UC1];
+    measurements_U_min_dr[ 8] = measurement[IM_UA2];
+    measurements_U_min_dr[ 9] = measurement[IM_UB2];
+    measurements_U_min_dr[10] = measurement[IM_UC2];
+    measurements_U_min_dr[11] = measurement[IM_UAB1];
+    measurements_U_min_dr[12] = measurement[IM_UBC1];
+    measurements_U_min_dr[13] = measurement[IM_UCA1];
+    measurements_U_min_dr[14] = measurement[IM_UAB2];
+    measurements_U_min_dr[15] = measurement[IM_UBC2];
+    measurements_U_min_dr[16] = measurement[IM_UCA2];
+    measurements_U_min_dr[17] = (unsigned int)frequency_val_1_int;
+    measurements_U_min_dr[18] = (unsigned int)frequency_val_2_int;
+
+    //Визначаємо мінімальну фазну напругу між трьома фазами
+    min_voltage_dr = measurements_U_min_dr[6];
+    if (min_voltage_dr > measurements_U_min_dr[7]) min_voltage_dr = measurements_U_min_dr[7];
+    if (min_voltage_dr > measurements_U_min_dr[8]) min_voltage_dr = measurements_U_min_dr[8];
 
     //Фіксуємо час з моменту початку аварійного запису
-    measurements_U_min_dr[25] = time_tmp;
+    measurements_U_min_dr[19] = time_tmp;
   }
 }
 /*****************************************************/
@@ -6434,52 +4143,39 @@ inline void start_monitoring_max_U(unsigned int time_tmp)
   number_max_U_dr++;
   
   //Помічаємо, що будем виходити з того, що зараз значення тільки починають моніторитися, тому приймаємо їх за найбільші
-  int frequency_int = (int)frequency;
-  if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
+  int frequency_val_1_int = (int)frequency_val_1;
+  if (frequency_val_1_int >= 0) frequency_val_1_int = (int)(frequency_val_1*1000);
   
-  measurements_U_max_dr[ 0] = measurement[IM_3I0];
-  measurements_U_max_dr[ 1] = measurement[IM_3I0_other_g];
-  measurements_U_max_dr[ 2] = measurement[IM_3I0_r];
-  measurements_U_max_dr[ 3] = measurement[IM_IA];
-  measurements_U_max_dr[ 4] = measurement[IM_IB];
-  measurements_U_max_dr[ 5] = measurement[IM_IC];
-  measurements_U_max_dr[ 6] = measurement[IM_I2];
-  measurements_U_max_dr[ 7] = measurement[IM_I1];
-  measurements_U_max_dr[ 8] = measurement[IM_I04];
-  measurements_U_max_dr[ 9] = measurement[IM_UA];
-  measurements_U_max_dr[10] = measurement[IM_UB];
-  measurements_U_max_dr[11] = measurement[IM_UC];
-  measurements_U_max_dr[12] = measurement[IM_3U0];
-  measurements_U_max_dr[13] = measurement[IM_UAB];
-  measurements_U_max_dr[14] = measurement[IM_UBC];
-  measurements_U_max_dr[15] = measurement[IM_UCA];
-  measurements_U_max_dr[16] = (unsigned int)frequency_int;
-  measurements_U_max_dr[17] = (unsigned int)resistance[R_AB];
-  measurements_U_max_dr[18] = (unsigned int)resistance[X_AB];
-  measurements_U_max_dr[19] = (unsigned int)resistance[R_BC];
-  measurements_U_max_dr[20] = (unsigned int)resistance[X_BC];
-  measurements_U_max_dr[21] = (unsigned int)resistance[R_CA];
-  measurements_U_max_dr[22] = (unsigned int)resistance[X_CA];
-  measurements_U_max_dr[23] = (unsigned int)UNDEF_VMP;
-  measurements_U_max_dr[24] = 0;
+  int frequency_val_2_int = (int)frequency_val_2;
+  if (frequency_val_2_int >= 0) frequency_val_2_int = (int)(frequency_val_2*1000);
+
+  measurements_U_max_dr[ 0] = measurement[IM_IA];
+  measurements_U_max_dr[ 1] = measurement[IM_IB];
+  measurements_U_max_dr[ 2] = measurement[IM_IC];
+  measurements_U_max_dr [3] = measurement[IM_I2];
+  measurements_U_max_dr[ 4] = measurement[IM_I1];
+  measurements_U_max_dr[ 5] = measurement[IM_UA1];
+  measurements_U_max_dr[ 6] = measurement[IM_UB1];
+  measurements_U_max_dr[ 7] = measurement[IM_UC1];
+  measurements_U_max_dr[ 8] = measurement[IM_UA2];
+  measurements_U_max_dr[ 9] = measurement[IM_UB2];
+  measurements_U_max_dr[10] = measurement[IM_UC2];
+  measurements_U_max_dr[11] = measurement[IM_UAB1];
+  measurements_U_max_dr[12] = measurement[IM_UBC1];
+  measurements_U_max_dr[13] = measurement[IM_UCA1];
+  measurements_U_max_dr[14] = measurement[IM_UAB2];
+  measurements_U_max_dr[15] = measurement[IM_UBC2];
+  measurements_U_max_dr[16] = measurement[IM_UCA2];
+  measurements_U_max_dr[17] = (unsigned int)frequency_val_1_int;
+  measurements_U_max_dr[18] = (unsigned int)frequency_val_2_int;
   
-  if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)
-  {
-    //Визначаємо макисальну фазну напругу між трьома фазами
-    max_voltage_dr = measurements_U_max_dr[9];
-    if (max_voltage_dr < measurements_U_max_dr[10]) max_voltage_dr = measurements_U_max_dr[10];
-    if (max_voltage_dr < measurements_U_max_dr[11]) max_voltage_dr = measurements_U_max_dr[11];
-  }
-  else
-  {
-    //Визначаємо макисальну лінійну напругу між трьома фазами
-    max_voltage_dr = measurements_U_max_dr[13];
-    if (max_voltage_dr < measurements_U_max_dr[14]) max_voltage_dr = measurements_U_max_dr[14];
-    if (max_voltage_dr < measurements_U_max_dr[15]) max_voltage_dr = measurements_U_max_dr[15];
-  }
+  //Визначаємо макисальну фазну напругу між трьома фазами
+  max_voltage_dr = measurements_U_max_dr[6];
+  if (max_voltage_dr < measurements_U_max_dr[7]) max_voltage_dr = measurements_U_max_dr[7];
+  if (max_voltage_dr < measurements_U_max_dr[8]) max_voltage_dr = measurements_U_max_dr[8];
 
   //Фіксуємо час з моменту початку аварійного запису
-  measurements_U_max_dr[25] = time_tmp;
+  measurements_U_max_dr[19] = time_tmp;
 
   //Помічаємо, що ми на стадії моніторингу максимальної фазної/лінійної напруги
   state_current_monitoring |= (1<<IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE);
@@ -6493,70 +4189,45 @@ inline void continue_monitoring_max_U(unsigned int time_tmp)
 {
   //Перевірка, чи не є зарза досліджувана напуга більша, ніж та що помічена максимальною
   if (
-      (
-       ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0) &&
-       (  
-        (max_voltage_dr < measurement[IM_UA]) ||
-        (max_voltage_dr < measurement[IM_UB]) ||
-        (max_voltage_dr < measurement[IM_UC])
-       )
-      )   
-      || 
-      (
-       ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0) &&
-       (  
-        (max_voltage_dr < measurement[IM_UAB]) ||
-        (max_voltage_dr < measurement[IM_UBC]) ||
-        (max_voltage_dr < measurement[IM_UCA])
-       )
-     )
+      (max_voltage_dr < measurement[IM_UA1]) ||
+      (max_voltage_dr < measurement[IM_UB1]) ||
+      (max_voltage_dr < measurement[IM_UC1])
     )    
   {
     //Зафіксовано зріз при найвищійу досліджуваній напрузі з моменту початку спостереження за нею
-    int frequency_int = (int)frequency;
-    if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
+    int frequency_val_1_int = (int)frequency_val_1;
+    if (frequency_val_1_int >= 0) frequency_val_1_int = (int)(frequency_val_1*1000);
   
-    measurements_U_max_dr[ 0] = measurement[IM_3I0];
-    measurements_U_max_dr[ 1] = measurement[IM_3I0_other_g];
-    measurements_U_max_dr[ 2] = measurement[IM_3I0_r];
-    measurements_U_max_dr[ 3] = measurement[IM_IA];
-    measurements_U_max_dr[ 4] = measurement[IM_IB];
-    measurements_U_max_dr[ 5] = measurement[IM_IC];
-    measurements_U_max_dr[ 6] = measurement[IM_I2];
-    measurements_U_max_dr[ 7] = measurement[IM_I1];
-    measurements_U_max_dr[ 8] = measurement[IM_I04];
-    measurements_U_max_dr[ 9] = measurement[IM_UA];
-    measurements_U_max_dr[10] = measurement[IM_UB];
-    measurements_U_max_dr[11] = measurement[IM_UC];
-    measurements_U_max_dr[12] = measurement[IM_3U0];
-    measurements_U_max_dr[13] = measurement[IM_UAB];
-    measurements_U_max_dr[14] = measurement[IM_UBC];
-    measurements_U_max_dr[15] = measurement[IM_UCA];
-    measurements_U_max_dr[16] = (unsigned int)frequency_int;
-    measurements_U_max_dr[17] = (unsigned int)resistance[R_AB];
-    measurements_U_max_dr[18] = (unsigned int)resistance[X_AB];
-    measurements_U_max_dr[19] = (unsigned int)resistance[R_BC];
-    measurements_U_max_dr[20] = (unsigned int)resistance[X_BC];
-    measurements_U_max_dr[21] = (unsigned int)resistance[R_CA];
-    measurements_U_max_dr[22] = (unsigned int)resistance[X_CA];
+    int frequency_val_2_int = (int)frequency_val_2;
+    if (frequency_val_2_int >= 0) frequency_val_2_int = (int)(frequency_val_2*1000);
 
-    if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)
-    {
-      //Визначаємо макисальну фазну напругу між трьома фазами
-      max_voltage_dr = measurements_U_max_dr[9];
-      if (max_voltage_dr < measurements_U_max_dr[10]) max_voltage_dr = measurements_U_max_dr[10];
-      if (max_voltage_dr < measurements_U_max_dr[11]) max_voltage_dr = measurements_U_max_dr[11];
-    }
-    else
-    {
-      //Визначаємо макисальну лінійну напругу між трьома фазами
-      max_voltage_dr = measurements_U_max_dr[13];
-      if (max_voltage_dr < measurements_U_max_dr[14]) max_voltage_dr = measurements_U_max_dr[14];
-      if (max_voltage_dr < measurements_U_max_dr[15]) max_voltage_dr = measurements_U_max_dr[15];
-    }
+    measurements_U_max_dr[ 0] = measurement[IM_IA];
+    measurements_U_max_dr[ 1] = measurement[IM_IB];
+    measurements_U_max_dr[ 2] = measurement[IM_IC];
+    measurements_U_max_dr [3] = measurement[IM_I2];
+    measurements_U_max_dr[ 4] = measurement[IM_I1];
+    measurements_U_max_dr[ 5] = measurement[IM_UA1];
+    measurements_U_max_dr[ 6] = measurement[IM_UB1];
+    measurements_U_max_dr[ 7] = measurement[IM_UC1];
+    measurements_U_max_dr[ 8] = measurement[IM_UA2];
+    measurements_U_max_dr[ 9] = measurement[IM_UB2];
+    measurements_U_max_dr[10] = measurement[IM_UC2];
+    measurements_U_max_dr[11] = measurement[IM_UAB1];
+    measurements_U_max_dr[12] = measurement[IM_UBC1];
+    measurements_U_max_dr[13] = measurement[IM_UCA1];
+    measurements_U_max_dr[14] = measurement[IM_UAB2];
+    measurements_U_max_dr[15] = measurement[IM_UBC2];
+    measurements_U_max_dr[16] = measurement[IM_UCA2];
+    measurements_U_max_dr[17] = (unsigned int)frequency_val_1_int;
+    measurements_U_max_dr[18] = (unsigned int)frequency_val_2_int;
+
+    //Визначаємо макисальну фазну напругу між трьома фазами
+    max_voltage_dr = measurements_U_max_dr[6];
+    if (max_voltage_dr < measurements_U_max_dr[7]) max_voltage_dr = measurements_U_max_dr[7];
+    if (max_voltage_dr < measurements_U_max_dr[8]) max_voltage_dr = measurements_U_max_dr[8];
 
     //Фіксуємо час з моменту початку аварійного запису
-    measurements_U_max_dr[25] = time_tmp;
+    measurements_U_max_dr[19] = time_tmp;
   }
 }
 /*****************************************************/
@@ -6570,37 +4241,34 @@ inline void start_monitoring_max_ZOP(unsigned int time_tmp)
   number_max_ZOP_dr++;
   
   //Помічаємо, що будем виходити з того, що зараз значення тільки починають моніторитися, тому приймаємо їх за найбільші
-  int frequency_int = (int)frequency;
-  if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
+  int frequency_val_1_int = (int)frequency_val_1;
+  if (frequency_val_1_int >= 0) frequency_val_1_int = (int)(frequency_val_1*1000);
   
-  measurements_ZOP_max_dr[ 0] = measurement[IM_3I0];
-  measurements_ZOP_max_dr[ 1] = measurement[IM_3I0_other_g];
-  measurements_ZOP_max_dr[ 2] = measurement[IM_3I0_r];
-  measurements_ZOP_max_dr[ 3] = measurement[IM_IA];
-  measurements_ZOP_max_dr[ 4] = measurement[IM_IB];
-  measurements_ZOP_max_dr[ 5] = measurement[IM_IC];
-  measurements_ZOP_max_dr[ 6] = measurement[IM_I2];
-  measurements_ZOP_max_dr[ 7] = measurement[IM_I1];
-  measurements_ZOP_max_dr[ 8] = measurement[IM_I04];
-  measurements_ZOP_max_dr[ 9] = measurement[IM_UA];
-  measurements_ZOP_max_dr[10] = measurement[IM_UB];
-  measurements_ZOP_max_dr[11] = measurement[IM_UC];
-  measurements_ZOP_max_dr[12] = measurement[IM_3U0];
-  measurements_ZOP_max_dr[13] = measurement[IM_UAB];
-  measurements_ZOP_max_dr[14] = measurement[IM_UBC];
-  measurements_ZOP_max_dr[15] = measurement[IM_UCA];
-  measurements_ZOP_max_dr[16] = (unsigned int)frequency_int;
-  measurements_ZOP_max_dr[17] = (unsigned int)resistance[R_AB];
-  measurements_ZOP_max_dr[18] = (unsigned int)resistance[X_AB];
-  measurements_ZOP_max_dr[19] = (unsigned int)resistance[R_BC];
-  measurements_ZOP_max_dr[20] = (unsigned int)resistance[X_BC];
-  measurements_ZOP_max_dr[21] = (unsigned int)resistance[R_CA];
-  measurements_ZOP_max_dr[22] = (unsigned int)resistance[X_CA];
-  measurements_ZOP_max_dr[23] = (unsigned int)UNDEF_VMP;
-  measurements_ZOP_max_dr[24] = 0;
+  int frequency_val_2_int = (int)frequency_val_2;
+  if (frequency_val_2_int >= 0) frequency_val_2_int = (int)(frequency_val_2*1000);
 
+  measurements_ZOP_max_dr[ 0] = measurement[IM_IA];
+  measurements_ZOP_max_dr[ 1] = measurement[IM_IB];
+  measurements_ZOP_max_dr[ 2] = measurement[IM_IC];
+  measurements_ZOP_max_dr [3] = measurement[IM_I2];
+  measurements_ZOP_max_dr[ 4] = measurement[IM_I1];
+  measurements_U_max_dr[ 5] = measurement[IM_UA1];
+  measurements_ZOP_max_dr[ 6] = measurement[IM_UB1];
+  measurements_ZOP_max_dr[ 7] = measurement[IM_UC1];
+  measurements_ZOP_max_dr[ 8] = measurement[IM_UA2];
+  measurements_ZOP_max_dr[ 9] = measurement[IM_UB2];
+  measurements_ZOP_max_dr[10] = measurement[IM_UC2];
+  measurements_ZOP_max_dr[11] = measurement[IM_UAB1];
+  measurements_ZOP_max_dr[12] = measurement[IM_UBC1];
+  measurements_ZOP_max_dr[13] = measurement[IM_UCA1];
+  measurements_ZOP_max_dr[14] = measurement[IM_UAB2];
+  measurements_ZOP_max_dr[15] = measurement[IM_UBC2];
+  measurements_ZOP_max_dr[16] = measurement[IM_UCA2];
+  measurements_ZOP_max_dr[17] = (unsigned int)frequency_val_1_int;
+  measurements_ZOP_max_dr[18] = (unsigned int)frequency_val_2_int;
+  
   //Фіксуємо час з моменту початку аварійного запису
-  measurements_ZOP_max_dr[25] = time_tmp;
+  measurements_ZOP_max_dr[19] = time_tmp;
 
   //Помічаємо, що ми на стадії моніторингу максимального струму зворотньої послідовності
   state_current_monitoring |= (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP);
@@ -6630,141 +4298,42 @@ inline void continue_monitoring_max_ZOP(unsigned int time_tmp)
   unsigned int I2, I1, _I1, _I2;
    I2 = measurement[IM_I2];
    I1 = measurement[IM_I1];
-  _I2 = measurements_ZOP_max_dr[6];
-  _I1 = measurements_ZOP_max_dr[7];
+  _I2 = measurements_ZOP_max_dr[3];
+  _I1 = measurements_ZOP_max_dr[4];
   if (
       ( (_I1 >  0) && ( ((_I2*I1) < (I2*_I1)) || (I1 == 0) ) ) ||
       ( (_I1 == 0) && (I1 == 0) && ( _I2 < I2 ) ) 
      )
   {
     //Зафіксовано зріз при найвищому струмі зворотньої послідовності з моменту початку запису
-    int frequency_int = (int)frequency;
-    if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
+    int frequency_val_1_int = (int)frequency_val_1;
+    if (frequency_val_1_int >= 0) frequency_val_1_int = (int)(frequency_val_1*1000);
   
-    measurements_ZOP_max_dr[ 0] = measurement[IM_3I0];
-    measurements_ZOP_max_dr[ 1] = measurement[IM_3I0_other_g];
-    measurements_ZOP_max_dr[ 2] = measurement[IM_3I0_r];
-    measurements_ZOP_max_dr[ 3] = measurement[IM_IA];
-    measurements_ZOP_max_dr[ 4] = measurement[IM_IB];
-    measurements_ZOP_max_dr[ 5] = measurement[IM_IC];
-    measurements_ZOP_max_dr[ 6] = measurement[IM_I2];
-    measurements_ZOP_max_dr[ 7] = measurement[IM_I1];
-    measurements_ZOP_max_dr[ 8] = measurement[IM_I04];
-    measurements_ZOP_max_dr[ 9] = measurement[IM_UA];
-    measurements_ZOP_max_dr[10] = measurement[IM_UB];
-    measurements_ZOP_max_dr[11] = measurement[IM_UC];
-    measurements_ZOP_max_dr[12] = measurement[IM_3U0];
-    measurements_ZOP_max_dr[13] = measurement[IM_UAB];
-    measurements_ZOP_max_dr[14] = measurement[IM_UBC];
-    measurements_ZOP_max_dr[15] = measurement[IM_UCA];
-    measurements_ZOP_max_dr[16] = (unsigned int)frequency_int;
-    measurements_ZOP_max_dr[17] = (unsigned int)resistance[R_AB];
-    measurements_ZOP_max_dr[18] = (unsigned int)resistance[X_AB];
-    measurements_ZOP_max_dr[19] = (unsigned int)resistance[R_BC];
-    measurements_ZOP_max_dr[20] = (unsigned int)resistance[X_BC];
-    measurements_ZOP_max_dr[21] = (unsigned int)resistance[R_CA];
-    measurements_ZOP_max_dr[22] = (unsigned int)resistance[X_CA];
+    int frequency_val_2_int = (int)frequency_val_2;
+    if (frequency_val_2_int >= 0) frequency_val_2_int = (int)(frequency_val_2*1000);
+
+    measurements_ZOP_max_dr[ 0] = measurement[IM_IA];
+    measurements_ZOP_max_dr[ 1] = measurement[IM_IB];
+    measurements_ZOP_max_dr[ 2] = measurement[IM_IC];
+    measurements_ZOP_max_dr [3] = measurement[IM_I2];
+    measurements_ZOP_max_dr[ 4] = measurement[IM_I1];
+    measurements_ZOP_max_dr[ 5] = measurement[IM_UA1];
+    measurements_ZOP_max_dr[ 6] = measurement[IM_UB1];
+    measurements_ZOP_max_dr[ 7] = measurement[IM_UC1];
+    measurements_ZOP_max_dr[ 8] = measurement[IM_UA2];
+    measurements_ZOP_max_dr[ 9] = measurement[IM_UB2];
+    measurements_ZOP_max_dr[10] = measurement[IM_UC2];
+    measurements_ZOP_max_dr[11] = measurement[IM_UAB1];
+    measurements_ZOP_max_dr[12] = measurement[IM_UBC1];
+    measurements_ZOP_max_dr[13] = measurement[IM_UCA1];
+    measurements_ZOP_max_dr[14] = measurement[IM_UAB2];
+    measurements_ZOP_max_dr[15] = measurement[IM_UBC2];
+    measurements_ZOP_max_dr[16] = measurement[IM_UCA2];
+    measurements_ZOP_max_dr[17] = (unsigned int)frequency_val_1_int;
+    measurements_ZOP_max_dr[18] = (unsigned int)frequency_val_2_int;
 
     //Фіксуємо час з моменту початку аварійного запису
-    measurements_ZOP_max_dr[25] = time_tmp;
-  }
-}
-/*****************************************************/
-
-/*****************************************************/
-//Початок моніторингу мінімальної частоти 1 
-/*****************************************************/
-inline void start_monitoring_min_f(unsigned int time_tmp)
-{
-  //Збільшуємо кількість фіксованих значень мінімальної частоти 1
-  number_min_f_achr_dr++;
-  
-  //Помічаємо, що будем виходити з того, що зараз значення тільки починають моніторитися, тому приймаємо їх за найменші
-  int frequency_int = (int)frequency;
-  if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
-  
-  measurements_f_min_achr_dr[ 0] = measurement[IM_3I0];
-  measurements_f_min_achr_dr[ 1] = measurement[IM_3I0_other_g];
-  measurements_f_min_achr_dr[ 2] = measurement[IM_3I0_r];
-  measurements_f_min_achr_dr[ 3] = measurement[IM_IA];
-  measurements_f_min_achr_dr[ 4] = measurement[IM_IB];
-  measurements_f_min_achr_dr[ 5] = measurement[IM_IC];
-  measurements_f_min_achr_dr[ 6] = measurement[IM_I2];
-  measurements_f_min_achr_dr[ 7] = measurement[IM_I1];
-  measurements_f_min_achr_dr[ 8] = measurement[IM_I04];
-  measurements_f_min_achr_dr[ 9] = measurement[IM_UA];
-  measurements_f_min_achr_dr[10] = measurement[IM_UB];
-  measurements_f_min_achr_dr[11] = measurement[IM_UC];
-  measurements_f_min_achr_dr[12] = measurement[IM_3U0];
-  measurements_f_min_achr_dr[13] = measurement[IM_UAB];
-  measurements_f_min_achr_dr[14] = measurement[IM_UBC];
-  measurements_f_min_achr_dr[15] = measurement[IM_UCA];
-  measurements_f_min_achr_dr[16] = (unsigned int)frequency_int;
-  measurements_f_min_achr_dr[17] = (unsigned int)resistance[R_AB];
-  measurements_f_min_achr_dr[18] = (unsigned int)resistance[X_AB];
-  measurements_f_min_achr_dr[19] = (unsigned int)resistance[R_BC];
-  measurements_f_min_achr_dr[20] = (unsigned int)resistance[X_BC];
-  measurements_f_min_achr_dr[21] = (unsigned int)resistance[R_CA];
-  measurements_f_min_achr_dr[22] = (unsigned int)resistance[X_CA];
-  measurements_f_min_achr_dr[23] = (unsigned int)UNDEF_VMP;
-  measurements_f_min_achr_dr[24] = 0;
-  
-  //Фіксуємо час з моменту початку аварійного запису
-  measurements_f_min_achr_dr[25] = time_tmp;
-
-  //Помічаємо, що ми на стадії моніторингу мінімальної частоти
-  state_current_monitoring |= (1<<IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR);
-}
-/*****************************************************/
-
-/*****************************************************/
-//Продовження моніторингу мінімальної частоти 1
-/*****************************************************/
-inline void continue_monitoring_min_f(unsigned int time_tmp)
-{
-  if (((int)measurements_f_min_achr_dr[15]) != (-2)) /*Не зафіксовано, що частота була нижче порогу визначеного константою MIN_FREQUENCY - інакше далі моніторити мінімальну частоту немає сенсу*/
-  {
-    //Перевірка, чи не є зарза досліджувана частота менша, ніж та що помічена мінімальною
-    int frequency_int = (int)frequency;
-    if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
-  
-    if(
-       (frequency_int != (-1)) && /*Частота не визначена*/
-       (frequency_int != (-3)) &&  /*Частота вище порогу визначеного константою MAX_FREQUENCY*/
-       (
-        (((int)measurements_f_min_achr_dr[16]) > frequency_int) ||
-        (frequency_int == (-2)) /*Частота нижче порогу визначеного константою MIN_FREQUENCY - цю перевірку робимо, бо у попередній момент часу могло крім значення частоти бути ще числа -1 або -3*/
-       )   
-      )   
-    {
-      //Зафіксовано зріз при найнижчій досліджуваній частоті з моменту початку спостереження за нею
-      measurements_f_min_achr_dr[ 0] = measurement[IM_3I0];
-      measurements_f_min_achr_dr[ 1] = measurement[IM_3I0_other_g];
-      measurements_f_min_achr_dr[ 2] = measurement[IM_3I0_r];
-      measurements_f_min_achr_dr[ 3] = measurement[IM_IA];
-      measurements_f_min_achr_dr[ 4] = measurement[IM_IB];
-      measurements_f_min_achr_dr[ 5] = measurement[IM_IC];
-      measurements_f_min_achr_dr[ 6] = measurement[IM_I2];
-      measurements_f_min_achr_dr[ 7] = measurement[IM_I1];
-      measurements_f_min_achr_dr[ 8] = measurement[IM_I04];
-      measurements_f_min_achr_dr[ 9] = measurement[IM_UA];
-      measurements_f_min_achr_dr[10] = measurement[IM_UB];
-      measurements_f_min_achr_dr[11] = measurement[IM_UC];
-      measurements_f_min_achr_dr[12] = measurement[IM_3U0];
-      measurements_f_min_achr_dr[13] = measurement[IM_UAB];
-      measurements_f_min_achr_dr[14] = measurement[IM_UBC];
-      measurements_f_min_achr_dr[15] = measurement[IM_UCA];
-      measurements_f_min_achr_dr[16] = (unsigned int)frequency_int;
-      measurements_f_min_achr_dr[17] = (unsigned int)resistance[R_AB];
-      measurements_f_min_achr_dr[18] = (unsigned int)resistance[X_AB];
-      measurements_f_min_achr_dr[19] = (unsigned int)resistance[R_BC];
-      measurements_f_min_achr_dr[20] = (unsigned int)resistance[X_BC];
-      measurements_f_min_achr_dr[21] = (unsigned int)resistance[R_CA];
-      measurements_f_min_achr_dr[22] = (unsigned int)resistance[X_CA];
-
-      //Фіксуємо час з моменту початку аварійного запису
-      measurements_f_min_achr_dr[25] = time_tmp;
-    }
+    measurements_ZOP_max_dr[19] = time_tmp;
   }
 }
 /*****************************************************/
@@ -6773,51 +4342,31 @@ inline void continue_monitoring_min_f(unsigned int time_tmp)
 //Завершення моніторингу максимального струму
 /*
   type_current == IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE        - завершення моніторингу максимального фазного струму
-  type_current == IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04      - завершення моніторингу максимального фазного струму сторони 0,4кВ
-  type_current == IDENTIFIER_BIT_ARRAY_MAX_CURRENT_3I0          - завершення моніторингу максимального струму 3I0
-  type_current == IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE_3U0          - завершення моніторингу максимального струму 3U0
   type_current == IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE              - завершення моніторингу мінімальної напруги
   type_current == IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE              - завершення моніторингу максимальної напруги
   type_current == IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP          - завершення моніторингу максимального струму зворотньої послідовності
-  type_current == IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR       - завершення моніторингу мінімальної частоти для АЧР
-  type_current == IDENTIFIER_BIT_ARRAY_FREQUENCY_CHAPV          - фіксація частоти для ЧАПВ
 */
 /*****************************************************/
 inline void end_monitoring_min_max_measurement(unsigned int type_current, volatile unsigned int* carrent_active_functions)
 {
   if(
      (type_current == IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE   ) ||
-     (type_current == IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04 ) ||
-     (type_current == IDENTIFIER_BIT_ARRAY_MAX_CURRENT_3I0     ) ||
-     (type_current == IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE_3U0     ) ||
      (type_current == IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE         ) ||
      (type_current == IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE         ) ||
-     (type_current == IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP     ) ||
-     (type_current == IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR  ) ||
-     (type_current == IDENTIFIER_BIT_ARRAY_FREQUENCY_CHAPV     )
+     (type_current == IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP     )
     )
   {
     int step = number_max_phase_dr   + 
-               number_max_phase04_dr +
-               number_max_3I0_dr     + 
-               number_max_3U0_dr     + 
                number_min_U_dr       +
                number_max_U_dr       +
-               number_max_ZOP_dr     +
-               number_min_f_achr_dr  +
-               number_f_chapv_dr;
+               number_max_ZOP_dr;
     
     //Перевірка на коректність роботи програмного забеспечення
     if(
        ( (number_max_phase_dr   > 0) || ( (number_max_phase_dr   == 0) && ((state_current_monitoring & (1<< IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE  )) == 0) ) ) &&
-       ( (number_max_phase04_dr > 0) || ( (number_max_phase04_dr == 0) && ((state_current_monitoring & (1<< IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04)) == 0) ) ) &&
-       ( (number_max_3I0_dr     > 0) || ( (number_max_3I0_dr     == 0) && ((state_current_monitoring & (1<< IDENTIFIER_BIT_ARRAY_MAX_CURRENT_3I0    )) == 0) ) ) &&
-       ( (number_max_3U0_dr     > 0) || ( (number_max_3U0_dr     == 0) && ((state_current_monitoring & (1<< IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE_3U0    )) == 0) ) ) &&
        ( (number_min_U_dr       > 0) || ( (number_min_U_dr       == 0) && ((state_current_monitoring & (1<< IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE        )) == 0) ) ) &&
        ( (number_max_U_dr       > 0) || ( (number_max_U_dr       == 0) && ((state_current_monitoring & (1<< IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE        )) == 0) ) ) &&
        ( (number_max_ZOP_dr     > 0) || ( (number_max_ZOP_dr     == 0) && ((state_current_monitoring & (1<< IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP    )) == 0) ) ) &&
-       ( (number_min_f_achr_dr  > 0) || ( (number_min_f_achr_dr  == 0) && ((state_current_monitoring & (1<< IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR )) == 0) ) ) &&
-       ( (number_f_chapv_dr     > 0) || ( (number_f_chapv_dr     == 0) && ((state_current_monitoring & (1<< IDENTIFIER_BIT_ARRAY_FREQUENCY_CHAPV    )) == 0) ) ) &&
        ( (step > 0) && (step <= MAX_NUMBER_FIX_MAX_MEASUREMENTS)) 
       )
     {
@@ -6826,78 +4375,30 @@ inline void end_monitoring_min_max_measurement(unsigned int type_current, volati
       //Визначаємо джерело звідки  будемо копіювати дані
       if(type_current == IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE)
       {
-        measurements_phase_max_dr[23] = (unsigned int)VMP_last_KZ;
-        measurements_phase_max_dr[24] = equal_more_KZ;
         input_data_point = (unsigned char *)(measurements_phase_max_dr);
-      }
-      else if(type_current == IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04)
-      {
-        measurements_phase04_max_dr[23] = (unsigned int)UNDEF_VMP;
-        measurements_phase04_max_dr[24] = 0;
-        input_data_point = (unsigned char *)(measurements_phase04_max_dr);
-      }
-      else if(type_current == IDENTIFIER_BIT_ARRAY_MAX_CURRENT_3I0)
-      {
-        measurements_3I0_max_dr[23] = (unsigned int)UNDEF_VMP;
-        measurements_3I0_max_dr[24] = 0;
-        input_data_point = (unsigned char *)(measurements_3I0_max_dr);
-      }
-      else if(type_current == IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE_3U0)
-      {
-        measurements_3U0_max_dr[23] = (unsigned int)UNDEF_VMP;
-        measurements_3U0_max_dr[24] = 0;
-        input_data_point = (unsigned char *)(measurements_3U0_max_dr);
       }
       else if(type_current == IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE)
       {
-        measurements_U_min_dr[23] = (unsigned int)UNDEF_VMP;
-        measurements_U_min_dr[24] = 0;
         input_data_point = (unsigned char *)(measurements_U_min_dr);
       }
       else if(type_current == IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE)
       {
-        measurements_U_max_dr[23] = (unsigned int)UNDEF_VMP;
-        measurements_U_max_dr[24] = 0;
         input_data_point = (unsigned char *)(measurements_U_max_dr);
       }
       else if(type_current == IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP)
       {
-        measurements_ZOP_max_dr[23] = (unsigned int)UNDEF_VMP;
-        measurements_ZOP_max_dr[24] = 0;
         input_data_point = (unsigned char *)(measurements_ZOP_max_dr);
-      }
-      else if(type_current == IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR)
-      {
-        measurements_f_min_achr_dr[23] = (unsigned int)UNDEF_VMP;
-        measurements_f_min_achr_dr[24] = 0;
-        input_data_point = (unsigned char *)(measurements_f_min_achr_dr);
-      }
-      else if(type_current == IDENTIFIER_BIT_ARRAY_FREQUENCY_CHAPV)
-      {
-        measurements_f_chapv_dr[23] = (unsigned int)UNDEF_VMP;
-        measurements_f_chapv_dr[24] = 0;
-        input_data_point = (unsigned char *)(measurements_f_chapv_dr);
       }
       
       //Визначаємо адресу киди дані треба копіювати
       step -= 1; //Тому що  нумерація починається з 0, а не з 1 (step гарантовано не менше 1(це перевірено вище), тому від'ємного числа не може бути)
       if(((state_current_monitoring & (1<< IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE  )) != 0) && (type_current != IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE  ))
         step -= 1;
-      if(((state_current_monitoring & (1<< IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04)) != 0) && (type_current != IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04))
-        step -= 1;
-      if(((state_current_monitoring & (1<< IDENTIFIER_BIT_ARRAY_MAX_CURRENT_3I0    )) != 0) && (type_current != IDENTIFIER_BIT_ARRAY_MAX_CURRENT_3I0    ))
-        step -= 1;
-      if(((state_current_monitoring & (1<< IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE_3U0    )) != 0) && (type_current != IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE_3U0    ))
-        step -= 1;
       if(((state_current_monitoring & (1<< IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE        )) != 0) && (type_current != IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE        ))
         step -= 1;
       if(((state_current_monitoring & (1<< IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE        )) != 0) && (type_current != IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE        ))
         step -= 1;
       if(((state_current_monitoring & (1<< IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP    )) != 0) && (type_current != IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP    ))
-        step -= 1;
-      if(((state_current_monitoring & (1<< IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR )) != 0) && (type_current != IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR ))
-        step -= 1;
-      if(((state_current_monitoring & (1<< IDENTIFIER_BIT_ARRAY_FREQUENCY_CHAPV    )) != 0) && (type_current != IDENTIFIER_BIT_ARRAY_FREQUENCY_CHAPV    ))
         step -= 1;
       
       if(step >= 0)
@@ -7084,15 +4585,10 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
     //Перевіряємо чи не виникла умова, що зарараз буде перебір фіксації максимальних струмів
     unsigned int temp_value_for_max_min_fix_measurement = (
                                                             number_max_phase_dr   + 
-                                                            number_max_phase04_dr + 
-                                                            number_max_3I0_dr     +
-                                                            number_max_3U0_dr     +
                                                             number_min_U_dr       +
                                                             number_max_U_dr       +
-                                                            number_max_ZOP_dr     +
-                                                            number_min_f_achr_dr  +
-                                                            number_f_chapv_dr    
-                                                      );
+                                                            number_max_ZOP_dr
+                                                          );
     if(temp_value_for_max_min_fix_measurement > MAX_NUMBER_FIX_MAX_MEASUREMENTS)
     {
       //Сюди, теоретично програма нікол не мала б заходити, але якщо зайшла, тоиреба перервати роботу дискретного реєстратора
@@ -7125,63 +4621,6 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
         }
       }
 
-      //Перевіряємо чи стоїть умова почати моніторити максимальний фазний струм сторони 0,4кВ
-      if(
-         ((carrent_active_functions[0] & MASKA_MONITOTYNG_PHASE04_SIGNALES_0) != 0) ||
-         ((carrent_active_functions[1] & MASKA_MONITOTYNG_PHASE04_SIGNALES_1) != 0) ||
-         ((carrent_active_functions[2] & MASKA_MONITOTYNG_PHASE04_SIGNALES_2) != 0) ||
-         ((carrent_active_functions[3] & MASKA_MONITOTYNG_PHASE04_SIGNALES_3) != 0) ||
-         ((carrent_active_functions[4] & MASKA_MONITOTYNG_PHASE04_SIGNALES_4) != 0) ||
-         ((carrent_active_functions[5] & MASKA_MONITOTYNG_PHASE04_SIGNALES_5) != 0) ||
-         ((carrent_active_functions[6] & MASKA_MONITOTYNG_PHASE04_SIGNALES_6) != 0) ||
-         ((carrent_active_functions[7] & MASKA_MONITOTYNG_PHASE04_SIGNALES_7) != 0)
-        )
-      {
-        if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04)) == 0)
-        {
-          //Є умова почати новий моніторинг максимального фазного струму сторони 0,4кВ
-          temp_value_for_max_min_fix_measurement++;
-        }
-      }
-
-      //Перевіряємо чи стоїть умова почати моніторити максимальний струм 3I0
-      if(
-         ((carrent_active_functions[0] & MASKA_MONITOTYNG_3I0_SIGNALES_0) != 0) ||
-         ((carrent_active_functions[1] & MASKA_MONITOTYNG_3I0_SIGNALES_1) != 0) ||
-         ((carrent_active_functions[2] & MASKA_MONITOTYNG_3I0_SIGNALES_2) != 0) ||
-         ((carrent_active_functions[3] & MASKA_MONITOTYNG_3I0_SIGNALES_3) != 0) ||
-         ((carrent_active_functions[4] & MASKA_MONITOTYNG_3I0_SIGNALES_4) != 0) ||
-         ((carrent_active_functions[5] & MASKA_MONITOTYNG_3I0_SIGNALES_5) != 0) ||
-         ((carrent_active_functions[6] & MASKA_MONITOTYNG_3I0_SIGNALES_6) != 0) ||
-         ((carrent_active_functions[7] & MASKA_MONITOTYNG_3I0_SIGNALES_7) != 0)
-      )
-      {
-        if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_3I0)) == 0)
-        {
-          //Є умова почати новий моніторинг максимального струму 3I0
-          temp_value_for_max_min_fix_measurement++;
-        }
-      }
-      
-      //Перевіряємо чи стоїть умова почати моніторити максимальну напругу 3U0
-      if(
-         ((carrent_active_functions[0] & MASKA_MONITOTYNG_3U0_SIGNALES_0) != 0) ||
-         ((carrent_active_functions[1] & MASKA_MONITOTYNG_3U0_SIGNALES_1) != 0) ||
-         ((carrent_active_functions[2] & MASKA_MONITOTYNG_3U0_SIGNALES_2) != 0) ||
-         ((carrent_active_functions[3] & MASKA_MONITOTYNG_3U0_SIGNALES_3) != 0) ||
-         ((carrent_active_functions[4] & MASKA_MONITOTYNG_3U0_SIGNALES_4) != 0) ||
-         ((carrent_active_functions[5] & MASKA_MONITOTYNG_3U0_SIGNALES_5) != 0) ||
-         ((carrent_active_functions[6] & MASKA_MONITOTYNG_3U0_SIGNALES_6) != 0) ||
-         ((carrent_active_functions[7] & MASKA_MONITOTYNG_3U0_SIGNALES_7) != 0)
-      )
-      {
-        if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE_3U0)) == 0)
-        {
-          //Є умова почати новий моніторинг максимальну напругу 3U0
-          temp_value_for_max_min_fix_measurement++;
-        }
-      }
-      
       //Перевіряємо чи стоїть умова почати моніторити мінімальну напругу
       if (
           (blocking_continue_monitoring_min_U == 0) ||
@@ -7245,61 +4684,6 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
         }
       }
     
-      //Перевіряємо чи стоїть умова почати моніторити мінімальну частоту для АЧР
-      if(
-         ((carrent_active_functions[0] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_0) != 0) ||
-         ((carrent_active_functions[1] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_1) != 0) ||
-         ((carrent_active_functions[2] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_2) != 0) ||
-         ((carrent_active_functions[3] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_3) != 0) ||
-         ((carrent_active_functions[4] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_4) != 0) ||
-         ((carrent_active_functions[5] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_5) != 0) ||
-         ((carrent_active_functions[6] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_6) != 0) ||
-         ((carrent_active_functions[7] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_7) != 0)
-      )
-      {
-        if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR)) == 0)
-        {
-          //Є умова почати новий моніторинг мінімальну частоту
-          temp_value_for_max_min_fix_measurement++;
-        }
-      }
-      
-      
-      if (
-          /*Є умова дозволу подачі команди ЧАПВ*/
-          (_CHECK_SET_BIT(carrent_active_functions , RANG_VN_BLOCK_CHAPV) == 0)
-          &&
-          (
-           (
-            /*Умова зафіксувати частоту для зовнішнього ЧАПВ*/
-            (_CHECK_SET_BIT(previous_active_functions, RANG_ACHR_CHAPV_VID_DV) != 0) &&
-            (_CHECK_SET_BIT(carrent_active_functions , RANG_ACHR_CHAPV_VID_DV) == 0)
-           )
-           ||
-           (
-            /*Умова зафіксувати частоту від внутрішнього ЧАПВ*/
-            (_CHECK_SET_BIT(carrent_active_functions , RANG_RAZR_CHAPV) != 0) 
-            &&
-            (
-             (  
-              (_CHECK_SET_BIT(previous_active_functions, RANG_ACHR_CHAPV1  ) != 0) &&
-              (_CHECK_SET_BIT(carrent_active_functions , RANG_ACHR_CHAPV1  ) == 0)
-             )   
-             ||  
-             (  
-              (_CHECK_SET_BIT(previous_active_functions, RANG_ACHR_CHAPV2  ) != 0) &&
-              (_CHECK_SET_BIT(carrent_active_functions , RANG_ACHR_CHAPV2  ) == 0)
-             )   
-            )           
-           ) 
-          )
-         )   
-      {
-        //Є умова зафіксувати частоту від ЧАПВ
-        temp_value_for_max_min_fix_measurement++;
-      }
-          
-      
       if(temp_value_for_max_min_fix_measurement > MAX_NUMBER_FIX_MAX_MEASUREMENTS)
       {
         //Виникла ситуація, що зарараз буде перебір фіксації максимальних вимірювань
@@ -7313,18 +4697,6 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
         if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE)) != 0)
           end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE, carrent_active_functions);
 
-        //Перевіряємо чи треба завершити моніторинг максимального фазного струму сторони 0,4кВ
-        if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04)) != 0)
-          end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04, carrent_active_functions);
-
-        //Перевіряємо чи треба завершити моніторинг максимального струму 3I0
-        if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_3I0)) != 0)
-          end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MAX_CURRENT_3I0, carrent_active_functions);
-
-        //Перевіряємо чи треба завершити моніторинг максимальної напруги 3U0
-        if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE_3U0)) != 0)
-          end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE_3U0, carrent_active_functions);
-
         //Перевіряємо чи треба завершити моніторинг мінімальної напруги
         if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE)) != 0)
           end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE, carrent_active_functions);
@@ -7337,30 +4709,14 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
         if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP)) != 0)
           end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP, carrent_active_functions);
         
-        //Перевіряємо чи треба завершити моніторинг мінімальної частоти для АЧР
-        if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR)) != 0)
-          end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR, carrent_active_functions);
-        
-        /*
-        Ми не первіряємо чи треба завершити моніторинг фіксації частоти для ЧАПВ,
-        бо коли фіксується ця частота, то зразу моніторинг припиняється (ми не
-        шукаємо мінімальну чи максимальну частоту - а фікчуємо частоту при запуску АПВ
-        від ЧАПВ)
-        */
-
         //Дальші дії виконуємо тіьлки у тому випадку, якщо функція end_monitoring_min_max_measurement не зафіксувала помилку і не скинула state_dr_record у STATE_DR_NO_RECORD
         if(state_dr_record != STATE_DR_NO_RECORD)
         {
           //Записуємо кількість зафіксованих максимальних струмів всіх типів
           buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_PHASE_DR  ] = number_max_phase_dr;
-          buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_PHASE04_DR] = number_max_phase04_dr;
-          buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_3I0_DR    ] = number_max_3I0_dr;
-          buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_3U0_DR    ] = number_max_3U0_dr;
           buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MIN_U_DR      ] = number_min_U_dr;
           buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_U_DR      ] = number_max_U_dr;
           buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_ZOP_DR    ] = number_max_ZOP_dr;
-          buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MIN_F_ACHR_DR ] = number_min_f_achr_dr;
-          buffer_for_save_dr_record[FIRST_INDEX_NUMBER_F_CHAPV_DR    ] = number_f_chapv_dr;
 
           //Помічаємо, що треба при першій же нагоді почати новий запис, бо попередній запис був примусово зупинений
           state_dr_record = STATE_DR_CUT_RECORD;
@@ -7432,12 +4788,6 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
           else label_to_time_array = time_copy;
           for(unsigned int i = 0; i < 7; i++) buffer_for_save_dr_record[FIRST_INDEX_DATA_TIME_DR + i] = *(label_to_time_array + i);
           
-          //Додаткові налаштування при яких було запущено дискретний реєстратор
-          unsigned int control_extra_settings_1_tmp = current_settings_prt.control_extra_settings_1 & (CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE | CTR_EXTRA_SETTINGS_1_CTRL_IB_I04);
-          unsigned char *point_to_extra_settings = (unsigned char *)(&control_extra_settings_1_tmp);
-          for (unsigned int i = 0; i < sizeof(control_extra_settings_1_tmp); i++)
-            buffer_for_save_dr_record[FIRST_INDEX_EXTRA_SETTINGS_DR + i] = *(point_to_extra_settings + i);
-
            //І'мя комірки
           for(unsigned int i=0; i< MAX_CHAR_IN_NAME_OF_CELL; i++) 
             buffer_for_save_dr_record[FIRST_INDEX_NAME_OF_CELL_DR + i] = current_settings_prt.name_of_cell[i] & 0xff;
@@ -7447,14 +4797,9 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
           
           //Скидаємо кількість фіксацій максимальних струмів/напруг
           number_max_phase_dr = 0;
-          number_max_phase04_dr = 0;
-          number_max_3I0_dr = 0;
-          number_max_3U0_dr = 0;
           number_min_U_dr = 0;
           number_max_U_dr = 0;
           number_max_ZOP_dr = 0;
-          number_min_f_achr_dr = 0;
-          number_f_chapv_dr = 0;
           
           //Знімаємо повідомлення про моніторинг максимальних струмів
           state_current_monitoring = 0;
@@ -7472,51 +4817,6 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
             )
           {
             start_monitoring_max_phase_current(time_from_start_record_dr);
-          }
-
-          //Перевіряємо чи стоїть умова моніторити максимальний фазний струм сторони 0,4кВ
-          if(
-             ((carrent_active_functions[0] & MASKA_MONITOTYNG_PHASE04_SIGNALES_0) != 0) ||
-             ((carrent_active_functions[1] & MASKA_MONITOTYNG_PHASE04_SIGNALES_1) != 0) ||
-             ((carrent_active_functions[2] & MASKA_MONITOTYNG_PHASE04_SIGNALES_2) != 0) ||
-             ((carrent_active_functions[3] & MASKA_MONITOTYNG_PHASE04_SIGNALES_3) != 0) ||
-             ((carrent_active_functions[4] & MASKA_MONITOTYNG_PHASE04_SIGNALES_4) != 0) ||
-             ((carrent_active_functions[5] & MASKA_MONITOTYNG_PHASE04_SIGNALES_5) != 0) ||
-             ((carrent_active_functions[6] & MASKA_MONITOTYNG_PHASE04_SIGNALES_6) != 0) ||
-             ((carrent_active_functions[7] & MASKA_MONITOTYNG_PHASE04_SIGNALES_7) != 0)
-            )
-          {
-            start_monitoring_max_phase04_current(time_from_start_record_dr);
-          }
-
-          //Перевіряємо чи стоїть умова моніторити максимальний струм 3I0
-          if(
-             ((carrent_active_functions[0] & MASKA_MONITOTYNG_3I0_SIGNALES_0) != 0) ||
-             ((carrent_active_functions[1] & MASKA_MONITOTYNG_3I0_SIGNALES_1) != 0) ||
-             ((carrent_active_functions[2] & MASKA_MONITOTYNG_3I0_SIGNALES_2) != 0) ||
-             ((carrent_active_functions[3] & MASKA_MONITOTYNG_3I0_SIGNALES_3) != 0) ||
-             ((carrent_active_functions[4] & MASKA_MONITOTYNG_3I0_SIGNALES_4) != 0) ||
-             ((carrent_active_functions[5] & MASKA_MONITOTYNG_3I0_SIGNALES_5) != 0) ||
-             ((carrent_active_functions[6] & MASKA_MONITOTYNG_3I0_SIGNALES_6) != 0) ||
-             ((carrent_active_functions[7] & MASKA_MONITOTYNG_3I0_SIGNALES_7) != 0)
-            )
-          {
-            start_monitoring_max_3I0(time_from_start_record_dr);
-          }
-
-          //Перевіряємо чи стоїть умова моніторити максимальну напругу 3U0
-          if(
-             ((carrent_active_functions[0] & MASKA_MONITOTYNG_3U0_SIGNALES_0) != 0) ||
-             ((carrent_active_functions[1] & MASKA_MONITOTYNG_3U0_SIGNALES_1) != 0) ||
-             ((carrent_active_functions[2] & MASKA_MONITOTYNG_3U0_SIGNALES_2) != 0) ||
-             ((carrent_active_functions[3] & MASKA_MONITOTYNG_3U0_SIGNALES_3) != 0) ||
-             ((carrent_active_functions[4] & MASKA_MONITOTYNG_3U0_SIGNALES_4) != 0) ||
-             ((carrent_active_functions[5] & MASKA_MONITOTYNG_3U0_SIGNALES_5) != 0) ||
-             ((carrent_active_functions[6] & MASKA_MONITOTYNG_3U0_SIGNALES_6) != 0) ||
-             ((carrent_active_functions[7] & MASKA_MONITOTYNG_3U0_SIGNALES_7) != 0)
-            )
-          {
-            start_monitoring_max_3U0(time_from_start_record_dr);
           }
 
           //Знімаємо блокування моніторингу мінімальної напруги
@@ -7575,28 +4875,6 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
             start_monitoring_max_ZOP(time_from_start_record_dr);
           }
       
-          //Перевіряємо чи стоїть умова моніторити мінімальну частоту
-          if(
-             ((carrent_active_functions[0] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_0) != 0) ||
-             ((carrent_active_functions[1] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_1) != 0) ||
-             ((carrent_active_functions[2] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_2) != 0) ||
-             ((carrent_active_functions[3] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_3) != 0) ||
-             ((carrent_active_functions[4] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_4) != 0) ||
-             ((carrent_active_functions[5] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_5) != 0) ||
-             ((carrent_active_functions[6] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_6) != 0) ||
-             ((carrent_active_functions[7] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_7) != 0)
-            )
-          {
-            start_monitoring_min_f(time_from_start_record_dr);
-          }
-
-          /*
-          Перевірку необхідності запису фіксації вимірювань при роботі ЧАПВ здійснювати
-          не потрібно, тому що ми тільки запустили дискретний реєстратор, а умова запису
-          вимірювань при запуску ЧАПВ складається з двох зрізів у яких сигнал ЧАПВ
-          здійснює перехід "Активний"->"Пасивний"
-          */
-
           //Записуємо попередній cтан сигналів перед аварією
           //Мітка часу попереднього стану сигналів до моменту початку запису
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR +  0] = 0xff;
@@ -7682,12 +4960,6 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
           
           //Кількість змін сигналів у порівнянні із попереднім станом
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 32] = number_changes_into_current_item & 0xff;
-      
-//          //Решту масиву очищаємо, щоб у запис не пішла інформація із попередніх записів
-//          for(unsigned int i = FIRST_INDEX_FIRST_BLOCK_DR; i < FIRST_INDEX_FIRST_DATA_DR; i++)
-//            buffer_for_save_dr_record[i] = 0xff;
-//          for(unsigned int i = (FIRST_INDEX_FIRST_DATA_DR + (number_items_dr + 1)*33); i < SIZE_BUFFER_FOR_DR_RECORD; i++)
-//            buffer_for_save_dr_record[i] = 0xff;
         }
         else
         {
@@ -7731,75 +5003,6 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
           end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE, carrent_active_functions);
       }
 
-      //Перевіряємо чи стоїть умова моніторити максимальний фазний струм сторони 0,4кВ
-      if(
-         ((carrent_active_functions[0] & MASKA_MONITOTYNG_PHASE04_SIGNALES_0) != 0) ||
-         ((carrent_active_functions[1] & MASKA_MONITOTYNG_PHASE04_SIGNALES_1) != 0) ||
-         ((carrent_active_functions[2] & MASKA_MONITOTYNG_PHASE04_SIGNALES_2) != 0) ||
-         ((carrent_active_functions[3] & MASKA_MONITOTYNG_PHASE04_SIGNALES_3) != 0) ||
-         ((carrent_active_functions[4] & MASKA_MONITOTYNG_PHASE04_SIGNALES_4) != 0) ||
-         ((carrent_active_functions[5] & MASKA_MONITOTYNG_PHASE04_SIGNALES_5) != 0) ||
-         ((carrent_active_functions[6] & MASKA_MONITOTYNG_PHASE04_SIGNALES_6) != 0) ||
-         ((carrent_active_functions[7] & MASKA_MONITOTYNG_PHASE04_SIGNALES_7) != 0)
-        )
-      {
-        if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04)) != 0)
-          continue_monitoring_max_phase04_current(time_from_start_record_dr);
-        else
-          start_monitoring_max_phase04_current(time_from_start_record_dr);
-      }
-      else
-      {
-        if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04)) != 0)
-          end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04, carrent_active_functions);
-      }
-
-      //Перевіряємо чи стоїть умова моніторити максимальний струм 3I0
-      if(
-         ((carrent_active_functions[0] & MASKA_MONITOTYNG_3I0_SIGNALES_0) != 0) ||
-         ((carrent_active_functions[1] & MASKA_MONITOTYNG_3I0_SIGNALES_1) != 0) ||
-         ((carrent_active_functions[2] & MASKA_MONITOTYNG_3I0_SIGNALES_2) != 0) ||
-         ((carrent_active_functions[3] & MASKA_MONITOTYNG_3I0_SIGNALES_3) != 0) ||
-         ((carrent_active_functions[4] & MASKA_MONITOTYNG_3I0_SIGNALES_4) != 0) ||
-         ((carrent_active_functions[5] & MASKA_MONITOTYNG_3I0_SIGNALES_5) != 0) ||
-         ((carrent_active_functions[6] & MASKA_MONITOTYNG_3I0_SIGNALES_6) != 0) ||
-         ((carrent_active_functions[7] & MASKA_MONITOTYNG_3I0_SIGNALES_7) != 0)
-        )
-      {
-        if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_3I0)) != 0)
-          continue_monitoring_max_3I0(time_from_start_record_dr);
-        else
-          start_monitoring_max_3I0(time_from_start_record_dr);
-      }
-      else
-      {
-        if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_3I0)) != 0)
-          end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MAX_CURRENT_3I0, carrent_active_functions);
-      }
-      
-      //Перевіряємо чи стоїть умова моніторити максимальну напругу 3U0
-      if(
-         ((carrent_active_functions[0] & MASKA_MONITOTYNG_3U0_SIGNALES_0) != 0) ||
-         ((carrent_active_functions[1] & MASKA_MONITOTYNG_3U0_SIGNALES_1) != 0) ||
-         ((carrent_active_functions[2] & MASKA_MONITOTYNG_3U0_SIGNALES_2) != 0) ||
-         ((carrent_active_functions[3] & MASKA_MONITOTYNG_3U0_SIGNALES_3) != 0) ||
-         ((carrent_active_functions[4] & MASKA_MONITOTYNG_3U0_SIGNALES_4) != 0) ||
-         ((carrent_active_functions[5] & MASKA_MONITOTYNG_3U0_SIGNALES_5) != 0) ||
-         ((carrent_active_functions[6] & MASKA_MONITOTYNG_3U0_SIGNALES_6) != 0) ||
-         ((carrent_active_functions[7] & MASKA_MONITOTYNG_3U0_SIGNALES_7) != 0)
-        )
-      {
-        if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE_3U0)) != 0)
-          continue_monitoring_max_3U0(time_from_start_record_dr);
-        else
-          start_monitoring_max_3U0(time_from_start_record_dr);
-      }
-      else
-      {
-        if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE_3U0)) != 0)
-          end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE_3U0, carrent_active_functions);
-      }
-      
       //Перевіряємо чи стоїть умова відновити моніторинг мінімальної напруги
       if (_CHECK_SET_BIT(carrent_active_functions, RANG_WORK_BV) != 0)
       {
@@ -7885,101 +5088,6 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
       {
         if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP)) != 0)
           end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP, carrent_active_functions);
-      }
-      
-      //Перевіряємо чи стоїть умова моніторити мінімальну частоту для АЧР
-      if(
-         ((carrent_active_functions[0] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_0) != 0) ||
-         ((carrent_active_functions[1] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_1) != 0) ||
-         ((carrent_active_functions[2] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_2) != 0) ||
-         ((carrent_active_functions[3] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_3) != 0) ||
-         ((carrent_active_functions[4] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_4) != 0) ||
-         ((carrent_active_functions[5] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_5) != 0) ||
-         ((carrent_active_functions[6] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_6) != 0) ||
-         ((carrent_active_functions[7] & MASKA_MONITOTYNG_F_MIN_ACHR_SIGNALES_7) != 0)
-        )
-      {
-        if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR)) != 0)
-          continue_monitoring_min_f(time_from_start_record_dr);
-        else
-          start_monitoring_min_f(time_from_start_record_dr);
-      }
-      else
-      {
-        if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR)) != 0)
-          end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR, carrent_active_functions);
-      }
-      
-      if (
-          /*Є умова дозволу подачі команди ЧАПВ*/
-          (_CHECK_SET_BIT(carrent_active_functions , RANG_VN_BLOCK_CHAPV) == 0)
-          &&
-          (
-           (
-            /*Умова зафіксувати частоту від зовнішнього ЧАПВ*/
-            (_CHECK_SET_BIT(previous_active_functions, RANG_ACHR_CHAPV_VID_DV) != 0) &&
-            (_CHECK_SET_BIT(carrent_active_functions , RANG_ACHR_CHAPV_VID_DV) == 0)
-           )
-           ||
-           (
-            /*Умова зафіксувати частоту від ЧАПВ*/
-            (_CHECK_SET_BIT(carrent_active_functions , RANG_RAZR_CHAPV) != 0)
-            &&
-            (
-             (
-              (_CHECK_SET_BIT(previous_active_functions, RANG_ACHR_CHAPV1  ) != 0) &&
-              (_CHECK_SET_BIT(carrent_active_functions , RANG_ACHR_CHAPV1  ) == 0)
-             )   
-             ||  
-             (
-              (_CHECK_SET_BIT(previous_active_functions, RANG_ACHR_CHAPV2  ) != 0) &&
-              (_CHECK_SET_BIT(carrent_active_functions , RANG_ACHR_CHAPV2  ) == 0)
-             )   
-            ) 
-           )
-          ) 
-         )   
-      {
-        //Збільшуємо кількість фіксованих значень частоти від ЧАПВ
-        number_f_chapv_dr++;
-  
-        int frequency_int = (int)frequency;
-        if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
-  
-        measurements_f_chapv_dr[ 0] = measurement[IM_3I0];
-        measurements_f_chapv_dr[ 1] = measurement[IM_3I0_other_g];
-        measurements_f_chapv_dr[ 2] = measurement[IM_3I0_r];
-        measurements_f_chapv_dr[ 3] = measurement[IM_IA];
-        measurements_f_chapv_dr[ 4] = measurement[IM_IB];
-        measurements_f_chapv_dr[ 5] = measurement[IM_IC];
-        measurements_f_chapv_dr[ 6] = measurement[IM_I2];
-        measurements_f_chapv_dr[ 7] = measurement[IM_I1];
-        measurements_f_chapv_dr[ 8] = measurement[IM_I04];
-        measurements_f_chapv_dr[ 9] = measurement[IM_UA];
-        measurements_f_chapv_dr[10] = measurement[IM_UB];
-        measurements_f_chapv_dr[11] = measurement[IM_UC];
-        measurements_f_chapv_dr[12] = measurement[IM_3U0];
-        measurements_f_chapv_dr[13] = measurement[IM_UAB];
-        measurements_f_chapv_dr[14] = measurement[IM_UBC];
-        measurements_f_chapv_dr[15] = measurement[IM_UCA];
-        measurements_f_chapv_dr[16] = (unsigned int)frequency_int;
-        measurements_f_chapv_dr[17] = (unsigned int)resistance[R_AB];
-        measurements_f_chapv_dr[18] = (unsigned int)resistance[X_AB];
-        measurements_f_chapv_dr[19] = (unsigned int)resistance[R_BC];
-        measurements_f_chapv_dr[20] = (unsigned int)resistance[X_BC];
-        measurements_f_chapv_dr[21] = (unsigned int)resistance[R_CA];
-        measurements_f_chapv_dr[22] = (unsigned int)resistance[X_CA];
-        measurements_f_chapv_dr[23] = (unsigned int)UNDEF_VMP;
-        measurements_f_chapv_dr[24] = 0;
-  
-        //Фіксуємо час з моменту початку аварійного запису
-        measurements_f_chapv_dr[25] = time_from_start_record_dr;
-
-        //Помічаємо, що ми фіксуємо чатоту від ЧАПВ
-        state_current_monitoring |= (1<<IDENTIFIER_BIT_ARRAY_FREQUENCY_CHAPV);
-            
-        //Зразу цю подію фіксуємо у масив, який формує поточний запис
-        end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_FREQUENCY_CHAPV, carrent_active_functions);
       }
       
       //Дальші дії виконуємо тіьлки у тому випадку, якщо функція end_monitoring_min_max_measurement не зафіксувала помилку і не скинула state_dr_record у STATE_DR_NO_RECORD
@@ -8073,18 +5181,6 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
           if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE)) != 0)
             end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE, carrent_active_functions);
 
-          //Перевіряємо чи треба завершити моніторинг максимального фазного струму сторони 0,4кВ
-          if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04)) != 0)
-            end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04, carrent_active_functions);
-
-          //Перевіряємо чи треба завершити моніторинг максимального струму 3I0
-          if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_3I0)) != 0)
-            end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MAX_CURRENT_3I0, carrent_active_functions);
-
-          //Перевіряємо чи треба завершити моніторинг максимальну напругу 3U0
-          if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE_3U0)) != 0)
-            end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE_3U0, carrent_active_functions);
-
           //Перевіряємо чи треба завершити моніторинг мінімальну напругу
           if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE)) != 0)
             end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE, carrent_active_functions);
@@ -8097,30 +5193,14 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
           if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP)) != 0)
             end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP, carrent_active_functions);
         
-          //Перевіряємо чи треба завершити моніторинг мінімальну частоту для АЧР
-          if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR)) != 0)
-            end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR, carrent_active_functions);
-
-          /*
-          Перевірку необхідності запису фіксація вимірювань при роботі ЧАПВ здійснювати
-          не потрібно, тому що зараз іде перевірка чи треба примусово зупинити робити формування
-          поточного запису. Якщо була ситуація заауску АПВ від ЧАПВ, то ця подія мала б зафіксованою бути
-          у місці програми, де аналізувалися блоки інтегральних величин
-          */
-
           //Дальші дії виконуємо тіьлки у тому випадку, якщо функція end_monitoring_min_max_measurement не зафіксувала помилку і не скинула state_dr_record у STATE_DR_NO_RECORD
           if(state_dr_record != STATE_DR_NO_RECORD)
           {
             //Записуємо кількість зафіксованих максимальних вимірювань всіх типів
             buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_PHASE_DR  ] = number_max_phase_dr;
-            buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_PHASE04_DR] = number_max_phase04_dr;
-            buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_3I0_DR    ] = number_max_3I0_dr;
-            buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_3U0_DR    ] = number_max_3U0_dr;
             buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MIN_U_DR      ] = number_min_U_dr;
             buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_U_DR      ] = number_max_U_dr;
             buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_ZOP_DR    ] = number_max_ZOP_dr;
-            buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MIN_F_ACHR_DR ] = number_min_f_achr_dr;
-            buffer_for_save_dr_record[FIRST_INDEX_NUMBER_F_CHAPV_DR    ] = number_f_chapv_dr;
 
             //Переводимо режим роботи із дискретним реєстратором у стан "Виконується безпосередній запис у DataFlash"
             if (state_dr_record != STATE_DR_MAKE_RECORD)
@@ -8277,16 +5357,10 @@ inline void analog_registrator(volatile unsigned int* carrent_active_functions)
           if (copying_time == 0) label_to_time_array = time;
           else label_to_time_array = time_copy;
           for(unsigned int i = 0; i < 7; i++) header_ar.time[i] = *(label_to_time_array + i);
-          //Коефіцієнт трансформації T0
-          header_ar.T0 = current_settings_prt.T0;
           //Коефіцієнт трансформації TT
           header_ar.TCurrent = current_settings_prt.TCurrent;
-          //Коефіцієнт трансформації TT сторони 0,4кВ
-          header_ar.TCurrent04 = current_settings_prt.TCurrent04;
           //Коефіцієнт трансформації TН
           header_ar.TVoltage = current_settings_prt.TVoltage;
-          //Додаткові налаштування при яких було запущено аналоговий реєстратор
-          header_ar.control_extra_settings_1 = current_settings_prt.control_extra_settings_1 & (CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE);
           //І'мя ячейки
           for(unsigned int i=0; i<MAX_CHAR_IN_NAME_OF_CELL; i++)
             header_ar.name_of_cell[i] = current_settings_prt.name_of_cell[i] & 0xff;
@@ -8915,29 +5989,14 @@ inline void main_protection(void)
       active_functions[RANG_BLOCK_MTZ3     >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_BLOCK_MTZ3    ) != 0) << (RANG_BLOCK_MTZ3     & 0x1f);
       active_functions[RANG_BLOCK_MTZ4     >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_BLOCK_MTZ4    ) != 0) << (RANG_BLOCK_MTZ4     & 0x1f);
 
-      //Блок для МТЗ 0,4кВ
-      active_functions[RANG_BLOCK_MTZ04_1     >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_BLOCK_MTZ04_1    ) != 0) << (RANG_BLOCK_MTZ04_1     & 0x1f);
-      active_functions[RANG_BLOCK_MTZ04_2     >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_BLOCK_MTZ04_2    ) != 0) << (RANG_BLOCK_MTZ04_2     & 0x1f);
-      active_functions[RANG_BLOCK_USK_MTZ04_2 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_BLOCK_USK_MTZ04_2) != 0) << (RANG_BLOCK_USK_MTZ04_2 & 0x1f);
-
       //Блок для ЗДЗ
       active_functions[RANG_PUSK_ZDZ_VID_DV >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_PUSK_ZDZ_VID_DV) != 0) << (RANG_PUSK_ZDZ_VID_DV & 0x1f);
 
-      //Блок НЗЗ
-      active_functions[RANG_BLOCK_NZZ >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_BLOCK_NZZ) != 0) << (RANG_BLOCK_NZZ & 0x1f);
-
-      //Блок ТЗНП
-      active_functions[RANG_BLOCK_TZNP1 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_BLOCK_TZNP1) != 0) << (RANG_BLOCK_TZNP1 & 0x1f);
-      active_functions[RANG_BLOCK_TZNP2 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_BLOCK_TZNP2) != 0) << (RANG_BLOCK_TZNP2 & 0x1f);
-      active_functions[RANG_BLOCK_TZNP3 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_BLOCK_TZNP3) != 0) << (RANG_BLOCK_TZNP3 & 0x1f);
-      
       //Блок АПВ
       active_functions[RANG_STAT_BLK_APV >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_STAT_BLK_APV) != 0) << (RANG_STAT_BLK_APV & 0x1f);
       
       //ЧАПВ
-      active_functions[RANG_ACHR_CHAPV_VID_DV  >> 5] |=(_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_ACHR_CHAPV_VID_DV ) != 0) << (RANG_ACHR_CHAPV_VID_DV & 0x1f);
-      active_functions[RANG_BLOCK_ACHR1        >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_BLOCK_ACHR1      ) != 0) << (RANG_BLOCK_ACHR1       & 0x1f);
-      active_functions[RANG_BLOCK_ACHR2        >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_BLOCK_ACHR2      ) != 0) << (RANG_BLOCK_ACHR2       & 0x1f);
+//      active_functions[RANG_ACHR_CHAPV_VID_DV  >> 5] |=(_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_ACHR_CHAPV_VID_DV ) != 0) << (RANG_ACHR_CHAPV_VID_DV & 0x1f);
 
       //Блок для УРОВ
       active_functions[RANG_PUSK_UROV_VID_DV >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_PUSK_UROV_VID_DV) != 0) << (RANG_PUSK_UROV_VID_DV & 0x1f);
@@ -9104,7 +6163,6 @@ inline void main_protection(void)
     {
       measurement_high[bank_measurement_high_tmp][i] = measurement_middle[i] = measurement[i];
     }
-    for (unsigned int i = 0; i < MAX_NUMBER_INDEXES_RESISTANCE; i++) resistance_middle[i] = resistance[i];
   }
   else
   {
@@ -9253,37 +6311,6 @@ inline void main_protection(void)
     }
     /**************************/
     
-//123456
-    /**************************/
-    //МТЗ04
-    /**************************/
-    if ((current_settings_prt.configuration & (1 << MTZ04_BIT_CONFIGURATION)) != 0)
-    {
-      mtz04_handler(active_functions, number_group_stp);
-    }
-    else
-    {
-      //Очищуємо сигнали, які не можуть бути у даній конфігурації
-      const unsigned int maska_mtz04_signals[N_BIG] = 
-      {
-        MASKA_MTZ04_SIGNALS_0, 
-        MASKA_MTZ04_SIGNALS_1, 
-        MASKA_MTZ04_SIGNALS_2,
-        MASKA_MTZ04_SIGNALS_3, 
-        MASKA_MTZ04_SIGNALS_4, 
-        MASKA_MTZ04_SIGNALS_5, 
-        MASKA_MTZ04_SIGNALS_6, 
-        MASKA_MTZ04_SIGNALS_7
-      };
-      for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_mtz04_signals[i]);
-      
-      global_timers[INDEX_TIMER_MTZ04_1] = -1;
-      global_timers[INDEX_TIMER_MTZ04_2] = -1;
-      global_timers[INDEX_TIMER_MTZ04_3] = -1;
-      global_timers[INDEX_TIMER_MTZ04_4] = -1;
-      global_timers[INDEX_TIMER_MTZ04_5] = -1;
-    }
-
     /**************************/
     //ЗДЗ
     /**************************/
@@ -9309,67 +6336,6 @@ inline void main_protection(void)
     }
     /**************************/
 
-    /**************************/
-    //ЗЗ
-    /**************************/
-    if ((current_settings_prt.configuration & (1 << ZZ_BIT_CONFIGURATION)) != 0)
-    {
-      zz_handler(active_functions, number_group_stp);
-    }
-    else
-    {
-      //Очищуємо сигнали, які не можуть бути у даній конфігурації
-      const unsigned int maska_nzz_signals[N_BIG] = 
-      {
-        MASKA_NZZ_SIGNALS_0, 
-        MASKA_NZZ_SIGNALS_1, 
-        MASKA_NZZ_SIGNALS_2,
-        MASKA_NZZ_SIGNALS_3, 
-        MASKA_NZZ_SIGNALS_4, 
-        MASKA_NZZ_SIGNALS_5, 
-        MASKA_NZZ_SIGNALS_6, 
-        MASKA_NZZ_SIGNALS_7
-      };
-      for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_nzz_signals[i]);
-
-      global_timers[INDEX_TIMER_ZZ_3I0] = -1;
-      global_timers[INDEX_TIMER_ZZ_3U0] = -1;
-      global_timers[INDEX_TIMER_NZZ] = -1;
-    }
-    /**************************/
-
-    /**************************/
-    //ТЗНП
-    /**************************/
-    if ((current_settings_prt.configuration & (1 << TZNP_BIT_CONFIGURATION)) != 0)
-    {
-      tznp_handler(active_functions, number_group_stp);
-    }
-    else
-    {
-      //Очищуємо сигнали, які не можуть бути у даній конфігурації
-      const unsigned int maska_tznp_signals[N_BIG] = 
-      {
-        MASKA_TZNP_SIGNALS_0, 
-        MASKA_TZNP_SIGNALS_1, 
-        MASKA_TZNP_SIGNALS_2,
-        MASKA_TZNP_SIGNALS_3, 
-        MASKA_TZNP_SIGNALS_4, 
-        MASKA_TZNP_SIGNALS_5, 
-        MASKA_TZNP_SIGNALS_6, 
-        MASKA_TZNP_SIGNALS_7
-      };
-      for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_tznp_signals[i]);
-
-      global_timers[INDEX_TIMER_TZNP1_VPERED] = -1;
-      global_timers[INDEX_TIMER_TZNP1_NAZAD] = -1;
-      global_timers[INDEX_TIMER_TZNP2_VPERED] = -1;
-      global_timers[INDEX_TIMER_TZNP2_NAZAD] = -1;
-      global_timers[INDEX_TIMER_TZNP3_VPERED] = -1;
-      global_timers[INDEX_TIMER_TZNP3_NAZAD] = -1;
-    }
-    /**************************/
-  
     /**************************/
     //ЗОП(КОФ)
     /**************************/
@@ -9463,46 +6429,28 @@ inline void main_protection(void)
       global_timers[INDEX_TIMER_UMAX1] = -1;
       global_timers[INDEX_TIMER_UMAX2] = -1;
     }
-    
-    if ((current_settings_prt.configuration & (1 << ACHR_CHAPV_BIT_CONFIGURATION)) != 0)
+    /**************************/
+
+    if ((current_settings_prt.configuration & (1 << AVR_BIT_CONFIGURATION)) > 0) 
     {
       /**************************/
-      //АЧР ЧАПВ
+      //АВР
       /**************************/
-      achr_chapv_handler(active_functions, number_group_stp);
+      avr_handler(active_functions, number_group_stp);
       /**************************/
     } 
     else 
     {
-      //Очищуємо сигнали, які не можуть бути у даній конфігурації
-      const unsigned int maska_achr_chapv_signals[N_BIG] = 
-      {
-        MASKA_ACHR_CHAPV_SIGNALS_0, 
-        MASKA_ACHR_CHAPV_SIGNALS_1, 
-        MASKA_ACHR_CHAPV_SIGNALS_2,
-        MASKA_ACHR_CHAPV_SIGNALS_3, 
-        MASKA_ACHR_CHAPV_SIGNALS_4, 
-        MASKA_ACHR_CHAPV_SIGNALS_5, 
-        MASKA_ACHR_CHAPV_SIGNALS_6, 
-        MASKA_ACHR_CHAPV_SIGNALS_7
-      };
-      for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_achr_chapv_signals[i]);
-
-      global_timers[INDEX_TIMER_ACHR_CHAPV_100MS_1] = -1;
-      global_timers[INDEX_TIMER_ACHR1] = -1;
-      global_timers[INDEX_TIMER_CHAPV1] = -1;
-      global_timers[INDEX_TIMER_ACHR_CHAPV_100MS_1] = -1;
-      global_timers[INDEX_TIMER_CHAPV1_1MS] = -1;
-      global_timers[INDEX_TIMER_CHAPV2_1MS] = -1;
-      global_timers[INDEX_TIMER_BLOCK_CHAPV1_5MS] = -1;
-      global_timers[INDEX_TIMER_BLOCK_CHAPV2_5MS] = -1;
-      previous_state_po_achr_chapv_uaf1 = 0;
-      previous_state_po_achr_chapv_ubf1 = 0;
-      previous_state_po_achr_chapv_ucf1 = 0;
-      previous_states_CHAPV1 = 0;
-      trigger_CHAPV1 = 0;
-      previous_states_CHAPV2= 0;
-      trigger_CHAPV2= 0;
+      global_timers[INDEX_TIMER_AVR_ZAVERSHENNJA] = -1;
+      global_timers[INDEX_TIMER_AVR_RESET_BLK] = -1;
+      global_timers[INDEX_TIMER_AVR_RL] = -1;
+      global_timers[INDEX_TIMER_AVR_OL] = -1;
+      previous_states_AVR_0 = 0;
+      previous_states_AVR_1 = 0;
+      previous_state_avr_counter = 0;
+      trigger_AVR_0 = 0;
+      trigger_AVR_1 = 0;
+      avr_counter = 0;
     }
     
     /**************************/
@@ -9646,12 +6594,6 @@ inline void main_protection(void)
     /**************************/
     
     /**************************/
-    //ВМП (завжди пісяля логіки Блоку вимикання)
-    /**************************/
-    vmp_handler(active_functions);
-    /**************************/
-
-    /**************************/
     //Готовность к ТУ
     /**************************/
     ready_tu(active_functions);
@@ -9683,11 +6625,12 @@ inline void main_protection(void)
     //Переводимо у початковий стан деякі глобальні змінні
     previous_states_APV_0 = 0;
     trigger_APV_0 = 0;
-    previous_state_po_achr_chapv_uaf1 = 0;
-    previous_state_po_achr_chapv_ubf1 = 0;
-    previous_state_po_achr_chapv_ucf1 = 0;
-    previous_states_CHAPV1 = 0;
-    trigger_CHAPV1 = 0;
+    previous_states_AVR_0 = 0;
+    previous_states_AVR_1 = 0;
+    previous_state_avr_counter = 0;
+    trigger_AVR_0 = 0;
+    trigger_AVR_1 = 0;
+    avr_counter = 0;
     previous_states_ready_tu = 0;
     trigger_ready_tu = 0;
     

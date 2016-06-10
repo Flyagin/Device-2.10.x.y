@@ -171,22 +171,18 @@ extern void d_or_handler(volatile unsigned int*);
 extern void d_xor_handler(volatile unsigned int*);
 extern void d_not_handler(volatile unsigned int*);
 extern void mtz_handler(volatile unsigned int*, unsigned int);
-extern void mtz04_handler(volatile unsigned int*, unsigned int);
 extern void zdz_handler(volatile unsigned int*);
 extern int timeout_dependent_general(unsigned int, unsigned int, int);
-extern void zz_handler(volatile unsigned int*, unsigned int);
-extern void tznp_handler(volatile unsigned int*, unsigned int);
 extern void zop_handler(volatile unsigned int*, unsigned int);
 extern void umin1_handler(volatile unsigned int*, unsigned int);
 extern void umin2_handler(volatile unsigned int*, unsigned int);
 extern void umax1_handler(volatile unsigned int*, unsigned int);
 extern void umax2_handler(volatile unsigned int*, unsigned int);
-extern void achr_chapv_handler(volatile unsigned int*, unsigned int);
+extern void avr_handler(volatile unsigned int*, unsigned int);
 extern void ready_tu(volatile unsigned int*);
 extern void urov_handler(volatile unsigned int*, unsigned int);
 extern void apv_handler(volatile unsigned int*, unsigned int);
 extern void on_off_handler(volatile unsigned int*);
-extern void vmp_handler(volatile unsigned int*);
 extern void control_VV(volatile unsigned int*);
 extern void make_koef_for_resurs(void);
 extern void resurs_vymykacha_handler(volatile unsigned int*);
@@ -257,13 +253,10 @@ extern unsigned int get_order(int);
 extern void calc_angle(void);
 extern void calc_power(int*);
 extern void calc_power_and_energy(void);
-extern void calc_resistance(int*, int*);
 
 extern void velychyna_zvorotnoi_poslidovnosti(int*);
-extern void detector_kuta_nzz(int*);
 
 extern void directional_mtz(int*, unsigned int);
-extern void directional_tznp(int*, unsigned int);
 
 extern void main_function_for_dataflash_resp(int);
 extern void main_function_for_dataflash_req(int);

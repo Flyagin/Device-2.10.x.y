@@ -1918,6 +1918,7 @@ void calc_angle(void)
   semaphore_measure_values_low1 = 0;
               
   int ortogonal_low_tmp[2*FULL_ORT_MAX];
+  int delta_phi_synchro_tmp;
   
   //Виставляємо семафор заборони обновлення значень з системи захистів
   semaphore_measure_values_low = 1;
@@ -1925,6 +1926,7 @@ void calc_angle(void)
   {
       ortogonal_low_tmp[i] = ortogonal_calc_low[i];
   } 
+  delta_phi_synchro_tmp = delta_phi_synchro;
   //Знімаємо семафор заборони обновлення значень з системи захистів
   semaphore_measure_values_low = 0;
   
@@ -1959,21 +1961,6 @@ void calc_angle(void)
         index_m = IM_UC1;
         break;
       }
-    case FULL_ORT_Uab1:
-      {
-        index_m = IM_UAB1;
-        break;
-      }
-    case FULL_ORT_Ubc1:
-      {
-        index_m = IM_UBC1;
-        break;
-      }
-    case FULL_ORT_Uca1:
-      {
-        index_m = IM_UCA1;
-        break;
-      }
     case FULL_ORT_Ua2:
       {
         index_m = IM_UA2;
@@ -1987,6 +1974,21 @@ void calc_angle(void)
     case FULL_ORT_Uc2:
       {
         index_m = IM_UC2;
+        break;
+      }
+    case FULL_ORT_Uab1:
+      {
+        index_m = IM_UAB1;
+        break;
+      }
+    case FULL_ORT_Ubc1:
+      {
+        index_m = IM_UBC1;
+        break;
+      }
+    case FULL_ORT_Uca1:
+      {
+        index_m = IM_UCA1;
         break;
       }
     case FULL_ORT_Uab2:
@@ -2062,24 +2064,6 @@ void calc_angle(void)
               index_m = IM_UC1;
               break;
             }
-          case FULL_ORT_Uab1:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE;
-              index_m = IM_UAB1;
-              break;
-            }
-          case FULL_ORT_Ubc1:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE;
-              index_m = IM_UBC1;
-              break;
-            }
-          case FULL_ORT_Uca1:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE;
-              index_m = IM_UCA1;
-              break;
-            }
           case FULL_ORT_Ua2:
             {
               porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE;
@@ -2096,6 +2080,24 @@ void calc_angle(void)
             {
               porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE;
               index_m = IM_UC2;
+              break;
+            }
+          case FULL_ORT_Uab1:
+            {
+              porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE;
+              index_m = IM_UAB1;
+              break;
+            }
+          case FULL_ORT_Ubc1:
+            {
+              porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE;
+              index_m = IM_UBC1;
+              break;
+            }
+          case FULL_ORT_Uca1:
+            {
+              porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE;
+              index_m = IM_UCA1;
               break;
             }
           case FULL_ORT_Uab2:
@@ -2222,6 +2224,95 @@ void calc_angle(void)
     //Не зафіксовано вектора вимірювання, відносно якого можна розраховувати кути
     for (__full_ort_index index_tmp = FULL_ORT_Ua1; index_tmp < FULL_ORT_MAX; index_tmp++) phi_angle[index_tmp] = -1;
   }
+  
+  /***
+  Синхронізація між ФАПЧ1 і ФАПЧ2
+  ***/
+  unsigned int frequency_locking_bank_tmp = (frequency_locking_bank ^ 0x1) & 0x1;
+  if (
+      (delta_phi_synchro_tmp != UNDEF_PHI) &&
+      (delta_phi_index_1_work_low >= INDEX_PhK_UA1)  && (delta_phi_index_1_work_low <= INDEX_PhK_UC1) &&
+      (delta_phi_index_2_work_low >= INDEX_PhK_UA2)  && (delta_phi_index_2_work_low <= INDEX_PhK_UC2)
+     )   
+  {
+    //Можна виконувати розрахунки для синхронізації
+    int phi_angle_fapch1;
+    switch (delta_phi_index_1_work_low)
+    {
+    case INDEX_PhK_UA1:
+      {
+        phi_angle_fapch1 = phi_angle[FULL_ORT_Ua1];
+        break;
+      }
+    case INDEX_PhK_UB1:
+      {
+        phi_angle_fapch1 = phi_angle[FULL_ORT_Ub1];
+        break;
+      }
+    case INDEX_PhK_UC1:
+      {
+        phi_angle_fapch1 = phi_angle[FULL_ORT_Uc1];
+        break;
+      }
+   default:
+      {
+        //Теоретично цього ніколи не мало б бути
+        total_error_sw_fixed(84);
+      }
+    }
+        
+    int phi_angle_fapch2;
+    switch (delta_phi_index_2_work_low)
+    {
+    case INDEX_PhK_UA2:
+      {
+        phi_angle_fapch2 = phi_angle[FULL_ORT_Ua2];
+        break;
+      }
+    case INDEX_PhK_UB2:
+      {
+        phi_angle_fapch2 = phi_angle[FULL_ORT_Ub2];
+        break;
+      }
+    case INDEX_PhK_UC2:
+      {
+        phi_angle_fapch2 = phi_angle[FULL_ORT_Uc2];
+        break;
+      }
+   default:
+      {
+        //Теоретично цього ніколи не мало б бути
+        total_error_sw_fixed(84);
+      }
+    }
+        
+    if (
+        (phi_angle_fapch1 >= 0) &&
+        (phi_angle_fapch2 >= 0)
+       )   
+    {
+      frequency_locking_phi += (phi_angle_fapch2 - phi_angle_fapch1 - delta_phi_synchro_tmp);
+      if ((frequency_locking_phi <= -3600) || (frequency_locking_phi >= 3600)) frequency_locking_phi %= 3600;
+
+      float radian_frequency_locking_phi = PI*((float)frequency_locking_phi)/1800.0f; /*кут у нас розраховується з тчністю до десятих, тому і ми ділимо на 1800, а не на 180*/
+      frequency_locking_cos[frequency_locking_bank_tmp] = arm_cos_f32(radian_frequency_locking_phi);
+      frequency_locking_sin[frequency_locking_bank_tmp] = arm_sin_f32(radian_frequency_locking_phi);
+    }
+    else
+    {
+      frequency_locking_phi = 0;
+      frequency_locking_cos[frequency_locking_bank_tmp] = 1.0f;
+      frequency_locking_sin[frequency_locking_bank_tmp] = 0.0f;
+    }
+  }
+  else
+  {
+    frequency_locking_phi = 0;
+    frequency_locking_cos[frequency_locking_bank_tmp] = 1.0f;
+    frequency_locking_sin[frequency_locking_bank_tmp] = 0.0f;
+  }
+  frequency_locking_bank = frequency_locking_bank_tmp;
+  /***/
 }
 
 /*****************************************************/
@@ -2336,6 +2427,139 @@ void calc_power_and_energy(void)
     cos_phi_x1000 = 0;
   }
   
+}
+/*****************************************************/
+/*****************************************************
+Розрахунко зсуцву фаз між шиною і напругою
+******************************************************/
+void delta_phi_routine(void)
+{
+  if (reset_delta_phi != false)
+  {
+    reset_delta_phi = false;
+    delta_phi[bank_delta_phi] = UNDEF_PHI;
+    speed_delta_phi[bank_delta_phi] = UNDEF_SPEED_PHI;
+    
+    bank_delta_phi = (bank_delta_phi ^ 0x1) & 0x1;
+  }
+  else
+  {
+    /*****/
+    //Різниця фаз між ТН1 і ТН2
+    /*****/
+
+    semaphore_delta_phi = 1;
+  
+    unsigned int fix_perechid_cherez_nul_TN1_TN2_work_tmp = fix_perechid_cherez_nul_TN1_TN2_work;
+    fix_perechid_cherez_nul_TN1_TN2_work = 0;
+
+    float frequency_val_1_work_tmp = frequency_val_1_work;
+    unsigned int tick_period_1_work_tmp = tick_period_1_work;
+    unsigned int tick_c1_work_tmp = tick_c1_work;
+    delta_phi_index_1_work_low = delta_phi_index_1_work_middle;
+
+    float frequency_val_2_work_tmp = frequency_val_2_work;
+    unsigned int tick_period_2_work_tmp = tick_period_2_work;
+    unsigned int tick_c2_work_tmp = tick_c2_work;
+    delta_phi_index_2_work_low = delta_phi_index_2_work_middle;
+  
+    semaphore_delta_phi = 0;
+  
+    if ((fix_perechid_cherez_nul_TN1_TN2_work_tmp & ((1 << N_VAL_1) | (1 << N_VAL_2))) == ((1 << N_VAL_1) | (1 << N_VAL_2))) 
+    {
+      if (
+          (frequency_val_1_work_tmp > 0) &&
+          (frequency_val_2_work_tmp > 0)
+         ) 
+      {
+        //Можна розраховувати швидкість зміни зсуву фаз у градусах/c (з точністю до десятих градума - тому беремо число 3600, а не 360)
+        speed_delta_phi[bank_delta_phi] = (int)(3600.0f*(frequency_val_1_work_tmp - frequency_val_2_work_tmp));
+      
+        unsigned int min_tick_period = tick_period_1_work_tmp, max_tick_period = tick_period_1_work_tmp;
+        if (tick_period_2_work_tmp < min_tick_period) min_tick_period = tick_period_2_work_tmp;
+        if (tick_period_2_work_tmp > max_tick_period) max_tick_period = tick_period_2_work_tmp;
+        if (
+            (max_tick_period <= MAX_TICK_PERIOD) &&
+            (min_tick_period >= MIN_TICK_PERIOD)
+           )   
+        {
+          //Можна обчислювати ріжницю фаз між ТН1 і ТН2
+          long long delta_phi_tick = ((long long)tick_c1_work_tmp) - ((long long)tick_c2_work_tmp);
+          unsigned long long modul_delta_phi_tick = llabs(delta_phi_tick);
+    
+          if (
+              (delta_phi_tick < 0) &&
+              (modul_delta_phi_tick >= max_tick_period)
+             )       
+          {
+            /*
+            Випадок, коли таймер перейшов своє максимальне значення при фіксації переходу
+            через нуль ТН1, а коли був перехід через нуль ТН2 - то ще таймер не перейшов 
+            своє максимальне значення
+            */
+            delta_phi_tick = delta_phi_tick + 0x100000000;
+            modul_delta_phi_tick = llabs(delta_phi_tick);
+          }
+        
+          while (modul_delta_phi_tick > tick_period_2_work_tmp) 
+          {
+            if (delta_phi_tick < 0 ) delta_phi_tick += tick_period_2_work_tmp;
+            else delta_phi_tick -= tick_period_2_work_tmp;
+            modul_delta_phi_tick = llabs(delta_phi_tick);
+          }
+          if (delta_phi_tick < 0 ) delta_phi_tick += tick_period_2_work_tmp;
+    
+          //Можна розраховувати зсув фаз у градусах (з точністю до десятих градума - тому беремо число 3600, а не 360)
+          int delta_phi_tmp = (int)((3600.0f*((float)delta_phi_tick)*frequency_val_2_work_tmp)/((float)MEASUREMENT_TIM_FREQUENCY));
+          if ((delta_phi_tmp <= -3600) || ( delta_phi_tmp >= 3600))  delta_phi_tmp %= 3600;
+          delta_phi[bank_delta_phi] = delta_phi_tmp;
+          
+          if (delta_phi[bank_delta_phi] < delta_phi_min) delta_phi_min = delta_phi[bank_delta_phi];
+          if (delta_phi[bank_delta_phi] > delta_phi_max) delta_phi_max = delta_phi[bank_delta_phi];
+        }
+        else  delta_phi[bank_delta_phi] = UNDEF_PHI;
+      }
+      else 
+      {
+        delta_phi[bank_delta_phi] = UNDEF_PHI;
+        speed_delta_phi[bank_delta_phi] = UNDEF_SPEED_PHI;
+      }
+    
+      tick_0[bank_delta_phi] = tick_c1_work_tmp;
+      //Змінюємо банки
+      bank_delta_phi = (bank_delta_phi ^ 0x1) & 0x1;
+    }
+  }
+}
+/*****************************************************/
+
+/*****************************************************
+Розрахунок різниці фаз між ТН1 і ТН2 у будь-який момент часу
+*****************************************************/
+void current_delta_phi(void)
+{
+  //Вибираємо банк, у якому є останні підготовлені дані
+  unsigned int bank_delta_phi_tmp = (bank_delta_phi ^ 0x1) & 0x1;
+  
+  if (
+      (delta_phi[bank_delta_phi_tmp] != UNDEF_PHI) &&
+      (speed_delta_phi[bank_delta_phi_tmp] != UNDEF_SPEED_PHI)  
+     )   
+  {
+    //Можна розраховувати ммиттєвий кут розузгодження
+    uint32_t current_tick = TIM5->CNT;
+    int deta_tick = current_tick - tick_0[bank_delta_phi_tmp];
+    if (deta_tick < 0)
+    {
+      long long deta_tick_tmp = deta_tick;
+      deta_tick_tmp += 0x100000000;
+      deta_tick = deta_tick_tmp;
+    }
+    int delta_phi_synchro_tmp = delta_phi[bank_delta_phi_tmp] + (int)((float)speed_delta_phi[bank_delta_phi_tmp]*((float)deta_tick)/((float)MEASUREMENT_TIM_FREQUENCY));
+    if ((delta_phi_synchro_tmp <= -3600) || ( delta_phi_synchro_tmp >= 3600))  delta_phi_synchro_tmp %= 3600;
+    delta_phi_synchro = delta_phi_synchro_tmp;
+  }
+  else delta_phi_synchro = UNDEF_PHI;
 }
 /*****************************************************/
 

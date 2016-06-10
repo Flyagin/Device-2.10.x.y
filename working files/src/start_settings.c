@@ -86,18 +86,26 @@ void global_vareiables_installation(void)
   for(unsigned int i=0; i<(NUMBER_ANALOG_CANALES*NUMBER_POINT*NUMBER_PERIOD_TRANSMIT); i++)
     current_data[i] = 0;
   
-  rozshyrena_vyborka.time_p = 0;
-  rozshyrena_vyborka.time_c = 0;
-  for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES; i++)
+  rozshyrena_vyborka.VAL_1_time_p = 0;
+  rozshyrena_vyborka.VAL_1_time_c = 0;
+  for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_1; i++)
   {
-    rozshyrena_vyborka.data_p[i] = 0;
-    rozshyrena_vyborka.data_c[i] = 0;
+    rozshyrena_vyborka.VAL_1_data_p[i] = 0;
+    rozshyrena_vyborka.VAL_1_data_c[i] = 0;
+  }
+  rozshyrena_vyborka.VAL_2_time_p = 0;
+  rozshyrena_vyborka.VAL_2_time_c = 0;
+  for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_2; i++)
+  {
+    rozshyrena_vyborka.VAL_2_data_p[i] = 0;
+    rozshyrena_vyborka.VAL_2_data_c[i] = 0;
   }
 
   for (unsigned int i = 0; i < MAX_INDEX_DATA_FOR_OSCYLOGRAPH; i++)
   {
     data_for_oscylograph[i].time_stemp = 0;
-    data_for_oscylograph[i].DATA_fix = 0;
+    data_for_oscylograph[i].VAL_1_fix = 0;
+    data_for_oscylograph[i].VAL_2_fix = 0;
     for (unsigned int j = 0; j < NUMBER_ANALOG_CANALES; j++) data_for_oscylograph[i].data[j] = 0;
     for (unsigned int j = 0; j < N_BIG; j++) data_for_oscylograph[i].active_functions[j] = 0;
     data_for_oscylograph[i].state_ar_record = STATE_AR_NO_RECORD;
@@ -116,40 +124,30 @@ void global_vareiables_installation(void)
     fix_perechid_cherez_nul[i] = 0;
   }
 
-  poperednij_perechid.Ua_x1 = 0;
-  poperednij_perechid.Ua_y1 = 0;
-  poperednij_perechid.Ua_x2 = 0;
-  poperednij_perechid.Ua_y2 = 0;
-  poperednij_perechid.Ub_x1 = 0;
-  poperednij_perechid.Ub_y1 = 0;
-  poperednij_perechid.Ub_x2 = 0;
-  poperednij_perechid.Ub_y2 = 0;
-  poperednij_perechid.Uc_x1 = 0;
-  poperednij_perechid.Uc_y1 = 0;
-  poperednij_perechid.Uc_x2 = 0;
-  poperednij_perechid.Uc_y2 = 0;
-  poperednij_perechid.U0_x1 = 0;
-  poperednij_perechid.U0_y1 = 0;
-  poperednij_perechid.U0_x2 = 0;
-  poperednij_perechid.U0_y2 = 0;
-  
-  sector_1[0] = (int) (AMPLITUDA_SECTOR*/*cos*/arm_cos_f32(/*(double)*/(PI*((float)(  0 + SECTOR1 - POPRAVKA_NZZ))/180.0f)));
-  sector_1[1] = (int) (AMPLITUDA_SECTOR*/*sin*/arm_sin_f32(/*(double)*/(PI*((float)(  0 + SECTOR1 - POPRAVKA_NZZ))/180.0f)));
-  sector_1[2] = (int) (AMPLITUDA_SECTOR*/*cos*/arm_cos_f32(/*(double)*/(PI*((float)(180 - SECTOR1 - POPRAVKA_NZZ))/180.0f)));
-  sector_1[3] = (int) (AMPLITUDA_SECTOR*/*sin*/arm_sin_f32(/*(double)*/(PI*((float)(180 - SECTOR1 - POPRAVKA_NZZ))/180.0f)));
-  sector_1[4] = (int) (AMPLITUDA_SECTOR*/*cos*/arm_cos_f32(/*(double)*/(PI*((float)(180 + SECTOR1 - POPRAVKA_NZZ))/180.0f)));
-  sector_1[5] = (int) (AMPLITUDA_SECTOR*/*sin*/arm_sin_f32(/*(double)*/(PI*((float)(180 + SECTOR1 - POPRAVKA_NZZ))/180.0f)));
-  sector_1[6] = (int) (AMPLITUDA_SECTOR*/*cos*/arm_cos_f32(/*(double)*/(PI*((float)(360 - SECTOR1 - POPRAVKA_NZZ))/180.0f)));
-  sector_1[7] = (int) (AMPLITUDA_SECTOR*/*sin*/arm_sin_f32(/*(double)*/(PI*((float)(360 - SECTOR1 - POPRAVKA_NZZ))/180.0f)));
-
-  sector_2[0] = (int) (AMPLITUDA_SECTOR*/*cos*/arm_cos_f32(/*(double)*/(PI*((float)(  0 + SECTOR2 - POPRAVKA_NZZ))/180.0f)));
-  sector_2[1] = (int) (AMPLITUDA_SECTOR*/*sin*/arm_sin_f32(/*(double)*/(PI*((float)(  0 + SECTOR2 - POPRAVKA_NZZ))/180.0f)));
-  sector_2[2] = (int) (AMPLITUDA_SECTOR*/*cos*/arm_cos_f32(/*(double)*/(PI*((float)(180 - SECTOR2 - POPRAVKA_NZZ))/180.0f)));
-  sector_2[3] = (int) (AMPLITUDA_SECTOR*/*sin*/arm_sin_f32(/*(double)*/(PI*((float)(180 - SECTOR2 - POPRAVKA_NZZ))/180.0f)));
-  sector_2[4] = (int) (AMPLITUDA_SECTOR*/*cos*/arm_cos_f32(/*(double)*/(PI*((float)(180 + SECTOR2 - POPRAVKA_NZZ))/180.0f)));
-  sector_2[5] = (int) (AMPLITUDA_SECTOR*/*sin*/arm_sin_f32(/*(double)*/(PI*((float)(180 + SECTOR2 - POPRAVKA_NZZ))/180.0f)));
-  sector_2[6] = (int) (AMPLITUDA_SECTOR*/*cos*/arm_cos_f32(/*(double)*/(PI*((float)(360 - SECTOR2 - POPRAVKA_NZZ))/180.0f)));
-  sector_2[7] = (int) (AMPLITUDA_SECTOR*/*sin*/arm_sin_f32(/*(double)*/(PI*((float)(360 - SECTOR2 - POPRAVKA_NZZ))/180.0f)));
+  poperednij_perechid.Ua1_x1 = 0;
+  poperednij_perechid.Ua1_y1 = 0;
+  poperednij_perechid.Ua1_x2 = 0;
+  poperednij_perechid.Ua1_y2 = 0;
+  poperednij_perechid.Ub1_x1 = 0;
+  poperednij_perechid.Ub1_y1 = 0;
+  poperednij_perechid.Ub1_x2 = 0;
+  poperednij_perechid.Ub1_y2 = 0;
+  poperednij_perechid.Uc1_x1 = 0;
+  poperednij_perechid.Uc1_y1 = 0;
+  poperednij_perechid.Uc1_x2 = 0;
+  poperednij_perechid.Uc1_y2 = 0;
+  poperednij_perechid.Ua2_x1 = 0;
+  poperednij_perechid.Ua2_y1 = 0;
+  poperednij_perechid.Ua2_x2 = 0;
+  poperednij_perechid.Ua2_y2 = 0;
+  poperednij_perechid.Ub2_x1 = 0;
+  poperednij_perechid.Ub2_y1 = 0;
+  poperednij_perechid.Ub2_x2 = 0;
+  poperednij_perechid.Ub2_y2 = 0;
+  poperednij_perechid.Uc2_x1 = 0;
+  poperednij_perechid.Uc2_y1 = 0;
+  poperednij_perechid.Uc2_x2 = 0;
+  poperednij_perechid.Uc2_y2 = 0;
   
   sector_1_mtz_tznp[0] = (int) (AMPLITUDA_SECTOR*/*cos*/arm_cos_f32(/*(double)*/(PI*((float)( 90 - SECTOR1_MTZ_TZNP - POPRAVKA_MTZ_TZNP))/180.0f)));
   sector_1_mtz_tznp[1] = (int) (AMPLITUDA_SECTOR*/*sin*/arm_sin_f32(/*(double)*/(PI*((float)( 90 - SECTOR1_MTZ_TZNP - POPRAVKA_MTZ_TZNP))/180.0f)));
@@ -169,10 +167,16 @@ void global_vareiables_installation(void)
   sector_2_mtz_tznp[6] = (int) (AMPLITUDA_SECTOR*/*cos*/arm_cos_f32(/*(double)*/(PI*((float)(-90 + SECTOR2_MTZ_TZNP - POPRAVKA_MTZ_TZNP))/180.0f)));
   sector_2_mtz_tznp[7] = (int) (AMPLITUDA_SECTOR*/*sin*/arm_sin_f32(/*(double)*/(PI*((float)(-90 + SECTOR2_MTZ_TZNP - POPRAVKA_MTZ_TZNP))/180.0f)));
 
-  for(unsigned int i=0; i<(NUMBER_POINT*NUMBER_ANALOG_CANALES); i++)
+  for(unsigned int i=0; i<(NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_1); i++)
   {
-    data_sin[i] = 0;
-    data_cos[i] = 0;
+    data_sin_val_1[i] = 0;
+    data_cos_val_1[i] = 0;
+  }
+  
+  for(unsigned int i=0; i<(NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_2); i++)
+  {
+    data_sin_val_2[i] = 0;
+    data_cos_val_2[i] = 0;
   }
   
   for(unsigned int i=0; i<NUMBER_ANALOG_CANALES; i++)
@@ -1525,19 +1529,25 @@ void start_settings_peripherals(void)
   /* Output Compare Timing Mode настроювання: Канал:1 */
   TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_Timing;
   TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Disable;
-  TIM_OCInitStructure.TIM_Pulse = step_timer_adc;
+  TIM_OCInitStructure.TIM_Pulse = step_val_1;
   TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
   TIM_OC1Init(TIM5, &TIM_OCInitStructure);
   TIM_OC1PreloadConfig(TIM5, TIM_OCPreload_Disable);
 
-  TIM_OCInitStructure.TIM_Pulse = TIM5_CCR1_2_VAL;
+  TIM_OCInitStructure.TIM_Pulse = step_val_2;
   TIM_OC2Init(TIM5, &TIM_OCInitStructure);
   TIM_OC2PreloadConfig(TIM5, TIM_OCPreload_Disable);
+
+  TIM_OCInitStructure.TIM_Pulse = TIM5_CCR1_2_3_VAL;
+  TIM_OC3Init(TIM5, &TIM_OCInitStructure);
+  TIM_OC3PreloadConfig(TIM5, TIM_OCPreload_Disable);
   
   /* Дозволяємо переривання від каналу 1 таймера 5*/
   TIM_ITConfig(TIM5, TIM_IT_CC1, ENABLE);
   /* Дозволяємо переривання від каналу 2 таймера 5*/
   TIM_ITConfig(TIM5, TIM_IT_CC2, ENABLE);
+  /* Дозволяємо переривання від каналу 3 таймера 3*/
+  TIM_ITConfig(TIM5, TIM_IT_CC3, ENABLE);
   /**********************/
   
   /**********************/
@@ -1798,60 +1808,6 @@ void min_settings(__SETTINGS *target_label)
     target_label->timeout_mtz_4_n_nazad[i] = TIMEOUT_MTZ4_N_NAZAD_MIN; 
     target_label->timeout_mtz_4_po_napruzi[i] = TIMEOUT_MTZ4_PO_NAPRUZI_MIN; 
 
-    target_label->setpoint_mtz04_1[i] = SETPOINT_MTZ04_1_MIN;
-    target_label->setpoint_mtz04_2[i] = SETPOINT_MTZ04_2_MIN;
-    
-    target_label->timeout_mtz04_1[i] = TIMEOUT_MTZ04_1_MIN; 
-    target_label->timeout_mtz04_2[i] = TIMEOUT_MTZ04_2_MIN; 
-    target_label->timeout_mtz04_2_pr[i] = TIMEOUT_MTZ04_2_PR_MIN; 
-    target_label->timeout_mtz04_2_vvid_pr[i] = TIMEOUT_MTZ04_2_VVID_PR_MIN;
-    
-    target_label->setpoint_zz_3I0[i] = SETPOINT_ZZ_3I0_MIN;
-    target_label->setpoint_zz_3U0[i] = SETPOINT_ZZ_3U0_MIN;
-    target_label->timeout_zz_3I0[i]  = TIMEOUT_ZZ_3I0_MIN; 
-    target_label->timeout_zz_3U0[i]  = TIMEOUT_ZZ_3U0_MIN; 
-    target_label->timeout_nzz[i]     = TIMEOUT_NZZ_MIN; 
-
-    target_label->setpoint_tznp_1_3I0_vpered[i] = SETPOINT_TZNP1_3I0_VPERED_MIN;
-    target_label->setpoint_tznp_1_3U0_vpered[i] = SETPOINT_TZNP1_3U0_VPERED_MIN;
-    target_label->setpoint_tznp_1_3I0_nazad[i] = SETPOINT_TZNP1_3I0_NAZAD_MIN;
-    target_label->setpoint_tznp_1_3U0_nazad[i] = SETPOINT_TZNP1_3U0_NAZAD_MIN;
-    
-    angle = SETPOINT_TZNP1_ANGLE_MIN;
-    angle_f = (float)angle;
-    target_label->setpoint_tznp_1_angle[i] = angle;
-    target_label->setpoint_tznp_1_angle_cos[i] = (int) (AMPLITUDA_FI*/*cos*/arm_cos_f32(/*(double)*/(PI*angle_f/180.0f)));
-    target_label->setpoint_tznp_1_angle_sin[i] = (int) (AMPLITUDA_FI*/*sin*/arm_sin_f32(/*(double)*/(PI*angle_f/180.0f)));
-
-    target_label->setpoint_tznp_2_3I0_vpered[i] = SETPOINT_TZNP2_3I0_VPERED_MIN;
-    target_label->setpoint_tznp_2_3U0_vpered[i] = SETPOINT_TZNP2_3U0_VPERED_MIN;
-    target_label->setpoint_tznp_2_3I0_nazad[i] = SETPOINT_TZNP2_3I0_NAZAD_MIN;
-    target_label->setpoint_tznp_2_3U0_nazad[i] = SETPOINT_TZNP2_3U0_NAZAD_MIN;
-    
-    angle = SETPOINT_TZNP2_ANGLE_MIN;
-    angle_f = (float)angle;
-    target_label->setpoint_tznp_2_angle[i] = angle;
-    target_label->setpoint_tznp_2_angle_cos[i] = (int) (AMPLITUDA_FI*/*cos*/arm_cos_f32(/*(double)*/(PI*angle_f/180.0f)));
-    target_label->setpoint_tznp_2_angle_sin[i] = (int) (AMPLITUDA_FI*/*sin*/arm_sin_f32(/*(double)*/(PI*angle_f/180.0f)));
-
-    target_label->setpoint_tznp_3_3I0_vpered[i] = SETPOINT_TZNP3_3I0_VPERED_MIN;
-    target_label->setpoint_tznp_3_3U0_vpered[i] = SETPOINT_TZNP3_3U0_VPERED_MIN;
-    target_label->setpoint_tznp_3_3I0_nazad[i] = SETPOINT_TZNP3_3I0_NAZAD_MIN;
-    target_label->setpoint_tznp_3_3U0_nazad[i] = SETPOINT_TZNP3_3U0_NAZAD_MIN;
-    
-    angle = SETPOINT_TZNP3_ANGLE_MIN;
-    angle_f = (float)angle;
-    target_label->setpoint_tznp_3_angle[i] = angle;
-    target_label->setpoint_tznp_3_angle_cos[i] = (int) (AMPLITUDA_FI*/*cos*/arm_cos_f32(/*(double)*/(PI*angle_f/180.0f)));
-    target_label->setpoint_tznp_3_angle_sin[i] = (int) (AMPLITUDA_FI*/*sin*/arm_sin_f32(/*(double)*/(PI*angle_f/180.0f)));
-
-    target_label->timeout_tznp_1_vpered[i] = TIMEOUT_TZNP1_VPERED_MIN; 
-    target_label->timeout_tznp_1_nazad[i] = TIMEOUT_TZNP1_NAZAD_MIN; 
-    target_label->timeout_tznp_2_vpered[i] = TIMEOUT_TZNP2_VPERED_MIN; 
-    target_label->timeout_tznp_2_nazad[i] = TIMEOUT_TZNP2_NAZAD_MIN; 
-    target_label->timeout_tznp_3_vpered[i] = TIMEOUT_TZNP3_VPERED_MIN; 
-    target_label->timeout_tznp_3_nazad[i] = TIMEOUT_TZNP3_NAZAD_MIN; 
-    
     target_label->timeout_apv_1[i] = TIMEOUT_APV1_MIN;    
     target_label->timeout_apv_2[i] = TIMEOUT_APV2_MIN;    
     target_label->timeout_apv_3[i] = TIMEOUT_APV3_MIN;    
@@ -1861,17 +1817,6 @@ void min_settings(__SETTINGS *target_label)
     target_label->timeout_apv_block_vid_apv3[i] = TIMEOUT_APV_BLOCK_VID_APV3_MIN;
     target_label->timeout_apv_block_vid_apv4[i] = TIMEOUT_APV_BLOCK_VID_APV4_MIN;
     target_label->timeout_apv_block_vid_VV[i] = TIMEOUT_APV_BLOCK_VID_VV_MIN;
-    
-    target_label->setpoint_achr_chapv_uf[i] = SETPOINT_ACHR_CHAPV_UF_MIN;
-    target_label->setpoint_achr1_f_rab[i]  = SETPOINT_ACHR1_F_RAB_MIN;
-    target_label->setpoint_chapv1_f_rab[i] = MAIN_FREQUENCY*100 - 30;
-    target_label->setpoint_achr2_f_rab[i]  = SETPOINT_ACHR2_F_RAB_MIN;
-    target_label->setpoint_chapv2_f_rab[i] = MAIN_FREQUENCY*100 - 30;
-    
-    target_label->timeout_achr_1[i] = TIMEOUT_ACHR1_MIN;
-    target_label->timeout_chapv_1[i] = TIMEOUT_CHAPV1_MIN;
-    target_label->timeout_achr_2[i] = TIMEOUT_ACHR2_MIN;
-    target_label->timeout_chapv_2[i] = TIMEOUT_CHAPV2_MIN;
     
     target_label->setpoint_urov[i]  = SETPOINT_UROV_MIN;
     target_label->timeout_urov_1[i] = TIMEOUT_UROV1_MIN;
@@ -1891,19 +1836,26 @@ void min_settings(__SETTINGS *target_label)
     target_label->setpoint_Umax2[i] = SETPOINT_UMAX2_MIN;
     target_label->timeout_Umax1[i] = TIMEOUT_UMAX1_MIN;
     target_label->timeout_Umax2[i] = TIMEOUT_UMAX2_MIN;
+
+    target_label->setpoint_avr_min1[i] = SETPOINT_AVR1_MIN;
+    target_label->setpoint_avr_min2[i] = SETPOINT_AVR2_MIN;
+    target_label->setpoint_avr_max1[i] = SETPOINT_AVR1_MAX;
+    target_label->setpoint_avr_max2[i] = SETPOINT_AVR2_MAX;
+    target_label->setpoint_kratn_avr[i] = SETPOINT_AVR_KRATN_MIN;
+    target_label->timeout_avr_ol[i] = TIMEOUT_AVR_OL_MIN;
+    target_label->timeout_avr_rl[i] = TIMEOUT_AVR_RL_MIN;
+    target_label->timeout_avr_zavershennja[i] = TIMEOUT_AVR_ZAVERSHENNJA_MIN;
+    target_label->timeout_avr_reset_blk[i] = TIMEOUT_AVR_RESET_BLK_MIN;
   }
 
   target_label->control_mtz = 0;
-  target_label->control_mtz04 = 0;
   target_label->control_zdz = 0;
-  target_label->control_zz = 0;
-  target_label->control_tznp = 0;
   target_label->control_apv = 0;
-  target_label->control_achr_chapv = 0;
   target_label->control_urov = 0;
   target_label->control_zop = 0;
   target_label->control_Umin = 0;
   target_label->control_Umax = 0;
+  target_label->control_avr = 0;
   
   target_label->setpoint_Inom = SETPOINT_Inom_MIN;
   target_label->setpoint_r_kom_st_Inom = SETPOINT_RKS_Inom_MIN;
@@ -1921,19 +1873,6 @@ void min_settings(__SETTINGS *target_label)
   target_label->timeout_pryvoda_VV = TIMEOUT_PRYVODA_VV_MIN;
   target_label->control_switch = 0;
   
-  for (unsigned int i = 0; i < 2; i++)
-  {
-    if (i == 0) target_label->lines[0] = NUMBER_LINES_FORWARD_MIN;
-    else target_label->lines[i] = NUMBER_LINES_BACKWARD_MIN;
-    
-    for (unsigned int j = 0; j < MAX_NUMBER_LINES_VMP; j++)
-    {
-      target_label->dovgyna[i][j] = SETPOINT_DOVGYNA_VMP_MIN;
-      target_label->opir[i][j]    = SETPOINT_OPIR_VMP_MIN;
-    }
-  }
-  target_label->control_vmp = 0;
-  
   target_label->prefault_number_periods = TIMEOUT_PREFAULT_MIN / 20;
   target_label->postfault_number_periods = TIMEOUT_POSTFAULT_MIN / 20;
 
@@ -1943,9 +1882,7 @@ void min_settings(__SETTINGS *target_label)
   target_label->password_interface_USB = 0;
   target_label->timeout_deactivation_password_interface_RS485 = TIMEOUT_DEACTIVATION_PASSWORD_MIN;
   target_label->password_interface_RS485 = 0;
-  target_label->T0 = KOEF_TO_MIN;
   target_label->TCurrent = KOEF_TT_MIN;
-  target_label->TCurrent04 = KOEF_TT04_MIN;
   target_label->TVoltage = KOEF_TN_MIN;
 
   for(unsigned int i=0; i< ((M_ADDRESS_LAST_USER_REGISTER_DATA - M_ADDRESS_FIRST_USER_REGISTER_DATA) + 1); i++) target_label->user_register[i] = 0;

@@ -149,22 +149,6 @@ extern unsigned int Uxy_bilshe_porogu[3];
 extern unsigned int Ix_bilshe_porogu[3];
 extern unsigned int temp_states_for_mtz;
 
-
-//ÍÇÇ
-extern int sector_1[8];
-extern int sector_2[8];
-extern volatile unsigned int sector_i_minus_u_1;
-extern volatile unsigned int sector_i_minus_u_2;
-extern unsigned int po_3I0;
-extern unsigned int po_3U0;
-extern unsigned int sector_NZZ;
-extern unsigned int Nzz_3U0_bilshe_porogu, Nzz_3I0_bilshe_porogu;
-
-//ÒÇÍÏ
-extern unsigned int TZNP_3U0_bilshe_porogu;
-extern unsigned int TZNP_3I0_r_bilshe_porogu;
-extern unsigned int sector_directional_tznp[3];
-
 extern unsigned int i1_bilshe_porogu, i2_bilshe_porogu;
 
 extern volatile unsigned int state_inputs;
@@ -195,21 +179,16 @@ extern int global_timers[MAX_NUMBER_GLOBAL_TIMERS];
 extern unsigned int timer_prt_signal_output_mode_2;
 extern unsigned int output_timer_prt_signal_output_mode_2;
 extern unsigned int etap_execution_df[NUMBER_DEFINED_FUNCTIONS];
-//extern unsigned int state_df;
-
-//12345
-extern unsigned int  previous_states_MTZ04_vvid_pr_0;
 
 extern unsigned int previous_states_APV_0;
 extern unsigned int trigger_APV_0;
 
-extern _Bool previous_state_po_achr_chapv_uaf1;
-extern _Bool previous_state_po_achr_chapv_ubf1;
-extern _Bool previous_state_po_achr_chapv_ucf1;
-extern _Bool previous_states_CHAPV1;
-extern _Bool previous_states_CHAPV2;
-extern _Bool trigger_CHAPV1;
-extern _Bool trigger_CHAPV2;
+extern _Bool previous_states_AVR_0;
+extern _Bool previous_states_AVR_1;
+extern _Bool trigger_AVR_0;
+extern _Bool trigger_AVR_1;
+extern _Bool previous_state_avr_counter;
+extern unsigned int avr_counter;
 
 extern _Bool previous_states_ready_tu;
 extern _Bool trigger_ready_tu;
@@ -391,26 +370,16 @@ extern unsigned int part_reading_dr_from_dataflash_for_USB;
 extern unsigned int part_reading_dr_from_dataflash_for_RS485;
 extern unsigned int state_current_monitoring;
 extern unsigned int measurements_phase_max_dr[SIZE_ARRAY_FIX_MAX_MEASUREMENTS];
-extern unsigned int measurements_phase04_max_dr[SIZE_ARRAY_FIX_MAX_MEASUREMENTS];
-extern unsigned int measurements_3I0_max_dr[SIZE_ARRAY_FIX_MAX_MEASUREMENTS];  
-extern unsigned int measurements_3U0_max_dr[SIZE_ARRAY_FIX_MAX_MEASUREMENTS];  
 extern unsigned int measurements_U_min_dr[SIZE_ARRAY_FIX_MAX_MEASUREMENTS];    
 extern unsigned int measurements_U_max_dr[SIZE_ARRAY_FIX_MAX_MEASUREMENTS];    
 extern unsigned int measurements_ZOP_max_dr[SIZE_ARRAY_FIX_MAX_MEASUREMENTS];  
-extern unsigned int measurements_f_min_achr_dr[SIZE_ARRAY_FIX_MAX_MEASUREMENTS];    
-extern unsigned int measurements_f_chapv_dr[SIZE_ARRAY_FIX_MAX_MEASUREMENTS];    
 extern unsigned int max_phase_current_dr;
 extern unsigned int min_voltage_dr;
 extern unsigned int max_voltage_dr;
 extern unsigned int number_max_phase_dr;
-extern unsigned int number_max_phase04_dr;
-extern unsigned int number_max_3I0_dr;
-extern unsigned int number_max_3U0_dr;
 extern unsigned int number_min_U_dr;
 extern unsigned int number_max_U_dr;
 extern unsigned int number_max_ZOP_dr;
-extern unsigned int number_min_f_achr_dr;
-extern unsigned int number_f_chapv_dr;
 extern unsigned int type_view_max_values_dr;
 extern int index_cell_into_array_for_min_max_measurement_dr;
 

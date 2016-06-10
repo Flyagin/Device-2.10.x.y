@@ -1746,6 +1746,9 @@
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\working files\src\protections.c</name>
+          <configuration>
+            <name>Flash-Debug</name>
+          </configuration>
         </file>
       </group>
       <group>

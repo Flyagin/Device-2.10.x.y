@@ -172,22 +172,18 @@ void d_or_handler(volatile unsigned int*);
 void d_xor_handler(volatile unsigned int*);
 void d_not_handler(volatile unsigned int*);
 void mtz_handler(volatile unsigned int*, unsigned int);
-void mtz04_handler(volatile unsigned int*, unsigned int);
 void zdz_handler(volatile unsigned int*);
 int timeout_dependent_general(unsigned int, unsigned int, int);
-void zz_handler(volatile unsigned int*, unsigned int);
-void tznp_handler(volatile unsigned int*, unsigned int);
 void zop_handler(volatile unsigned int*, unsigned int);
 void umin1_handler(volatile unsigned int*, unsigned int);
 void umin2_handler(volatile unsigned int*, unsigned int);
 void umax1_handler(volatile unsigned int*, unsigned int);
 void umax2_handler(volatile unsigned int*, unsigned int);
-void achr_chapv_handler(volatile unsigned int*, unsigned int);
+void avr_handler(volatile unsigned int*, unsigned int);
 void ready_tu(volatile unsigned int*);
 void urov_handler(volatile unsigned int*, unsigned int);
 void apv_handler(volatile unsigned int*, unsigned int);
 void on_off_handler(volatile unsigned int*);
-void vmp_handler(volatile unsigned int*);
 void control_VV(volatile unsigned int*);
 void make_koef_for_resurs(void);
 void resurs_vymykacha_handler(volatile unsigned int*);
@@ -258,13 +254,10 @@ unsigned int get_order(int);
 void calc_angle(void);
 void calc_power(int*);
 void calc_power_and_energy(void);
-void calc_resistance(int*, int*);
 
 void velychyna_zvorotnoi_poslidovnosti(int*);
-void detector_kuta_nzz(int*);
 
 void directional_mtz(int*, unsigned int);
-void directional_tznp(int*, unsigned int);
 
 void main_function_for_dataflash_resp(int);
 void main_function_for_dataflash_req(int);

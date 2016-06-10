@@ -325,16 +325,16 @@ RANG_BLOCK_UMAX2,
 RANG_PO_UMAX2,
 RANG_UMAX2,
 
-RANG_OUTPUT_LED_DF_REG_OTKL_AVR,
-RANG_OUTPUT_LED_DF_REG_SBROS_BLOCK_AVR,
-RANG_OUTPUT_LED_DF_REG_STAT_BLOCK_AVR,
-RANG_OUTPUT_LED_DF_REG_BLOCK_AVR_VID_ZAKHYSTIV,
-RANG_OUTPUT_LED_DF_REG_PO_UAVR_MIN1,
-RANG_OUTPUT_LED_DF_REG_PO_UAVR_MAX1,
-RANG_OUTPUT_LED_DF_REG_PO_UAVR_MIN2,
-RANG_OUTPUT_LED_DF_REG_PO_UAVR_MAX2,
-RANG_OUTPUT_LED_DF_REG_BLOCK_KRATN_AVR,
-RANG_OUTPUT_LED_DF_REG_PUSK_AVR,
+RANG_OTKL_AVR,
+RANG_SBROS_BLOCK_AVR,
+RANG_STAT_BLOCK_AVR,
+RANG_BLOCK_AVR_VID_ZAKHYSTIV,
+RANG_PO_UAVR_MIN1,
+RANG_PO_UAVR_MAX1,
+RANG_PO_UAVR_MIN2,
+RANG_PO_UAVR_MAX2,
+RANG_BLOCK_KRATN_AVR,
+RANG_PUSK_AVR,
 
 RANG_DF1_IN,
 RANG_DF1_OUT,
@@ -496,11 +496,11 @@ enum __mtz_abc_direction_const {
 )
 
 #define MASKA_FOR_INPUT_SIGNALS_2        (unsigned int)(            \
-  | (1 << (RANG_PUSK_ZDZ_VID_DV - 64))                        /*75*/\
+    (1 << (RANG_PUSK_ZDZ_VID_DV - 64))                        /*75*/\
 )
     
 #define MASKA_FOR_INPUT_SIGNALS_3        (unsigned int)(              \
-  | (1 << (RANG_STAT_BLK_APV - 96))                           /*115*/ \
+    (1 << (RANG_STAT_BLK_APV - 96))                           /*115*/ \
 )
     
 #define MASKA_FOR_INPUT_SIGNALS_4        (unsigned int)(              \
@@ -512,8 +512,8 @@ enum __mtz_abc_direction_const {
   | (1 << (RANG_START_UMIN2 - 128))                           /*142*/ \
   | (1 << (RANG_BLOCK_UMAX1 - 128))                           /*151*/ \
   | (1 << (RANG_BLOCK_UMAX2 - 128))                           /*154*/ \
-  | (1 << (RANG_REG_OTKL_AVR - 128))\
-  | (1 << (RANG_REG_SBROS_BLOCK_AVR  - 128))\
+  | (1 << (RANG_OTKL_AVR - 128))\
+  | (1 << (RANG_SBROS_BLOCK_AVR  - 128))\
   | (1 << (RANG_STAT_BLOCK_AVR - 128))\
   | (1 << (RANG_DF1_IN - 128))                                /*157*/ \
   | (1 << (RANG_DF2_IN - 128))                                /*159*/ \
@@ -879,7 +879,7 @@ enum __mtz_abc_direction_const {
 )
 
 #define MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_4 (unsigned int)(       \
-   | (1 << (RANG_PO_UROV - 128))                              /*133*/\
+     (1 << (RANG_PO_UROV - 128))                              /*133*/\
    | (1 << (RANG_UROV1 - 128))                                /*134*/\
    | (1 << (RANG_UROV2 - 128))                                /*135*/\
    | (1 << (RANG_PO_ZOP - 128))                               /*137*/\
@@ -962,7 +962,7 @@ enum __mtz_abc_direction_const {
 )  
 
 #define MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_3 (unsigned int)(      \
-   | (1 << (RANG_APV1 - 96))                                  /*116*/\
+     (1 << (RANG_APV1 - 96))                                  /*116*/\
    | (1 << (RANG_APV2 - 96))                                  /*117*/\
    | (1 << (RANG_APV3 - 96))                                  /*118*/\
    | (1 << (RANG_APV4 - 96))                                  /*119*/\
@@ -980,9 +980,9 @@ enum __mtz_abc_direction_const {
    | (1 << (RANG_UMAX1 - 128))                                /*153*/\
    | (1 << (RANG_PO_UMAX2 - 128))                             /*155*/\
    | (1 << (RANG_UMAX2 - 128))                                /*156*/\
-   | (1 << (RANG_OUTPUT_LED_DF_REG_OTKL_AVR - 128))             /*159*/  \
-   | (1 << (RANG_OUTPUT_LED_DF_REG_SBROS_BLOCK_AVR - 128))\
-   | (1 << (RANG_OUTPUT_LED_DF_REG_PUSK_AVR - 128))\
+   | (1 << (RANG_OTKL_AVR - 128))\
+   | (1 << (RANG_SBROS_BLOCK_AVR - 128))\
+   | (1 << (RANG_PUSK_AVR - 128))\
 )
 
 #define MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_5        0
