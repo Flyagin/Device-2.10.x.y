@@ -2207,6 +2207,42 @@ void make_ekran_set_function_in_output_led_df_dt_reg(unsigned int number_ekran, 
     }
     max_row_ranguvannja = MAX_ROW_RANGUVANNJA_DIGITAL_REGISTRATOR;
   }
+  else if(type_ekran == INDEX_VIEWING_OFF_CB)
+  {
+    if(current_ekran.edition == 0)
+    {
+      for (unsigned int i = 0; i < N_BIG; i++)
+      {
+        state_viewing_input[i] = current_settings.ranguvannja_off_cb[i];
+      }
+    }
+    else
+    {
+      for (unsigned int i = 0; i < N_BIG; i++)
+      {
+        state_viewing_input[i] = edition_settings.ranguvannja_off_cb[i];
+      }
+    }
+    max_row_ranguvannja = MAX_ROW_RANGUVANNJA_OFF_CB;
+  }
+  else if(type_ekran == INDEX_VIEWING_ON_CB)
+  {
+    if(current_ekran.edition == 0)
+    {
+      for (unsigned int i = 0; i < N_BIG; i++)
+      {
+        state_viewing_input[i] = current_settings.ranguvannja_on_cb[i];
+      }
+    }
+    else
+    {
+      for (unsigned int i = 0; i < N_BIG; i++)
+      {
+        state_viewing_input[i] = edition_settings.ranguvannja_on_cb[i];
+      }
+    }
+    max_row_ranguvannja = MAX_ROW_RANGUVANNJA_ON_CB;
+  }
 
   if(current_ekran.edition == 0)
   {
@@ -2369,8 +2405,10 @@ void make_ekran_set_function_in_output_led_df_dt_reg(unsigned int number_ekran, 
     //Фільтруємо сигнали, яких у даній конфігурації неприсутні
     /*************************************************************/
     if(
-       (type_ekran == INDEX_VIEWING_A_REG) ||
-       (type_ekran == INDEX_VIEWING_D_REG)
+       (type_ekran == INDEX_VIEWING_A_REG ) ||
+       (type_ekran == INDEX_VIEWING_D_REG ) ||
+       (type_ekran == INDEX_VIEWING_OFF_CB) ||
+       (type_ekran == INDEX_VIEWING_ON_CB)
       )
     {
       /*************************************************************/
@@ -2380,8 +2418,12 @@ void make_ekran_set_function_in_output_led_df_dt_reg(unsigned int number_ekran, 
       
       if (type_ekran == INDEX_VIEWING_A_REG)
         index_deleted_function = RANG_WORK_A_REJESTRATOR;
-      else
+      else if (type_ekran == INDEX_VIEWING_D_REG)
         index_deleted_function = RANG_WORK_D_REJESTRATOR;
+      else if (type_ekran == INDEX_VIEWING_OFF_CB)
+        index_deleted_function = RANG_WORK_BO;
+      else
+        index_deleted_function = RANG_WORK_BV;
       
       /*************************************************************/
       //Відкидаємо ім'я даної функції і зміщаємо біти
@@ -2433,110 +2475,110 @@ void make_ekran_set_function_in_output_led_df_dt_reg(unsigned int number_ekran, 
 
       /*************************************************************/
     }
-    else if(type_ekran == INDEX_VIEWING_OUTPUT)
-    {
-      /*************************************************************/
-      //У випадку, якщо відображення здійснюється вікна виходів, то відкидаємо ті функції, які не можуть бути зранжовані на дискретний вихід
-      /*
-      А це:
-            "Робота БО" - якщо вона вже є зранжованою на інші виходи (не той що зараз ранжується, щоб мати можливість його зняти)
-            "Робота БВ" - якщо вона вже є зранжованою на інші виходи (не той що зараз ранжується, щоб мати можливість його зняти)
-      */
-      
-      unsigned int current_number_output = number_ekran - EKRAN_RANGUVANNJA_OUTPUT_1;
-
-      for (i = 0; i < 2; i++)
-      {
-        unsigned int index_deleted_function;
-        unsigned int maska_func[N_BIG] = {0, 0, 0, 0, 0, 0, 0, 0};
-        unsigned int need_filtration = 0;
-        //Визначаємо індекс функції, яку потенційно можливо треба буде фільтрувати із сприску
-        //Першою фільтруємо функцію з меншим номером
-        if (i == 0)
-        {
-          index_deleted_function = (RANG_WORK_BV > RANG_WORK_BO) ? RANG_WORK_BO : RANG_WORK_BV;
-        }
-        else
-        {
-          index_deleted_function = (RANG_WORK_BV > RANG_WORK_BO) ? RANG_WORK_BV : RANG_WORK_BO;
-        }
-        
-        //Формуємо маску  для цієї функції
-        _SET_BIT(maska_func, index_deleted_function);
-        
-        unsigned int index = 0;
-        while ((need_filtration == 0) && (index < NUMBER_OUTPUTS))
-        {
-          //Пропускаємо текучий номер виходу, бо на ньому дана функція має відображатися під час редагування
-          if (index != current_number_output)
-          {
-            if (
-                ((current_settings.ranguvannja_outputs[N_BIG*index    ] & maska_func[0]) != 0) ||
-                ((current_settings.ranguvannja_outputs[N_BIG*index + 1] & maska_func[1]) != 0) ||
-                ((current_settings.ranguvannja_outputs[N_BIG*index + 2] & maska_func[2]) != 0) ||
-                ((current_settings.ranguvannja_outputs[N_BIG*index + 3] & maska_func[3]) != 0) ||
-                ((current_settings.ranguvannja_outputs[N_BIG*index + 4] & maska_func[4]) != 0) ||
-                ((current_settings.ranguvannja_outputs[N_BIG*index + 5] & maska_func[5]) != 0) ||
-                ((current_settings.ranguvannja_outputs[N_BIG*index + 6] & maska_func[6]) != 0) ||
-                ((current_settings.ranguvannja_outputs[N_BIG*index + 7] & maska_func[7]) != 0)
-               )
-            {
-              need_filtration = 1;
-            }
-          }
-          index++;
-        }
-        
-        //У випадку, якщо ввстановлено що дану функцію треба відфільтрувати, то відктдпємо її
-        if (need_filtration != 0)
-        {
-          //Формуємо маску біт, які не треба переміщати при переміщенні імен полів
-          unsigned int maska[N_BIG] = {0, 0, 0, 0, 0, 0, 0, 0};
-          for (unsigned int j = 0; j < (index_deleted_function - offset); j++) _SET_BIT(maska, j);
-          
-          /***/
-          //Зміщуємо біти стану реанжування функцій разом із їх назвами
-          /***/
-          unsigned int new_temp_data_1[N_BIG], new_temp_data_2[N_BIG];
-
-          for (unsigned int k = 0; k < N_BIG; k++)
-          {
-            new_temp_data_1[k] = state_viewing_input[k] & maska[k];
-
-            new_temp_data_2[k] = state_viewing_input[k] & (~maska[k]);
-          }
-
-          for (unsigned int k = 0; k < (N_BIG - 1); k++)
-          {
-            new_temp_data_2[k] = ( (new_temp_data_2[k] >> 1) | ((new_temp_data_2[k + 1] & 0x1) << 31) ) & (~maska[k]);
-          }
-          new_temp_data_2[N_BIG - 1] =  (new_temp_data_2[N_BIG - 1] >> 1) & (~maska[N_BIG - 1]);
-                
-          for (unsigned int k = 0; k < N_BIG; k++)
-          {
-            state_viewing_input[k] = new_temp_data_1[k] | new_temp_data_2[k];
-          }
-          /***/
-          for (unsigned int j = (index_deleted_function - offset); j < (max_row_ranguvannja - offset); j++)
-          {
-            if ((j + 1) < (max_row_ranguvannja - offset))
-            {
-              for (unsigned int k = 0; k<MAX_COL_LCD; k++)
-                name_string_tmp[j + NUMBER_ROW_FOR_NOTHING_INFORMATION][k] = name_string_tmp[j + NUMBER_ROW_FOR_NOTHING_INFORMATION + 1][k];
-            }
-            else 
-            {
-              for (unsigned int k = 0; k<MAX_COL_LCD; k++)
-                name_string_tmp[j + NUMBER_ROW_FOR_NOTHING_INFORMATION][k] = ' ';
-            }
-          }
-          if (current_ekran.index_position >= ((int)index_deleted_function)) position_temp--;
-          offset++;
-          /*************************************************************/
-        }
-      }
-      /*************************************************************/
-    }
+//    else if(type_ekran == INDEX_VIEWING_OUTPUT)
+//    {
+//      /*************************************************************/
+//      //У випадку, якщо відображення здійснюється вікна виходів, то відкидаємо ті функції, які не можуть бути зранжовані на дискретний вихід
+//      /*
+//      А це:
+//            "Робота БО" - якщо вона вже є зранжованою на інші виходи (не той що зараз ранжується, щоб мати можливість його зняти)
+//            "Робота БВ" - якщо вона вже є зранжованою на інші виходи (не той що зараз ранжується, щоб мати можливість його зняти)
+//      */
+//      
+//      unsigned int current_number_output = number_ekran - EKRAN_RANGUVANNJA_OUTPUT_1;
+//
+//      for (i = 0; i < 2; i++)
+//      {
+//        unsigned int index_deleted_function;
+//        unsigned int maska_func[N_BIG] = {0, 0, 0, 0, 0, 0, 0, 0};
+//        unsigned int need_filtration = 0;
+//        //Визначаємо індекс функції, яку потенційно можливо треба буде фільтрувати із сприску
+//        //Першою фільтруємо функцію з меншим номером
+//        if (i == 0)
+//        {
+//          index_deleted_function = (RANG_WORK_BV > RANG_WORK_BO) ? RANG_WORK_BO : RANG_WORK_BV;
+//        }
+//        else
+//        {
+//          index_deleted_function = (RANG_WORK_BV > RANG_WORK_BO) ? RANG_WORK_BV : RANG_WORK_BO;
+//        }
+//        
+//        //Формуємо маску  для цієї функції
+//        _SET_BIT(maska_func, index_deleted_function);
+//        
+//        unsigned int index = 0;
+//        while ((need_filtration == 0) && (index < NUMBER_OUTPUTS))
+//        {
+//          //Пропускаємо текучий номер виходу, бо на ньому дана функція має відображатися під час редагування
+//          if (index != current_number_output)
+//          {
+//            if (
+//                ((current_settings.ranguvannja_outputs[N_BIG*index    ] & maska_func[0]) != 0) ||
+//                ((current_settings.ranguvannja_outputs[N_BIG*index + 1] & maska_func[1]) != 0) ||
+//                ((current_settings.ranguvannja_outputs[N_BIG*index + 2] & maska_func[2]) != 0) ||
+//                ((current_settings.ranguvannja_outputs[N_BIG*index + 3] & maska_func[3]) != 0) ||
+//                ((current_settings.ranguvannja_outputs[N_BIG*index + 4] & maska_func[4]) != 0) ||
+//                ((current_settings.ranguvannja_outputs[N_BIG*index + 5] & maska_func[5]) != 0) ||
+//                ((current_settings.ranguvannja_outputs[N_BIG*index + 6] & maska_func[6]) != 0) ||
+//                ((current_settings.ranguvannja_outputs[N_BIG*index + 7] & maska_func[7]) != 0)
+//               )
+//            {
+//              need_filtration = 1;
+//            }
+//          }
+//          index++;
+//        }
+//        
+//        //У випадку, якщо ввстановлено що дану функцію треба відфільтрувати, то відктдпємо її
+//        if (need_filtration != 0)
+//        {
+//          //Формуємо маску біт, які не треба переміщати при переміщенні імен полів
+//          unsigned int maska[N_BIG] = {0, 0, 0, 0, 0, 0, 0, 0};
+//          for (unsigned int j = 0; j < (index_deleted_function - offset); j++) _SET_BIT(maska, j);
+//          
+//          /***/
+//          //Зміщуємо біти стану реанжування функцій разом із їх назвами
+//          /***/
+//          unsigned int new_temp_data_1[N_BIG], new_temp_data_2[N_BIG];
+//
+//          for (unsigned int k = 0; k < N_BIG; k++)
+//          {
+//            new_temp_data_1[k] = state_viewing_input[k] & maska[k];
+//
+//            new_temp_data_2[k] = state_viewing_input[k] & (~maska[k]);
+//          }
+//
+//          for (unsigned int k = 0; k < (N_BIG - 1); k++)
+//          {
+//            new_temp_data_2[k] = ( (new_temp_data_2[k] >> 1) | ((new_temp_data_2[k + 1] & 0x1) << 31) ) & (~maska[k]);
+//          }
+//          new_temp_data_2[N_BIG - 1] =  (new_temp_data_2[N_BIG - 1] >> 1) & (~maska[N_BIG - 1]);
+//                
+//          for (unsigned int k = 0; k < N_BIG; k++)
+//          {
+//            state_viewing_input[k] = new_temp_data_1[k] | new_temp_data_2[k];
+//          }
+//          /***/
+//          for (unsigned int j = (index_deleted_function - offset); j < (max_row_ranguvannja - offset); j++)
+//          {
+//            if ((j + 1) < (max_row_ranguvannja - offset))
+//            {
+//              for (unsigned int k = 0; k<MAX_COL_LCD; k++)
+//                name_string_tmp[j + NUMBER_ROW_FOR_NOTHING_INFORMATION][k] = name_string_tmp[j + NUMBER_ROW_FOR_NOTHING_INFORMATION + 1][k];
+//            }
+//            else 
+//            {
+//              for (unsigned int k = 0; k<MAX_COL_LCD; k++)
+//                name_string_tmp[j + NUMBER_ROW_FOR_NOTHING_INFORMATION][k] = ' ';
+//            }
+//          }
+//          if (current_ekran.index_position >= ((int)index_deleted_function)) position_temp--;
+//          offset++;
+//          /*************************************************************/
+//        }
+//      }
+//      /*************************************************************/
+//    }
 
     //Функції загального призначення пропускаємо (вони знаходяться у початку списку), тому починаємо з першого записту
     int index_in_list = NUMBER_GENERAL_SIGNAL_FOR_RANG;
