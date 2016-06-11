@@ -3378,31 +3378,219 @@ inline void on_off_handler(volatile unsigned int *p_active_functions)
   а коли буде потрібно - він встановиться
   */
   _CLEAR_BIT(p_active_functions, RANG_VIDKL_VID_ZAKHYSTIV);
-
-  //Формуємо маску з сигналом "Робота БО", щоб не розглядати цей сигнал як джерело активації БО (щоб він сам себе не генерував, бо інакше, як тільки раз запуститься постійно буде себе генерувати)
-  for (unsigned int j = 0; j < N_BIG; j++ )  maska[j] = 0;
-  _SET_BIT(maska, RANG_WORK_BO);
-
-  //Перевіряємо, чи немає умови запуску БО
-  unsigned int i = 0;
-  while ((i < NUMBER_OUTPUTS) && (global_timers[INDEX_TIMER_VIDKL_VV] != 0))
+  if (
+      ((p_active_functions[0] & current_settings_prt.ranguvannja_off_cb[0]) != 0) ||
+      ((p_active_functions[1] & current_settings_prt.ranguvannja_off_cb[1]) != 0) ||
+      ((p_active_functions[2] & current_settings_prt.ranguvannja_off_cb[2]) != 0) ||
+      ((p_active_functions[3] & current_settings_prt.ranguvannja_off_cb[3]) != 0) ||
+      ((p_active_functions[4] & current_settings_prt.ranguvannja_off_cb[4]) != 0) ||
+      ((p_active_functions[5] & current_settings_prt.ranguvannja_off_cb[5]) != 0) ||
+      ((p_active_functions[6] & current_settings_prt.ranguvannja_off_cb[6]) != 0) ||
+      ((p_active_functions[7] & current_settings_prt.ranguvannja_off_cb[7]) != 0) 
+     )
   {
-    //Цю провірку виконуємо доти поки не переберемо всі виходи, або поки блок БО не активується
+    //Є умова активації блку вимкнення
+    _SET_BIT(p_active_functions, RANG_WORK_BO);
+
+    //Запускаємо (або продовжуємо утримувати у 0, поки не пропаде сигнал активації БО) таймери: блоку БО, блокуванння БВ.
+    global_timers[INDEX_TIMER_VIDKL_VV  ] = 0;
+    global_timers[INDEX_TIMER_BLK_VKL_VV] = 0;
+    
+    //Скидаємо активацію блоку ввімкнення
+    _CLEAR_BIT(p_active_functions, RANG_WORK_BV);
+    //Скидаємо таймер блку вимкнення
+    global_timers[INDEX_TIMER_VKL_VV] = -1;  
+
     /*
-    (його таймер стане рівним "0", бо коли є ще сигнал активації БО то ми таймер скидаємо в 0,
-    а інакше таймер, як мініму буде збільшений на DELTA_TIME_FOR_TIMERS, або "-1", якщо таймер завершив своє тактування, або взагалі не запускався)
+    Формуємо сигнал "Відключення від захистів" (він рівний наявності умови команди
+    активації команди "Робота БО" будь-якою командою за виключенняв "Вимкн. ВВ")
     */
-      
-    //У тимчасовий масив копіюємо ранжування виходу, який індексується інедексом "i"
-    unsigned int temp_array_of_outputs[N_BIG];
-    for (unsigned int j = 0; j < N_BIG; j++) temp_array_of_outputs[j] = current_settings_prt.ranguvannja_outputs[N_BIG*i + j];
-      
-    //Перевіряємо чи на вихід, який індексується інедексом "i", зранжована робота БО
-    if(_CHECK_SET_BIT(temp_array_of_outputs, RANG_WORK_BO) !=0)
+    //Формуємо інвертовану маску для виключення команди "Вимк.ВВ"
+    for (unsigned int i = 0; i < N_BIG; i++ )  maska[i] = (unsigned int)(~0);
+    _CLEAR_BIT(maska, RANG_OTKL_VV);
+    if (
+        ((p_active_functions[0] & maska[0]) != 0) ||
+        ((p_active_functions[1] & maska[1]) != 0) ||
+        ((p_active_functions[2] & maska[2]) != 0) ||
+        ((p_active_functions[3] & maska[3]) != 0) ||
+        ((p_active_functions[4] & maska[4]) != 0) ||
+        ((p_active_functions[5] & maska[5]) != 0) ||
+        ((p_active_functions[6] & maska[6]) != 0) ||
+        ((p_active_functions[7] & maska[7]) != 0) 
+       )
     {
-      //Перевіряємо, чи є зараз умова активації виходу (будь-яка активна функція крім функції "Робота БО")
-      for (unsigned int j = 0; j < N_BIG; j++) temp_array_of_outputs[j] &= ( p_active_functions[j] & (~maska[j]) );
-      if (
+      //Вимкнення від захистів
+      _SET_BIT(p_active_functions, RANG_VIDKL_VID_ZAKHYSTIV);
+      
+      unsigned int temp_array_of_outputs[N_BIG];
+      for (unsigned int i = 0; i < N_BIG; i++ ) temp_array_of_outputs[i] = (p_active_functions[i] & maska[i]);
+          
+      /*****************************************************
+      Формуванні інформації про причину відключення для меню
+      *****************************************************/
+      unsigned char *label_to_time_array;
+      if (copying_time == 0) label_to_time_array = time;
+      else label_to_time_array = time_copy;
+          
+      //МТЗ1
+      if(
+         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_MTZ1) != 0) &&
+         (_CHECK_SET_BIT(previous_active_functions, RANG_MTZ1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
+        )   
+      {
+        info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_MTZ1);
+        for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_MTZ1][i] = *(label_to_time_array + i);
+
+        _CLEAR_BIT(temp_array_of_outputs, RANG_MTZ1);
+      }
+      
+      //МТЗ2
+      if(
+         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_MTZ2) != 0) &&
+         (_CHECK_SET_BIT(previous_active_functions, RANG_MTZ2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
+        )   
+      {
+        info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_MTZ2);
+        for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_MTZ2][i] = *(label_to_time_array + i);
+
+        _CLEAR_BIT(temp_array_of_outputs, RANG_MTZ2);
+      }
+      
+      //МТЗ3
+      if(
+         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_MTZ3) != 0) &&
+         (_CHECK_SET_BIT(previous_active_functions, RANG_MTZ3) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
+        )   
+      {
+        info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_MTZ3);
+        for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_MTZ3][i] = *(label_to_time_array + i);
+
+        _CLEAR_BIT(temp_array_of_outputs, RANG_MTZ3);
+      }
+      
+      //МТЗ4
+      if(
+         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_MTZ4) != 0) &&
+         (_CHECK_SET_BIT(previous_active_functions, RANG_MTZ4) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
+        )   
+      {
+        info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_MTZ4);
+        for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_MTZ4][i] = *(label_to_time_array + i);
+
+        _CLEAR_BIT(temp_array_of_outputs, RANG_MTZ4);
+      }
+      
+      //ЗДЗ
+      if(
+         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_ZDZ) != 0) &&
+         (_CHECK_SET_BIT(previous_active_functions, RANG_ZDZ) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
+        )   
+      {
+        info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_ZDZ);
+        for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_ZDZ][i] = *(label_to_time_array + i);
+
+        _CLEAR_BIT(temp_array_of_outputs, RANG_ZDZ);
+      }
+      
+      //УРОВ1
+      if(
+         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UROV1) != 0) &&
+         (_CHECK_SET_BIT(previous_active_functions, RANG_UROV1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
+        )   
+      {
+        info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_UROV1);
+        for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UROV1][i] = *(label_to_time_array + i);
+
+        _CLEAR_BIT(temp_array_of_outputs, RANG_UROV1);
+      }
+      
+      //УРОВ2
+      if(
+         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UROV2) != 0) &&
+         (_CHECK_SET_BIT(previous_active_functions, RANG_UROV2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
+        )   
+      {
+        info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_UROV2);
+        for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UROV2][i] = *(label_to_time_array + i);
+
+        _CLEAR_BIT(temp_array_of_outputs, RANG_UROV2);
+      }
+      
+      //ЗОП
+      if(
+         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_ZOP) != 0) &&
+         (_CHECK_SET_BIT(previous_active_functions, RANG_ZOP) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
+        )   
+      {
+        info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_ZOP);
+        for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_ZOP][i] = *(label_to_time_array + i);
+
+        _CLEAR_BIT(temp_array_of_outputs, RANG_ZOP);
+      }
+      
+      //Umin1
+      if(
+         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UMIN1) != 0) &&
+         (_CHECK_SET_BIT(previous_active_functions, RANG_UMIN1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
+        )   
+      {
+        info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_UMIN1);
+        for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UMIN1][i] = *(label_to_time_array + i);
+
+        _CLEAR_BIT(temp_array_of_outputs, RANG_UMIN1);
+      }
+      
+      //Umin2
+      if(
+         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UMIN2) != 0) &&
+         (_CHECK_SET_BIT(previous_active_functions, RANG_UMIN2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
+        )   
+      {
+        info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_UMIN2);
+        for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UMIN2][i] = *(label_to_time_array + i);
+
+        _CLEAR_BIT(temp_array_of_outputs, RANG_UMIN2);
+      }
+      
+      //Umax1
+      if(
+         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UMAX1) != 0) &&
+         (_CHECK_SET_BIT(previous_active_functions, RANG_UMAX1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
+        )   
+      {
+        info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_UMAX1);
+        for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UMAX1][i] = *(label_to_time_array + i);
+
+        _CLEAR_BIT(temp_array_of_outputs, RANG_UMAX1);
+      }
+      
+      //Umax2
+      if(
+         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UMAX2) != 0) &&
+         (_CHECK_SET_BIT(previous_active_functions, RANG_UMAX2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
+        )   
+      {
+        info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_UMAX2);
+        for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UMAX2][i] = *(label_to_time_array + i);
+
+        _CLEAR_BIT(temp_array_of_outputs, RANG_UMAX2);
+      }
+      
+      //Відключення від зовнішніх захистів
+      if(
+         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_OTKL_VID_ZOVN_ZAHYSTIV) != 0) &&
+         (_CHECK_SET_BIT(previous_active_functions, RANG_OTKL_VID_ZOVN_ZAHYSTIV) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
+        )   
+      {
+        info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_ZOVNISHNIKH_ZAKHYSTIV);
+        for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_ZOVNISHNIKH_ZAKHYSTIV][i] = *(label_to_time_array + i);
+
+        _CLEAR_BIT(temp_array_of_outputs, RANG_OTKL_VID_ZOVN_ZAHYSTIV);
+      }
+      
+      //Відключення від інших сигналів (крім відключення від сигналу "Вимк.ВВ")
+      if(
+         (
           (temp_array_of_outputs[0] != 0) ||
           (temp_array_of_outputs[1] != 0) ||
           (temp_array_of_outputs[2] != 0) ||
@@ -3412,242 +3600,25 @@ inline void on_off_handler(volatile unsigned int *p_active_functions)
           (temp_array_of_outputs[6] != 0) ||
           (temp_array_of_outputs[7] != 0)
          )
+         &&
+         (
+          ((previous_active_functions[0] & temp_array_of_outputs[0])!= temp_array_of_outputs[0]) ||
+          ((previous_active_functions[1] & temp_array_of_outputs[1])!= temp_array_of_outputs[1]) ||
+          ((previous_active_functions[2] & temp_array_of_outputs[2])!= temp_array_of_outputs[2]) ||
+          ((previous_active_functions[3] & temp_array_of_outputs[3])!= temp_array_of_outputs[3]) ||
+          ((previous_active_functions[4] & temp_array_of_outputs[4])!= temp_array_of_outputs[4]) ||
+          ((previous_active_functions[5] & temp_array_of_outputs[5])!= temp_array_of_outputs[5]) ||
+          ((previous_active_functions[6] & temp_array_of_outputs[6])!= temp_array_of_outputs[6]) ||
+          ((previous_active_functions[7] & temp_array_of_outputs[7])!= temp_array_of_outputs[7])
+         ) 
+        )   
       {
-        //На даному виході зараз активовується якась функція, яка є одночасно і джерелом БО
-          
-        //Відмічаємо у масиві функцій, які зараз активуються, що ще треба активувати блок БО (якщо він ще не активний)
-        _SET_BIT(p_active_functions, RANG_WORK_BO);
-
-        //Запускаємо (або продовжуємо утримувати у 0, поки не пропаде сигнал активації БО) таймери: блоку БО, блокуванння БВ.
-        global_timers[INDEX_TIMER_VIDKL_VV  ] = 0;
-        global_timers[INDEX_TIMER_BLK_VKL_VV] = 0;
-
-        //Скидаємо активацію БВ
-        _CLEAR_BIT(p_active_functions, RANG_WORK_BV);
-        //Скидаємо таймер БВ
-        global_timers[INDEX_TIMER_VKL_VV] = -1;  
-
-        /*
-        Формуємо сигнал "Відключення від захистів" (він рівний наявності умови команди
-        активації команди "Робота БО" будь-якою командою за виключенняв "Вимкн. ВВ")
-        */
-        for (unsigned int j = 0; j < N_BIG; j++ )  maska[j] = 0;
-        _SET_BIT(maska, RANG_OTKL_VV);
-
-        //Перевіряємо, чи "Робота БО" активувалася командою "Вимк.ВВ" чи іншими фунціями захистів
-        for (unsigned int j = 0; j < N_BIG; j++) temp_array_of_outputs[j] &= (~maska[j]);
-        if (
-            (temp_array_of_outputs[0] != 0) ||
-            (temp_array_of_outputs[1] != 0) ||
-            (temp_array_of_outputs[2] != 0) ||
-            (temp_array_of_outputs[3] != 0) ||
-            (temp_array_of_outputs[4] != 0) ||
-            (temp_array_of_outputs[5] != 0) ||
-            (temp_array_of_outputs[6] != 0) ||
-            (temp_array_of_outputs[7] != 0)
-          )
-        {
-          _SET_BIT(p_active_functions, RANG_VIDKL_VID_ZAKHYSTIV);
-          
-          /*****************************************************
-          Формуванні інформації про причину відключення для меню
-          *****************************************************/
-          unsigned char *label_to_time_array;
-          if (copying_time == 0) label_to_time_array = time;
-          else label_to_time_array = time_copy;
-          
-          //МТЗ1
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_MTZ1) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_MTZ1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_MTZ1);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_MTZ1][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_MTZ1);
-          }
-          
-          //МТЗ2
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_MTZ2) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_MTZ2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_MTZ2);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_MTZ2][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_MTZ2);
-          }
-          
-          //МТЗ3
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_MTZ3) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_MTZ3) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_MTZ3);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_MTZ3][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_MTZ3);
-          }
-          
-          //МТЗ4
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_MTZ4) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_MTZ4) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_MTZ4);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_MTZ4][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_MTZ4);
-          }
-          
-          //ЗДЗ
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_ZDZ) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_ZDZ) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_ZDZ);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_ZDZ][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_ZDZ);
-          }
-          
-          //УРОВ1
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UROV1) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_UROV1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_UROV1);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UROV1][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_UROV1);
-          }
-          
-          //УРОВ2
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UROV2) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_UROV2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_UROV2);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UROV2][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_UROV2);
-          }
-          
-          //ЗОП
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_ZOP) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_ZOP) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_ZOP);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_ZOP][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_ZOP);
-          }
-          
-          //Umin1
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UMIN1) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_UMIN1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_UMIN1);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UMIN1][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_UMIN1);
-          }
-          
-          //Umin2
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UMIN2) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_UMIN2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_UMIN2);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UMIN2][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_UMIN2);
-          }
-          
-          //Umax1
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UMAX1) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_UMAX1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_UMAX1);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UMAX1][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_UMAX1);
-          }
-          
-          //Umax2
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UMAX2) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_UMAX2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_UMAX2);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UMAX2][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_UMAX2);
-          }
-          
-          //Відключення від зовнішніх захистів
-          if(
-             (_CHECK_SET_BIT(temp_array_of_outputs, RANG_OTKL_VID_ZOVN_ZAHYSTIV) != 0) &&
-             (_CHECK_SET_BIT(previous_active_functions, RANG_OTKL_VID_ZOVN_ZAHYSTIV) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_ZOVNISHNIKH_ZAKHYSTIV);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_ZOVNISHNIKH_ZAKHYSTIV][j] = *(label_to_time_array + j);
-
-            _CLEAR_BIT(temp_array_of_outputs, RANG_OTKL_VID_ZOVN_ZAHYSTIV);
-          }
-          
-          //Відключення від інших сигналів (крім відключення від сигналу "Вимк.ВВ")
-          if(
-             (
-              (temp_array_of_outputs[0] != 0) ||
-              (temp_array_of_outputs[1] != 0) ||
-              (temp_array_of_outputs[2] != 0) ||
-              (temp_array_of_outputs[3] != 0) ||
-              (temp_array_of_outputs[4] != 0) ||
-              (temp_array_of_outputs[5] != 0) ||
-              (temp_array_of_outputs[6] != 0) ||
-              (temp_array_of_outputs[7] != 0)
-             )
-             &&
-             (
-              ((previous_active_functions[0] & temp_array_of_outputs[0])!= temp_array_of_outputs[0]) ||
-              ((previous_active_functions[1] & temp_array_of_outputs[1])!= temp_array_of_outputs[1]) ||
-              ((previous_active_functions[2] & temp_array_of_outputs[2])!= temp_array_of_outputs[2]) ||
-              ((previous_active_functions[3] & temp_array_of_outputs[3])!= temp_array_of_outputs[3]) ||
-              ((previous_active_functions[4] & temp_array_of_outputs[4])!= temp_array_of_outputs[4]) ||
-              ((previous_active_functions[5] & temp_array_of_outputs[5])!= temp_array_of_outputs[5]) ||
-              ((previous_active_functions[6] & temp_array_of_outputs[6])!= temp_array_of_outputs[6]) ||
-              ((previous_active_functions[7] & temp_array_of_outputs[7])!= temp_array_of_outputs[7])
-             ) 
-            )   
-          {
-            info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_INSHYKH_SYGNALIV);
-            for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_INSHYKH_SYGNALIV][j] = *(label_to_time_array + j);
-          }
-          /*****************************************************/
-        }
-        /***/
+        info_vidkluchennja_vymykacha |= (1 << VYMKNENNJA_VID_INSHYKH_SYGNALIV);
+        for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_INSHYKH_SYGNALIV][i] = *(label_to_time_array + i);
       }
+      /*****************************************************/
     }
-    i++;
   }
-  /*********************/
 
   /*********************/
   //Потім розглядається блок включення
@@ -3661,59 +3632,22 @@ inline void on_off_handler(volatile unsigned int *p_active_functions)
     //Оскільки не працюють таймери БО і блокування включення БВ, а також немає сигналу блокування включення ВВ
     //тому перевіряємо, чи немає умови запуску БВ
 
-    //Формуємо маску з сигналом "Робота БВ", щоб не розглядати цей сигнал як джерело активації БВ (щоб він сам себе не генерував, бо інакше, як тільки раз запуститься постійно буде себе генерувати)
-    for (unsigned int j = 0; j < N_BIG; j++ )  maska[j] = 0;
-    _SET_BIT(maska, RANG_WORK_BV);
-    
-    i = 0;
-    while ((i < NUMBER_OUTPUTS) && (global_timers[INDEX_TIMER_VKL_VV] != 0))
+    if (
+        ((p_active_functions[0] & current_settings_prt.ranguvannja_on_cb[0]) != 0) ||
+        ((p_active_functions[1] & current_settings_prt.ranguvannja_on_cb[1]) != 0) ||
+        ((p_active_functions[2] & current_settings_prt.ranguvannja_on_cb[2]) != 0) ||
+        ((p_active_functions[3] & current_settings_prt.ranguvannja_on_cb[3]) != 0) ||
+        ((p_active_functions[4] & current_settings_prt.ranguvannja_on_cb[4]) != 0) ||
+        ((p_active_functions[5] & current_settings_prt.ranguvannja_on_cb[5]) != 0) ||
+        ((p_active_functions[6] & current_settings_prt.ranguvannja_on_cb[6]) != 0) ||
+        ((p_active_functions[7] & current_settings_prt.ranguvannja_on_cb[7]) != 0) 
+      )
     {
-      //Цю провірку виконуємо доти поки не переберемо всі виходи, або поки блок БВ не активується
-      /*
-      (його таймер стане рівним "0", бо коли є ще сигнал активації БВ то ми таймер скидаємо в 0,
-      а інакше таймер, як мініму буде збільшений на DELTA_TIME_FOR_TIMERS, або "-1", якщо таймер заверший своє тактування, або взагалі не запускався)
-      */
+      //Відмічаємо у масиві функцій, які зараз активуються, що ще треба активувати блок БВ (якщо він ще не активний)
+      _SET_BIT(p_active_functions, RANG_WORK_BV);
 
-      //У тимчасовий масив копіюємо ранжування виходу, який індексується інедексом "i"
-      unsigned int temp_array_of_outputs[N_BIG];
-      for (unsigned int j = 0; j < N_BIG; j++) temp_array_of_outputs[j] = current_settings_prt.ranguvannja_outputs[N_BIG*i + j];
-      
-      //Перевіряємо чи на вихід, який індексується інедексом "i", зранжована робота БВ
-      if(_CHECK_SET_BIT(temp_array_of_outputs, RANG_WORK_BV) !=0)
-      {
-        //Перевіряємо, чи є зараз умова активації виходу (будь-яка активна функція крім функції "Робота БВ")
-        for (unsigned int j = 0; j < N_BIG; j++) temp_array_of_outputs[j] &= ( p_active_functions[j] & (~maska[j]) );
-        if (
-            (temp_array_of_outputs[0] != 0) ||
-            (temp_array_of_outputs[1] != 0) ||
-            (temp_array_of_outputs[2] != 0) ||
-            (temp_array_of_outputs[3] != 0) ||
-            (temp_array_of_outputs[4] != 0) ||
-            (temp_array_of_outputs[5] != 0) ||
-            (temp_array_of_outputs[6] != 0) ||
-            (temp_array_of_outputs[7] != 0)
-           )
-        {
-          //На даному виході зараз активовується якась функція, яка є одночасно і джерелом БВ
-            
-          //Є умова запуску БВ, але ще додатково провіряємо, чи немає умови заборони включення БВ (хоч, теоретично, якщо тут знаходиться прорама, то блокування роботи БВ через блок БО або таймер блокування включення БВ не мало б бути)
-          if ((global_timers[INDEX_TIMER_VIDKL_VV] < 0) && (global_timers[INDEX_TIMER_BLK_VKL_VV] < 0))
-          {
-            //Відмічаємо у масиві функцій, які зараз активуються, що ще треба активувати блок БВ (якщо він ще не активний)
-            _SET_BIT(p_active_functions, RANG_WORK_BV);
-
-            //Запускаємо (або продовжуємо утримувати у 0, поки не пропаде сигнал активації БВ) таймер роботи БВ
-            global_timers[INDEX_TIMER_VKL_VV] = 0;
-          }
-          else
-          {
-            //Теоретично, сюди програма ніколи б не мала прийти
-            global_timers[INDEX_TIMER_VKL_VV] = -1;
-            _CLEAR_BIT(p_active_functions, RANG_WORK_BV);
-          }
-        }
-      }
-      i++;
+      //Запускаємо (або продовжуємо утримувати у 0, поки не пропаде сигнал активації БВ) таймер роботи БВ
+      global_timers[INDEX_TIMER_VKL_VV] = 0;
     }
   }
   else
@@ -3727,7 +3661,7 @@ inline void on_off_handler(volatile unsigned int *p_active_functions)
   /*********************/
   //Формуємо попереденій стан сигналів для функції ввімкнення/вимкнення
   /*********************/
-  for (i = 0; i < N_BIG; i++) previous_active_functions[i] = p_active_functions[i];
+  for (unsigned int i = 0; i < N_BIG; i++) previous_active_functions[i] = p_active_functions[i];
   /*********************/
 }
 /*****************************************************/
@@ -6839,7 +6773,7 @@ inline void main_protection(void)
         else
         {
           //Вихід командний, тому перевіряємо чи не йде спроба активувати реле, на яке заведено БВ, причому блок БВ з пеквних причин блокований (неактивний)
-          if (_CHECK_SET_BIT((current_settings_prt.ranguvannja_outputs + N_BIG*i), RANG_WORK_BV) ==0)
+          if (_CHECK_SET_BIT((current_settings_prt.ranguvannja_outputs + N_BIG*i), RANG_WORK_BV) == 0)
           {
             //На дане реле не заводиться сигнал БВ (блок включення)
           
@@ -6851,7 +6785,7 @@ inline void main_protection(void)
             //На дане реле заводиться сигнал БВ (блок включення)
           
             //Відмічаємо, що даний вихід - ЗАМКНУТИЙ тільки тоді, коли функція БВ активна зараз
-            if (_CHECK_SET_BIT(active_functions, RANG_WORK_BV) !=0)
+            if (_CHECK_SET_BIT(active_functions, RANG_WORK_BV) != 0)
               state_outputs |= (1 << i);
             else
               state_outputs &= ~(1 << i);
@@ -6888,7 +6822,7 @@ inline void main_protection(void)
     _SET_BIT(control_i2c_taskes, TASK_START_WRITE_STATE_LEDS_OUTPUTS_EEPROM_BIT);
   }
   
-  //Стан виходу з уразуванням імпульсного режиму роботи сигнальних виходів
+  //Стан виходу з урахуванням імпульсного режиму роботи сигнальних виходів
   state_outputs_raw = ( state_outputs & ((unsigned int)(~current_settings_prt.type_of_output_modif)) ) | ((state_outputs & current_settings_prt.type_of_output_modif)*output_timer_prt_signal_output_mode_2);
   
   //Виводимо інформацію по виходах на піни процесора (у зворотньому порядку)
