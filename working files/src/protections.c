@@ -939,7 +939,7 @@ inline void clocking_global_timers(void)
 /*****************************************************/
 //Опрацювання Ориділювальних функцій - має запускатися після відкрпацювання блоків всіх захистів
 /*****************************************************/
-inline void df_handler(volatile unsigned int *p_active_functions)
+inline void df_handler(volatile unsigned int *p_active_functions, unsigned int *p_changed_state_with_start_new_timeout)
 {
   /*
   Джерела активації формуємо в source_activation_df
@@ -1191,6 +1191,9 @@ inline void df_handler(volatile unsigned int *p_active_functions)
              //Переходимо на відраховування таймеру роботи - протягом цього часу ОФ гарантовано активується (якщо немає умови блокування)
              etap_execution_df[i] = EXECUTION_DF;
            }
+           
+           //Фіксація про зміну стану з початком відслідковуванням нової витримки
+           *p_changed_state_with_start_new_timeout |= (1 << i);
         }
         break;
       }
@@ -1203,14 +1206,20 @@ inline void df_handler(volatile unsigned int *p_active_functions)
           //Перевіряємо, чи завершилася робота таймеру павзи
           if (global_timers[INDEX_TIMER_DF_PAUSE_START + i] >= ((int)current_settings_prt.timeout_pause_df[i]))
           {
-            //Завершився час роботи таймеру павзи
-            global_timers[INDEX_TIMER_DF_PAUSE_START + i] = -1;
-            //Встановлюємо стан даної ОФ в "АКТИВНИЙ"
-            state_df |= (1 << i);
-            //Запускаємо відраховування таймера роботи
-            global_timers[INDEX_TIMER_DF_WORK_START + i] = 0;
-            //Переходимо на відраховування таймеру роботи - протягом цього часу ОФ гарантовано активується (якщо немає умови блокування)
-            etap_execution_df[i] = EXECUTION_DF;
+            if ((*p_changed_state_with_start_new_timeout & (1 << i)) == 0)
+            {
+              //Завершився час роботи таймеру павзи
+              global_timers[INDEX_TIMER_DF_PAUSE_START + i] = -1;
+              //Встановлюємо стан даної ОФ в "АКТИВНИЙ"
+              state_df |= (1 << i);
+              //Запускаємо відраховування таймера роботи
+              global_timers[INDEX_TIMER_DF_WORK_START + i] = 0;
+              //Переходимо на відраховування таймеру роботи - протягом цього часу ОФ гарантовано активується (якщо немає умови блокування)
+              etap_execution_df[i] = EXECUTION_DF;
+           
+              //Фіксація про зміну стану з початком відслідковуванням нової витримки
+              *p_changed_state_with_start_new_timeout |= (1 << i);
+            }
           }
         }
         else
@@ -1218,6 +1227,9 @@ inline void df_handler(volatile unsigned int *p_active_functions)
           //Активація знята до завершення роботи таймеру павзи, тому скидаємо всю роботу по даній оприділюваеній функції
           global_timers[INDEX_TIMER_DF_PAUSE_START + i] = -1;
           etap_execution_df[i] = NONE_DF;
+           
+          //Відміна фіксації про зміну стану з початком відслідковуванням нової витримки
+          *p_changed_state_with_start_new_timeout &= (unsigned int)(1 << i);
         }
         break;
       }
@@ -1255,21 +1267,24 @@ inline void df_handler(volatile unsigned int *p_active_functions)
             )  
            )
         {
-          //Завершився час роботи таймеру роботи
-          global_timers[INDEX_TIMER_DF_WORK_START + i] = -1;
-          //Переводимо ОФ у ПАСИВНИЙ стан
-          state_df &= ~(1 << i);
+          if ((*p_changed_state_with_start_new_timeout & (1 << i)) == 0)
+          {
+            //Завершився час роботи таймеру роботи
+            global_timers[INDEX_TIMER_DF_WORK_START + i] = -1;
+            //Переводимо ОФ у ПАСИВНИЙ стан
+            state_df &= ~(1 << i);
           
-          //Перевіряємо, чи нам треба перейти в очікування деактивації джерела ОФ, чи перейти у висхідний стан
-          if ((source_activation_df & (1<< i)) == 0)
-          {
-            //Переходимо у режим висхідний стан
-            etap_execution_df[i] = NONE_DF;
-          }
-          else 
-          {
-            //Якщо джерело запуску цієї ОФ ще активне, то переходимо на оцікування його завершення
-            etap_execution_df[i] = WAITING_DEACTIVATION_SOURCE_DF;
+            //Перевіряємо, чи нам треба перейти в очікування деактивації джерела ОФ, чи перейти у висхідний стан
+            if ((source_activation_df & (1<< i)) == 0)
+            {
+              //Переходимо у режим висхідний стан
+              etap_execution_df[i] = NONE_DF;
+            }
+            else 
+            {
+              //Якщо джерело запуску цієї ОФ ще активне, то переходимо на оцікування його завершення
+              etap_execution_df[i] = WAITING_DEACTIVATION_SOURCE_DF;
+            }
           }
         }
         break;
@@ -6517,6 +6532,7 @@ inline void main_protection(void)
     {
       unsigned int active_functions_tmp[N_BIG];
       unsigned int iteration = 0;
+      unsigned int df_changed_state_with_start_new_timeout = 0;
       do
       {
         active_functions_tmp[0] = active_functions[0];
@@ -6532,7 +6548,7 @@ inline void main_protection(void)
         d_or_handler(active_functions);
         d_xor_handler(active_functions);
         d_not_handler(active_functions);
-        df_handler(active_functions);
+        df_handler(active_functions, &df_changed_state_with_start_new_timeout);
         dt_handler(active_functions);
         
         iteration++;
