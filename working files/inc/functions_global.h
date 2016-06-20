@@ -160,6 +160,7 @@ unsigned int action_after_changing_of_configuration(unsigned int, __SETTINGS *);
 //void action_after_changing_number_el(__SETTINGS *, unsigned int);
 void calculate_namber_bit_waiting_for_rs_485(void);
 void fix_change_settings(unsigned int, unsigned int);
+unsigned int set_new_settings_from_interface(unsigned int);
 void restore_trigger_functions(unsigned int*);
 void changing_diagnostyka_state(void);
 unsigned int count_number_set_bit(unsigned int*, unsigned int);

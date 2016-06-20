@@ -1648,7 +1648,7 @@ void calculate_namber_bit_waiting_for_rs_485(void)
 -----------------------------------------------------
 setting_rang: 0 - запис уставок
               1 - запис ранжування
-              2 - запис регістрів користувача
+              2 - ігнорувати цей параметр
 
 source:       0 - мінімальні параметри
               1 - клавіатура
@@ -1658,9 +1658,6 @@ source:       0 - мінімальні параметри
 ******************************************************/
 void fix_change_settings(unsigned int setting_rang, unsigned int source)
 {
-  //Помічаємо, що відбулася зміна настройок
-  information_about_settings_changed |= ((1 << USB_RECUEST)|(1 << RS485_RECUEST));
-  
   if (setting_rang < 2)
   {
     unsigned char *point_to_target;
@@ -1678,9 +1675,149 @@ void fix_change_settings(unsigned int setting_rang, unsigned int source)
   
   //Помічаємо, що таблиця змінилася і її треба буде з системи захистів зкопіювати у таблицю з якою працює система захистів
   changed_settings = CHANGED_ETAP_ENDED;
+  if (_CHECK_SET_BIT(active_functions, RANG_SETTINGS_CHANGED) == 0) current_settings_interfaces = current_settings;
   
   //Запускаємо запис у EEPROM
   _SET_BIT(control_i2c_taskes, TASK_START_WRITE_SETTINGS_EEPROM_BIT);
+}
+/*****************************************************/
+
+/*****************************************************/
+/*
+Активація внесених змін у налаштування через інтерфейси
+*/
+/*****************************************************/
+unsigned int set_new_settings_from_interface(unsigned int source)
+{
+  unsigned int error = 0;
+  
+  //Вказівник на системний час
+  unsigned char *label_to_time_array;
+  if (copying_time == 0) label_to_time_array = time;
+  else label_to_time_array = time_copy;
+  
+  if ((type_of_settings_changed & (1 << DEFAULT_SETTINGS_SET_BIT)) != 0)
+  {
+    for (unsigned int i = 0; i < 7; i++) current_settings_interfaces.time_setpoints[i] = current_settings_interfaces.time_ranguvannja[i] = *(label_to_time_array + i);
+    current_settings_interfaces.time_setpoints[7] = current_settings_interfaces.time_ranguvannja[7] = 0;
+  }
+  
+  if ((type_of_settings_changed & (1 << SETTINGS_DATA_CHANGED_BIT)) != 0)
+  {
+    for (unsigned int i = 0; i < 7; i++) current_settings_interfaces.time_setpoints[i] = *(label_to_time_array + i);
+    current_settings_interfaces.time_setpoints[7] = source;
+  }
+  
+  if ((type_of_settings_changed & (1 << RANGUVANNJA_DATA_CHANGED_BIT)) != 0)
+  {
+    for (unsigned int i = 0; i < 7; i++) current_settings_interfaces.time_ranguvannja[i] = *(label_to_time_array + i);
+    current_settings_interfaces.time_ranguvannja[7] = source;
+  }
+  
+  unsigned int change_timeout_ar = 0;
+  if (
+      (current_settings.prefault_number_periods != current_settings_interfaces.prefault_number_periods) ||
+      (current_settings.postfault_number_periods != current_settings_interfaces.postfault_number_periods)
+     ) 
+  {
+    change_timeout_ar = 1;
+    
+    unsigned int semaphore_read_state_ar_record_copy = semaphore_read_state_ar_record;
+
+    /*Встановлюємо симафор - суть якого полягає у тому, що якщо процес запису нової 
+    аварії не йде - то на час його установлення новий запис починати не можна, якщо ж вже іде ноий запис,
+    то він має продовжуватися і, навпаки, блокувати роботу аналогового реєстратора не можна*/
+    semaphore_read_state_ar_record = 1;
+
+    if (
+        (state_ar_record == STATE_AR_NO_RECORD      ) ||
+        (state_ar_record == STATE_AR_TEMPORARY_BLOCK)
+       )   
+    {
+      /*На даний момент не йде запис текучого аналогового аварійного процесу,
+      тому для зміни часових настройок тимчасово встановлюємо стан роботи
+      аналогового реєстратора у заблокований режим*/
+      state_ar_record = STATE_AR_TEMPORARY_BLOCK; 
+      
+    }
+    else
+    {
+      //Операція тимчасово недоступна, бо іде робота аналогового реєстратора
+      error = ERROR_SLAVE_DEVICE_BUSY;
+      semaphore_read_state_ar_record = semaphore_read_state_ar_record_copy;
+    }
+  }
+  
+  if (error == 0)
+  {
+    if ((type_of_settings_changed & (1 << DEFAULT_SETTINGS_SET_BIT)) != 0)
+    {
+      //Переводимо меню у висхідний стан
+      for(unsigned int i=0; i<MAX_LEVEL_MENU; i++)
+      {
+        if ((i == EKRAN_LEVEL_PASSWORD) || (i == EKRAN_LEVEL_SET_NEW_PASSWORD1) || (i == EKRAN_LEVEL_SET_NEW_PASSWORD2)) position_in_current_level_menu[i] = INDEX_LINE_NUMBER_1_FOR_LEVEL_PASSWORD;
+        else  position_in_current_level_menu[i] = 0;
+        previous_level_in_current_level_menu[i] = -1;
+      }
+  
+      //Визначення початкового стану екрану
+      current_ekran.current_level = EKRAN_MAIN;
+      current_ekran.index_position = position_in_current_level_menu[current_ekran.current_level];
+      current_ekran.position_cursor_y = current_ekran.index_position;
+      current_ekran.edition = 0;
+      current_ekran.cursor_on = 0;
+      current_ekran.cursor_blinking_on = 0;  
+    }
+    
+    //Помічаємо, що поля структури зараз будуть змінені
+    changed_settings = CHANGED_ETAP_EXECUTION;
+              
+    //Копіюємо введені зміни у робочу структуру
+    current_settings = current_settings_interfaces;
+    if (
+        (state_ar_record == STATE_AR_TEMPORARY_BLOCK) ||
+        (semaphore_read_state_ar_record != 0)  
+       )
+    {
+      /*
+      Ця ситуація може бути, коли встановлюються мінімальні настройки,
+      або коли змінюється ширина доаварійного або післяаварійного процесу
+      аналогового реєстратора.
+      При цьому завжди має бути, що змінна state_ar_record рівна величині
+      STATE_AR_TEMPORARY_BLOCK і змінна semaphore_read_state_ar_record
+      не рівна нулю. Ящо ці 
+      умови не виконуються - то треба перезапустити прилад,
+      бо програмне забезпечення себе веде непередбачуваним шляхом.
+      */
+      if(
+         ((change_timeout_ar != 0)) &&
+         (state_ar_record == STATE_AR_TEMPORARY_BLOCK) &&
+         (semaphore_read_state_ar_record != 0)  
+        )
+      {
+        //Виконуємо дії по зміні часових витримок аналогового реєстратора
+        actions_after_changing_tiomouts_ar();
+
+        //Розблоковуємо роботу аналогового реєстратора
+        state_ar_record = STATE_AR_NO_RECORD;
+
+        //Знімаємо семафор
+        semaphore_read_state_ar_record = 0;
+      }
+      else
+      {
+        //Якщо сюди дійшла програма, значить відбулася недопустива помилка, тому треба зациклити програму, щоб вона пішла на перезагрузку
+        total_error_sw_fixed(41);
+      }
+    }
+
+    fix_change_settings(2, source);
+
+    //Виставляємо признак, що на екрані треба обновити інформацію
+    new_state_keyboard |= (1<<BIT_REWRITE);
+  }
+  
+  return error;
 }
 /*****************************************************/
 

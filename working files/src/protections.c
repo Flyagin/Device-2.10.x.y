@@ -5624,7 +5624,6 @@ inline void main_protection(void)
     {
       for (unsigned int i = 0; i < N_BIG; i++) trigger_functions_USB[i] = 0;
       
-      information_about_settings_changed &= (unsigned int)(~(1 << USB_RECUEST));
       information_about_restart_counter  &= (unsigned int)(~(1 << USB_RECUEST));
       information_about_clean_energy     &= (unsigned int)(~(1 << USB_RECUEST));
     }
@@ -5632,7 +5631,6 @@ inline void main_protection(void)
     {
       for (unsigned int i = 0; i < N_BIG; i++) trigger_functions_RS485[i] = 0;
       
-      information_about_settings_changed &= (unsigned int)(~(1 << RS485_RECUEST));
       information_about_restart_counter  &= (unsigned int)(~(1 << RS485_RECUEST));
       information_about_clean_energy     &= (unsigned int)(~(1 << RS485_RECUEST));
     }

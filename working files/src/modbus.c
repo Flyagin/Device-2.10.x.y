@@ -256,6 +256,7 @@ void convert_order_list_function_to_gmm(unsigned int* input_array, unsigned shor
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_MISCEVE_DYSTANCIJNE         , (BIT_MA_MISCEVE_DYSTANCIJNE          - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_WORK_A_REJESTRATOR          , (BIT_MA_WORK_A_REJESTRATOR           - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_WORK_D_REJESTRATOR          , (BIT_MA_WORK_D_REJESTRATOR           - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_SETTINGS_CHANGED            , (BIT_MA_SETTINGS_CHANGED             - BIT_MA_CURRENT_AF_BASE));
 
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_VIDKL_VID_ZAKHYSTIV              , (BIT_MA_VIDKL_VID_ZAKHYSTIV               - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_INVERS_DV_GRUPA_USTAVOK          , (BIT_MA_INVERS_DV_GRUPA_USTAVOK           - BIT_MA_CURRENT_AF_BASE));
@@ -273,7 +274,7 @@ void convert_order_list_function_to_gmm(unsigned int* input_array, unsigned shor
 /***********************************************************************************/
 unsigned int convert_order_list_buttons_to_gmm(unsigned int number, unsigned int number_position)
 {
-  unsigned int input_value =current_settings.ranguvannja_buttons[number];
+  unsigned int input_value =current_settings_interfaces.ranguvannja_buttons[number];
   unsigned int index_in_gmm = 0;
   unsigned int rezultat = 0;
   
@@ -427,8 +428,8 @@ unsigned int convert_order_list_buttons_to_gmm(unsigned int number, unsigned int
 unsigned int convert_order_list_inputs_to_gmm(unsigned int number, unsigned int number_position)
 {
   unsigned int input_value[N_SMALL];
-  input_value[0] =current_settings.ranguvannja_inputs[2*number    ];
-  input_value[1] =current_settings.ranguvannja_inputs[2*number + 1];
+  input_value[0] =current_settings_interfaces.ranguvannja_inputs[2*number    ];
+  input_value[1] =current_settings_interfaces.ranguvannja_inputs[2*number + 1];
   unsigned int index_in_gmm = 0;
   unsigned int rezultat = 0;
   
@@ -717,63 +718,63 @@ unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int nu
   //Визначаємо значення .яке треба конвертувати у коди "універсальної карти пам'яті"
   if (source == SOURCE_OUTPUTS_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings.ranguvannja_outputs[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_outputs[N_BIG*number + i];
   }
   else if (source == SOURCE_LEDS_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings.ranguvannja_leds[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_leds[N_BIG*number + i];
   }
   else if (source == SOURCE_DF_PLUS_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings.ranguvannja_df_source_plus[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_df_source_plus[N_BIG*number + i];
   }
   else if (source == SOURCE_DF_MINUS_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings.ranguvannja_df_source_minus[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_df_source_minus[N_BIG*number + i];
   }
   else if (source == SOURCE_DF_BLK_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings.ranguvannja_df_source_blk[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_df_source_blk[N_BIG*number + i];
   }
   else if (source == SOURCE_AR_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings.ranguvannja_analog_registrator[i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_analog_registrator[i];
   }
   else if (source == SOURCE_DR_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings.ranguvannja_digital_registrator[i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_digital_registrator[i];
   }
   else if (source == SOURCE_SET_DT_PLUS_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings.ranguvannja_set_dt_source_plus[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_set_dt_source_plus[N_BIG*number + i];
   }
   else if (source == SOURCE_SET_DT_MINUS_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings.ranguvannja_set_dt_source_minus[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_set_dt_source_minus[N_BIG*number + i];
   }
   else if (source == SOURCE_RESET_DT_PLUS_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings.ranguvannja_reset_dt_source_plus[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_reset_dt_source_plus[N_BIG*number + i];
   }
   else if (source == SOURCE_RESET_DT_MINUS_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings.ranguvannja_reset_dt_source_minus[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_reset_dt_source_minus[N_BIG*number + i];
   }
   else if (source == SOURCE_D_AND_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings.ranguvannja_d_and[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_d_and[N_BIG*number + i];
   }
   else if (source == SOURCE_D_OR_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings.ranguvannja_d_or[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_d_or[N_BIG*number + i];
   }
   else if (source == SOURCE_D_XOR_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings.ranguvannja_d_xor[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_d_xor[N_BIG*number + i];
   }
   else if (source == SOURCE_D_NOT_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings.ranguvannja_d_not[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_d_not[N_BIG*number + i];
   }
   
   //Шукаємо потрібний індекс функції у полі бітових настройок
@@ -1730,13 +1731,13 @@ void set_previous_ranguvannja(void)
 unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int number_position, unsigned short int data, unsigned int method_setting)
 {
   __SETTINGS *target_label;
-  if (method_setting == SET_DATA_IMMEDITATE) target_label = &current_settings;
+  if (method_setting == SET_DATA_IMMEDITATE) target_label = &current_settings_interfaces;
   else target_label = &edition_settings;
   
   unsigned int *point_to_target;
   unsigned int input_value[N_SMALL];
-  input_value[0] = current_settings.ranguvannja_inputs[2*number    ];
-  input_value[1] = current_settings.ranguvannja_inputs[2*number + 1];
+  input_value[0] = current_settings_interfaces.ranguvannja_inputs[2*number    ];
+  input_value[1] = current_settings_interfaces.ranguvannja_inputs[2*number + 1];
   unsigned int number_function_in_source = 0, index_function_in_source;
   unsigned short error = 0;
   
@@ -2204,7 +2205,7 @@ unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int num
 unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int number_position, unsigned int source, unsigned short int data, unsigned int method_setting)
 {
   __SETTINGS *target_label;
-  if (method_setting == SET_DATA_IMMEDITATE) target_label = &current_settings;
+  if (method_setting == SET_DATA_IMMEDITATE) target_label = &current_settings_interfaces;
   else target_label = &edition_settings;
   
   unsigned int *point_to_source, *point_to_target;
@@ -2214,77 +2215,77 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
   
   if (source == SOURCE_OUTPUTS_RANG)
   {
-    point_to_source = (unsigned int *)current_settings.ranguvannja_outputs + N_BIG*number;
+    point_to_source = (unsigned int *)current_settings_interfaces.ranguvannja_outputs + N_BIG*number;
     point_to_target = (unsigned int *)target_label->ranguvannja_outputs + N_BIG*number;
   }
   else if (source == SOURCE_LEDS_RANG)
   {
-    point_to_source = (unsigned int *)current_settings.ranguvannja_leds + N_BIG*number;
+    point_to_source = (unsigned int *)current_settings_interfaces.ranguvannja_leds + N_BIG*number;
     point_to_target = (unsigned int *)target_label->ranguvannja_leds + N_BIG*number;
   }
   else if (source == SOURCE_DF_PLUS_RANG)
   {
-    point_to_source = (unsigned int *)current_settings.ranguvannja_df_source_plus + N_BIG*number;
+    point_to_source = (unsigned int *)current_settings_interfaces.ranguvannja_df_source_plus + N_BIG*number;
     point_to_target = (unsigned int *)target_label->ranguvannja_df_source_plus + N_BIG*number;
   }
   else if (source == SOURCE_DF_MINUS_RANG)
   {
-    point_to_source = (unsigned int *)current_settings.ranguvannja_df_source_minus + N_BIG*number;
+    point_to_source = (unsigned int *)current_settings_interfaces.ranguvannja_df_source_minus + N_BIG*number;
     point_to_target = (unsigned int *)target_label->ranguvannja_df_source_minus + N_BIG*number;
   }
   else if (source == SOURCE_DF_BLK_RANG)
   {
-    point_to_source = (unsigned int *)current_settings.ranguvannja_df_source_blk + N_BIG*number;
+    point_to_source = (unsigned int *)current_settings_interfaces.ranguvannja_df_source_blk + N_BIG*number;
     point_to_target = (unsigned int *)target_label->ranguvannja_df_source_blk + N_BIG*number;
   }
   else if (source == SOURCE_AR_RANG)
   {
-    point_to_source = (unsigned int *)current_settings.ranguvannja_analog_registrator;
+    point_to_source = (unsigned int *)current_settings_interfaces.ranguvannja_analog_registrator;
     point_to_target = (unsigned int *)target_label->ranguvannja_analog_registrator;
   }
   else if (source == SOURCE_DR_RANG)
   {
-    point_to_source = (unsigned int *)current_settings.ranguvannja_digital_registrator;
+    point_to_source = (unsigned int *)current_settings_interfaces.ranguvannja_digital_registrator;
     point_to_target = (unsigned int *)target_label->ranguvannja_digital_registrator;
   }
   else if (source == SOURCE_SET_DT_PLUS_RANG)
   {
-    point_to_source = (unsigned int *)current_settings.ranguvannja_set_dt_source_plus + N_BIG*number;
+    point_to_source = (unsigned int *)current_settings_interfaces.ranguvannja_set_dt_source_plus + N_BIG*number;
     point_to_target = (unsigned int *)target_label->ranguvannja_set_dt_source_plus + N_BIG*number;
   }
   else if (source == SOURCE_SET_DT_MINUS_RANG)
   {
-    point_to_source = (unsigned int *)current_settings.ranguvannja_set_dt_source_minus + N_BIG*number;
+    point_to_source = (unsigned int *)current_settings_interfaces.ranguvannja_set_dt_source_minus + N_BIG*number;
     point_to_target = (unsigned int *)target_label->ranguvannja_set_dt_source_minus + N_BIG*number;
   }
   else if (source == SOURCE_RESET_DT_PLUS_RANG)
   {
-    point_to_source = (unsigned int *)current_settings.ranguvannja_reset_dt_source_plus + N_BIG*number;
+    point_to_source = (unsigned int *)current_settings_interfaces.ranguvannja_reset_dt_source_plus + N_BIG*number;
     point_to_target = (unsigned int *)target_label->ranguvannja_reset_dt_source_plus + N_BIG*number;
   }
   else if (source == SOURCE_RESET_DT_MINUS_RANG)
   {
-    point_to_source = (unsigned int *)current_settings.ranguvannja_reset_dt_source_minus + N_BIG*number;
+    point_to_source = (unsigned int *)current_settings_interfaces.ranguvannja_reset_dt_source_minus + N_BIG*number;
     point_to_target = (unsigned int *)target_label->ranguvannja_reset_dt_source_minus + N_BIG*number;
   }
   else if (source == SOURCE_D_AND_RANG)
   {
-    point_to_source = (unsigned int *)current_settings.ranguvannja_d_and + N_BIG*number;
+    point_to_source = (unsigned int *)current_settings_interfaces.ranguvannja_d_and + N_BIG*number;
     point_to_target = (unsigned int *)target_label->ranguvannja_d_and + N_BIG*number;
   }
   else if (source == SOURCE_D_OR_RANG)
   {
-    point_to_source = (unsigned int *)current_settings.ranguvannja_d_or + N_BIG*number;
+    point_to_source = (unsigned int *)current_settings_interfaces.ranguvannja_d_or + N_BIG*number;
     point_to_target = (unsigned int *)target_label->ranguvannja_d_or + N_BIG*number;
   }
   else if (source == SOURCE_D_XOR_RANG)
   {
-    point_to_source = (unsigned int *)current_settings.ranguvannja_d_xor + N_BIG*number;
+    point_to_source = (unsigned int *)current_settings_interfaces.ranguvannja_d_xor + N_BIG*number;
     point_to_target = (unsigned int *)target_label->ranguvannja_d_xor + N_BIG*number;
   }
   else if (source == SOURCE_D_NOT_RANG)
   {
-    point_to_source = (unsigned int *)current_settings.ranguvannja_d_not + N_BIG*number;
+    point_to_source = (unsigned int *)current_settings_interfaces.ranguvannja_d_not + N_BIG*number;
     point_to_target = (unsigned int *)target_label->ranguvannja_d_not + N_BIG*number;
   }
 
@@ -2358,68 +2359,9 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
           (
            (source == SOURCE_DR_RANG) & (data == BIT_MA_WORK_D_REJESTRATOR)
           )
-         ) error = ERROR_ILLEGAL_DATA_VALUE;  
-      else if(
-              (
-               (source == SOURCE_OUTPUTS_RANG)
-               &&
-               (method_setting == SET_DATA_IMMEDITATE)
-               &&
-               ((data == BIT_MA_WORK_BO) || (data == BIT_MA_WORK_BV))
-              )
-             )   
+         ) 
       {
-        /*
-        Зараз є спроба зранжувати "Работа БВ" або "Работа БО" на дискретний вихід
-        минуючи тиблицю редагвання (тобто гарантовано у даній трансакції пізніше не буде
-        знята умова одногочаного ранжування цих функцій на різні дискретні виходи, що може
-        мати місце при виконанні функції 16, коли спочатку встановлюємо якусь функцію, а потім знімаємо
-        цю саму функцію з іншого реле але операція ця "запрограмована" у одному запиті)
-        Треба перевірити, чи на іншому виході вони зранжовані чи ні
-        Якщо зранжовані то дане ранжування є недопустимим і треба повідомити про помилку
-        */
-        unsigned int maska_function[N_BIG] = {0, 0, 0, 0, 0, 0, 0, 0};
-        if (data == BIT_MA_WORK_BO)
-        {
-           _SET_BIT(maska_function, RANG_WORK_BO);
-        }
-        else
-        {
-           _SET_BIT(maska_function, RANG_WORK_BV);
-        }
-        
-        unsigned int flag_fix_setting_function = 0;
-        unsigned int i = 0;
-        while ((i < NUMBER_OUTPUTS) && (flag_fix_setting_function == 0))
-        {
-          if (i != number)
-          {
-            //перевіряємо тільки ті виходи які зараз не ранжуються
-            if (
-                (((*(target_label->ranguvannja_outputs + N_BIG*i    )) & maska_function[0]) != 0)
-                ||
-                (((*(target_label->ranguvannja_outputs + N_BIG*i + 1)) & maska_function[1]) != 0)
-                ||
-                (((*(target_label->ranguvannja_outputs + N_BIG*i + 2)) & maska_function[2]) != 0)
-                ||
-                (((*(target_label->ranguvannja_outputs + N_BIG*i + 3)) & maska_function[3]) != 0)
-                ||
-                (((*(target_label->ranguvannja_outputs + N_BIG*i + 4)) & maska_function[4]) != 0)
-                ||
-                (((*(target_label->ranguvannja_outputs + N_BIG*i + 5)) & maska_function[5]) != 0)
-                ||
-                (((*(target_label->ranguvannja_outputs + N_BIG*i + 6)) & maska_function[6]) != 0)
-                ||
-                (((*(target_label->ranguvannja_outputs + N_BIG*i + 7)) & maska_function[7]) != 0)
-               ) 
-              flag_fix_setting_function = 1;
-          }
-          
-          i++;
-        }
-        
-        //Зафіксовано, що вже дана функція зафіксована на інших виходах, тому повідомляємо про помилку
-        if (flag_fix_setting_function != 0) error = ERROR_ILLEGAL_DATA_VALUE;
+        error = ERROR_ILLEGAL_DATA_VALUE;  
       }
     }
     else if (
@@ -3651,11 +3593,11 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
 unsigned int save_new_rang_buttons_from_gmm(unsigned int number, unsigned int number_position, unsigned short int data, unsigned int method_setting)
 {
   __SETTINGS *target_label;
-  if (method_setting == SET_DATA_IMMEDITATE) target_label = &current_settings;
+  if (method_setting == SET_DATA_IMMEDITATE) target_label = &current_settings_interfaces;
   else target_label = &edition_settings;
   
   unsigned int *point_to_target;
-  unsigned int input_value = current_settings.ranguvannja_buttons[number];
+  unsigned int input_value = current_settings_interfaces.ranguvannja_buttons[number];
   unsigned int number_function_in_source = 0, index_function_in_source;
   unsigned short error = 0;
   
@@ -4011,7 +3953,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
   }
   else if ((address_data >= M_ADDRESS_FIRST_USER_REGISTER_DATA) && (address_data <= M_ADDRESS_LAST_USER_REGISTER_DATA))
   {
-    unsigned int address_data_tmp = current_settings.user_register[address_data - M_ADDRESS_FIRST_USER_REGISTER_DATA];
+    unsigned int address_data_tmp = current_settings_interfaces.user_register[address_data - M_ADDRESS_FIRST_USER_REGISTER_DATA];
 
     //Щоб не відбулося зациклювання регістрів користувача на регістри користувача робимо цю перевірку
     if ( !((address_data_tmp >= M_ADDRESS_FIRST_USER_REGISTER_DATA) && (address_data_tmp <= M_ADDRESS_LAST_USER_REGISTER_DATA)) )
@@ -4042,27 +3984,27 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     {
     case MA_GROUP_USTAVOK:
       {
-        temp_value = current_settings.grupa_ustavok;
+        temp_value = current_settings_interfaces.grupa_ustavok;
         break;
       }
     case MA_TYPE_MTZ1:
       {
-        temp_value = current_settings.type_mtz1;
+        temp_value = current_settings_interfaces.type_mtz1;
         break;
       }
     case MA_TYPE_MTZ2:
       {
-        temp_value = current_settings.type_mtz2;
+        temp_value = current_settings_interfaces.type_mtz2;
         break;
       }
     case MA_TYPE_MTZ3:
       {
-        temp_value = current_settings.type_mtz3;
+        temp_value = current_settings_interfaces.type_mtz3;
         break;
       }
     case MA_TYPE_MTZ4:
       {
-        temp_value = current_settings.type_mtz4;
+        temp_value = current_settings_interfaces.type_mtz4;
         break;
       }
     default:
@@ -4106,392 +4048,392 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     {
     case MA_STP_MTZ1:
       {
-        temp_value = current_settings.setpoint_mtz_1[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_1[num_gr]/10;
         break;
       }
     case MA_STP_MTZ1_N_VPERED:
       {
-        temp_value = current_settings.setpoint_mtz_1_n_vpered[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_1_n_vpered[num_gr]/10;
         break;
       }
     case MA_STP_MTZ1_N_NAZAD:
       {
-        temp_value = current_settings.setpoint_mtz_1_n_nazad[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_1_n_nazad[num_gr]/10;
         break;
       }
     case MA_STP_MTZ1_PO_NAPRUZI:
       {
-        temp_value = current_settings.setpoint_mtz_1_po_napruzi[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_1_po_napruzi[num_gr]/10;
         break;
       }
     case MA_STP_MTZ1_U:
       {
-        temp_value = current_settings.setpoint_mtz_1_U[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_1_U[num_gr]/10;
         break;
       }
     case MA_STP_MTZ1_ANGLE:
       {
-        temp_value = current_settings.setpoint_mtz_1_angle[num_gr];
+        temp_value = current_settings_interfaces.setpoint_mtz_1_angle[num_gr];
         break;
       }
     case MA_TO_MTZ1:
       {
-        temp_value = current_settings.timeout_mtz_1[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_1[num_gr]/10;
         break;
       }
     case MA_TO_MTZ1_N_VPERED:
       {
-        temp_value = current_settings.timeout_mtz_1_n_vpered[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_1_n_vpered[num_gr]/10;
         break;
       }
     case MA_TO_MTZ1_N_NAZAD:
       {
-        temp_value = current_settings.timeout_mtz_1_n_nazad[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_1_n_nazad[num_gr]/10;
         break;
       }
     case MA_TO_MTZ1_PO_NAPRUZI:
       {
-        temp_value = current_settings.timeout_mtz_1_po_napruzi[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_1_po_napruzi[num_gr]/10;
         break;
       }
     case MA_STP_MTZ2:
       {
-        temp_value = current_settings.setpoint_mtz_2[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_2[num_gr]/10;
         break;
       }
     case MA_STP_MTZ2_N_VPERED:
       {
-        temp_value = current_settings.setpoint_mtz_2_n_vpered[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_2_n_vpered[num_gr]/10;
         break;
       }
     case MA_STP_MTZ2_N_NAZAD:
       {
-        temp_value = current_settings.setpoint_mtz_2_n_nazad[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_2_n_nazad[num_gr]/10;
         break;
       }
     case MA_STP_MTZ2_PO_NAPRUZI:
       {
-        temp_value = current_settings.setpoint_mtz_2_po_napruzi[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_2_po_napruzi[num_gr]/10;
         break;
       }
     case MA_STP_MTZ2_U:
       {
-        temp_value = current_settings.setpoint_mtz_2_U[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_2_U[num_gr]/10;
         break;
       }
     case MA_STP_MTZ2_ANGLE:
       {
-        temp_value = current_settings.setpoint_mtz_2_angle[num_gr];
+        temp_value = current_settings_interfaces.setpoint_mtz_2_angle[num_gr];
         break;
       }
     case MA_TO_MTZ2:
       {
-        temp_value = current_settings.timeout_mtz_2[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_2[num_gr]/10;
         break;
       }
     case MA_TO_MTZ2_N_VPERED:
       {
-        temp_value = current_settings.timeout_mtz_2_n_vpered[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_2_n_vpered[num_gr]/10;
         break;
       }
     case MA_TO_MTZ2_N_NAZAD:
       {
-        temp_value = current_settings.timeout_mtz_2_n_nazad[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_2_n_nazad[num_gr]/10;
         break;
       }
     case MA_TO_MTZ2_PO_NAPRUZI:
       {
-        temp_value = current_settings.timeout_mtz_2_po_napruzi[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_2_po_napruzi[num_gr]/10;
         break;
       }
     case MA_TO_MTZ2_VVID_PR:
       {
-        temp_value = current_settings.timeout_mtz_2_vvid_pr[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_2_vvid_pr[num_gr]/10;
         break;
       }
     case MA_TO_MTZ2_PR:
       {
-        temp_value = current_settings.timeout_mtz_2_pr[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_2_pr[num_gr]/10;
         break;
       }
     case MA_TO_MTZ2_N_VPERED_PR:
       {
-        temp_value = current_settings.timeout_mtz_2_n_vpered_pr[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_2_n_vpered_pr[num_gr]/10;
         break;
       }
     case MA_TO_MTZ2_N_NAZAD_PR:
       {
-        temp_value = current_settings.timeout_mtz_2_n_nazad_pr[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_2_n_nazad_pr[num_gr]/10;
         break;
       }
     case MA_TO_MTZ2_PO_NAPRUZI_PR:
       {
-        temp_value = current_settings.timeout_mtz_2_po_napruzi_pr[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_2_po_napruzi_pr[num_gr]/10;
         break;
       }
     case MA_STP_MTZ3:
       {
-        temp_value = current_settings.setpoint_mtz_3[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_3[num_gr]/10;
         break;
       }
     case MA_STP_MTZ3_N_VPERED:
       {
-        temp_value = current_settings.setpoint_mtz_3_n_vpered[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_3_n_vpered[num_gr]/10;
         break;
       }
     case MA_STP_MTZ3_N_NAZAD:
       {
-        temp_value = current_settings.setpoint_mtz_3_n_nazad[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_3_n_nazad[num_gr]/10;
         break;
       }
     case MA_STP_MTZ3_PO_NAPRUZI:
       {
-        temp_value = current_settings.setpoint_mtz_3_po_napruzi[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_3_po_napruzi[num_gr]/10;
         break;
       }
     case MA_STP_MTZ3_U:
       {
-        temp_value = current_settings.setpoint_mtz_3_U[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_3_U[num_gr]/10;
         break;
       }
     case MA_STP_MTZ3_ANGLE:
       {
-        temp_value = current_settings.setpoint_mtz_3_angle[num_gr];
+        temp_value = current_settings_interfaces.setpoint_mtz_3_angle[num_gr];
         break;
       }
     case MA_TO_MTZ3:
       {
-        temp_value = current_settings.timeout_mtz_3[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_3[num_gr]/10;
         break;
       }
     case MA_TO_MTZ3_N_VPERED:
       {
-        temp_value = current_settings.timeout_mtz_3_n_vpered[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_3_n_vpered[num_gr]/10;
         break;
       }
     case MA_TO_MTZ3_N_NAZAD:
       {
-        temp_value = current_settings.timeout_mtz_3_n_nazad[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_3_n_nazad[num_gr]/10;
         break;
       }
     case MA_TO_MTZ3_PO_NAPRUZI:
       {
-        temp_value = current_settings.timeout_mtz_3_po_napruzi[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_3_po_napruzi[num_gr]/10;
         break;
       }
     case MA_STP_MTZ4:
       {
-        temp_value = current_settings.setpoint_mtz_4[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_4[num_gr]/10;
         break;
       }
     case MA_STP_MTZ4_N_VPERED:
       {
-        temp_value = current_settings.setpoint_mtz_4_n_vpered[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_4_n_vpered[num_gr]/10;
         break;
       }
     case MA_STP_MTZ4_N_NAZAD:
       {
-        temp_value = current_settings.setpoint_mtz_4_n_nazad[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_4_n_nazad[num_gr]/10;
         break;
       }
     case MA_STP_MTZ4_PO_NAPRUZI:
       {
-        temp_value = current_settings.setpoint_mtz_4_po_napruzi[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_4_po_napruzi[num_gr]/10;
         break;
       }
     case MA_STP_MTZ4_U:
       {
-        temp_value = current_settings.setpoint_mtz_4_U[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_mtz_4_U[num_gr]/10;
         break;
       }
     case MA_STP_MTZ4_ANGLE:
       {
-        temp_value = current_settings.setpoint_mtz_4_angle[num_gr];
+        temp_value = current_settings_interfaces.setpoint_mtz_4_angle[num_gr];
         break;
       }
     case MA_TO_MTZ4:
       {
-        temp_value = current_settings.timeout_mtz_4[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_4[num_gr]/10;
         break;
       }
     case MA_TO_MTZ4_N_VPERED:
       {
-        temp_value = current_settings.timeout_mtz_4_n_vpered[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_4_n_vpered[num_gr]/10;
         break;
       }
     case MA_TO_MTZ4_N_NAZAD:
       {
-        temp_value = current_settings.timeout_mtz_4_n_nazad[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_4_n_nazad[num_gr]/10;
         break;
       }
     case MA_TO_MTZ4_PO_NAPRUZI:
       {
-        temp_value = current_settings.timeout_mtz_4_po_napruzi[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_mtz_4_po_napruzi[num_gr]/10;
         break;
       }
     case MA_STP_ZOP1:
       {
-        temp_value = current_settings.setpoint_zop[num_gr];
+        temp_value = current_settings_interfaces.setpoint_zop[num_gr];
         break;
       }
     case MA_TO_ZOP1:
       {
-        temp_value = current_settings.timeout_zop[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_zop[num_gr]/10;
         break;
       }
     case MA_STP_UMIN1:
       {
-        temp_value = current_settings.setpoint_Umin1[num_gr]/100;
+        temp_value = current_settings_interfaces.setpoint_Umin1[num_gr]/100;
         break;
       }
     case MA_TO_UMIN1:
       {
-        temp_value = current_settings.timeout_Umin1[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_Umin1[num_gr]/10;
         break;
       }
     case MA_STP_UMIN2:
       {
-        temp_value = current_settings.setpoint_Umin2[num_gr]/100;
+        temp_value = current_settings_interfaces.setpoint_Umin2[num_gr]/100;
         break;
       }
     case MA_TO_UMIN2:
       {
-        temp_value = current_settings.timeout_Umin2[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_Umin2[num_gr]/10;
         break;
       }
     case MA_STP_BLK_UMIN1_BY_I:
       {
-        temp_value = current_settings.setpoint_Umin1_Iblk[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_Umin1_Iblk[num_gr]/10;
         break;
       }
     case MA_STP_BLK_UMIN2_BY_I:
       {
-        temp_value = current_settings.setpoint_Umin2_Iblk[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_Umin2_Iblk[num_gr]/10;
         break;
       }
     case MA_STP_UMAX1:
       {
-        temp_value = current_settings.setpoint_Umax1[num_gr]/100;
+        temp_value = current_settings_interfaces.setpoint_Umax1[num_gr]/100;
         break;
       }
     case MA_TO_UMAX1:
       {
-        temp_value = current_settings.timeout_Umax1[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_Umax1[num_gr]/10;
         break;
       }
     case MA_STP_UMAX2:
       {
-        temp_value = current_settings.setpoint_Umax2[num_gr]/100;
+        temp_value = current_settings_interfaces.setpoint_Umax2[num_gr]/100;
         break;
       }
     case MA_TO_UMAX2:
       {
-        temp_value = current_settings.timeout_Umax2[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_Umax2[num_gr]/10;
         break;
       }
     case MA_STP_UROV:
       {
-        temp_value = current_settings.setpoint_urov[num_gr]/10;
+        temp_value = current_settings_interfaces.setpoint_urov[num_gr]/10;
         break;
       }
     case MA_TO_UROV1:
       {
-        temp_value = current_settings.timeout_urov_1[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_urov_1[num_gr]/10;
         break;
       }
     case MA_TO_UROV2:
       {
-        temp_value = current_settings.timeout_urov_2[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_urov_2[num_gr]/10;
         break;
       }
     case MA_STP_AVR_MIN1:
       {
-        temp_value = current_settings.setpoint_avr_min1[num_gr]/100;
+        temp_value = current_settings_interfaces.setpoint_avr_min1[num_gr]/100;
         break;
       }
     case MA_STP_AVR_MAX1:
       {
-        temp_value = current_settings.setpoint_avr_max1[num_gr]/100;
+        temp_value = current_settings_interfaces.setpoint_avr_max1[num_gr]/100;
         break;
       }
     case MA_STP_AVR_MIN2:
       {
-        temp_value = current_settings.setpoint_avr_min2[num_gr]/100;
+        temp_value = current_settings_interfaces.setpoint_avr_min2[num_gr]/100;
         break;
       }
     case MA_STP_AVR_MAX2:
       {
-        temp_value = current_settings.setpoint_avr_max2[num_gr]/100;
+        temp_value = current_settings_interfaces.setpoint_avr_max2[num_gr]/100;
         break;
       }
     case MA_STP_KRATN_AVR:
       {
-        temp_value = current_settings.setpoint_kratn_avr[num_gr];
+        temp_value = current_settings_interfaces.setpoint_kratn_avr[num_gr];
         break;
       }
     case MA_TO_AVR_RL:
       {
-        temp_value = current_settings.timeout_avr_rl[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_avr_rl[num_gr]/10;
         break;
       }
     case MA_TO_AVR_OL:
       {
-        temp_value = current_settings.timeout_avr_ol[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_avr_ol[num_gr]/10;
         break;
       }
     case MA_TO_AVR_ZAVERSHENNJA:
       {
-        temp_value = current_settings.timeout_avr_zavershennja[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_avr_zavershennja[num_gr]/10;
         break;
       }
     case MA_TO_AVR_RESET_BLK:
       {
-        temp_value = current_settings.timeout_avr_reset_blk[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_avr_reset_blk[num_gr]/10;
         break;
       }
     case MA_TO_APV_BLOCK_VID_VV:
       {
-        temp_value = current_settings.timeout_apv_block_vid_VV[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_apv_block_vid_VV[num_gr]/10;
         break;
       }
     case MA_TO_APV_CYCLE_1:
       {
-        temp_value = current_settings.timeout_apv_1[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_apv_1[num_gr]/10;
         break;
       }
     case MA_TO_APV_CYCLE_2:
       {
-        temp_value = current_settings.timeout_apv_2[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_apv_2[num_gr]/10;
         break;
       }
     case MA_TO_APV_CYCLE_3:
       {
-        temp_value = current_settings.timeout_apv_3[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_apv_3[num_gr]/10;
         break;
       }
     case MA_TO_APV_CYCLE_4:
       {
-        temp_value = current_settings.timeout_apv_4[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_apv_4[num_gr]/10;
         break;
       }
     case MA_TO_APV_BLOCK_VID_APV1:
       {
-        temp_value = current_settings.timeout_apv_block_vid_apv1[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_apv_block_vid_apv1[num_gr]/10;
         break;
       }
     case MA_TO_APV_BLOCK_VID_APV2:
       {
-        temp_value = current_settings.timeout_apv_block_vid_apv2[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_apv_block_vid_apv2[num_gr]/10;
         break;
       }
     case MA_TO_APV_BLOCK_VID_APV3:
       {
-        temp_value = current_settings.timeout_apv_block_vid_apv3[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_apv_block_vid_apv3[num_gr]/10;
         break;
       }
     case MA_TO_APV_BLOCK_VID_APV4:
       {
-        temp_value = current_settings.timeout_apv_block_vid_apv4[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_apv_block_vid_apv4[num_gr]/10;
         break;
       }
     default:
@@ -4508,107 +4450,107 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     {
     case MA_TN1:
       {
-        temp_value = current_settings.TVoltage;
+        temp_value = current_settings_interfaces.TVoltage;
         break;
       }
     case MA_TT:
       {
-        temp_value = current_settings.TCurrent;
+        temp_value = current_settings_interfaces.TCurrent;
         break;
       }
     case MA_TO_SWCH_ON:
       {
-        temp_value = current_settings.timeout_swch_on/10;
+        temp_value = current_settings_interfaces.timeout_swch_on/10;
         break;
       }
     case MA_TO_SWCH_OFF:
       {
-        temp_value = current_settings.timeout_swch_off/10;
+        temp_value = current_settings_interfaces.timeout_swch_off/10;
         break;
       }
     case MA_TO_SWCH_UDL_BLK_ON:
       {
-        temp_value = current_settings.timeout_swch_udl_blk_on/10;
+        temp_value = current_settings_interfaces.timeout_swch_udl_blk_on/10;
         break;
       }
     case MA_TO_FAULT_CONTROL_CIRCUIT:
       {
-        temp_value = current_settings.timeout_pryvoda_VV/10;
+        temp_value = current_settings_interfaces.timeout_pryvoda_VV/10;
         break;
       }
     case MA_STP_Inom:
       {
-        temp_value = current_settings.setpoint_Inom;
+        temp_value = current_settings_interfaces.setpoint_Inom;
         break;
       }
     case MA_STP_RKS_Inom:
       {
-        temp_value = current_settings.setpoint_r_kom_st_Inom/10;
+        temp_value = current_settings_interfaces.setpoint_r_kom_st_Inom/10;
         break;
       }
     case MA_STP_Inom_vymk:
       {
-        temp_value = current_settings.setpoint_Inom_vymk;
+        temp_value = current_settings_interfaces.setpoint_Inom_vymk;
         break;
       }
     case MA_STP_RKS_Inom_vymk:
       {
-        temp_value = current_settings.setpoint_r_kom_st_Inom_vymk;
+        temp_value = current_settings_interfaces.setpoint_r_kom_st_Inom_vymk;
         break;
       }
     case MA_STP_POCHATKOVYJ_RESURS_LSW:
       {
-        temp_value = current_settings.setpoint_pochatkovyj_resurs & 0xffff;
+        temp_value = current_settings_interfaces.setpoint_pochatkovyj_resurs & 0xffff;
         break;
       }
     case MA_STP_POCHATKOVYJ_RESURS_MSW:
       {
-        temp_value = (current_settings.setpoint_pochatkovyj_resurs >> 16) & 0xffff;
+        temp_value = (current_settings_interfaces.setpoint_pochatkovyj_resurs >> 16) & 0xffff;
         break;
       }
     case MA_STP_KRYTYCHNYJ_RESURS:
       {
-        temp_value = current_settings.setpoint_krytychnyj_resurs;
+        temp_value = current_settings_interfaces.setpoint_krytychnyj_resurs;
         break;
       }
     case MA_POCHATKOVA_K_VYMK_LSW:
       {
-        temp_value = current_settings.setpoint_pochatkova_k_vymk & 0xffff;
+        temp_value = current_settings_interfaces.setpoint_pochatkova_k_vymk & 0xffff;
         break;
       }
     case MA_POCHATKOVA_K_VYMK_MSW:
       {
-        temp_value = (current_settings.setpoint_pochatkova_k_vymk >> 16) & 0xffff;
+        temp_value = (current_settings_interfaces.setpoint_pochatkova_k_vymk >> 16) & 0xffff;
         break;
       }
     case MA_UVV_TYPE_SIGNAL_INPUT:
       {
-        temp_value = current_settings.type_of_input_signal & ((1 << NUMBER_INPUTS) - 1);
+        temp_value = current_settings_interfaces.type_of_input_signal & ((1 << NUMBER_INPUTS) - 1);
         break;
       }
     case MA_UVV_TYPE_INPUT:
       {
-        temp_value = ((unsigned int)(~current_settings.type_of_input)) & ((1 << NUMBER_INPUTS) - 1);
+        temp_value = ((unsigned int)(~current_settings_interfaces.type_of_input)) & ((1 << NUMBER_INPUTS) - 1);
         break;
       }
     case MA_UVV_TYPE_OUTPUT:
       {
-        temp_value = current_settings.type_of_output & ((1 << NUMBER_OUTPUTS) - 1);
+        temp_value = current_settings_interfaces.type_of_output & ((1 << NUMBER_OUTPUTS) - 1);
         break;
       }
     case MA_UVV_TYPE_OUTPUT_MODIF:
       {
-        temp_value = current_settings.type_of_output_modif & ((1 << NUMBER_OUTPUTS) - 1);
+        temp_value = current_settings_interfaces.type_of_output_modif & ((1 << NUMBER_OUTPUTS) - 1);
         break;
       }
     case MA_TYPE_DF:
       {
-        temp_value = current_settings.type_df & ((1 << NUMBER_DEFINED_FUNCTIONS) - 1);
+        temp_value = current_settings_interfaces.type_df & ((1 << NUMBER_DEFINED_FUNCTIONS) - 1);
         break;
       }
     case MA_UVV_TYPE_LED:
       {
-        temp_value = current_settings.type_of_led & ((1 << NUMBER_LEDS) - 1);
+        temp_value = current_settings_interfaces.type_of_led & ((1 << NUMBER_LEDS) - 1);
         break;
       }
     case MA_DOPUSK_DV_1:
@@ -4622,7 +4564,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     case MA_DOPUSK_DV_9:
     case MA_DOPUSK_DV_10:
       {
-        temp_value = current_settings.dopusk_dv[address_data - MA_DOPUSK_DV_1];
+        temp_value = current_settings_interfaces.dopusk_dv[address_data - MA_DOPUSK_DV_1];
         break;
       }
     case MA_DF_PAUSE_1:
@@ -4634,7 +4576,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     case MA_DF_PAUSE_7:
     case MA_DF_PAUSE_8:
       {
-        temp_value = current_settings.timeout_pause_df[address_data - MA_DF_PAUSE_1]/10;
+        temp_value = current_settings_interfaces.timeout_pause_df[address_data - MA_DF_PAUSE_1]/10;
         break;
       }
     case MA_DF_WORK_1:
@@ -4646,12 +4588,12 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     case MA_DF_WORK_7:
     case MA_DF_WORK_8:
       {
-        temp_value = current_settings.timeout_work_df[address_data - MA_DF_WORK_1]/10;
+        temp_value = current_settings_interfaces.timeout_work_df[address_data - MA_DF_WORK_1]/10;
         break;
       }
     case MA_CONTROL_MTZ:
       {
-        int input_value = current_settings.control_mtz;
+        int input_value = current_settings_interfaces.control_mtz;
         
         temp_value = (((input_value >> N_BIT_CTRMTZ_1                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ1               - BIT_MA_CONTROL_MTZ_BASE) ) |
                      (((input_value >> N_BIT_CTRMTZ_2                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2               - BIT_MA_CONTROL_MTZ_BASE) ) | 
@@ -4672,7 +4614,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case MA_CONTROL_ZDZ:
       {
-        int input_value = current_settings.control_zdz;
+        int input_value = current_settings_interfaces.control_zdz;
         
         temp_value = (((input_value >> INDEX_ML_CTRZDZ_STATE             ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ                   - BIT_MA_CONTROL_ZDZ_BASE)) |
                      (((input_value >> INDEX_ML_CTRZDZ_STARTED_FROM_MTZ1 ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_ZDZ_BASE)) |
@@ -4683,14 +4625,14 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case MA_CONTROL_ZOP:
       {
-        int input_value = current_settings.control_zop;
+        int input_value = current_settings_interfaces.control_zop;
         
         temp_value = (((input_value >> CTR_ZOP_STATE_BIT) & 0x1 ) << (BIT_MA_CONTROL_ZOP1 - BIT_MA_CONTROL_ZOP_BASE));
         break;
       }
     case MA_CONTROL_UMIN:
       {
-        int input_value = current_settings.control_Umin;
+        int input_value = current_settings_interfaces.control_Umin;
         
         temp_value = (((input_value >> INDEX_CTR_UMIN1          ) & 0x1 ) << (BIT_MA_CONTROL_UMIN1           - BIT_MA_CONTROL_UMIN_BASE)) |
                      (((input_value >> INDEX_CTR_UMIN2          ) & 0x1 ) << (BIT_MA_CONTROL_UMIN2           - BIT_MA_CONTROL_UMIN_BASE)) |
@@ -4704,7 +4646,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case MA_CONTROL_UMAX:
       {
-        int input_value = current_settings.control_Umax;
+        int input_value = current_settings_interfaces.control_Umax;
         
         temp_value = (((input_value >> INDEX_CTR_UMAX1          ) & 0x1 ) << (BIT_MA_CONTROL_UMAX1           - BIT_MA_CONTROL_UMAX_BASE)) |
                      (((input_value >> INDEX_CTR_UMAX2          ) & 0x1 ) << (BIT_MA_CONTROL_UMAX2           - BIT_MA_CONTROL_UMAX_BASE)) |
@@ -4714,7 +4656,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case MA_CONTROL_UROV_PART1:
       {
-        int input_value = current_settings.control_urov;
+        int input_value = current_settings_interfaces.control_urov;
         
         temp_value = (((input_value >> INDEX_ML_CTRUROV_STATE               ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STATE                - BIT_MA_CONTROL_UROV_BASE_PART1)) |
                      (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_MTZ1   ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ1    - BIT_MA_CONTROL_UROV_BASE_PART1)) |
@@ -4730,14 +4672,14 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case MA_CONTROL_UROV_PART2:
       {
-        int input_value = current_settings.control_urov;
+        int input_value = current_settings_interfaces.control_urov;
         
         temp_value = (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_ZDZ  ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_ZDZ   - BIT_MA_CONTROL_UROV_BASE_PART2));
         break;
       }
     case MA_CONTROL_AVR:
       {
-        int input_value = current_settings.control_avr;
+        int input_value = current_settings_interfaces.control_avr;
         
         temp_value = (((input_value >> INDEX_CTR_AVR                      ) & 0x1 ) << (BIT_MA_CONTROL_AVR                       - BIT_MA_CONTROL_AVR_BASE)) |
                      (((input_value >> INDEX_CTR_AVR_OTKL_BLK_VID_ZAHYSTIV) & 0x1 ) << (BIT_MA_CONTROL_AVR_OTKL_BLK_VID_ZAHYSTIV - BIT_MA_CONTROL_AVR_BASE));
@@ -4745,7 +4687,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case MA_CONTROL_APV:
       {
-        int input_value = current_settings.control_apv;
+        int input_value = current_settings_interfaces.control_apv;
         
         temp_value = (((input_value >> INDEX_ML_CTRAPV_STAGE_1           ) & 0x1 ) << (BIT_MA_CONTROL_APV_CYCLE1            - BIT_MA_CONTROL_APV_BASE)) |
                      (((input_value >> INDEX_ML_CTRAPV_STAGE_2           ) & 0x1 ) << (BIT_MA_CONTROL_APV_CYCLE2            - BIT_MA_CONTROL_APV_BASE)) |
@@ -4759,8 +4701,8 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case MA_CONTROL_CTRL_VV:
       {
-        int input_value1 = current_settings.control_switch;
-        int input_value2 = current_settings.control_extra_settings_1;
+        int input_value1 = current_settings_interfaces.control_switch;
+        int input_value2 = current_settings_interfaces.control_extra_settings_1;
         
         temp_value = (((input_value1 >> INDEX_ML_CTRPRYVOD_VV                          ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_VV_STATE           - BIT_MA_CONTROL_CTRL_VV_BASE)) |
                      (((input_value2 >> INDEX_ML_CTREXTRA_SETTINGS_1_BLK_ON_CB_MISCEVE ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_BLK_ON_CB_MISCEVE  - BIT_MA_CONTROL_CTRL_VV_BASE)) |
@@ -4773,7 +4715,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case MA_CONFIGURATION_PART1:
       {
-        int input_value = current_settings.configuration;
+        int input_value = current_settings_interfaces.configuration;
         
         temp_value = (((input_value >> MTZ_BIT_CONFIGURATION       ) & 0x1 ) << (BIT_MA_CONFIGURATION_MTZ        - BIT_MA_CONFIGURATION_BASE_PART1)) |
                      (((input_value >> ZDZ_BIT_CONFIGURATION       ) & 0x1 ) << (BIT_MA_CONFIGURATION_ZDZ        - BIT_MA_CONFIGURATION_BASE_PART1)) |
@@ -4787,7 +4729,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case MA_CONFIGURATION_PART2:
       {
-        int input_value = current_settings.configuration;
+        int input_value = current_settings_interfaces.configuration;
         
         temp_value = (((input_value >> EL_BIT_CONFIGURATION ) & 0x1 ) << (BIT_MA_CONFIGURATION_EL  - BIT_MA_CONFIGURATION_BASE_PART2));
         break;
@@ -4796,44 +4738,50 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       {
           if (type_interface == USB_RECUEST)
           {
-            temp_value = current_settings.timeout_deactivation_password_interface_USB;
+            temp_value = current_settings_interfaces.timeout_deactivation_password_interface_USB;
           }
           else if (type_interface == RS485_RECUEST)
           {
-            temp_value = current_settings.timeout_deactivation_password_interface_RS485;
+            temp_value = current_settings_interfaces.timeout_deactivation_password_interface_RS485;
           }
           else error = ERROR_SLAVE_DEVICE_FAILURE;
       
           break;
       }
+    case MA_TO_IDLE_NEW_SETTINGS:
+      {
+          temp_value = current_settings_interfaces.timeout_idle_new_settings;
+      
+          break;
+      }
     case MA_LANGUAGE_MENU:
       {
-        temp_value = current_settings.language;
+        temp_value = current_settings_interfaces.language;
         break;
       }
     case MA_SPEED_RS485:
       {
-        temp_value = current_settings.speed_RS485;
+        temp_value = current_settings_interfaces.speed_RS485;
         break;
       }
     case MA_STOP_BITS_RS485:
       {
-        temp_value = current_settings.number_stop_bit_RS485 + 1;
+        temp_value = current_settings_interfaces.number_stop_bit_RS485 + 1;
         break;
       }
     case MA_PARE_RS485:
       {
-        temp_value = current_settings.pare_bit_RS485;
+        temp_value = current_settings_interfaces.pare_bit_RS485;
         break;
       }
     case MA_TIMEOUT_RS485:
       {
-        temp_value = current_settings.time_out_1_RS485;
+        temp_value = current_settings_interfaces.time_out_1_RS485;
         break;
       }
     case MA_LOGICAL_ADDRESS:
       {
-        temp_value = current_settings.address;
+        temp_value = current_settings_interfaces.address;
         break;
       }
     case MA_NAME_OF_CELL_CHARS_01_02:
@@ -4846,7 +4794,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     case MA_NAME_OF_CELL_CHARS_15_16:
       {
         unsigned int two_char_index = (address_data - MA_NAME_OF_CELL_CHARS_01_02) << 1;
-        temp_value = (current_settings.name_of_cell[two_char_index] & 0xff) | ((current_settings.name_of_cell[two_char_index + 1] & 0xff) << 8);
+        temp_value = (current_settings_interfaces.name_of_cell[two_char_index] & 0xff) | ((current_settings_interfaces.name_of_cell[two_char_index + 1] & 0xff) << 8);
         break;
       }
     default:
@@ -4917,13 +4865,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     unsigned short int output_array[26];
     
     //Спочатку очищаємо весь вихідний масив
-    for (unsigned int i = 0; i< 26; i++ )output_array[i] = 0;
-
-    if ((information_about_settings_changed & (1 << type_interface)) != 0)
-    {
-      output_array[(BIT_MA_SETTINGS_CHANGED - BIT_MA_CURRENT_AF_BASE) >> 4] |= 
-        (0x1 << ((BIT_MA_SETTINGS_CHANGED - BIT_MA_CURRENT_AF_BASE) & 0xf));
-    }
+    for (unsigned int i = 0; i< 26; i++ ) output_array[i] = 0;
 
     //Копіюємо вхідну інформацію
     if ((address_data >= M_ADDRESS_FIRST_CURRENT_AF ) && (address_data <= M_ADDRESS_LAST_CURRENT_AF))
@@ -5426,7 +5368,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
   }
   else if ((address_data >= M_ADDRESS_FIRST_USER_REGISTER) && (address_data <= M_ADDRESS_LAST_USER_REGISTER))
   {
-    temp_value = current_settings.user_register[address_data - M_ADDRESS_FIRST_USER_REGISTER];
+    temp_value = current_settings_interfaces.user_register[address_data - M_ADDRESS_FIRST_USER_REGISTER];
   }
   else if ((address_data >= M_ADDRESS_FIRST_DI_RANG) && (address_data <= M_ADDRESS_LAST_DI_RANG))
   {
@@ -5547,12 +5489,12 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
   else if (address_data == MA_PREFAULT_INTERVAL_AR)
   {
     //Читання глибини доаварійного масиву (кількість періодів промислової частоти)
-    temp_value = current_settings.prefault_number_periods;
+    temp_value = current_settings_interfaces.prefault_number_periods;
   }
   else if (address_data == MA_POSTFAULT_INTERVAL_AR)
   {
     //Читання глибини післяаварійного масиву (кількість періодів промислової частоти)
-    temp_value = current_settings.postfault_number_periods;
+    temp_value = current_settings_interfaces.postfault_number_periods;
   }
   else if (address_data == MA_TOTAL_NUMBER_RECORDS_AR)
   {
@@ -5759,7 +5701,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
   }
   else if (address_data == MA_NUMBER_ITERATION_EL)
   {
-    temp_value = current_settings.number_iteration_el;
+    temp_value = current_settings_interfaces.number_iteration_el;
   }
   else if (address_data == MA_LSW_GLOBAL_RESURS_MIN)
   {
@@ -5862,7 +5804,7 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
   unsigned int error = 0, temp_value;
   
   __SETTINGS *target_label;
-  if (method_setting == SET_DATA_IMMEDITATE) target_label = &current_settings;
+  if (method_setting == SET_DATA_IMMEDITATE) target_label = &current_settings_interfaces;
   else target_label = &edition_settings;
 
   if (address_data == MA_PASSWORD_INTERFACE)
@@ -5872,28 +5814,28 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
     {
       if (password_set_USB != 0)
       {
-        if ((data == target_label->password_interface_USB) || (data == 0x1978)) password_set_USB = 0;
+        if ((data == current_settings.password_interface_USB) || (data == 0x1978)) password_set_USB = 0;
         else error = ERROR_ILLEGAL_DATA_VALUE;
       }
       else if (password_set_USB == 0)
       {
         previous_password_interface = target_label->password_interface_USB;
         target_label->password_interface_USB = data;
-        if (data != 0) password_set_USB = 1;
+        if ((data != 0) && (data == current_settings.password_interface_USB)) password_set_USB = 1;
       }
     }
     else if (type_interface == RS485_RECUEST)
     {
       if (password_set_RS485 != 0)
       {
-        if ((data == target_label->password_interface_RS485) || (data == 0x1978)) password_set_RS485 = 0;
+        if ((data == current_settings.password_interface_RS485) || (data == 0x1978)) password_set_RS485 = 0;
         else error = ERROR_ILLEGAL_DATA_VALUE;
       }
       else if (password_set_RS485 == 0)
       {
         previous_password_interface = target_label->password_interface_RS485;
         target_label->password_interface_RS485 = data;
-        if (data != 0) password_set_RS485 = 1;
+        if ((data != 0) && (data == current_settings.password_interface_RS485)) password_set_RS485 = 1;
       }
     }
     else error = ERROR_SLAVE_DEVICE_FAILURE;
@@ -7911,6 +7853,22 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
+    case MA_TO_IDLE_NEW_SETTINGS:
+      {
+        //Встановлення часу протягом якого, якщо немає нових змін налаштувнь, то попередні зміни налаштувань деактивуються
+        temp_value = data;
+        
+#if (TIMEOUT_DEACTIVATION_PASSWORD_MIN != 0)          
+        if ((temp_value >= TIMEOUT_NEW_SETTINGS_MIN) && (temp_value <= TIMEOUT_NEW_SETTINGS_MAX))
+#else
+        if (temp_value <= TIMEOUT_NEW_SETTINGS_MAX)
+#endif   
+          target_label->timeout_idle_new_settings = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
     case MA_LANGUAGE_MENU:
       {
         temp_value = data;
@@ -8256,108 +8214,34 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
   }
   else if ((address_data == MA_PREFAULT_INTERVAL_AR) || (address_data == MA_POSTFAULT_INTERVAL_AR))
   {
-    //Запис ширини доаварійного і/або післяаварійного масиву аналогового реєстратора
-    unsigned int modified_value = 0;
-    unsigned int semaphore_read_state_ar_record_copy = semaphore_read_state_ar_record;
-    int state_ar_record_copy = state_ar_record;
+    temp_value = data*20; //Переводимо кількість періодів промислової частоти у мілісекунди
 
-    /*Встановлюємо симафор - суть якого полягає у тому, що якщо процес запису нової 
-    аварії не йде - то на час його установлення новий запис починати не можна, якщо ж вже іде ноий запис,
-    то він має продовжуватися і, навпаки, блокувати роботу аналогового реєстратора не можна*/
-    semaphore_read_state_ar_record = 1;
-      
-    if (
-        (state_ar_record == STATE_AR_NO_RECORD      ) ||
-        (state_ar_record == STATE_AR_TEMPORARY_BLOCK)
-       )   
+    //Встановлюємо нові значення
+    if (address_data == MA_PREFAULT_INTERVAL_AR)
     {
-      /*На даний момент не йде запис текучого аналогового аварійного процесу,
-      тому для зміни часових настройок тимчасово встановлюємо стан роботи
-      аналогового реєстратора у заблокований режим*/
-      state_ar_record = STATE_AR_TEMPORARY_BLOCK; 
-      
-      temp_value = data*20; //Переводимо кількість періодів промислової частоти у мілісекунди
-
-      //Встановлюємо нові значення
-      if (address_data == MA_PREFAULT_INTERVAL_AR)
+      //Ширина доаварійного масиву
+      if ((temp_value >= TIMEOUT_PREFAULT_MIN) && (temp_value <= TIMEOUT_PREFAULT_MAX))
       {
-        //Ширина доаварійного масиву
-        if ((temp_value >= TIMEOUT_PREFAULT_MIN) && (temp_value <= TIMEOUT_PREFAULT_MAX))
+        if (target_label->prefault_number_periods != data)
         {
-          if (target_label->prefault_number_periods != data)
-          {
-            target_label->prefault_number_periods = data; //В таблицю настройок записуємо не мілісекунди, а кількість періодів
-            modified_value = 0xff;
-          }
+          target_label->prefault_number_periods = data; //В таблицю настройок записуємо не мілісекунди, а кількість періодів
         }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-      }
-      else if (address_data == MA_POSTFAULT_INTERVAL_AR)
-      {
-        //Ширина післяаварійного масиву
-        if ((temp_value >= TIMEOUT_POSTFAULT_MIN) && (temp_value <= TIMEOUT_POSTFAULT_MAX))
-        {
-          if (target_label->postfault_number_periods != data)
-          {
-            target_label->postfault_number_periods = data; //В таблицю настройок записуємо не мілісекунди, а кількість періодів
-            modified_value = 0xff;
-          }
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-      }
-        
-      if (method_setting == SET_DATA_IMMEDITATE)
-      {
-        //Виконуємо дії по зміні часових витримок аналогового реєстратора, якщо при їх зміні не було зафіксовано помилки
-        if (error == 0)
-        {
-          if (modified_value != 0) actions_after_changing_tiomouts_ar();
-        }
-
-        //Розблоковуємо роботу аналогового реєстратора
-        state_ar_record = STATE_AR_NO_RECORD;
       }
       else
+        error = ERROR_ILLEGAL_DATA_VALUE;
+    }
+    else if (address_data == MA_POSTFAULT_INTERVAL_AR)
+    {
+      //Ширина післяаварійного масиву
+      if ((temp_value >= TIMEOUT_POSTFAULT_MIN) && (temp_value <= TIMEOUT_POSTFAULT_MAX))
       {
-        /*
-        Інаше ці операції виконуємо після того, як зміни будуть перекопійовані у current_settings структуру
-        
-        У випадку, якщо нове значення реально не вводилося, бо записується те саме число, яке до того
-        було - вертаємо попереднє значення стану роботи аналогового реєстратора, бо
-        якщо ми в цьому місці парограми то можливі два варіанти 
-        STATE_AR_NO_RECORD       - якщо до цього часу функція 16 не ввела нового значення для іншого параметру витримки аналогового реєстратора
-        STATE_AR_TEMPORARY_BLOCK - якщо до цього часу функція 16    ввела нове   значення для іншого параметру витримки аналогового реєстратора
-        */
-        
-        if (modified_value == 0) state_ar_record = state_ar_record_copy;
+        if (target_label->postfault_number_periods != data)
+        {
+          target_label->postfault_number_periods = data; //В таблицю настройок записуємо не мілісекунди, а кількість періодів
+        }
       }
-    }
-    else
-    {
-      //Операція тимчасово недоступна, бо іде робота аналогового реєстратора
-      error = ERROR_SLAVE_DEVICE_BUSY;
-    }
-
-    if (method_setting == SET_DATA_IMMEDITATE)
-    {
-      //Знімаємо семафор
-      semaphore_read_state_ar_record = 0;
-    }
-    else
-    {
-      /*
-      Інаше цю операцію виконуємо після того, як зміни будуть перекопійовані у current_settings структуру
-        
-      У випадку, якщо нове значення реально не вводилося, бо записується те саме число, яке до того
-      було - вертаємо попереднє значення semaphore_read_state_ar_record, бо
-      якщо ми в цьому місці парограми то можливі два варіанти 
-      0    - якщо до цього часу функція 16 не ввела нового значення для іншого параметру витримки аналогового реєстратора
-      не 0 - якщо до цього часу функція 16    ввела нове   значення для іншого параметру витримки аналогового реєстратора
-      */
-      
-       if (modified_value == 0) semaphore_read_state_ar_record = semaphore_read_state_ar_record_copy;
+      else
+        error = ERROR_ILLEGAL_DATA_VALUE;
     }
   }
   else if (address_data == MA_CURRENT_NUMBER_RECORD_AR)
@@ -8804,60 +8688,10 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
       //Для встановлення мінімальної конфігурації має бути прописано по певній адресі визначене число - інакше повідомляємо, що такої адреси взагалі не існує (примітивний метод маскування від несанкціонованого дослідження карти пам'яті)
       error = ERROR_ILLEGAL_DATA_ADDRESS;
     }
-    else if (current_ekran.current_level != EKRAN_MAIN)
-    {
-      //Мінімальну конфігурацію можна встановлювати тільки з головного меню
-      error = ERROR_SLAVE_DEVICE_BUSY;
-    }
     else
     {
-      /*
-      Під час встановлення мінімальних настройок буде спроба змінити ширину 
-      доаварійного і післяаварійного масивів аналогового реєстратора - тому треба ще провірити
-      чи ми можемо цю операцію виконати
-      */
-      
-      /*Встановлюємо симафор - суть якого полягає у тому, що якщо процес запису нової 
-      аварії не йде - то на час його установлення новий запис починати не можна, якщо ж вже іде ноий запис,
-      то він має продовжуватися і, навпаки, блокувати роботу аналогового реєстратора не можна*/
-      semaphore_read_state_ar_record = 1;
-      
-      if (state_ar_record == STATE_AR_NO_RECORD)
-      {
-        /*На даний момент не йде запис текучого аналогового аварійного процесу,
-        тому для зміни часових настройок тимчасово встановлюємо стан роботи
-        аналогового реєстратора у заблокований режим*/
-        state_ar_record = STATE_AR_TEMPORARY_BLOCK; 
-      
-        //Скидаємо настройки у "мінімальні заводські значення"
-        min_settings(target_label);
-        
-        if (method_setting == SET_DATA_IMMEDITATE)
-        {
-          //Виконуємо дії по зміні часових витримок аналогового реєстратора
-          actions_after_changing_tiomouts_ar();
-
-          //Розблоковуємо роботу аналогового реєстратора
-          state_ar_record = STATE_AR_NO_RECORD;
-        }
-        /*
-        Інаше ці операції виконуємо після того, як зміни будуть перекопійовані у current_settings структуру
-        */
-      }
-      else
-      {
-        //Операція тимчасово недоступна, бо іде робота аналогового реєстратора
-        error = ERROR_SLAVE_DEVICE_BUSY;
-      }
-
-      if (method_setting == SET_DATA_IMMEDITATE)
-      {
-        //Знімаємо семафор
-        semaphore_read_state_ar_record = 0;
-      }
-      /*
-      Інаше цю операцію виконуємо після того, як зміни будуть перекопійовані у current_settings структуру
-      */
+      //Скидаємо настройки у "мінімальні заводські значення"
+      min_settings(target_label);
     }
   }
   else if (address_data == MA_TEST_WATCHDOGS)
@@ -9445,6 +9279,7 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
           case (179 + NUMBER_ANALOG_CANALES):
           case (180 + NUMBER_ANALOG_CANALES):
           case (181 + NUMBER_ANALOG_CANALES):
+          case (182 + NUMBER_ANALOG_CANALES):
             {
               if (length <= 19)
               {
@@ -9491,6 +9326,7 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "Блк.гр.уст.от з.",
                         " С.блк.Гот.к ТУ ",
                         " Готовность к ТУ",
+                        "  Изм.настроек  ",
                         "   Блок.МТЗ1    ",
                         "   Блок.МТЗ2    ",
                         " Блок.уск.МТЗ2  ",
@@ -9673,6 +9509,7 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "Бл.гр.уст.від з.",
                         " С.блк.Гот.до ТУ",
                         "Готовність до ТУ",
+                        " Зм.налаштування",
                         "   Блок.МСЗ1    ",
                         "   Блок.МСЗ2    ",
                         " Блок.приск.МСЗ2",
@@ -9855,6 +9692,7 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "Блк.гр.уст.от з.",
                         " С.блк.Гот.к ТУ ",
                         " Готовность к ТУ",
+                        "Changed settings",
                         "  Blc.of OCP1   ",
                         "  Blc.of OCP2   ",
                         "  OCP2 Acc.Blc. ",
@@ -10037,6 +9875,7 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "Блк.гр.уст.от з.",
                         " С.блк.Гот.к ТУ ",
                         " Готовность к ТУ",
+                        "  Изм.настроек  ",
                         "   Блок.МТЗ1    ",
                         "   Блок.МТЗ2    ",
                         " Блок.уск.МТЗ2  ",
@@ -10837,6 +10676,7 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
           case 179:
           case 180:
           case 181:
+          case 182:
             {
               if (length <= 19)
               {
@@ -10883,6 +10723,7 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "Блк.гр.уст.от з.",
                         " С.блк.Гот.к ТУ ",
                         " Готовность к ТУ",
+                        "  Изм.настроек  ",
                         "   Блок.МТЗ1    ",
                         "   Блок.МТЗ2    ",
                         " Блок.уск.МТЗ2  ",
@@ -11065,6 +10906,7 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "Бл.гр.уст.від з.",
                         " С.блк.Гот.до ТУ",
                         "Готовність до ТУ",
+                        " Зм.налаштування",
                         "   Блок.МСЗ1    ",
                         "   Блок.МСЗ2    ",
                         " Блок.приск.МСЗ2",
@@ -11247,6 +11089,7 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "Блк.гр.уст.от з.",
                         " С.блк.Гот.к ТУ ",
                         " Готовность к ТУ",
+                        "Changed settings",
                         "  Blc.of OCP1   ",
                         "  Blc.of OCP2   ",
                         "  OCP2 Acc.Blc. ",
@@ -11429,6 +11272,7 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "Блк.гр.уст.от з.",
                         " С.блк.Гот.к ТУ ",
                         " Готовность к ТУ",
+                        "  Изм.настроек  ",
                         "   Блок.МТЗ1    ",
                         "   Блок.МТЗ2    ",
                         " Блок.уск.МТЗ2  ",
@@ -12146,7 +11990,6 @@ void modbus_rountines(unsigned int type_interface)
           unsigned int add_data;
           unsigned short int value, temp_value = 0;
           unsigned int offset;
-          unsigned int reinit_settings = 0;       
           
           add_data = (*(received_buffer + 2))<<8 | (*(received_buffer + 3));
           value    = (*(received_buffer + 4))<<8 | (*(received_buffer + 5));
@@ -12157,7 +12000,12 @@ void modbus_rountines(unsigned int type_interface)
             error = ERROR_SLAVE_DEVICE_FAILURE;
           }
           else if(
-                  (((value == 0 ) || (value == 0xff00)) && (add_data >= BIT_MA_CONTROL_BASE) && (add_data <= BIT_MA_CONTROL_LAST)) || /*Настройки захистів*/
+                  (((value == 0 ) || (value == 0xff00)) && 
+                   (
+                    (add_data >= BIT_MA_CONTROL_BASE) && (add_data <= BIT_MA_CONTROL_LAST)) || /*Настройки захистів*/
+                    (add_data == BIT_MA_NEW_SETTINGS_SET) /*Команда активації внесених змін у налаштування приладу через інтерфейс*/ 
+                   )  
+                   || 
                   (
                    (value == 0xff00) 
                    &&
@@ -12214,6 +12062,7 @@ void modbus_rountines(unsigned int type_interface)
                     (add_data == BIT_MA_RESET_LEDS            ) || /*Очищення індикації*/
                     (add_data == BIT_MA_RESET_RELES           ) || /*Скидання реле*/
                     (add_data == BIT_MA_RESET_GENERAL_AF      ) || /*Скидання загальних функцій*/
+                    (add_data == BIT_MA_NEW_SETTINGS_SET      ) || /*Команда активації внесених змін у налаштування приладу через інтерфейс*/
                     (add_data == BIT_MA_RESET_RESURS_VYMYKACHA) || /*Скидання ресурсу вимикача*/
                     (add_data == BIT_MA_RESET_BLOCK_READY_TU_VID_ZAHYSTIV) /*Скидання блокування готовності до ТУ від захистів*/
                    )
@@ -12260,42 +12109,13 @@ void modbus_rountines(unsigned int type_interface)
 
                   if (error == 0)
                   {
-                    /*
-                    Робимо копію змінної changed_settings, щоб при неуспішній спробі
-                    зміни настройки відновити попереднє значення. Оскільки з верхнбого рівня
-                    иожлива зміна CHANGED_ETAP_ENDED -> CHANGED_ETAP_NONE,
-                    то я думаю нічого "надзвичайного" не станеться, якщо ми попередній 
-                    стан зафіксуємо CHANGED_ETAP_ENDED, потім більш пріоритетна задача
-                    системи захистів зкопіює таблицю настройок і скине змінну в 
-                    CHANGED_ETAP_NONE, а потім відбудеться неуспішна спроба
-                    ввести нову зміну у вастройки, що приведе до того, що ми з цієї фунціїї
-                    відновимо попереднє значення (до зміни системою захистів) CHANGED_ETAP_ENDED.
-                    Як я думаю, наслідком цього може бути тільки повторне копіювання таблиці настройок.
-                    */
-                    unsigned int changed_settings_tmp = changed_settings;
-                    
-                    //Помічаємо, що зараз, можоиво, поле структури буде змінене
-                    changed_settings = CHANGED_ETAP_EXECUTION;
                     error = Set_data(temp_value,first_address_of_word_for_function_3_or_4, SET_DATA_IMMEDITATE, false, type_interface);
                     if (error == 0)
                     {
                       //Дійсно відбулася зміна настройки
-                      reinit_settings = 1;
-                      
-                      /*
-                      зміна змінної changed_settings з CHANGED_ETAP_EXECUTION
-                      в CHANGED_ETAP_ENDED відбудеться у функції fix_change_settings
-                      */
-                    }
-                    else
-                    {
-                      /*
-                      Зміна настройки не відбулася, тому відновлюємо попереднє значення
-                      змінної changed_settings, яке було до її встановлення у значення
-                      CHANGED_ETAP_EXECUTION
-                      */
-                      
-                      changed_settings = changed_settings_tmp;
+                      _SET_BIT(active_functions, RANG_SETTINGS_CHANGED);
+                      restart_timeout_idle_new_settings = true;
+                      type_of_settings_changed |= (1 << SETTINGS_DATA_CHANGED_BIT);
                     }
                   }
                 }
@@ -12316,7 +12136,15 @@ void modbus_rountines(unsigned int type_interface)
                       ) 
                      )
                      ||  
-                     (first_address_of_word_for_function_3_or_4 == M_ADDRESS_COMMAND_BASE)
+                     (
+                      (first_address_of_word_for_function_3_or_4 == M_ADDRESS_COMMAND_BASE)
+                      &&
+                      (
+                       (add_data != BIT_MA_NEW_SETTINGS_SET) ||
+                       ((type_interface == USB_RECUEST  ) && (password_set_USB   == 0)) ||
+                       ((type_interface == RS485_RECUEST) && (password_set_RS485 == 0))
+                      )   
+                     )   
                     )
             {
               //Іде подача активації команди
@@ -12351,6 +12179,23 @@ void modbus_rountines(unsigned int type_interface)
                 //Скидання загальних функцій 
                 reset_trigger_function_from_interface |= (1 << type_interface);
               }
+              else if  (add_data == BIT_MA_NEW_SETTINGS_SET) 
+              {
+                /*Команда активації внесених змін у налаштування приладу через інтерфейс*/ 
+                if (value == 0xff00)
+                {
+                  //Активація внесекних змін
+                  if(type_interface == USB_RECUEST) error = set_new_settings_from_interface(2);
+                  else if(type_interface ==  RS485_RECUEST) error = set_new_settings_from_interface(3);
+                }
+                else
+                {
+                  //Відміна внесекних змін
+                  current_settings_interfaces = current_settings;
+                }
+                type_of_settings_changed = 0;
+                _CLEAR_BIT(active_functions, RANG_SETTINGS_CHANGED);
+              }
               else if  (add_data == BIT_MA_RESET_RESURS_VYMYKACHA)
               {
                 restart_counter = 0xff; /*Сигнал про очищення ресурсу лічильників з системи захистів*/
@@ -12369,6 +12214,8 @@ void modbus_rountines(unsigned int type_interface)
                 ((value != 0x0) && (value != 0xff00)) ||
                 (
                  (value == 0x0) 
+                 &&
+                 (add_data != BIT_MA_NEW_SETTINGS_SET) /*Команда активації внесених змін у налаштування приладу через інтерфейс*/
                  &&
                  (  
                   (add_data == BIT_MA_RESET_GENERAL_AF) /*Скидання загальних функцій*/
@@ -12406,15 +12253,6 @@ void modbus_rountines(unsigned int type_interface)
             *transmited_count = 8;
             if(type_interface == USB_RECUEST) data_usb_transmiting = true;
             else if(type_interface ==  RS485_RECUEST) start_transmint_data_via_RS_485(*transmited_count);
-
-            if (reinit_settings != 0)
-            {
-              if(type_interface == USB_RECUEST) fix_change_settings(0, 2);
-              else if(type_interface ==  RS485_RECUEST) fix_change_settings(0, 3);
-
-              //Виставляємо признак, що на екрані треба обновити інформацію
-              new_state_keyboard |= (1<<BIT_REWRITE);
-            }
           }
           else
           {
@@ -12430,7 +12268,7 @@ void modbus_rountines(unsigned int type_interface)
         {
           unsigned int add_data;
           unsigned short int data;
-          unsigned int changing_settings = 0, changing_ustuvannja = 0;
+          unsigned int changing_ustuvannja = 0;
 
           add_data = (*(received_buffer + 2))<<8 | (*(received_buffer + 3));
           data     = (*(received_buffer + 4))<<8 | (*(received_buffer + 5));
@@ -12497,7 +12335,7 @@ void modbus_rountines(unsigned int type_interface)
             }
             else
             {
-              unsigned int changed_settings_tmp, changed_ustuvannja_tmp; /*буде проініціалізована пізніше*/
+              unsigned int changed_ustuvannja_tmp; /*буде проініціалізована пізніше*/
               
               if ((add_data >= M_ADDRESS_FIRST_TIME_AND_DATA) && (add_data <= M_ADDRESS_LAST_TIME_AND_DATA))
               {
@@ -12529,53 +12367,18 @@ void modbus_rountines(unsigned int type_interface)
                 }
               }
               else if(
-                      ((add_data >= M_ADDRESS_FIRST_SETPOINTS_PART1                 ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_PART1                 )                                       ) || /*уставки і витримки*/
-                      ((add_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G1)) && (add_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G1))                                       ) || /*уставки і витримки першої групи*/
-                      ((add_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G2)) && (add_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G2))                                       ) || /*уставки і витримки другої групи*/
-                      ((add_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G3)) && (add_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G3))                                       ) || /*уставки і витримки третьої групи*/
-                      ((add_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G4)) && (add_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G4))                                       ) || /*уставки і витримки четвертої групи*/
-                      ((add_data >= M_ADDRESS_FIRST_SETPOINTS_CONTINUE              ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_CONTINUE              ) && (add_data != MA_PASSWORD_INTERFACE)) || /*уставки і витримки (продовження) і налаштування крім паролю доступу*/
-                      ((add_data >= M_ADDRESS_FIRST_SETPOINTS_RANG                  ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_RANG                  )                                       ) || /*ранжування*/
-                      ((add_data >= M_ADDRESS_FIRST_SETPOINTS_RANG_AR               ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_RANG_AR               )                                       ) || /*ранжування аналогового реєстратора*/
-                      ((add_data >= MA_PREFAULT_INTERVAL_AR                         ) && (add_data <= MA_POSTFAULT_INTERVAL_AR                       )                                       ) || /*встановлення ширини доаварійного/післяаварійного масиву аналогового реєстратора*/
-                      ((add_data >= M_ADDRESS_FIRST_SETPOINTS_RANG_DR               ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_RANG_DR               )                                       ) || /*ранжування дискретного реєстратора*/
-                       (add_data == MA_DEFAULT_SETTINGS                             )                                                                                              /*встановлення мінімальної конфігурації*/        
+                      ((add_data >= M_ADDRESS_FIRST_SETPOINTS_RANG   ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_RANG   )) || /*ранжування*/
+                      ((add_data >= M_ADDRESS_FIRST_SETPOINTS_RANG_AR) && (add_data <= M_ADDRESS_LAST_SETPOINTS_RANG_AR)) || /*ранжування аналогового реєстратора*/
+                      ((add_data >= M_ADDRESS_FIRST_SETPOINTS_RANG_DR) && (add_data <= M_ADDRESS_LAST_SETPOINTS_RANG_DR))    /*ранжування дискретного реєстратора*/
                      ) 
               {
-                //Помічаємо ненульовим значенням, що йде намагання змінити настройки
-                changing_settings = 0xff;
-                
-                /*
-                Робимо копію змінної changed_settings, щоб при неуспішній спробі
-                зміни настройки відновити попереднє значення. Оскільки з верхнбого рівня
-                можлива зміна CHANGED_ETAP_ENDED -> CHANGED_ETAP_NONE,
-                то я думаю нічого "надзвичайного" не станеться, якщо ми попередній 
-                стан зафіксуємо CHANGED_ETAP_ENDED, потім більш пріоритетна задача
-                системи захистів зкопіює таблицю настройок і скине змінну в 
-                CHANGED_ETAP_NONE, а потім відбудеться неуспішна спроба
-                ввести нову зміну у в настройки, що приведе до того, що ми з цієї фунціїї
-                відновимо попереднє значення (до зміни системою захистів) CHANGED_ETAP_ENDED.
-                Як я думаю, наслідком цього може бути тільки повторне копіювання таблиці настройок.
-                */
-                changed_settings_tmp = changed_settings;
-                if(
-                   ((add_data >= M_ADDRESS_FIRST_SETPOINTS_RANG   ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_RANG   )) || /*ранжування*/
-                   ((add_data >= M_ADDRESS_FIRST_SETPOINTS_RANG_AR) && (add_data <= M_ADDRESS_LAST_SETPOINTS_RANG_AR)) || /*ранжування аналогового реєстратора*/
-                   ((add_data >= M_ADDRESS_FIRST_SETPOINTS_RANG_DR) && (add_data <= M_ADDRESS_LAST_SETPOINTS_RANG_DR))    /*ранжування дискретного реєстратора*/
-                  )
+                //Враховуючи той факт, що зараз буде відбуватися ранжування, то скидаємо вказівник на редагуюче поле в 0
+                point_to_edited_rang = NULL;
+                for (unsigned int i = 0; i < N_BIG; i++)
                 {
-                  //Враховуючи той факт, що зараз буде відбуватися ранжування, то скидаємо вказівник на редагуюче поле в 0
-                  point_to_edited_rang = NULL;
-                  for (unsigned int i = 0; i < N_BIG; i++)
-                  {
-                    clear_array_rang[i] = 0;
-                    set_array_rang[i]   = 0;
-                  }
+                  clear_array_rang[i] = 0;
+                  set_array_rang[i]   = 0;
                 }
-                
-                //Помічаємо, що зараз, можоиво, поле структури буде змінене
-                changed_settings = CHANGED_ETAP_EXECUTION;
-                
               }
               else if((add_data >= MA_ADDRESS_FIRST_USTUVANNJA) && (add_data <= MA_ADDRESS_LAST_PHI_USTUVANNJA))/*амплітудні і фазні юстуючі коефіцієнти*/ 
               {
@@ -12605,16 +12408,6 @@ void modbus_rountines(unsigned int type_interface)
                 error = Set_data(data,add_data, SET_DATA_IMMEDITATE, false, type_interface);
                 if (error != 0)
                 {
-                  if (changing_settings != 0)
-                  {
-                    /*
-                    Зміна настройки не відбулася, тому відновлюємо попереднє значення
-                    змінної changed_settings, яке було до її встановлення у значення
-                    CHANGED_ETAP_EXECUTION
-                    */
-                    changed_settings = changed_settings_tmp;
-                  }
-
                   if (changing_ustuvannja != 0)
                   {
                     /*
@@ -12693,13 +12486,13 @@ void modbus_rountines(unsigned int type_interface)
                    &&
                    (  
                     (  
-                     ((type_interface == USB_RECUEST  ) && (password_set_USB   == 1) && (previous_password_interface != current_settings.password_interface_USB  )) ||  
-                     ((type_interface == RS485_RECUEST) && (password_set_RS485 == 1) && (previous_password_interface != current_settings.password_interface_RS485))  
+                     ((type_interface == USB_RECUEST  ) && (previous_password_interface != current_settings_interfaces.password_interface_USB  ) && (password_set_USB   == 1)) ||  
+                     ((type_interface == RS485_RECUEST) && (previous_password_interface != current_settings_interfaces.password_interface_RS485) && (password_set_RS485 == 1))  
                     )/*випадок, коли встановлюється новий пароль доступу відмінний від 0 (є пароль дотупу)*/
                     ||
                     (
-                     ((type_interface == USB_RECUEST  ) && (current_settings.password_interface_USB   == 0) && (previous_password_interface != current_settings.password_interface_USB  )) || 
-                     ((type_interface == RS485_RECUEST) && (current_settings.password_interface_RS485 == 0) && (previous_password_interface != current_settings.password_interface_RS485)) 
+                     ((type_interface == USB_RECUEST  ) && (previous_password_interface != current_settings.password_interface_USB  ) && (current_settings.password_interface_USB   == 0)) || 
+                     ((type_interface == RS485_RECUEST) && (previous_password_interface != current_settings.password_interface_RS485) && (current_settings.password_interface_RS485 == 0)) 
                     )/*випадок, коли встановлюється новий пароль доступу рівний        0 (немає паролю дотупу)*/ 
                    )   
                   )
@@ -12709,7 +12502,10 @@ void modbus_rountines(unsigned int type_interface)
               {
                 //Виключаємо той випадок, коли робилося зняття паролю доступу
                    
-                //Записуємо настройки
+                //Дійсно відбулася зміна настройки
+                _SET_BIT(active_functions, RANG_SETTINGS_CHANGED);
+                restart_timeout_idle_new_settings = true;
+                    
                 if (
                     ((add_data >= M_ADDRESS_FIRST_SETPOINTS_RANG   ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_RANG   )) ||
                     ((add_data >= M_ADDRESS_FIRST_SETPOINTS_RANG_AR) && (add_data <= M_ADDRESS_LAST_SETPOINTS_RANG_AR)) ||
@@ -12728,35 +12524,27 @@ void modbus_rountines(unsigned int type_interface)
                     }
                     
                     //Записуємо інформацю по ранжуванню
-                    if(type_interface == USB_RECUEST) fix_change_settings(1, 2);
-                    else if(type_interface ==  RS485_RECUEST) fix_change_settings(1, 3);
+                    type_of_settings_changed |= (1 << RANGUVANNJA_DATA_CHANGED_BIT);
                   }
                   else
                   {
                     //Іде ранжування регістрів користувача
-
-                    if(type_interface == USB_RECUEST) fix_change_settings(2, 2);
-                    else if(type_interface ==  RS485_RECUEST) fix_change_settings(2, 3);
+                    type_of_settings_changed |= (1 << USER_REGISTRY_CHANGED_BIT);
                   }
                 }
                 else
                 {
-                  //Якщо зійснювалася перенастройка інтерфейсу RS-485, то перенастроюємо його
-                  if ((add_data >= MA_SPEED_RS485) && (add_data <= MA_TIMEOUT_RS485))
+                  if (add_data == MA_PASSWORD_INTERFACE) 
                   {
-                    //Підраховуємо нову величину затримки у бітах, яка допускається між байтами у RS-485 згідно з визначеними настройками
-                    calculate_namber_bit_waiting_for_rs_485();
-                    //Виставляємо команду про переконфігурування RS-485
-                    if (add_data != MA_TIMEOUT_RS485) make_reconfiguration_RS_485 = 0xff;
+                    //Записуємо значення нового парголю доступу
+                    type_of_settings_changed |= (1 << NEW_PASSWORD_SET_BIT);
                   }
-                    
-                  //Записуємо інформацю настройках (крім ранжування)
-                  if(type_interface == USB_RECUEST) fix_change_settings(0, 2);
-                  else if(type_interface ==  RS485_RECUEST) fix_change_settings(0, 3);
+                  else
+                  {
+                    //Записуємо інформацю настройках (крім ранжування)
+                    type_of_settings_changed |= (1 << SETTINGS_DATA_CHANGED_BIT);
+                  }
                 }
-
-                //Виставляємо признак, що на екрані треба обновити інформацію
-                new_state_keyboard |= (1<<BIT_REWRITE);
               }
             }
             else if (
@@ -12777,24 +12565,7 @@ void modbus_rountines(unsigned int type_interface)
             else if (add_data == MA_DEFAULT_SETTINGS)
             {
               //Відбулася успішна команда скидання у мінімальну конфігурацію
-              
-              //Робимо помітку, що  ми настройки скинули у мфінімальну конфігурацію
-              fix_change_settings(0, 0);
-              fix_change_settings(1, 0);
-      
-              //Переконфігуровуємо RS-485
-              //Підраховуємо величину затримки у бітах, яка допускається між байтами у RS-485 згідно з визначеними настройками
-              calculate_namber_bit_waiting_for_rs_485();
-              //Виставляємо команду про переконфігурування RS-485
-              make_reconfiguration_RS_485 = 0xff;
-              
-              if (current_settings.password_interface_RS485 == 0) password_set_RS485 = 0;
-              else password_set_RS485 = 1;
-              if (current_settings.password_interface_USB   == 0) password_set_USB   = 0;
-              else password_set_USB   = 1;
-
-              //Виставляємо признак, що на екрані треба обновити інформацію
-              new_state_keyboard |= (1<<BIT_REWRITE);
+              type_of_settings_changed = (1 << DEFAULT_SETTINGS_SET_BIT);
             }
             /*****/
           }
@@ -12838,26 +12609,26 @@ void modbus_rountines(unsigned int type_interface)
           else if (
                    ((add_data >= BIT_MA_CONTROL_BASE) && ((add_data + number - 1) <= BIT_MA_CONTROL_LAST))
                    ||
+                   ((add_data >= BIT_MA_RESET_GENERAL_AF) && ((add_data + number - 1) <= BIT_MA_RESET_GENERAL_AF))
+                   ||
+                   ((add_data >= BIT_MA_NEW_SETTINGS_SET) && ((add_data + number - 1) <= BIT_MA_NEW_SETTINGS_SET))
+                   ||
                    (
-                    ((add_data >= BIT_MA_RESET_GENERAL_AF) && ((add_data + number - 1) <= BIT_MA_RESET_GENERAL_AF))
-                    ||
-                    (
-                     (_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) == 0)
-                     &&
-                     (  
-                      ((add_data >= BIT_MA_RESET_BLOCK_READY_TU_VID_ZAHYSTIV) && ((add_data + number - 1) <= BIT_MA_RESET_BLOCK_READY_TU_VID_ZAHYSTIV))
-                      ||  
+                    (_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) == 0)
+                    &&
+                    (  
+                     ((add_data >= BIT_MA_RESET_BLOCK_READY_TU_VID_ZAHYSTIV) && ((add_data + number - 1) <= BIT_MA_RESET_BLOCK_READY_TU_VID_ZAHYSTIV))
+                     ||  
+                     (
+                      (_CHECK_SET_BIT(active_functions, RANG_READY_TU) != 0)
+                      &&  
                       (
-                       (_CHECK_SET_BIT(active_functions, RANG_READY_TU) != 0)
-                       &&  
-                       (
-                        ((add_data >= BIT_MA_INPUT_DF1          ) && ((add_data + number - 1) <= BIT_MA_INPUT_DF8             )) || 
-                        ((add_data >= BIT_MA_DT1_SET            ) && ((add_data + number - 1) <= BIT_MA_DT4_RESET             )) ||
-                        ((add_data >= BIT_MA_VKL_VV             ) && ((add_data + number - 1) <= BIT_MA_OTKL_VV               )) ||
-                        ((add_data >= BIT_MA_RESET_LEDS         ) && ((add_data + number - 1) <= BIT_MA_RESET_RESURS_VYMYKACHA))
-                       )
+                       ((add_data >= BIT_MA_INPUT_DF1          ) && ((add_data + number - 1) <= BIT_MA_INPUT_DF8             )) || 
+                       ((add_data >= BIT_MA_DT1_SET            ) && ((add_data + number - 1) <= BIT_MA_DT4_RESET             )) ||
+                       ((add_data >= BIT_MA_VKL_VV             ) && ((add_data + number - 1) <= BIT_MA_OTKL_VV               )) ||
+                       ((add_data >= BIT_MA_RESET_LEDS         ) && ((add_data + number - 1) <= BIT_MA_RESET_RESURS_VYMYKACHA))
                       )
-                     )   
+                     )
                     )   
                    ) 
                   )
@@ -12884,6 +12655,7 @@ void modbus_rountines(unsigned int type_interface)
             else if(
                     ((add_data >= BIT_MA_VKL_VV                           ) && (add_data <= BIT_MA_OTKL_VV               )) ||
                     ((add_data >= BIT_MA_RESET_LEDS                       ) && (add_data <= BIT_MA_RESET_RESURS_VYMYKACHA)) ||
+                    ( add_data == BIT_MA_NEW_SETTINGS_SET                 ) ||
                     ( add_data == BIT_MA_RESET_BLOCK_READY_TU_VID_ZAHYSTIV)
                    )
             {
@@ -12899,7 +12671,7 @@ void modbus_rountines(unsigned int type_interface)
             {
               //Іде намагання запису інформації, яка відноситься до настройок
               
-              //Перевіряємо чи можемо ми ці операцію зараз виконати
+              //Перевіряємо чи можемо ми ці операції зараз виконати
               if (
                   (
                    ((type_interface == USB_RECUEST  ) && (password_set_USB   == 0)) ||
@@ -12912,7 +12684,7 @@ void modbus_rountines(unsigned int type_interface)
                 //Операція запису є доступною
 
                 //Робимо копію таблиці настройок
-                edition_settings  = current_settings;
+                edition_settings = current_settings_interfaces;
 
                 //Визначаємо початкову адресу читання/запису цілими словами
                 first_address_of_word_for_function_3_or_4 += (offset >> 4);
@@ -13004,7 +12776,15 @@ void modbus_rountines(unsigned int type_interface)
                       ) 
                      )
                      ||  
-                     (first_address_of_word_for_function_3_or_4 == M_ADDRESS_COMMAND_BASE)  
+                     (
+                      (first_address_of_word_for_function_3_or_4 == M_ADDRESS_COMMAND_BASE)
+                      &&
+                      (
+                       (!((add_data >= BIT_MA_NEW_SETTINGS_SET) && ((add_data + number - 1) <= BIT_MA_NEW_SETTINGS_SET))) ||
+                       ((type_interface == USB_RECUEST  ) && (password_set_USB   == 0)) ||
+                       ((type_interface == RS485_RECUEST) && (password_set_RS485 == 0))
+                      )   
+                     )   
                     )
             {
               //Іде подача активації команд телеуправління
@@ -13018,6 +12798,7 @@ void modbus_rountines(unsigned int type_interface)
               unsigned char temp_data;
               unsigned int i = 0;
               unsigned int activation_function_from_interface_tmp = 0, reset_trigger_functions = 0, restart_counter_tmp = 0;
+              int set_new_settings = -1;
               while ((i < number) && (error == 0))
               {
                 //Оскільки сама інформація які значення встановлювати упакована побайтно, то і нам треба рухатися по-байтно
@@ -13034,11 +12815,10 @@ void modbus_rountines(unsigned int type_interface)
                 unsigned int value_of_bit;
                 value_of_bit = ((temp_data << (7 - index_bit)) >> 7) & 0x1;
                 
+                number_activated_function = add_data + i;
                 if (value_of_bit != 0)
                 {
-                  //Для активації о-функцій чи подачі команд є сенс розглядати тільки активацію ("1") бо команди деактивації цих функцій немає
-                  number_activated_function = add_data + i;
-                       if  (number_activated_function == BIT_MA_INPUT_DF1                        ) 
+                  if       (number_activated_function == BIT_MA_INPUT_DF1                        ) 
                     activation_function_from_interface_tmp |= 1 << RANG_BUTTON_DF1_IN;                        /*ОФ1*/
                   else if  (number_activated_function == BIT_MA_INPUT_DF2                        ) 
                     activation_function_from_interface_tmp |= 1 << RANG_BUTTON_DF2_IN;                        /*ОФ2*/
@@ -13085,6 +12865,11 @@ void modbus_rountines(unsigned int type_interface)
                     //Скидання загальних функцій 
                     reset_trigger_functions = 0xff; /*ненульове значення означає, що треба скинути тригерні функції*/
                   }
+                  else if  (number_activated_function == BIT_MA_NEW_SETTINGS_SET) 
+                  {
+                    /*Команда активації внесених змін у налаштування приладу через інтерфейс*/ 
+                    set_new_settings = true;
+                  }
                   else if  (number_activated_function == BIT_MA_RESET_RESURS_VYMYKACHA)
                   {
                     //Скидання лічильника ресурсу
@@ -13096,7 +12881,15 @@ void modbus_rountines(unsigned int type_interface)
                     error = ERROR_ILLEGAL_DATA_ADDRESS;
                   }
                 }
-
+                else
+                {
+                  if  (number_activated_function == BIT_MA_NEW_SETTINGS_SET) 
+                  {
+                    /*Команда деактивації внесених змін у налаштування приладу через інтерфейс*/ 
+                    set_new_settings = false;
+                  }
+                }
+                
                 i++;
               }
 
@@ -13109,6 +12902,22 @@ void modbus_rountines(unsigned int type_interface)
                 if (reset_trigger_functions != 0)
                 {
                   reset_trigger_function_from_interface |= (1 << type_interface);
+                }
+                if (set_new_settings != -1)
+                {
+                  if (set_new_settings == true)
+                  {
+                    //Активація внесекних змін
+                    if(type_interface == USB_RECUEST) error = set_new_settings_from_interface(2);
+                    else if(type_interface ==  RS485_RECUEST) error = set_new_settings_from_interface(3);
+                  }
+                  else
+                  {
+                    //Відміна внесекних змін
+                    current_settings_interfaces = current_settings;
+                  }
+                  type_of_settings_changed = 0;
+                  _CLEAR_BIT(active_functions, RANG_SETTINGS_CHANGED);
                 }
                 if (restart_counter_tmp != 0)
                 {
@@ -13142,17 +12951,13 @@ void modbus_rountines(unsigned int type_interface)
           
             if (reinit_settings != 0)
             {
-              //Помічаємо, що поля структури зараз будуть змінені
-              changed_settings = CHANGED_ETAP_EXECUTION;
-              
               //Копіюємо введені зміни у робочу структуру
-              current_settings = edition_settings;
+              current_settings_interfaces = edition_settings;
 
-              if(type_interface == USB_RECUEST) fix_change_settings(0, 2);
-              else if(type_interface ==  RS485_RECUEST) fix_change_settings(0, 3);
-
-              //Виставляємо признак, що на екрані треба обновити інформацію
-              new_state_keyboard |= (1<<BIT_REWRITE);
+              //Відбулася зміна настройки
+              _SET_BIT(active_functions, RANG_SETTINGS_CHANGED);
+              restart_timeout_idle_new_settings = true;
+              type_of_settings_changed |= (1 << SETTINGS_DATA_CHANGED_BIT);
             }
           }
           else
@@ -13168,7 +12973,7 @@ void modbus_rountines(unsigned int type_interface)
       case 16:
         {
           unsigned int add_data, number;
-          unsigned int reinit_ustuvannja = 0, reinit_settings = 0, change_timeout_ar = 0, reinit_ranguvannja = 0, set_min_param = 0, reconfiguration_RS_485 = 0, reconfiguration_RS_485_with_reset_usart = 0;
+          unsigned int reinit_ustuvannja = 0, reinit_settings = 0, set_new_password = 0, reinit_ranguvannja = 0, set_min_param = 0;
           unsigned int reinit_user_register = 0;
           unsigned int setting_new_rtc = 0;
             
@@ -13283,7 +13088,7 @@ void modbus_rountines(unsigned int type_interface)
                      )
                   {
                     //Робимо копію таблиці настройок
-                    edition_settings  = current_settings;
+                    edition_settings  = current_settings_interfaces;
 
                     //Враховуючи той факт, що може зараз відбуватися ранжування, то скидаємо вказівник на редагуюче поле в 0
                     point_to_edited_rang = NULL;
@@ -13430,23 +13235,13 @@ void modbus_rountines(unsigned int type_interface)
                   else
                   {
                     //Помічаємо, що треба записати інформацю по настройках (крім ранжування)
-                    reinit_settings = 1;
-                    
-                    if ((add_data >= MA_PREFAULT_INTERVAL_AR) && (add_data <= MA_POSTFAULT_INTERVAL_AR))
+                    if (add_data == MA_PASSWORD_INTERFACE)
                     {
-                      //Помічаємо, що додатково ще треба буде виконати дії по зміні часових витримок аналогового реєстратора
-                      change_timeout_ar = 1;
+                      set_new_password = 1;
                     }
-                    else if ((add_data >= MA_SPEED_RS485) && (add_data <= MA_TIMEOUT_RS485))
+                    else
                     {
-                      //Помічаємо, що треба переконфігурувати інтерфейс RS-485
-                      reconfiguration_RS_485 = 1;
-                        
-                      if(add_data != MA_TIMEOUT_RS485)
-                      {
-                        //Помічаємо, що треба переконфігурувати USART для інтерфейсу RS-485
-                        reconfiguration_RS_485_with_reset_usart = 1;
-                      }
+                      reinit_settings = 1;
                     }
                   }
                 }
@@ -13490,12 +13285,6 @@ void modbus_rountines(unsigned int type_interface)
           /*****/
 
           /*****/
-          /*
-          Якщо була спроба записати ранжування функцією 16, то треба ввести всі невведені ще дані
-          і перевірити чи введені зміни цим запитом не привели то того, що сигнали "Работа БО" або
-          "Работа БВ" зранжрвані на декілька реле, що є недопустимим
-          */
-          /*****/
           if ((error == 0) && (reinit_ranguvannja != 0))
           {
             //Перевіряємо чи останні зміни вже ввежені у цільовий масив
@@ -13504,67 +13293,6 @@ void modbus_rountines(unsigned int type_interface)
               //Останні введення ще не введені у цільовий масив піля операції ранжування
               //(бо остання операція завжди вводиться вкінці операції запису)
               set_previous_ranguvannja();
-            }
-            
-            //Перевірка на коректність ранжування функцій "Работа БО" або "Работа БВ" на дискретних входах
-            unsigned int number_func_WORK_BV_into_outputs = 0, number_func_WORK_BO_into_outputs = 0;
-            unsigned int maska_func_WORK_BV[N_BIG] = {0, 0, 0, 0, 0, 0, 0, 0}, maska_func_WORK_BO[N_BIG] = {0, 0, 0, 0, 0, 0, 0, 0};
-
-            _SET_BIT(maska_func_WORK_BV, RANG_WORK_BV);
-            _SET_BIT(maska_func_WORK_BO, RANG_WORK_BO);
-            for (unsigned int k = 0; k < NUMBER_OUTPUTS; k++)
-            {
-              unsigned int target_sell[N_BIG];
-              for (unsigned int l = 0; l < N_BIG; l++) target_sell[l] = edition_settings.ranguvannja_outputs[N_BIG*k + l];
-
-              //Підраховуємо кількість функцій "Работа БВ" на всіх виходах
-              if (
-                  ((target_sell[0] & maska_func_WORK_BV[0]) != 0)
-                  ||
-                  ((target_sell[1] & maska_func_WORK_BV[1]) != 0)
-                  ||
-                  ((target_sell[2] & maska_func_WORK_BV[2]) != 0)
-                  ||
-                  ((target_sell[3] & maska_func_WORK_BV[3]) != 0)
-                  ||
-                  ((target_sell[4] & maska_func_WORK_BV[4]) != 0)
-                  ||
-                  ((target_sell[5] & maska_func_WORK_BV[5]) != 0)
-                  ||
-                  ((target_sell[6] & maska_func_WORK_BV[6]) != 0)
-                  ||
-                  ((target_sell[7] & maska_func_WORK_BV[7]) != 0)
-                 ) 
-                number_func_WORK_BV_into_outputs++;
-
-              //Підраховуємо кількість функцій "Работа БО" на всіх виходах
-              if (
-                  ((target_sell[0] & maska_func_WORK_BO[0]) != 0)
-                  ||
-                  ((target_sell[1] & maska_func_WORK_BO[1]) != 0)
-                  ||
-                  ((target_sell[2] & maska_func_WORK_BO[2]) != 0)
-                  ||
-                  ((target_sell[3] & maska_func_WORK_BO[3]) != 0)
-                  ||
-                  ((target_sell[4] & maska_func_WORK_BO[4]) != 0)
-                  ||
-                  ((target_sell[5] & maska_func_WORK_BO[5]) != 0)
-                  ||
-                  ((target_sell[6] & maska_func_WORK_BO[6]) != 0)
-                  ||
-                  ((target_sell[7] & maska_func_WORK_BO[7]) != 0)
-                 ) 
-                number_func_WORK_BO_into_outputs++;
-              
-              if (
-                  (number_func_WORK_BV_into_outputs > 1) ||
-                  (number_func_WORK_BO_into_outputs > 1)
-                 )
-              {
-                //Помилкова ситуація - помічаємо це
-                 error = ERROR_ILLEGAL_DATA_VALUE;
-              }
             }
           }
           /*****/
@@ -13618,106 +13346,48 @@ void modbus_rountines(unsigned int type_interface)
             }
             if (
                 (reinit_settings      != 0) ||
+                (set_new_password     != 0) ||  
                 (reinit_ranguvannja   != 0) ||
                 (set_min_param        != 0) ||
-                (change_timeout_ar    != 0) ||
                 (reinit_user_register != 0)  
                )
             {
-              //Помічаємо, що поля структури зараз будуть змінені
-              changed_settings = CHANGED_ETAP_EXECUTION;
-
               //Копіюємо введені зміни у робочу структуру
               current_settings = edition_settings;
-              if (
-                  (state_ar_record == STATE_AR_TEMPORARY_BLOCK) ||
-                  (semaphore_read_state_ar_record != 0)  
-                 )
-              {
-                /*
-                Ця ситуація може бути, коли встановлюються мінімальні настройки,
-                або коли змінюється ширина доаварійного або післяаварійного процесу
-                аналогового реєстратора.
-                При цьому завжди має бути, що змінна state_ar_record рівна величині
-                STATE_AR_TEMPORARY_BLOCK і змінна semaphore_read_state_ar_record
-                не рівна нулю. Ящо ці 
-                умови не виконуються - то треба перезапустити прилад,
-                бо програмне забезпечення себе веде непередбачуваним шляхом.
-                */
-                if(
-                   ((set_min_param != 0) || (change_timeout_ar != 0)) &&
-                   (state_ar_record == STATE_AR_TEMPORARY_BLOCK) &&
-                   (semaphore_read_state_ar_record != 0)  
-                  )
-                {
-                  //Виконуємо дії по зміні часових витримок аналогового реєстратора
-                  actions_after_changing_tiomouts_ar();
 
-                  //Розблоковуємо роботу аналогового реєстратора
-                  state_ar_record = STATE_AR_NO_RECORD;
-
-                  //Знімаємо семафор
-                  semaphore_read_state_ar_record = 0;
-                }
-                else
-                {
-                  //Якщо сюди дійшла програма, значить відбулася недопустива помилка, тому треба зациклити програму, щоб вона пішла на перезагрузку
-                  total_error_sw_fixed(41);
-                }
-              }
-
+              //Відбулася зміна настройки
+              _SET_BIT(active_functions, RANG_SETTINGS_CHANGED);
+              restart_timeout_idle_new_settings = true;
+              
               if (reinit_settings != 0)
               {
-                if(type_interface == USB_RECUEST) fix_change_settings(0, 2);
-                else if(type_interface ==  RS485_RECUEST) fix_change_settings(0, 3);
+                type_of_settings_changed |= (1 << SETTINGS_DATA_CHANGED_BIT);
+              }
+
+              if (set_new_password != 0)
+              {
+                set_new_password |= (1 << NEW_PASSWORD_SET_BIT);
               }
 
               if (reinit_ranguvannja != 0)
               {
-                if(type_interface == USB_RECUEST) fix_change_settings(1, 2);
-                else if(type_interface ==  RS485_RECUEST) fix_change_settings(1, 3);
+                type_of_settings_changed |= (1 << RANGUVANNJA_DATA_CHANGED_BIT);
               }
 
               if (reinit_user_register != 0)
               {
-                if(type_interface == USB_RECUEST) fix_change_settings(2, 2);
-                else if(type_interface ==  RS485_RECUEST) fix_change_settings(2, 3);
+                type_of_settings_changed |= (1 << USER_REGISTRY_CHANGED_BIT);
               }
               
               if (set_min_param != 0)
               {
-                //Робимо помітку, що  ми настройки скинули у мфінімальну конфігурацію
-                fix_change_settings(0, 0);
-                fix_change_settings(1, 0);
-                
-                //Виставляжмо мітки що треба переконфігурувати повністю RS-485
-                reconfiguration_RS_485 = 1;
-                reconfiguration_RS_485_with_reset_usart = 1;
-
-                if (current_settings.password_interface_RS485 == 0) password_set_RS485 = 0;
-                else password_set_RS485 = 1;
-                if (current_settings.password_interface_USB   == 0) password_set_USB   = 0;
-                else password_set_USB   = 1;
+                type_of_settings_changed |= (1 << DEFAULT_SETTINGS_SET_BIT);
               }
-                
-              if (reconfiguration_RS_485 != 0)
-              {
-                //Підраховуємо нову величину затримки у бітах, яка допускається між байтами у RS-485 згідно з визначеними настройками
-                calculate_namber_bit_waiting_for_rs_485();
-                //Виставляємо команду про переконфігурування RS-485
-                if (reconfiguration_RS_485_with_reset_usart != 0) make_reconfiguration_RS_485 = 0xff;
-              }
-
-              //Виставляємо признак, що на екрані треба обновити інформацію
-              new_state_keyboard |= (1<<BIT_REWRITE);
             }
             /*****/
           }
           else 
           {
-            if(state_ar_record == STATE_AR_TEMPORARY_BLOCK) state_ar_record = STATE_AR_NO_RECORD;
-            if (semaphore_read_state_ar_record != 0) semaphore_read_state_ar_record = 0;
-            
             //Встановлюємо попередній стан доступу по поралю
             if (type_interface == USB_RECUEST) password_set_USB = before_password_set;
             else if (type_interface == RS485_RECUEST) password_set_RS485 = before_password_set;

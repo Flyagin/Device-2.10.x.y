@@ -157,6 +157,7 @@ extern unsigned int action_after_changing_of_configuration(unsigned int, __SETTI
 //extern void action_after_changing_number_el(__SETTINGS *, unsigned int);
 extern void calculate_namber_bit_waiting_for_rs_485(void);
 extern void fix_change_settings(unsigned int, unsigned int);
+extern unsigned int set_new_settings_from_interface(unsigned int);
 extern void restore_trigger_functions(unsigned int*);
 extern void changing_diagnostyka_state(void);
 extern unsigned int count_number_set_bit(unsigned int*, unsigned int);

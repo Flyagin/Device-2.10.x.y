@@ -234,6 +234,8 @@ typedef struct
   unsigned int timeout_deactivation_password_interface_RS485;   //Час деактивації паролю для редагування з інтерфейсу RS485
   unsigned int password_interface_RS485;                        //Пароль для редагування з інтерфейсу RS485
   
+  unsigned int timeout_idle_new_settings;
+  
   //Вимикач
   unsigned int setpoint_Inom;                   //Номінальний струм вимикача
   unsigned int setpoint_r_kom_st_Inom;          //Ресурс комунікаційної стійкості при номінальному струмі вимикача

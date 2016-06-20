@@ -512,9 +512,10 @@
 /***/
 #define MA_TO_DEACTIVATION_PASSWORD_INTERFACE 569
 #define MA_PASSWORD_INTERFACE                 570
+#define MA_TO_IDLE_NEW_SETTINGS               571
 /***/
 
-#define MA_LANGUAGE_MENU                      571
+#define MA_LANGUAGE_MENU                      572
 
 
 #define MA_SPEED_RS485                        573
@@ -831,14 +832,15 @@
 #define BIT_MA_RESET_GENERAL_AF                 60385
 #define BIT_MA_RESET_RESURS_VYMYKACHA           60386
 #define BIT_MA_SETTINGS_CHANGED                 60387
-#define BIT_MA_PASSWORD_SET                     60388
-#define BIT_MA_MISCEVE_DYSTANCIJNE              60389
-#define BIT_MA_WORK_A_REJESTRATOR               60390
-#define BIT_MA_WORK_D_REJESTRATOR               60391
+#define BIT_MA_NEW_SETTINGS_SET                 60388
+#define BIT_MA_PASSWORD_SET                     60389
+#define BIT_MA_MISCEVE_DYSTANCIJNE              60390
+#define BIT_MA_WORK_A_REJESTRATOR               60391
+#define BIT_MA_WORK_D_REJESTRATOR               60392
 
-#define BIT_MA_ERROR_CONF_EL                    60397
+#define BIT_MA_OTKL_VID_ZOVN_ZAHYSTIV           60397                         
+#define BIT_MA_ERROR_CONF_EL                    60398
 
-#define BIT_MA_OTKL_VID_ZOVN_ZAHYSTIV           60396                         
 
 //#define BIT_MA_DVERI_SHAFY_UPR_VIDKR            60400
 //#define BIT_MA_ACUMUL_BATAREJA_ROZRJADGENA      60401
