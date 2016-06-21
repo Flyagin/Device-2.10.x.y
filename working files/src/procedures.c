@@ -1714,12 +1714,35 @@ unsigned int set_new_settings_from_interface(unsigned int source)
     current_settings_interfaces.time_ranguvannja[7] = source;
   }
   
+  unsigned int reconfiguration_RS_485 = 0, reconfiguration_RS_485_with_reset_usart = 0;
+  if (
+      (current_settings.speed_RS485 != current_settings_interfaces.speed_RS485) ||
+      (current_settings.pare_bit_RS485 != current_settings_interfaces.pare_bit_RS485) ||
+      (current_settings.number_stop_bit_RS485 != current_settings_interfaces.number_stop_bit_RS485) ||
+      (current_settings.time_out_1_RS485 != current_settings_interfaces.time_out_1_RS485)
+     )
+  {
+    //Помічаємо, що треба переконфігурувати інтерфейс RS-485
+    reconfiguration_RS_485 = 1;
+    
+    if (
+        (current_settings.speed_RS485 != current_settings_interfaces.speed_RS485) ||
+        (current_settings.pare_bit_RS485 != current_settings_interfaces.pare_bit_RS485) ||
+        (current_settings.number_stop_bit_RS485 != current_settings_interfaces.number_stop_bit_RS485)
+       )
+    {
+      //Помічаємо, що треба переконфігурувати USART для інтерфейсу RS-485
+      reconfiguration_RS_485_with_reset_usart = 1;
+    }
+  }
+  
   unsigned int change_timeout_ar = 0;
   if (
       (current_settings.prefault_number_periods != current_settings_interfaces.prefault_number_periods) ||
       (current_settings.postfault_number_periods != current_settings_interfaces.postfault_number_periods)
      ) 
   {
+    //Помічаємо, що додатково ще треба буде виконати дії по зміні часових витримок аналогового реєстратора
     change_timeout_ar = 1;
     
     unsigned int semaphore_read_state_ar_record_copy = semaphore_read_state_ar_record;
@@ -1774,6 +1797,13 @@ unsigned int set_new_settings_from_interface(unsigned int source)
               
     //Копіюємо введені зміни у робочу структуру
     current_settings = current_settings_interfaces;
+    if (reconfiguration_RS_485 != 0)
+    {
+      //Підраховуємо нову величину затримки у бітах, яка допускається між байтами у RS-485 згідно з визначеними настройками
+      calculate_namber_bit_waiting_for_rs_485();
+      //Виставляємо команду про переконфігурування RS-485
+      if (reconfiguration_RS_485_with_reset_usart != 0) make_reconfiguration_RS_485 = 0xff;
+    }
     if (
         (state_ar_record == STATE_AR_TEMPORARY_BLOCK) ||
         (semaphore_read_state_ar_record != 0)  

@@ -5812,6 +5812,7 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
     //Встановлення/зняття паролю доступу
     if (type_interface == USB_RECUEST)
     {
+      previous_password_interface_USB = target_label->password_interface_USB;
       if (password_set_USB != 0)
       {
         if ((data == current_settings.password_interface_USB) || (data == 0x1978)) password_set_USB = 0;
@@ -5819,13 +5820,13 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
       }
       else if (password_set_USB == 0)
       {
-        previous_password_interface = target_label->password_interface_USB;
-        target_label->password_interface_USB = data;
         if ((data != 0) && (data == current_settings.password_interface_USB)) password_set_USB = 1;
+        else target_label->password_interface_USB = data;
       }
     }
     else if (type_interface == RS485_RECUEST)
     {
+      previous_password_interface_RS485 = target_label->password_interface_RS485;
       if (password_set_RS485 != 0)
       {
         if ((data == current_settings.password_interface_RS485) || (data == 0x1978)) password_set_RS485 = 0;
@@ -5833,9 +5834,8 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
       }
       else if (password_set_RS485 == 0)
       {
-        previous_password_interface = target_label->password_interface_RS485;
-        target_label->password_interface_RS485 = data;
         if ((data != 0) && (data == current_settings.password_interface_RS485)) password_set_RS485 = 1;
+        else target_label->password_interface_RS485 = data;
       }
     }
     else error = ERROR_SLAVE_DEVICE_FAILURE;
@@ -12485,15 +12485,8 @@ void modbus_rountines(unsigned int type_interface)
                    (add_data == MA_PASSWORD_INTERFACE)
                    &&
                    (  
-                    (  
-                     ((type_interface == USB_RECUEST  ) && (previous_password_interface != current_settings_interfaces.password_interface_USB  ) && (password_set_USB   == 1)) ||  
-                     ((type_interface == RS485_RECUEST) && (previous_password_interface != current_settings_interfaces.password_interface_RS485) && (password_set_RS485 == 1))  
-                    )/*випадок, коли встановлюється новий пароль доступу відмінний від 0 (є пароль дотупу)*/
-                    ||
-                    (
-                     ((type_interface == USB_RECUEST  ) && (previous_password_interface != current_settings.password_interface_USB  ) && (current_settings.password_interface_USB   == 0)) || 
-                     ((type_interface == RS485_RECUEST) && (previous_password_interface != current_settings.password_interface_RS485) && (current_settings.password_interface_RS485 == 0)) 
-                    )/*випадок, коли встановлюється новий пароль доступу рівний        0 (немає паролю дотупу)*/ 
+                    ((type_interface == USB_RECUEST  ) && (previous_password_interface_USB   != current_settings_interfaces.password_interface_USB  )) ||  
+                    ((type_interface == RS485_RECUEST) && (previous_password_interface_RS485 != current_settings_interfaces.password_interface_RS485))  
                    )   
                   )
                   ||  
@@ -12564,6 +12557,11 @@ void modbus_rountines(unsigned int type_interface)
             }
             else if (add_data == MA_DEFAULT_SETTINGS)
             {
+                   
+              //Дійсно відбулася зміна настройки
+              _SET_BIT(active_functions, RANG_SETTINGS_CHANGED);
+              restart_timeout_idle_new_settings = true;
+              
               //Відбулася успішна команда скидання у мінімальну конфігурацію
               type_of_settings_changed = (1 << DEFAULT_SETTINGS_SET_BIT);
             }
@@ -13196,15 +13194,8 @@ void modbus_rountines(unsigned int type_interface)
                      (add_data == MA_PASSWORD_INTERFACE)
                      &&
                      (  
-                      (  
-                       ((type_interface == USB_RECUEST  ) && (password_set_USB   == 1) && (previous_password_interface != edition_settings.password_interface_USB  )) ||  
-                       ((type_interface == RS485_RECUEST) && (password_set_RS485 == 1) && (previous_password_interface != edition_settings.password_interface_RS485))  
-                      )/*випадок, коли встановлюється новий пароль доступу відмінний від 0 (є пароль дотупу)*/
-                      ||
-                      (
-                       ((type_interface == USB_RECUEST  ) && (edition_settings.password_interface_USB   == 0) && (previous_password_interface != edition_settings.password_interface_USB  )) || 
-                       ((type_interface == RS485_RECUEST) && (edition_settings.password_interface_RS485 == 0) && (previous_password_interface != edition_settings.password_interface_RS485)) 
-                      )/*випадок, коли встановлюється новий пароль доступу рівний        0 (немає паролю дотупу)*/ 
+                      ((type_interface == USB_RECUEST  ) && (previous_password_interface_USB   != edition_settings.password_interface_USB  )) ||  
+                      ((type_interface == RS485_RECUEST) && (previous_password_interface_RS485 != edition_settings.password_interface_RS485))  
                      )   
                     )
                     ||  
@@ -13353,7 +13344,7 @@ void modbus_rountines(unsigned int type_interface)
                )
             {
               //Копіюємо введені зміни у робочу структуру
-              current_settings = edition_settings;
+              current_settings_interfaces = edition_settings;
 
               //Відбулася зміна настройки
               _SET_BIT(active_functions, RANG_SETTINGS_CHANGED);
