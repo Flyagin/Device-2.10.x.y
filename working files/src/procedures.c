@@ -1771,6 +1771,24 @@ unsigned int set_new_settings_from_interface(unsigned int source)
     }
   }
   
+  unsigned int set_password_USB = false;
+  if (
+      (current_settings.password_interface_USB != current_settings_interfaces.password_interface_USB) &&
+      (current_settings_interfaces.password_interface_USB != 0)  
+     )   
+  {
+    set_password_USB = true;
+  }
+  
+  unsigned int set_password_RS485 = false;
+  if (
+      (current_settings.password_interface_RS485 != current_settings_interfaces.password_interface_RS485) &&
+      (current_settings_interfaces.password_interface_RS485 != 0)  
+     )   
+  {
+    set_password_RS485 = true;
+  }
+  
   if (error == 0)
   {
     if ((type_of_settings_changed & (1 << DEFAULT_SETTINGS_SET_BIT)) != 0)
@@ -1791,6 +1809,9 @@ unsigned int set_new_settings_from_interface(unsigned int source)
       current_ekran.cursor_on = 0;
       current_ekran.cursor_blinking_on = 0;  
     }
+    
+    if (set_password_USB   != false) password_set_USB   = 1;
+    if (set_password_RS485 != false) password_set_RS485 = 1;
     
     //Помічаємо, що поля структури зараз будуть змінені
     changed_settings = CHANGED_ETAP_EXECUTION;
