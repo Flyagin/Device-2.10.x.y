@@ -2808,174 +2808,6 @@ void umax2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
 /*****************************************************/
 void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
 {
-  _Bool previous_state_po_uavr_min1 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MIN1);
-  _Bool previous_state_po_uavr_max1 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MAX1);
-  _Bool previous_state_po_uavr_min2 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MIN2);
-  _Bool previous_state_po_uavr_max2 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MAX2);
-  
-  unsigned int setpoint1 = previous_state_po_uavr_min1 ?
-          current_settings_prt.setpoint_avr_min1[number_group_stp] * U_DOWN / 100 :
-          current_settings_prt.setpoint_avr_min1[number_group_stp];
-  
-  _Bool Uab_and_Ubc_is_smaller_than_Uavrmin1 = (measurement[IM_UAB1] <= setpoint1) &&
-                                              (measurement[IM_UBC1] <= setpoint1);
-  
-  unsigned int setpoint2 = previous_state_po_uavr_max1 ?
-          current_settings_prt.setpoint_avr_max1[number_group_stp] * U_UP / 100 :
-          current_settings_prt.setpoint_avr_max1[number_group_stp];
-  
-  _Bool Uab_and_Ubc_is_larger_than_Uavrmax1 = (measurement[IM_UAB1] >= setpoint2) &&
-                                              (measurement[IM_UBC1] >= setpoint2);
-  
-  unsigned int setpoint3 = previous_state_po_uavr_min2 ?
-          current_settings_prt.setpoint_avr_min2[number_group_stp] * U_DOWN / 100 :
-          current_settings_prt.setpoint_avr_min2[number_group_stp];
-  
-  _Bool Uab2_is_smaller_than_Uavrmin2 = measurement[IM_UAB2] <= setpoint3;
-  _Bool Ubc2_is_smaller_than_Uavrmin2 = measurement[IM_UBC2] <= setpoint3;
-  
-  unsigned int setpoint4 = previous_state_po_uavr_max2 ?
-          current_settings_prt.setpoint_avr_max2[number_group_stp] * U_UP / 100 :
-          current_settings_prt.setpoint_avr_max2[number_group_stp];
-  
-  _Bool Uab2_is_larger_than_Uavrmax2 = measurement[IM_UAB2] >= setpoint4;
-  _Bool Ubc2_is_larger_than_Uavrmax2 = measurement[IM_UBC2] >= setpoint4;
-  
-  _Bool pryvid_vv = _CHECK_SET_BIT(p_active_functions, RANG_PRYVID_VV);
-  _Bool block_avr_vid_zovn_zakhystiv = _CHECK_SET_BIT(p_active_functions, RANG_OTKL_VID_ZOVN_ZAHYSTIV);
-  _Bool vidkl_block_avr_vid_zahystiv = ((current_settings_prt.control_avr & CTR_AVR_OTKL_BLK_VID_ZAHYSTIV) != 0);
-//  unsigned int tmp_value = (_CHECK_SET_BIT(p_active_functions, RANG_MTZ1) != 0)               << 0;
-//  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_MTZ2) != 0)                           << 1;
-//  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_MTZ3) != 0)                           << 2;
-//  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_MTZ4) != 0)                           << 3;
-  unsigned int tmp_value = (_CHECK_SET_BIT(p_active_functions, RANG_APV_WORK) != 0)           << 4;
-  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_OTKL_VV) != 0)                        << 5;
-  tmp_value |= (_CHECK_SET_BIT(active_functions, RANG_VIDKL_VID_ZAKHYSTIV) != 0)            << 6;
-//  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_UMIN1) != 0)                          << 6;
-//  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_UMIN2) != 0)                          << 7;
-//  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_UMAX1) != 0)                          << 8;
-//  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_UMAX2) != 0)                          << 9;
-//  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_3I0) != 0)                            << 10;
-  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_OTKL_AVR) != 0)                       << 11;
-  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_SBROS_BLOCK_AVR) != 0)                << 12;
-  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV) != 0)                       << 13;
-  _INVERTOR(tmp_value, 13, tmp_value, 13);
-  
-  //ДВ
-  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_STAT_BLOCK_AVR) != 0)                 << 14;
-  _INVERTOR(tmp_value, 14, tmp_value, 14);
-  
-  //М
-  tmp_value |= ((current_settings_prt.control_avr & CTR_AVR) != 0)                                               << 15;
-//  tmp_value |= ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_3U0_Ubc_TN2) == 0)    << 17; //Выбор 3U0
-  
-//  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_RESET_KRATN_SPRAC_AVR) != 0)          << 18;
-  
-  //ПО UАВРmin1
-  if (Uab_and_Ubc_is_smaller_than_Uavrmin1) {
-    _SET_BIT(p_active_functions, RANG_PO_UAVR_MIN1);
-  }
-  
-  //ПО UАВРmax1
-  if (Uab_and_Ubc_is_larger_than_Uavrmax1) {
-    _SET_BIT(p_active_functions, RANG_PO_UAVR_MAX1);
-  }
-  
-//  if (_GET_OUTPUT_STATE(tmp_value, 17) /*Проверка выбора 3U0*/) 
-//  {
-//    //ПО UАВРmax2
-//    if (Uab2_is_larger_than_Uavrmax2) 
-//    {
-//      _SET_BIT(p_active_functions, RANG_PO_UAVR_MAX2);
-//    }
-//    //ПО UАBPmin2
-//    if (Uab2_is_smaller_than_Uavrmin2) 
-//    {
-//      _SET_BIT(p_active_functions, RANG_PO_UAVR_MIN2);
-//    }
-//  }
-//  else 
-  {
-    //ПО UАВРmax2
-    if (Uab2_is_larger_than_Uavrmax2 && Ubc2_is_larger_than_Uavrmax2) 
-    {
-      _SET_BIT(p_active_functions, RANG_PO_UAVR_MAX2);
-    }
-    //ПО UАBPmin2
-    if (Uab2_is_smaller_than_Uavrmin2 && Ubc2_is_smaller_than_Uavrmin2) 
-    {
-      _SET_BIT(p_active_functions, RANG_PO_UAVR_MIN2);
-    }
-  }
-  
-//  _OR6(tmp_value, 0, tmp_value, 1, tmp_value, 2, tmp_value, 3, tmp_value, 4, tmp_value, 5, tmp_value, 19);
-//  _OR6(tmp_value, 6, tmp_value, 7, tmp_value, 8, tmp_value, 9, tmp_value, 10, tmp_value, 11, tmp_value, 20);
-  _OR6(tmp_value, 4, tmp_value, 5, tmp_value, 6, tmp_value, 11, block_avr_vid_zovn_zakhystiv, 0, pryvid_vv, 0, tmp_value, 21);
-  
-//  if (_GET_OUTPUT_STATE(tmp_value, 17) /*Проверка выбора 3U0*/)
-//  {
-//    _AND2(Uab_and_Ubc_is_smaller_than_Uavrmin1, 0, Uab2_is_larger_than_Uavrmax2, 0, tmp_value, 22);
-//    _AND2(Uab2_is_larger_than_Uavrmax2, 0, Uab_and_Ubc_is_larger_than_Uavrmax1, 0, tmp_value, 23);
-//    _AND2(Uab_and_Ubc_is_larger_than_Uavrmax1, 0, Uab2_is_smaller_than_Uavrmin2, 0, tmp_value, 24);
-//  } 
-//  else
-  {
-    _Bool bool_value1 = Uab2_is_larger_than_Uavrmax2 && Ubc2_is_larger_than_Uavrmax2;
-    _Bool bool_value2 = Uab2_is_smaller_than_Uavrmin2 && Ubc2_is_smaller_than_Uavrmin2;
-    _AND2(Uab_and_Ubc_is_smaller_than_Uavrmin1, 0, bool_value1, 0, tmp_value, 22);
-    _AND2(bool_value1, 0, Uab_and_Ubc_is_larger_than_Uavrmax1, 0, tmp_value, 23);
-    _AND2(Uab_and_Ubc_is_larger_than_Uavrmax1, 0, bool_value2, 0, tmp_value, 24);
-  }
-  
-  _Bool tmr_avr_reset_blk = 0;
-  _TIMER_T_0(INDEX_TIMER_AVR_RESET_BLK, current_settings_prt.timeout_avr_reset_blk[number_group_stp],
-               tmp_value, 23, tmr_avr_reset_blk, 0);
-  
-  _OR3(vidkl_block_avr_vid_zahystiv, 0, tmp_value, 12, tmr_avr_reset_blk, 0, tmp_value, 25);
-  _D_TRIGGER(1,  0, _GET_OUTPUT_STATE(tmp_value, 25), previous_states_AVR_0, 0, tmp_value, 21, trigger_AVR_0, 0);
-  
-  //Блок. АВР от защит
-  if (_GET_OUTPUT_STATE(trigger_AVR_0, 0)) {
-    _SET_BIT(p_active_functions, RANG_BLOCK_AVR_VID_ZAKHYSTIV);
-  }
-  
-  _Bool tmp = 0;
-  do {
-    _AND5(!trigger_AVR_0, 0, tmp_value, 15, tmp_value, 13, tmp_value, 14, !trigger_AVR_1, 0, tmp_value, 27);
-    _AND2(tmp_value, 27, tmp_value, 22, tmp_value, 29);
-    _AND2(tmp_value, 27, tmp_value, 24, tmp_value, 30);
-    _TIMER_T_0(INDEX_TIMER_AVR_RL, current_settings_prt.timeout_avr_rl[number_group_stp], tmp_value, 30, tmp_value, 31);
-    _TIMER_T_0(INDEX_TIMER_AVR_OL, current_settings_prt.timeout_avr_ol[number_group_stp], tmp_value, 29, tmp_value, 0);
-    _OR2(tmp_value, 31, tmp_value, 0, tmp_value, 1);
-    //Пуск АВР
-    
-    _Bool pusk_avr = _GET_OUTPUT_STATE(tmp_value, 1);
-    if (pusk_avr) {
-      _SET_BIT(p_active_functions, RANG_PUSK_AVR);
-    }
-    
-    _Bool tmr_avr_zavershennja = 0;
-    _TIMER_T_0(INDEX_TIMER_AVR_ZAVERSHENNJA, current_settings_prt.timeout_avr_zavershennja[number_group_stp],
-               !pusk_avr, 0, tmr_avr_zavershennja, 0);
-    
-    _Bool reset_counter = 0;
-    _OR3(tmp_value, 12, tmr_avr_zavershennja, 0, trigger_AVR_1, 0, reset_counter, 0);
-    
-    _Bool counter_signal = 0;
-    _COUNTER(_GET_OUTPUT_STATE(reset_counter, 0), previous_state_avr_counter, 0, pusk_avr, 0,
-             avr_counter, current_settings_prt.setpoint_kratn_avr[number_group_stp], counter_signal, 0);
-    
-    _D_TRIGGER(1, 0, _GET_OUTPUT_STATE(tmp_value, 12), previous_states_AVR_1, 0, counter_signal, 0, trigger_AVR_1, 0);
-    if (tmp == trigger_AVR_1) {
-      break;
-    }
-    tmp = trigger_AVR_1;
-  } while(1);
-  
-  //Блокування кратності АВР
-  if (trigger_AVR_1) {
-    _SET_BIT(p_active_functions, RANG_BLOCK_KRATN_AVR);
-  }
 }
 /*****************************************************/
 
@@ -5829,6 +5661,12 @@ inline void main_protection(void)
       if (_GET_OUTPUT_STATE(temp_value_for_activated_function, RANG_BUTTON_RESET_BLOCK_READY_TU_VID_ZAHYSTIV)) 
         _SET_BIT(active_functions, RANG_RESET_BLOCK_READY_TU_VID_ZAHYSTIV);
     }
+
+    //Команди АВР
+      if (_GET_OUTPUT_STATE(temp_value_for_activated_function, RANG_BUTTON_OTKL_AVR)) 
+        _SET_BIT(active_functions, RANG_OTKL_AVR);
+      if (_GET_OUTPUT_STATE(temp_value_for_activated_function, RANG_BUTTON_SBROS_BLOCK_AVR)) 
+        _SET_BIT(active_functions, RANG_SBROS_BLOCK_AVR);
   }
   /**************************/
 
@@ -5948,6 +5786,8 @@ inline void main_protection(void)
       active_functions[RANG_RESET_RELES                       >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_RESET_RELES                      ) != 0) << (RANG_RESET_RELES                       & 0x1f);
       active_functions[RANG_MISCEVE_DYSTANCIJNE               >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_MISCEVE_DYSTANCIJNE              ) != 0) << (RANG_MISCEVE_DYSTANCIJNE               & 0x1f);
       active_functions[RANG_STATE_VV                          >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_STATE_VV                         ) != 0) << (RANG_STATE_VV                          & 0x1f);
+      active_functions[RANG_STATE_VV_K1                       >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_STATE_VV_K1                      ) != 0) << (RANG_STATE_VV_K1                       & 0x1f);
+      active_functions[RANG_STATE_VV_K2                       >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_STATE_VV_K2                      ) != 0) << (RANG_STATE_VV_K2                       & 0x1f);
       active_functions[RANG_CTRL_VKL                          >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_CTRL_VKL                         ) != 0) << (RANG_CTRL_VKL                          & 0x1f);
       active_functions[RANG_CTRL_OTKL                         >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_CTRL_OTKL                        ) != 0) << (RANG_CTRL_OTKL                         & 0x1f);
       active_functions[RANG_RESET_BLOCK_READY_TU_VID_ZAHYSTIV >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_RESET_BLOCK_READY_TU_VID_ZAHYSTIV) != 0) << (RANG_RESET_BLOCK_READY_TU_VID_ZAHYSTIV & 0x1f);
@@ -6017,6 +5857,12 @@ inline void main_protection(void)
       active_functions[RANG_BLOCK_UMAX1 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_BLOCK_UMAX1) != 0) << (RANG_BLOCK_UMAX1 & 0x1f);
       active_functions[RANG_BLOCK_UMAX2 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_BLOCK_UMAX2) != 0) << (RANG_BLOCK_UMAX2 & 0x1f);
     }
+      
+    //Блок для АВР
+    active_functions[RANG_OTKL_AVR         >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_OTKL_AVR        ) != 0) << (RANG_OTKL_AVR         & 0x1f);
+    active_functions[RANG_SBROS_BLOCK_AVR  >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_SBROS_BLOCK_AVR ) != 0) << (RANG_SBROS_BLOCK_AVR  & 0x1f);
+    active_functions[RANG_STAT_BLOCK_AVR_1 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_STAT_BLOCK_AVR_1) != 0) << (RANG_STAT_BLOCK_AVR_1 & 0x1f);
+    active_functions[RANG_STAT_BLOCK_AVR_2 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_STAT_BLOCK_AVR_2) != 0) << (RANG_STAT_BLOCK_AVR_2 & 0x1f);
   }
   /**************************/
 
@@ -6044,6 +5890,11 @@ inline void main_protection(void)
     //Сигнал "Скидання блокування готовності до ТУ"
     _SET_BIT(temp_maska_filter_function, RANG_RESET_BLOCK_READY_TU_VID_ZAHYSTIV);
   
+    //Сигнал "Внешний отключение АВР"
+    _SET_BIT(temp_maska_filter_function, RANG_OTKL_AVR);
+    //Сигнал "Внешний сброс блокировки АВР"
+    _SET_BIT(temp_maska_filter_function, RANG_SBROS_BLOCK_AVR);
+    
     for (unsigned int i = 0; i < N_BIG; i++)
     {
       //З масиву попередніх станів виділяємо тільки ті функції, якиї нас цікавить фронт змін і поміщаємо їх у тимчасовий масив
@@ -6444,16 +6295,20 @@ inline void main_protection(void)
     } 
     else 
     {
-      global_timers[INDEX_TIMER_AVR_ZAVERSHENNJA] = -1;
-      global_timers[INDEX_TIMER_AVR_RESET_BLK] = -1;
-      global_timers[INDEX_TIMER_AVR_RL] = -1;
-      global_timers[INDEX_TIMER_AVR_OL] = -1;
-      previous_states_AVR_0 = 0;
-      previous_states_AVR_1 = 0;
-      previous_state_avr_counter = 0;
-      trigger_AVR_0 = 0;
-      trigger_AVR_1 = 0;
-      avr_counter = 0;
+      //Очищуємо сигнали, які не можуть бути у даній конфігурації
+      const unsigned int maska_avr_signals[N_BIG] = 
+      {
+        MASKA_AVR_SIGNALS_0, 
+        MASKA_AVR_SIGNALS_1, 
+        MASKA_AVR_SIGNALS_2,
+        MASKA_AVR_SIGNALS_3, 
+        MASKA_AVR_SIGNALS_4, 
+        MASKA_AVR_SIGNALS_5, 
+        MASKA_AVR_SIGNALS_6, 
+        MASKA_AVR_SIGNALS_7
+      };
+      for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_avr_signals[i]);
+
     }
     
     /**************************/
@@ -6629,12 +6484,7 @@ inline void main_protection(void)
     //Переводимо у початковий стан деякі глобальні змінні
     previous_states_APV_0 = 0;
     trigger_APV_0 = 0;
-    previous_states_AVR_0 = 0;
-    previous_states_AVR_1 = 0;
-    previous_state_avr_counter = 0;
-    trigger_AVR_0 = 0;
-    trigger_AVR_1 = 0;
-    avr_counter = 0;
+
     previous_states_ready_tu = 0;
     trigger_ready_tu = 0;
     

@@ -142,14 +142,12 @@ void convert_order_list_function_to_gmm(unsigned int* input_array, unsigned shor
   //АВР
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OTKL_AVR               , (BIT_MA_OTKL_AVR                - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_SBROS_BLOCK_AVR        , (BIT_MA_SBROS_BLOCK_AVR         - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_STAT_BLOCK_AVR         , (BIT_MA_STAT_BLOCK_AVR          - BIT_MA_CURRENT_AF_BASE));
+//  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_STAT_BLOCK_AVR         , (BIT_MA_STAT_BLOCK_AVR          - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_AVR_VID_ZAKHYSTIV, (BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_UAVR_MIN1           , (BIT_MA_PO_UAVR_MIN1            - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_UAVR_MAX1           , (BIT_MA_PO_UAVR_MAX1            - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_UAVR_MIN2           , (BIT_MA_PO_UAVR_MIN2            - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_UAVR_MAX2           , (BIT_MA_PO_UAVR_MAX2            - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_KRATN_AVR        , (BIT_MA_BLOCK_KRATN_AVR         - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PUSK_AVR               , (BIT_MA_PUSK_AVR                - BIT_MA_CURRENT_AF_BASE));
 
   //ОФ
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_DF1_IN , (BIT_MA_INPUT_DF1  - BIT_MA_CURRENT_AF_BASE));
@@ -690,11 +688,11 @@ unsigned int convert_order_list_inputs_to_gmm(unsigned int number, unsigned int 
         rezultat = BIT_MA_SBROS_BLOCK_AVR;
         break;
       }
-    case RANG_INPUT_STAT_BLOCK_AVR:
-      {
-        rezultat = BIT_MA_STAT_BLOCK_AVR;
-        break;
-      }
+//    case RANG_INPUT_STAT_BLOCK_AVR:
+//      {
+//        rezultat = BIT_MA_STAT_BLOCK_AVR;
+//        break;
+//      }
     default: break;
     }
   }
@@ -1654,11 +1652,11 @@ unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int nu
         rezultat = BIT_MA_SBROS_BLOCK_AVR;
         break;
       }
-    case RANG_STAT_BLOCK_AVR:
-      {
-        rezultat = BIT_MA_STAT_BLOCK_AVR;
-        break;
-      }
+//    case RANG_STAT_BLOCK_AVR:
+//      {
+//        rezultat = BIT_MA_STAT_BLOCK_AVR;
+//        break;
+//      }
     case RANG_BLOCK_AVR_VID_ZAKHYSTIV:
       {
         rezultat = BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV;
@@ -1682,16 +1680,6 @@ unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int nu
     case RANG_PO_UAVR_MAX2:
       {
         rezultat = BIT_MA_PO_UAVR_MAX2;
-        break;
-      }
-    case RANG_BLOCK_KRATN_AVR:
-      {
-        rezultat = BIT_MA_BLOCK_KRATN_AVR;
-        break;
-      }
-    case RANG_PUSK_AVR:
-      {
-        rezultat = BIT_MA_PUSK_AVR;
         break;
       }
     default: break;
@@ -1872,8 +1860,8 @@ unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int num
     }
     else if (
              (data == BIT_MA_OTKL_AVR       ) ||
-             (data == BIT_MA_SBROS_BLOCK_AVR) ||
-             (data == BIT_MA_STAT_BLOCK_AVR )
+             (data == BIT_MA_SBROS_BLOCK_AVR)/* ||
+             (data == BIT_MA_STAT_BLOCK_AVR )*/
             )
     {
       //Зараз є намагання зранжувати функцю АВР і номер її є допустимим
@@ -2179,11 +2167,11 @@ unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int num
         _SET_BIT(set_array_rang, RANG_INPUT_SBROS_BLOCK_AVR);
         break;
       }
-    case BIT_MA_STAT_BLOCK_AVR:
-      {
-        _SET_BIT(set_array_rang, RANG_INPUT_STAT_BLOCK_AVR);
-        break;
-      }
+//    case BIT_MA_STAT_BLOCK_AVR:
+//      {
+//        _SET_BIT(set_array_rang, RANG_INPUT_STAT_BLOCK_AVR);
+//        break;
+//      }
     default:
       {
         //Теоретично сюди б програма ніколи не мала б доходити
@@ -2488,14 +2476,12 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
     else if (
              (data == BIT_MA_OTKL_AVR               ) || 
              (data == BIT_MA_SBROS_BLOCK_AVR        ) || 
-             (data == BIT_MA_STAT_BLOCK_AVR         ) || 
+//             (data == BIT_MA_STAT_BLOCK_AVR         ) || 
              (data == BIT_MA_PO_UAVR_MIN1           ) || 
              (data == BIT_MA_PO_UAVR_MAX1           ) || 
              (data == BIT_MA_PO_UAVR_MIN2           ) || 
              (data == BIT_MA_PO_UAVR_MAX2           ) || 
-             (data == BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV) || 
-             (data == BIT_MA_BLOCK_KRATN_AVR        ) || 
-             (data == BIT_MA_PUSK_AVR               )
+             (data == BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV) 
             )
     {
       //Зараз є намагання зранжувати функцю АВР і номер її є допустимим
@@ -3534,11 +3520,11 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
         _SET_BIT(set_array_rang, RANG_SBROS_BLOCK_AVR);
         break;
       }
-    case BIT_MA_STAT_BLOCK_AVR:
-      {
-        _SET_BIT(set_array_rang, RANG_STAT_BLOCK_AVR);
-        break;
-      }
+//    case BIT_MA_STAT_BLOCK_AVR:
+//      {
+//        _SET_BIT(set_array_rang, RANG_STAT_BLOCK_AVR);
+//        break;
+//      }
     case BIT_MA_PO_UAVR_MIN1:
       {
         _SET_BIT(set_array_rang, RANG_PO_UAVR_MIN1);
@@ -3562,16 +3548,6 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
     case BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV:
       {
         _SET_BIT(set_array_rang, RANG_BLOCK_AVR_VID_ZAKHYSTIV);
-        break;
-      }
-    case BIT_MA_BLOCK_KRATN_AVR:
-      {
-        _SET_BIT(set_array_rang, RANG_BLOCK_KRATN_AVR);
-        break;
-      }
-    case BIT_MA_PUSK_AVR:
-      {
-        _SET_BIT(set_array_rang, RANG_PUSK_AVR);
         break;
       }
     default:
@@ -9309,6 +9285,8 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "   Сброс реле   ",
                         " Местн./Дистанц.",
                         "  Положение ВВ  ",
+                        "Положение ВВ к.1",
+                        "Положение ВВ к.2",
                         "Откл.от вн.защит",
                         "     Вкл.ВВ     ",
                         " Контроль Вкл.  ",
@@ -9408,14 +9386,21 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "    ЗНмакс2     ",
                         "  Вн.Откл.АВР   ",
                         " Сброс Блок.АВР ",
-                        " Стат.блок.АВР  ",
+                        " Стат.блок.АВР 1",
+                        " Стат.блок.АВР 2",
                         " Бл.АВР от защит",
                         " ПО U АВР мин.1 ",
                         " ПО U АВР макс.1",
                         " ПО U АВР мин.2 ",
                         " ПО U АВР макс.2",
-                        "  Блок.кр.АВР   ",
-                        "    Пуск АВР    ",
+                        "   ПО АВР к.1   ",
+                        " Ком.1 Вкл.АВР  ",
+                        " Ком.1 Откл.АВР ",
+                        " Ком.3 Вкл.АВР  ",
+                        "   ПО АВР к.2   ",
+                        " Ком.2 Вкл.АВР  ",
+                        " Ком.2 Откл.АВР ",
+                        " Ком.4 Вкл.АВР  ",
                         " Вх.О-функции1  ",
                         " Вых.О-функции1 ",
                         " Вх.О-функции2  ",
@@ -9492,6 +9477,8 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "   Скид.реле    ",
                         " Місц./Дистанц. ",
                         "    Стан ВВ     ",
+                        "   Стан ВВ к.1  ",
+                        "   Стан ВВ к.2  ",
                         "Вимк.від зовн.з.",
                         "    Ввімк.ВВ    ",
                         " Контроль Ввімк.",
@@ -9591,14 +9578,21 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "    ЗНмакс2     ",
                         " Зовн.Вимк.АВР  ",
                         " Скид.Блок.АВР  ",
-                        " Стат.блок.АВР  ",
+                        " Стат.блок.АВР 1",
+                        " Стат.блок.АВР 2",
                         " Бл.АВР від зах.",
                         " ПО U АВР мін.1 ",
                         " ПО U АВР макс.1",
                         " ПО U АВР мін.2 ",
                         " ПО U АВР макс.2",
-                        "  Блок.кр.АВР   ",
-                        "    Пуск АВР    ",
+                        "   ПО АВР к.1   ",
+                        " Ком.1 Ввікл.АВР",
+                        " Ком.1 Вимк.АВР ",
+                        " Ком.3 Ввікл.АВР",
+                        "   ПО АВР к.2   ",
+                        " Ком.2 Ввікл.АВР",
+                        " Ком.2 Вимк.АВР ",
+                        " Ком.4 Ввікл.АВР",
                         " Вх.В-функції1  ",
                         " Вих.В-функції1 ",
                         " Вх.В-функції2  ",
@@ -9675,6 +9669,8 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "  Relay Reset   ",
                         "  Local/Remote  ",
                         "  State of CB   ",
+                        " State of ch1.CB",
+                        " State of ch2.CB",
                         "Откл.от вн.защит",
                         "     On CB      ",
                         " On CB Control  ",
@@ -9774,14 +9770,21 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "     Umax2      ",
                         "  Вн.Откл.АВР   ",
                         " Сброс Блок.АВР ",
-                        " Стат.блок.АВР  ",
+                        " Стат.блок.АВР 1",
+                        " Стат.блок.АВР 2",
                         " Бл.АВР от защит",
                         " ПО U АВР мин.1 ",
                         " ПО U АВР макс.1",
                         " ПО U АВР мин.2 ",
                         " ПО U АВР макс.2",
-                        "  Блок.кр.АВР   ",
-                        "    Пуск АВР    ",
+                        "   ПО АВР к.1   ",
+                        " Ком.1 Вкл.АВР  ",
+                        " Ком.1 Откл.АВР ",
+                        " Ком.3 Вкл.АВР  ",
+                        "   ПО АВР к.2   ",
+                        " Ком.2 Вкл.АВР  ",
+                        " Ком.2 Откл.АВР ",
+                        " Ком.4 Вкл.АВР  ",
                         "    UDF1 In     ",
                         "    UDF1 Out    ",
                         "    UDF2 In     ",
@@ -9858,6 +9861,8 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "   Сброс реле   ",
                         " Местн./Дистанц.",
                         "  Положение ВВ  ",
+                        "Положение ВВ к.1",
+                        "Положение ВВ к.2",
                         "Откл.от вн.защит",
                         "     Вкл.ВВ     ",
                         " Контроль Вкл.  ",
@@ -9957,14 +9962,21 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "    ЗНмакс2     ",
                         "  Вн.Откл.АВР   ",
                         " Сброс Блок.АВР ",
-                        " Стат.блок.АВР  ",
+                        " Стат.блок.АВР 1",
+                        " Стат.блок.АВР 2",
                         " Бл.АВР от защит",
                         " ПО U АВР мин.1 ",
                         " ПО U АВР макс.1",
                         " ПО U АВР мин.2 ",
                         " ПО U АВР макс.2",
-                        "  Блок.кр.АВР   ",
-                        "    Пуск АВР    ",
+                        "   ПО АВР к.1   ",
+                        " Ком.1 Вкл.АВР  ",
+                        " Ком.1 Откл.АВР ",
+                        " Ком.3 Вкл.АВР  ",
+                        "   ПО АВР к.2   ",
+                        " Ком.2 Вкл.АВР  ",
+                        " Ком.2 Откл.АВР ",
+                        " Ком.4 Вкл.АВР  ",
                         " Вх.О-функции1  ",
                         " Вых.О-функции1 ",
                         " Вх.О-функции2  ",
@@ -10706,6 +10718,8 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "   Сброс реле   ",
                         " Местн./Дистанц.",
                         "  Положение ВВ  ",
+                        "Положение ВВ к.1",
+                        "Положение ВВ к.2",
                         "Откл.от вн.защит",
                         "     Вкл.ВВ     ",
                         " Контроль Вкл.  ",
@@ -10805,14 +10819,21 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "    ЗНмакс2     ",
                         "  Вн.Откл.АВР   ",
                         " Сброс Блок.АВР ",
-                        " Стат.блок.АВР  ",
+                        " Стат.блок.АВР 1",
+                        " Стат.блок.АВР 2",
                         " Бл.АВР от защит",
                         " ПО U АВР мин.1 ",
                         " ПО U АВР макс.1",
                         " ПО U АВР мин.2 ",
                         " ПО U АВР макс.2",
-                        "  Блок.кр.АВР   ",
-                        "    Пуск АВР    ",
+                        "   ПО АВР к.1   ",
+                        " Ком.1 Вкл.АВР  ",
+                        " Ком.1 Откл.АВР ",
+                        " Ком.3 Вкл.АВР  ",
+                        "   ПО АВР к.2   ",
+                        " Ком.2 Вкл.АВР  ",
+                        " Ком.2 Откл.АВР ",
+                        " Ком.4 Вкл.АВР  ",
                         " Вх.О-функции1  ",
                         " Вых.О-функции1 ",
                         " Вх.О-функции2  ",
@@ -10889,6 +10910,8 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "   Скид.реле    ",
                         " Місц./Дистанц. ",
                         "    Стан ВВ     ",
+                        "   Стан ВВ к.1  ",
+                        "   Стан ВВ к.2  ",
                         "Вимк.від зовн.з.",
                         "    Ввімк.ВВ    ",
                         " Контроль Ввімк.",
@@ -10988,14 +11011,21 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "    ЗНмакс2     ",
                         " Зовн.Вимк.АВР  ",
                         " Скид.Блок.АВР  ",
-                        " Стат.блок.АВР  ",
+                        " Стат.блок.АВР 1",
+                        " Стат.блок.АВР 2",
                         " Бл.АВР від зах.",
                         " ПО U АВР мін.1 ",
                         " ПО U АВР макс.1",
                         " ПО U АВР мін.2 ",
                         " ПО U АВР макс.2",
-                        "  Блок.кр.АВР   ",
-                        "    Пуск АВР    ",
+                        "   ПО АВР к.1   ",
+                        " Ком.1 Ввікл.АВР",
+                        " Ком.1 Вимк.АВР ",
+                        " Ком.3 Ввікл.АВР",
+                        "   ПО АВР к.2   ",
+                        " Ком.2 Ввікл.АВР",
+                        " Ком.2 Вимк.АВР ",
+                        " Ком.4 Ввікл.АВР",
                         " Вх.В-функції1  ",
                         " Вих.В-функції1 ",
                         " Вх.В-функції2  ",
@@ -11072,6 +11102,8 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "  Relay Reset   ",
                         "  Local/Remote  ",
                         "  State of CB   ",
+                        " State of ch1.CB",
+                        " State of ch2.CB",
                         "Откл.от вн.защит",
                         "     On CB      ",
                         " On CB Control  ",
@@ -11171,14 +11203,21 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "     Umax2      ",
                         "  Вн.Откл.АВР   ",
                         " Сброс Блок.АВР ",
-                        " Стат.блок.АВР  ",
+                        " Стат.блок.АВР 1",
+                        " Стат.блок.АВР 2",
                         " Бл.АВР от защит",
                         " ПО U АВР мин.1 ",
                         " ПО U АВР макс.1",
                         " ПО U АВР мин.2 ",
                         " ПО U АВР макс.2",
-                        "  Блок.кр.АВР   ",
-                        "    Пуск АВР    ",
+                        "   ПО АВР к.1   ",
+                        " Ком.1 Вкл.АВР  ",
+                        " Ком.1 Откл.АВР ",
+                        " Ком.3 Вкл.АВР  ",
+                        "   ПО АВР к.2   ",
+                        " Ком.2 Вкл.АВР  ",
+                        " Ком.2 Откл.АВР ",
+                        " Ком.4 Вкл.АВР  ",
                         "    UDF1 In     ",
                         "    UDF1 Out    ",
                         "    UDF2 In     ",
@@ -11255,6 +11294,8 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "   Сброс реле   ",
                         " Местн./Дистанц.",
                         "  Положение ВВ  ",
+                        "Положение ВВ к.1",
+                        "Положение ВВ к.2",
                         "Откл.от вн.защит",
                         "     Вкл.ВВ     ",
                         " Контроль Вкл.  ",
@@ -11354,14 +11395,21 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         "    ЗНмакс2     ",
                         "  Вн.Откл.АВР   ",
                         " Сброс Блок.АВР ",
-                        " Стат.блок.АВР  ",
+                        " Стат.блок.АВР 1",
+                        " Стат.блок.АВР 2",
                         " Бл.АВР от защит",
                         " ПО U АВР мин.1 ",
                         " ПО U АВР макс.1",
                         " ПО U АВР мин.2 ",
                         " ПО U АВР макс.2",
-                        "  Блок.кр.АВР   ",
-                        "    Пуск АВР    ",
+                        "   ПО АВР к.1   ",
+                        " Ком.1 Вкл.АВР  ",
+                        " Ком.1 Откл.АВР ",
+                        " Ком.3 Вкл.АВР  ",
+                        "   ПО АВР к.2   ",
+                        " Ком.2 Вкл.АВР  ",
+                        " Ком.2 Откл.АВР ",
+                        " Ком.4 Вкл.АВР  ",
                         " Вх.О-функции1  ",
                         " Вых.О-функции1 ",
                         " Вх.О-функции2  ",

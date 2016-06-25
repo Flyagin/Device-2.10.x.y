@@ -714,14 +714,14 @@
 #define BIT_MA_AVR_BASE                         60256
 #define BIT_MA_OTKL_AVR                         60256
 #define BIT_MA_SBROS_BLOCK_AVR                  60257
-#define BIT_MA_STAT_BLOCK_AVR                   60258
+//#define BIT_MA_STAT_BLOCK_AVR                   60258
 #define BIT_MA_PO_UAVR_MIN1                     60259
 #define BIT_MA_PO_UAVR_MAX1                     60260
 #define BIT_MA_PO_UAVR_MIN2                     60261
 #define BIT_MA_PO_UAVR_MAX2                     60262
 #define BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV          60263
-#define BIT_MA_BLOCK_KRATN_AVR                  60264
-#define BIT_MA_PUSK_AVR                         60265
+//#define BIT_MA_BLOCK_KRATN_AVR                  60264
+//#define BIT_MA_PUSK_AVR                         60265
 
 //#define BIT_MA_ACHR_CHAPV_VID_DV                60272
 //#define BIT_MA_BLOCK_ACHR1                      60273

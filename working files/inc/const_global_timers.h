@@ -54,11 +54,7 @@
 #define INDEX_TIMER_UMIN2                                      (INDEX_TIMER_UMIN1 + 1)
 #define INDEX_TIMER_UMAX1                                      (INDEX_TIMER_UMIN2 + 1)
 #define INDEX_TIMER_UMAX2                                      (INDEX_TIMER_UMAX1 + 1)
-#define INDEX_TIMER_AVR_RESET_BLK                              (INDEX_TIMER_UMAX2 + 1)
-#define INDEX_TIMER_AVR_ZAVERSHENNJA                           (INDEX_TIMER_AVR_RESET_BLK + 1)
-#define INDEX_TIMER_AVR_RL                                     (INDEX_TIMER_AVR_ZAVERSHENNJA + 1)
-#define INDEX_TIMER_AVR_OL                                     (INDEX_TIMER_AVR_RL + 1)
-#define NEXT_TIMER                                             (INDEX_TIMER_AVR_OL + 1)
+#define NEXT_TIMER                                             (INDEX_TIMER_UMAX2 + 1)
 
 enum __mtz_tmr_const {
   INDEX_TIMER_MTZ = 0,
