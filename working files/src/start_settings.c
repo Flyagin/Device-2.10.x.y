@@ -1844,11 +1844,20 @@ void min_settings(__SETTINGS *target_label)
     target_label->setpoint_avr_min2[i] = SETPOINT_AVR2_MIN;
     target_label->setpoint_avr_max1[i] = SETPOINT_AVR1_MAX;
     target_label->setpoint_avr_max2[i] = SETPOINT_AVR2_MAX;
-    target_label->setpoint_kratn_avr[i] = SETPOINT_AVR_KRATN_MIN;
-    target_label->timeout_avr_ol[i] = TIMEOUT_AVR_OL_MIN;
-    target_label->timeout_avr_rl[i] = TIMEOUT_AVR_RL_MIN;
-    target_label->timeout_avr_zavershennja[i] = TIMEOUT_AVR_ZAVERSHENNJA_MIN;
-    target_label->timeout_avr_reset_blk[i] = TIMEOUT_AVR_RESET_BLK_MIN;
+    target_label->timeout_avr_blk_k1[i] = TIMEOUT_AVR_BLK_K1_MIN;
+    target_label->timeout_avr_pusk_k1[i] = TIMEOUT_AVR_PUSK_K1_MIN;
+    target_label->timeout_avr_d_diji_k1[i] = TIMEOUT_AVR_D_DIJI_K1_MIN;
+    target_label->timeout_avr_vvimk_rez_k1[i] = TIMEOUT_AVR_VVIMK_REZ_K1_MIN;
+    target_label->timeout_avr_vvimk_k1[i] = TIMEOUT_AVR_VVIMK_K1_MIN;
+    target_label->timeout_avr_vymk_rob_k1[i] = TIMEOUT_AVR_VYMK_ROB_K1_MIN;
+    target_label->timeout_avr_vymk_k1[i] = TIMEOUT_AVR_VYMK_K1_MIN;
+    target_label->timeout_avr_blk_k2[i] = TIMEOUT_AVR_BLK_K2_MIN;
+    target_label->timeout_avr_pusk_k2[i] = TIMEOUT_AVR_PUSK_K2_MIN;
+    target_label->timeout_avr_d_diji_k2[i] = TIMEOUT_AVR_D_DIJI_K2_MIN;
+    target_label->timeout_avr_vvimk_rez_k2[i] = TIMEOUT_AVR_VVIMK_REZ_K2_MIN;
+    target_label->timeout_avr_vvimk_k2[i] = TIMEOUT_AVR_VVIMK_K2_MIN;
+    target_label->timeout_avr_vymk_rob_k2[i] = TIMEOUT_AVR_VYMK_ROB_K2_MIN;
+    target_label->timeout_avr_vymk_k2[i] = TIMEOUT_AVR_VYMK_K2_MIN;
   }
 
   target_label->control_mtz = 0;

@@ -217,11 +217,20 @@ typedef struct
   unsigned int setpoint_avr_max1[NUMBER_GROUP_USTAVOK];       //уставка АВР max1
   unsigned int setpoint_avr_min2[NUMBER_GROUP_USTAVOK];       //уставка АВР min2
   unsigned int setpoint_avr_max2[NUMBER_GROUP_USTAVOK];       //уставка АВР max2
-  unsigned int setpoint_kratn_avr[NUMBER_GROUP_USTAVOK];      //кратність АВР
-  int timeout_avr_ol[NUMBER_GROUP_USTAVOK];                   //Витримка Циклу АВР ОЛ
-  int timeout_avr_rl[NUMBER_GROUP_USTAVOK];                   //Витримка Циклу АВР РЛ
-  int timeout_avr_zavershennja[NUMBER_GROUP_USTAVOK];         //Витримка завершення роботи логіки АВР (для одного процесу)
-  int timeout_avr_reset_blk[NUMBER_GROUP_USTAVOK];            //Витримка скидання блокування АВР по захистам від появи на двох сторонах
+  unsigned int timeout_avr_blk_k1[NUMBER_GROUP_USTAVOK];      //Витримка "T блок. АВР кан.1"
+  unsigned int timeout_avr_pusk_k1[NUMBER_GROUP_USTAVOK];     //Витримка "T пуска кан.1"
+  unsigned int timeout_avr_d_diji_k1[NUMBER_GROUP_USTAVOK];   //Витримка "T разр.деств.кан.1"
+  unsigned int timeout_avr_vvimk_rez_k1[NUMBER_GROUP_USTAVOK];//Витримка "T вкл.рез.кан.1"
+  unsigned int timeout_avr_vvimk_k1[NUMBER_GROUP_USTAVOK];    //Витримка "T вкл.кан.1"
+  unsigned int timeout_avr_vymk_rob_k1[NUMBER_GROUP_USTAVOK]; //Витримка "T откл.раб.кан.1"
+  unsigned int timeout_avr_vymk_k1[NUMBER_GROUP_USTAVOK];     //Витримка "T откл.кан.1"
+  unsigned int timeout_avr_blk_k2[NUMBER_GROUP_USTAVOK];      //Витримка "T блок. АВР кан.2"
+  unsigned int timeout_avr_pusk_k2[NUMBER_GROUP_USTAVOK];     //Витримка "T пуска кан.2"
+  unsigned int timeout_avr_d_diji_k2[NUMBER_GROUP_USTAVOK];   //Витримка "T разр.деств.кан.2"
+  unsigned int timeout_avr_vvimk_rez_k2[NUMBER_GROUP_USTAVOK];//Витримка "T вкл.рез.кан.2"
+  unsigned int timeout_avr_vvimk_k2[NUMBER_GROUP_USTAVOK];    //Витримка "T вкл.кан.2"
+  unsigned int timeout_avr_vymk_rob_k2[NUMBER_GROUP_USTAVOK]; //Витримка "T откл.раб.кан.2"
+  unsigned int timeout_avr_vymk_k2[NUMBER_GROUP_USTAVOK];     //Витримка "T откл.кан.2"
   unsigned int control_avr;                                   //Поле для управління АВР
 
   unsigned int TCurrent;                //Коефіцієнт трансформації для трансформатора струмів

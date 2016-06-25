@@ -5286,11 +5286,6 @@ void main_manu_function(void)
                     edition_settings.setpoint_avr_max2[group] = current_settings.setpoint_avr_max2[group];
                     current_ekran.position_cursor_x = COL_SETPOINT_AVR_MAX2_BEGIN;
                   }
-                  else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX_KRATN)
-                  {
-                    edition_settings.setpoint_kratn_avr[group] = current_settings.setpoint_kratn_avr[group];
-                    current_ekran.position_cursor_x = COL_SETPOINT_AVR_MAX_KRATN_BEGIN;
-                  }
                 }
                 else if(
                         (current_ekran.current_level >= EKRAN_TIMEOUT_AVR_GROUP1) &&
@@ -5299,10 +5294,10 @@ void main_manu_function(void)
                 {
                   int group = (current_ekran.current_level - EKRAN_TIMEOUT_AVR_GROUP1);
                   
-                  if (current_ekran.index_position == INDEX_ML_TMOAVR_OL)
+                  if (current_ekran.index_position == INDEX_ML_TMOAVR_BLK_K1)
                   {
-                    edition_settings.timeout_avr_ol[group] = current_settings.timeout_avr_ol[group];
-                    current_ekran.position_cursor_x = COL_TMO_AVR_OL_BEGIN;
+                    edition_settings.timeout_avr_blk_k1[group] = current_settings.timeout_avr_blk_k1[group];
+                    current_ekran.position_cursor_x = COL_TMO_AVR_BLK_K1_BEGIN;
                   }
                   else if (current_ekran.index_position == INDEX_ML_TMOAVR_RL)
                   {
@@ -5962,10 +5957,6 @@ void main_manu_function(void)
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX2)
                   {
                     if (edition_settings.setpoint_avr_max2[group] != current_settings.setpoint_avr_max2[group]) found_changes = 1;
-                  }
-                  else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX_KRATN)
-                  {
-                    if (edition_settings.setpoint_kratn_avr[group] != current_settings.setpoint_kratn_avr[group]) found_changes = 1;
                   }
                 }
                 else if(
@@ -7670,23 +7661,6 @@ void main_manu_function(void)
                       current_ekran.edition = 0;
                     }
                   }
-                  else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX_KRATN)
-                  {
-                    if (check_data_setpoint(edition_settings.setpoint_kratn_avr[group], SETPOINT_AVR_KRATN_MIN, SETPOINT_AVR_KRATN_MAX) == 1)
-                    {
-                      if (edition_settings.setpoint_kratn_avr[group] != current_settings.setpoint_kratn_avr[group])
-                      {
-                        //Помічаємо, що поле структури зараз буде змінене
-                        changed_settings = CHANGED_ETAP_EXECUTION;
-                        
-                        current_settings.setpoint_kratn_avr[group] = edition_settings.setpoint_kratn_avr[group];
-                        //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
-                        fix_change_settings(0, 1);
-                      }
-                      //Виходимо з режиму редагування
-                      current_ekran.edition = 0;
-                    }
-                  }
                 }
                 else if(
                         (current_ekran.current_level >= EKRAN_TIMEOUT_AVR_GROUP1)&&
@@ -9123,8 +9097,6 @@ void main_manu_function(void)
                     edition_settings.setpoint_avr_min2[group] = edit_setpoint(1, edition_settings.setpoint_avr_min2[group], 1, COL_SETPOINT_AVR_MIN2_COMMA, COL_SETPOINT_AVR_MIN2_END, 100);
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX2)
                     edition_settings.setpoint_avr_max2[group] = edit_setpoint(1, edition_settings.setpoint_avr_max2[group], 1, COL_SETPOINT_AVR_MAX2_COMMA, COL_SETPOINT_AVR_MAX2_END, 100);
-                  else if(current_ekran.index_position == INDEX_ML_STPAVR_MAX_KRATN)
-                    edition_settings.setpoint_kratn_avr[group] = edit_setpoint(1, edition_settings.setpoint_kratn_avr[group], 0, 0, COL_SETPOINT_AVR_MAX_KRATN_END, 1);
                 }
                 //Формуємо екран уставок АВР
                 make_ekran_setpoint_avr(group);
@@ -10017,8 +9989,6 @@ void main_manu_function(void)
                     edition_settings.setpoint_avr_min2[group] = edit_setpoint(0, edition_settings.setpoint_avr_min2[group], 1, COL_SETPOINT_AVR_MIN2_COMMA, COL_SETPOINT_AVR_MIN2_END, 100);
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX2)
                     edition_settings.setpoint_avr_max2[group] = edit_setpoint(0, edition_settings.setpoint_avr_max2[group], 1, COL_SETPOINT_AVR_MAX2_COMMA, COL_SETPOINT_AVR_MAX2_END, 100);
-                  else if(current_ekran.index_position == INDEX_ML_STPAVR_MAX_KRATN)
-                    edition_settings.setpoint_kratn_avr[group] = edit_setpoint(0, edition_settings.setpoint_kratn_avr[group], 0, 0, COL_SETPOINT_AVR_MAX_KRATN_END, 1);
                 }
                 //Формуємо екран уставок АВР
                 make_ekran_setpoint_avr(group);
@@ -11174,12 +11144,6 @@ void main_manu_function(void)
                       (current_ekran.position_cursor_x > COL_SETPOINT_AVR_MAX2_END))
                     current_ekran.position_cursor_x = COL_SETPOINT_AVR_MAX2_BEGIN;
                 }
-                else if(current_ekran.index_position == INDEX_ML_STPAVR_MAX_KRATN)
-                {
-                  if ((current_ekran.position_cursor_x < COL_SETPOINT_AVR_MAX_KRATN_BEGIN) ||
-                      (current_ekran.position_cursor_x > COL_SETPOINT_AVR_MAX_KRATN_END))
-                    current_ekran.position_cursor_x = COL_SETPOINT_AVR_MAX_KRATN_BEGIN;
-                }
 
                 //Формуємо екран уставок АВР
                 int group = (current_ekran.current_level - EKRAN_SETPOINT_AVR_GROUP1);
@@ -12308,12 +12272,6 @@ void main_manu_function(void)
                   if ((current_ekran.position_cursor_x < COL_SETPOINT_AVR_MAX2_BEGIN) ||
                       (current_ekran.position_cursor_x > COL_SETPOINT_AVR_MAX2_END))
                     current_ekran.position_cursor_x = COL_SETPOINT_AVR_MAX2_END;
-                }
-                else if(current_ekran.index_position == INDEX_ML_STPAVR_MAX_KRATN)
-                {
-                  if ((current_ekran.position_cursor_x < COL_SETPOINT_AVR_MAX_KRATN_BEGIN) ||
-                      (current_ekran.position_cursor_x > COL_SETPOINT_AVR_MAX_KRATN_END))
-                    current_ekran.position_cursor_x = COL_SETPOINT_AVR_MAX_KRATN_END;
                 }
 
                 //Формуємо екран уставок АВР

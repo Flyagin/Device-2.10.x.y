@@ -196,11 +196,11 @@
 #define MA_STP_AVR_MAX1                   422
 #define MA_STP_AVR_MIN2                   423
 #define MA_STP_AVR_MAX2                   424
-#define MA_TO_AVR_RL                      425
-#define MA_TO_AVR_OL                      426
-#define MA_STP_KRATN_AVR                  427
-#define MA_TO_AVR_ZAVERSHENNJA            428
-#define MA_TO_AVR_RESET_BLK               429
+//#define MA_TO_AVR_RL                      425
+//#define MA_TO_AVR_OL                      426
+//#define MA_STP_KRATN_AVR                  427
+//#define MA_TO_AVR_ZAVERSHENNJA            428
+//#define MA_TO_AVR_RESET_BLK               429
 
 #define MA_TO_APV_BLOCK_VID_VV            430
 #define MA_TO_APV_CYCLE_1                 431

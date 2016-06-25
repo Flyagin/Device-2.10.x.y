@@ -4342,41 +4342,6 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         temp_value = current_settings_interfaces.setpoint_avr_max2[num_gr]/100;
         break;
       }
-    case MA_STP_KRATN_AVR:
-      {
-        temp_value = current_settings_interfaces.setpoint_kratn_avr[num_gr];
-        break;
-      }
-    case MA_TO_AVR_RL:
-      {
-        temp_value = current_settings_interfaces.timeout_avr_rl[num_gr]/10;
-        break;
-      }
-    case MA_TO_AVR_OL:
-      {
-        temp_value = current_settings_interfaces.timeout_avr_ol[num_gr]/10;
-        break;
-      }
-    case MA_TO_AVR_ZAVERSHENNJA:
-      {
-        temp_value = current_settings_interfaces.timeout_avr_zavershennja[num_gr]/10;
-        break;
-      }
-    case MA_TO_AVR_RESET_BLK:
-      {
-        temp_value = current_settings_interfaces.timeout_avr_reset_blk[num_gr]/10;
-        break;
-      }
-    case MA_TO_APV_BLOCK_VID_VV:
-      {
-        temp_value = current_settings_interfaces.timeout_apv_block_vid_VV[num_gr]/10;
-        break;
-      }
-    case MA_TO_APV_CYCLE_1:
-      {
-        temp_value = current_settings_interfaces.timeout_apv_1[num_gr]/10;
-        break;
-      }
     case MA_TO_APV_CYCLE_2:
       {
         temp_value = current_settings_interfaces.timeout_apv_2[num_gr]/10;
@@ -6844,85 +6809,6 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
     
         if ((temp_value >= SETPOINT_AVR2_MIN) && (temp_value <= SETPOINT_AVR2_MAX))
           target_label->setpoint_avr_max2[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_STP_KRATN_AVR:
-      {
-        temp_value = data;
-    
-        if ((temp_value >= SETPOINT_AVR_KRATN_MIN) && (temp_value <= SETPOINT_AVR_KRATN_MAX))
-          target_label->setpoint_kratn_avr[num_gr] = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_AVR_RL:
-      {
-        temp_value = data*10;
-        
-#if (TIMEOUT_AVR_RL_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_RL_MIN) && (temp_value <= TIMEOUT_AVR_RL_MAX))
-#else
-        if (temp_value <= TIMEOUT_AVR_RL_MAX)
-#endif            
-        {
-          target_label->timeout_avr_rl[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_AVR_OL:
-      {
-        temp_value = data*10;
-        
-#if (TIMEOUT_AVR_OL_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_OL_MIN) && (temp_value <= TIMEOUT_AVR_OL_MAX))
-#else
-        if (temp_value <= TIMEOUT_AVR_OL_MAX)
-#endif            
-        {
-          target_label->timeout_avr_ol[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_AVR_ZAVERSHENNJA:
-      {
-        temp_value = data*10;
-        
-#if (TIMEOUT_AVR_ZAVERSHENNJA_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_ZAVERSHENNJA_MIN) && (temp_value <= TIMEOUT_AVR_ZAVERSHENNJA_MAX))
-#else
-        if (temp_value <= TIMEOUT_AVR_ZAVERSHENNJA_MAX)
-#endif            
-        {
-          target_label->timeout_avr_zavershennja[num_gr] = temp_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TO_AVR_RESET_BLK:
-      {
-        temp_value = data*10;
-        
-#if (TIMEOUT_AVR_RESET_BLK_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_RESET_BLK_MIN) && (temp_value <= TIMEOUT_AVR_RESET_BLK_MAX))
-#else
-        if (temp_value <= TIMEOUT_AVR_RESET_BLK_MAX)
-#endif            
-        {
-          target_label->timeout_avr_reset_blk[num_gr] = temp_value;
-        }
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
 
