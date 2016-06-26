@@ -151,6 +151,7 @@ extern unsigned int temp_states_for_mtz;
 
 extern unsigned int i1_bilshe_porogu, i2_bilshe_porogu;
 
+extern unsigned int TN1_TN2;
 extern volatile unsigned int state_inputs;
 extern volatile unsigned int active_inputs;
 extern unsigned int state_outputs;

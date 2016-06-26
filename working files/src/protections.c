@@ -164,6 +164,29 @@ inline void velychyna_zvorotnoi_poslidovnosti(int ortogonal_local_calc[])
 /*****************************************************/
 inline void directional_mtz(int ortogonal_local_calc[], unsigned int number_group_stp) 
 {
+  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
+  unsigned int index_FULL_ORT_Uab, index_FULL_ORT_Ubc, index_FULL_ORT_Uca;
+  if (TN1_TN2 == 1)
+  {
+    index_IM_UAB = IM_UAB2;
+    index_IM_UBC = IM_UBC2;
+    index_IM_UCA = IM_UCA2;
+    
+    index_FULL_ORT_Uab = FULL_ORT_Uab2;
+    index_FULL_ORT_Ubc = FULL_ORT_Ubc2;
+    index_FULL_ORT_Uca = FULL_ORT_Uca2;
+  }
+  else
+  {
+    index_IM_UAB = IM_UAB1;
+    index_IM_UBC = IM_UBC1;
+    index_IM_UCA = IM_UCA1;
+    
+    index_FULL_ORT_Uab = FULL_ORT_Uab1;
+    index_FULL_ORT_Ubc = FULL_ORT_Ubc1;
+    index_FULL_ORT_Uca = FULL_ORT_Uca1;
+  }
+
   for (unsigned int mtz = 0; mtz < 4; mtz++)
   {
     int a_cos_fi, a_sin_fi;
@@ -221,30 +244,30 @@ inline void directional_mtz(int ortogonal_local_calc[], unsigned int number_grou
       case 0:
         {
           index_I = IM_IA;
-          index_U = IM_UBC1;
+          index_U = index_IM_UBC;
 
           index_I_ort = FULL_ORT_Ia;
-          index_U_ort = FULL_ORT_Ubc1;
+          index_U_ort = index_FULL_ORT_Ubc;
 
           break;
         }
       case 1:
         {
           index_I = IM_IB;
-          index_U = IM_UCA1;
+          index_U = index_IM_UCA;
 
           index_I_ort = FULL_ORT_Ib;
-          index_U_ort = FULL_ORT_Uca1;
+          index_U_ort = index_FULL_ORT_Uca;
 
           break;
         }
       case 2:
         {
           index_I = IM_IC;
-          index_U = IM_UAB1;
+          index_U = index_IM_UAB;
 
           index_I_ort = FULL_ORT_Ic;
-          index_U_ort = FULL_ORT_Uab1;
+          index_U_ort = index_FULL_ORT_Uab;
 
           break;
         }
@@ -412,6 +435,20 @@ inline void directional_mtz(int ortogonal_local_calc[], unsigned int number_grou
 /*****************************************************/
 inline void calc_power(int ortogonal_local_calc[]) 
 {
+  unsigned int index_FULL_ORT_Uab, index_FULL_ORT_Ubc/*, index_FULL_ORT_Uca*/;
+  if (TN1_TN2 == 1)
+  {
+    index_FULL_ORT_Uab = FULL_ORT_Uab2;
+    index_FULL_ORT_Ubc = FULL_ORT_Ubc2;
+//    index_FULL_ORT_Uca = FULL_ORT_Uca2;
+  }
+  else
+  {
+    index_FULL_ORT_Uab = FULL_ORT_Uab1;
+    index_FULL_ORT_Ubc = FULL_ORT_Ubc1;
+//    index_FULL_ORT_Uca = FULL_ORT_Uca1;
+  }
+
   /*
   Розраховуємо дійсну і уявну частину потужності у компдексній площині
   
@@ -421,13 +458,13 @@ inline void calc_power(int ortogonal_local_calc[])
   
 #define IA_SIN          ortogonal_local_calc[2*FULL_ORT_Ia + 1]
 #define IA_COS          ortogonal_local_calc[2*FULL_ORT_Ia + 0]
-#define UAB_SIN         ortogonal_local_calc[2*FULL_ORT_Uab1 + 1]
-#define UAB_COS         ortogonal_local_calc[2*FULL_ORT_Uab1 + 0]
+#define UAB_SIN         ortogonal_local_calc[2*index_FULL_ORT_Uab + 1]
+#define UAB_COS         ortogonal_local_calc[2*index_FULL_ORT_Uab + 0]
   
 #define IC_SIN          ortogonal_local_calc[2*FULL_ORT_Ic + 1]
 #define IC_COS          ortogonal_local_calc[2*FULL_ORT_Ic + 0]
-#define UBC_SIN         ortogonal_local_calc[2*FULL_ORT_Ubc1 + 1]
-#define UBC_COS         ortogonal_local_calc[2*FULL_ORT_Ubc1 + 0]
+#define UBC_SIN         ortogonal_local_calc[2*index_FULL_ORT_Ubc + 1]
+#define UBC_COS         ortogonal_local_calc[2*index_FULL_ORT_Ubc + 0]
   
   long long Re_IaUab, Im_IaUab;
   if (measurement[IM_IA] >= PORIG_I_ENERGY)
@@ -1968,6 +2005,20 @@ inline int timeout_dependent_general(unsigned int i, unsigned int number_group_s
 /*****************************************************/
 inline void mtz_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
 {
+  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
+  if (TN1_TN2 == 1)
+  {
+    index_IM_UAB = IM_UAB2;
+    index_IM_UBC = IM_UBC2;
+    index_IM_UCA = IM_UCA2;
+  }
+  else
+  {
+    index_IM_UAB = IM_UAB1;
+    index_IM_UBC = IM_UBC1;
+    index_IM_UCA = IM_UCA1;
+  }
+
   unsigned int tmp_value;
   
   unsigned int po_mtz_x;
@@ -1997,9 +2048,9 @@ inline void mtz_handler(volatile unsigned int *p_active_functions, unsigned int 
             u_linear_nom_const * U_DOWN / 100 :
             u_linear_nom_const;
   
-  previous_state_mtz_po_uncn = ((measurement[IM_UAB1] <= po_u_ncn_setpoint) &&
-                                (measurement[IM_UBC1] <= po_u_ncn_setpoint) &&
-                                (measurement[IM_UCA1] <= po_u_ncn_setpoint));
+  previous_state_mtz_po_uncn = ((measurement[index_IM_UAB] <= po_u_ncn_setpoint) &&
+                                (measurement[index_IM_UBC] <= po_u_ncn_setpoint) &&
+                                (measurement[index_IM_UCA] <= po_u_ncn_setpoint));
   
   ctr_mtz_nespr_kil_napr = ctr_mtz_nespr_kil_napr && previous_state_mtz_po_incn && previous_state_mtz_po_uncn; //Неисправность цепей напряжения (_AND3)
   
@@ -2114,9 +2165,9 @@ inline void mtz_handler(volatile unsigned int *p_active_functions, unsigned int 
            PORIG_CHUTLYVOSTI_VOLTAGE :
            PORIG_CHUTLYVOSTI_VOLTAGE * U_DOWN / 100;
     
-    tmp_value |= ((measurement[IM_UAB1] <= po_block_u_mtzn_x_setpoint) &&
-                  (measurement[IM_UBC1] <= po_block_u_mtzn_x_setpoint) &&
-                  (measurement[IM_UCA1] <= po_block_u_mtzn_x_setpoint)) << 14; //ПО U блок. МТЗНх
+    tmp_value |= ((measurement[index_IM_UAB] <= po_block_u_mtzn_x_setpoint) &&
+                  (measurement[index_IM_UBC] <= po_block_u_mtzn_x_setpoint) &&
+                  (measurement[index_IM_UCA] <= po_block_u_mtzn_x_setpoint)) << 14; //ПО U блок. МТЗНх
     
     //ПО U блок. МТЗНх
     if (_GET_OUTPUT_STATE(tmp_value, 14))
@@ -2139,9 +2190,9 @@ inline void mtz_handler(volatile unsigned int *p_active_functions, unsigned int 
             *(setpoint_mtz_U[mtz_level] + number_group_stp) * U_DOWN / 100:
             *(setpoint_mtz_U[mtz_level] + number_group_stp) ;
     
-    tmp_value |= ((measurement[IM_UAB1] <= po_u_mtzpn_x_setpoint) ||
-                  (measurement[IM_UBC1] <= po_u_mtzpn_x_setpoint) ||
-                  (measurement[IM_UCA1] <= po_u_mtzpn_x_setpoint)) << 16; //ПО U МТЗПНх
+    tmp_value |= ((measurement[index_IM_UAB] <= po_u_mtzpn_x_setpoint) ||
+                  (measurement[index_IM_UBC] <= po_u_mtzpn_x_setpoint) ||
+                  (measurement[index_IM_UCA] <= po_u_mtzpn_x_setpoint)) << 16; //ПО U МТЗПНх
     
     //ПО U МТЗПНх
     if (_GET_OUTPUT_STATE(tmp_value, 16))
@@ -2457,6 +2508,29 @@ inline void zop_handler(volatile unsigned int *p_active_functions, unsigned int 
 /*****************************************************/
 void umin1_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
 {
+  unsigned int index_IM_UA, index_IM_UB, index_IM_UC;
+//  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
+  if (TN1_TN2 == 1)
+  {
+    index_IM_UA = IM_UA2;
+    index_IM_UB = IM_UB2;
+    index_IM_UC = IM_UC2;
+
+//    index_IM_UAB = IM_UAB2;
+//    index_IM_UBC = IM_UBC2;
+//    index_IM_UCA = IM_UCA2;
+  }
+  else
+  {
+    index_IM_UA = IM_UA1;
+    index_IM_UB = IM_UB1;
+    index_IM_UC = IM_UC1;
+
+//    index_IM_UAB = IM_UAB1;
+//    index_IM_UBC = IM_UBC1;
+//    index_IM_UCA = IM_UCA1;
+  }
+
   _Bool previous_state_po_umin1 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UMIN1) > 0;
   _Bool previous_state_po_ublk_umin1 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UBLK_UMIN1) > 0;
   _Bool previous_state_po_iblk_umin1 = _CHECK_SET_BIT(p_active_functions, RANG_PO_IBLK_UMIN1) > 0;
@@ -2465,19 +2539,19 @@ void umin1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
           current_settings_prt.setpoint_Umin1[number_group_stp] * U_DOWN / 100 :
           current_settings_prt.setpoint_Umin1[number_group_stp];
   
-//  _Bool Uab_is_smaller_than_Umin1 = measurement[IM_UAB1] <= setpoint1;
-//  _Bool Ubc_is_smaller_than_Umin1 = measurement[IM_UBC1] <= setpoint1;
-//  _Bool Uca_is_smaller_than_Umin1 = measurement[IM_UCA1] <= setpoint1;
+//  _Bool Uab_is_smaller_than_Umin1 = measurement[inex_IM_UAB] <= setpoint1;
+//  _Bool Ubc_is_smaller_than_Umin1 = measurement[inex_IM_UBC] <= setpoint1;
+//  _Bool Uca_is_smaller_than_Umin1 = measurement[inex_IM_UCA] <= setpoint1;
   
-  _Bool Ua_is_smaller_than_Umin1 = measurement[IM_UA1] <= setpoint1;
-  _Bool Ub_is_smaller_than_Umin1 = measurement[IM_UB1] <= setpoint1;
-  _Bool Uc_is_smaller_than_Umin1 = measurement[IM_UC1] <= setpoint1;
+  _Bool Ua_is_smaller_than_Umin1 = measurement[index_IM_UA] <= setpoint1;
+  _Bool Ub_is_smaller_than_Umin1 = measurement[index_IM_UB] <= setpoint1;
+  _Bool Uc_is_smaller_than_Umin1 = measurement[index_IM_UC] <= setpoint1;
   
   unsigned int setpoint2 = previous_state_po_ublk_umin1 ?
           KOEF_MIN_UMIN * U_DOWN / 100 : KOEF_MIN_UMIN;
           
-  _Bool Ua_or_Ub_or_Uc_is_smaller_than_250mV = (measurement[IM_UA1] <= setpoint2) || (measurement[IM_UB1] <= setpoint2) || (measurement[IM_UC1] <= setpoint2);
-//  _Bool Uab_or_Ubc_or_Uca_is_smaller_than_250mV = (measurement[IM_UAB1] <= setpoint2) || (measurement[IM_UBC1] <= setpoint2) || (measurement[IM_UCA1] <= setpoint2);
+  _Bool Ua_or_Ub_or_Uc_is_smaller_than_250mV = (measurement[index_IM_UA] <= setpoint2) || (measurement[index_IM_UB] <= setpoint2) || (measurement[index_IM_UC] <= setpoint2);
+//  _Bool Uab_or_Ubc_or_Uca_is_smaller_than_250mV = (measurement[inex_IM_UAB] <= setpoint2) || (measurement[inex_IM_UBC] <= setpoint2) || (measurement[inex_IM_UCA] <= setpoint2);
   
   unsigned int setpoint3 = previous_state_po_iblk_umin1 ?
           current_settings_prt.setpoint_Umin1_Iblk[number_group_stp] * KOEF_POVERNENNJA_GENERAL / 100 :
@@ -2569,6 +2643,29 @@ void umin1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
 /*****************************************************/
 void umin2_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
 {
+  unsigned int index_IM_UA, index_IM_UB, index_IM_UC;
+//  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
+  if (TN1_TN2 == 1)
+  {
+    index_IM_UA = IM_UA2;
+    index_IM_UB = IM_UB2;
+    index_IM_UC = IM_UC2;
+
+//    index_IM_UAB = IM_UAB2;
+//    index_IM_UBC = IM_UBC2;
+//    index_IM_UCA = IM_UCA2;
+  }
+  else
+  {
+    index_IM_UA = IM_UA1;
+    index_IM_UB = IM_UB1;
+    index_IM_UC = IM_UC1;
+
+//    index_IM_UAB = IM_UAB1;
+//    index_IM_UBC = IM_UBC1;
+//    index_IM_UCA = IM_UCA1;
+  }
+
   _Bool previous_state_po_umin2 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UMIN2) > 0;
   _Bool previous_state_po_ublk_umin2 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UBLK_UMIN2) > 0;
   _Bool previous_state_po_iblk_umin2 = _CHECK_SET_BIT(p_active_functions, RANG_PO_IBLK_UMIN2) > 0;
@@ -2577,19 +2674,19 @@ void umin2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
           current_settings_prt.setpoint_Umin2[number_group_stp] * U_DOWN / 100 :
           current_settings_prt.setpoint_Umin2[number_group_stp];
   
-//  _Bool Uab_is_smaller_than_Umin2 = measurement[IM_UAB1] <= setpoint1;
-//  _Bool Ubc_is_smaller_than_Umin2 = measurement[IM_UBC1] <= setpoint1;
-//  _Bool Uca_is_smaller_than_Umin2 = measurement[IM_UCA1] <= setpoint1;
+//  _Bool Uab_is_smaller_than_Umin2 = measurement[inex_IM_UAB] <= setpoint1;
+//  _Bool Ubc_is_smaller_than_Umin2 = measurement[inex_IM_UBC] <= setpoint1;
+//  _Bool Uca_is_smaller_than_Umin2 = measurement[inex_IM_UCA] <= setpoint1;
   
-  _Bool Ua_is_smaller_than_Umin2 = measurement[IM_UA1] <= setpoint1;
-  _Bool Ub_is_smaller_than_Umin2 = measurement[IM_UB1] <= setpoint1;
-  _Bool Uc_is_smaller_than_Umin2 = measurement[IM_UC1] <= setpoint1;
+  _Bool Ua_is_smaller_than_Umin2 = measurement[index_IM_UA] <= setpoint1;
+  _Bool Ub_is_smaller_than_Umin2 = measurement[index_IM_UB] <= setpoint1;
+  _Bool Uc_is_smaller_than_Umin2 = measurement[index_IM_UC] <= setpoint1;
   
   unsigned int setpoint2 = previous_state_po_ublk_umin2 ?
           KOEF_MIN_UMIN * U_DOWN / 100 : KOEF_MIN_UMIN;
           
-  _Bool Ua_or_Ub_or_Uc_is_smaller_than_250mV = (measurement[IM_UA1] <= setpoint2) || (measurement[IM_UB1] <= setpoint2) || (measurement[IM_UC1] <= setpoint2);
-//  _Bool Uab_or_Ubc_or_Uca_is_smaller_than_250mV = (measurement[IM_UAB1] <= setpoint2) || (measurement[IM_UBC1] <= setpoint2) || (measurement[IM_UCA1] <= setpoint2);
+  _Bool Ua_or_Ub_or_Uc_is_smaller_than_250mV = (measurement[index_IM_UA] <= setpoint2) || (measurement[index_IM_UB] <= setpoint2) || (measurement[index_IM_UC] <= setpoint2);
+//  _Bool Uab_or_Ubc_or_Uca_is_smaller_than_250mV = (measurement[inex_IM_UAB] <= setpoint2) || (measurement[inex_IM_UBC] <= setpoint2) || (measurement[inex_IM_UCA] <= setpoint2);
   
   unsigned int setpoint3 = previous_state_po_iblk_umin2 ?
           current_settings_prt.setpoint_Umin2_Iblk[number_group_stp] * KOEF_POVERNENNJA_GENERAL / 100 :
@@ -2682,19 +2779,42 @@ void umin2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
 /*****************************************************/
 void umax1_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
 {
+  unsigned int index_IM_UA, index_IM_UB, index_IM_UC;
+//  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
+  if (TN1_TN2 == 1)
+  {
+    index_IM_UA = IM_UA2;
+    index_IM_UB = IM_UB2;
+    index_IM_UC = IM_UC2;
+
+//    index_IM_UAB = IM_UAB2;
+//    index_IM_UBC = IM_UBC2;
+//    index_IM_UCA = IM_UCA2;
+  }
+  else
+  {
+    index_IM_UA = IM_UA1;
+    index_IM_UB = IM_UB1;
+    index_IM_UC = IM_UC1;
+
+//    index_IM_UAB = IM_UAB1;
+//    index_IM_UBC = IM_UBC1;
+//    index_IM_UCA = IM_UCA1;
+  }
+
   _Bool previous_state_po_umax1 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UMAX1) > 0;
   
   unsigned int setpoint1 = previous_state_po_umax1 ?
           current_settings_prt.setpoint_Umax1[number_group_stp] * U_UP / 100 :
           current_settings_prt.setpoint_Umax1[number_group_stp];
   
-//  _Bool Uab_is_larger_than_Umax1 = measurement[IM_UAB1] >= setpoint1;
-//  _Bool Ubc_is_larger_than_Umax1 = measurement[IM_UBC1] >= setpoint1;
-//  _Bool Uca_is_larger_than_Umax1 = measurement[IM_UCA1] >= setpoint1;
+//  _Bool Uab_is_larger_than_Umax1 = measurement[inex_IM_UAB] >= setpoint1;
+//  _Bool Ubc_is_larger_than_Umax1 = measurement[inex_IM_UBC] >= setpoint1;
+//  _Bool Uca_is_larger_than_Umax1 = measurement[inex_IM_UCA] >= setpoint1;
   
-  _Bool Ua_is_larger_than_Umax1 = measurement[IM_UA1] >= setpoint1;
-  _Bool Ub_is_larger_than_Umax1 = measurement[IM_UB1] >= setpoint1;
-  _Bool Uc_is_larger_than_Umax1 = measurement[IM_UC1] >= setpoint1;
+  _Bool Ua_is_larger_than_Umax1 = measurement[index_IM_UA] >= setpoint1;
+  _Bool Ub_is_larger_than_Umax1 = measurement[index_IM_UB] >= setpoint1;
+  _Bool Uc_is_larger_than_Umax1 = measurement[index_IM_UC] >= setpoint1;
   
   //М
   unsigned int tmp_value = 0;
@@ -2745,19 +2865,42 @@ void umax1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
 /*****************************************************/
 void umax2_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
 {
+  unsigned int index_IM_UA, index_IM_UB, index_IM_UC;
+//  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
+  if (TN1_TN2 == 1)
+  {
+    index_IM_UA = IM_UA2;
+    index_IM_UB = IM_UB2;
+    index_IM_UC = IM_UC2;
+
+//    index_IM_UAB = IM_UAB2;
+//    index_IM_UBC = IM_UBC2;
+//    index_IM_UCA = IM_UCA2;
+  }
+  else
+  {
+    index_IM_UA = IM_UA1;
+    index_IM_UB = IM_UB1;
+    index_IM_UC = IM_UC1;
+
+//    index_IM_UAB = IM_UAB1;
+//    index_IM_UBC = IM_UBC1;
+//    index_IM_UCA = IM_UCA1;
+  }
+
   _Bool previous_state_po_umax2 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UMAX2) > 0;
   
   unsigned int setpoint1 = previous_state_po_umax2 ?
           current_settings_prt.setpoint_Umax2[number_group_stp] * U_UP / 100 :
           current_settings_prt.setpoint_Umax2[number_group_stp];
   
-//  _Bool Uab_is_larger_than_Umax2 = measurement[IM_UAB1] >= setpoint1;
-//  _Bool Ubc_is_larger_than_Umax2 = measurement[IM_UBC1] >= setpoint1;
-//  _Bool Uca_is_larger_than_Umax2 = measurement[IM_UCA1] >= setpoint1;
+//  _Bool Uab_is_larger_than_Umax2 = measurement[inex_IM_UAB] >= setpoint1;
+//  _Bool Ubc_is_larger_than_Umax2 = measurement[inex_IM_UBC] >= setpoint1;
+//  _Bool Uca_is_larger_than_Umax2 = measurement[inex_IM_UCA] >= setpoint1;
   
-  _Bool Ua_is_larger_than_Umax2 = measurement[IM_UA1] >= setpoint1;
-  _Bool Ub_is_larger_than_Umax2 = measurement[IM_UB1] >= setpoint1;
-  _Bool Uc_is_larger_than_Umax2 = measurement[IM_UC1] >= setpoint1;
+  _Bool Ua_is_larger_than_Umax2 = measurement[index_IM_UA] >= setpoint1;
+  _Bool Ub_is_larger_than_Umax2 = measurement[index_IM_UB] >= setpoint1;
+  _Bool Uc_is_larger_than_Umax2 = measurement[index_IM_UC] >= setpoint1;
   
   //М
   unsigned int tmp_value = 0;
@@ -3878,6 +4021,29 @@ inline void continue_monitoring_max_phase_current(unsigned int time_tmp)
 /*****************************************************/
 inline void start_monitoring_min_U(unsigned int time_tmp)
 {
+  unsigned int index_IM_UA, index_IM_UB, index_IM_UC;
+//  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
+  if (TN1_TN2 == 1)
+  {
+    index_IM_UA = IM_UA2;
+    index_IM_UB = IM_UB2;
+    index_IM_UC = IM_UC2;
+
+//    index_IM_UAB = IM_UAB2;
+//    index_IM_UBC = IM_UBC2;
+//    index_IM_UCA = IM_UCA2;
+  }
+  else
+  {
+    index_IM_UA = IM_UA1;
+    index_IM_UB = IM_UB1;
+    index_IM_UC = IM_UC1;
+
+//    index_IM_UAB = IM_UAB1;
+//    index_IM_UBC = IM_UBC1;
+//    index_IM_UCA = IM_UCA1;
+  }
+
   //Збільшуємо кількість фіксованих значень мінімальної фазної/лінійної напруги
   number_min_U_dr++;
   
@@ -3909,9 +4075,9 @@ inline void start_monitoring_min_U(unsigned int time_tmp)
   measurements_U_min_dr[18] = (unsigned int)frequency_val_2_int;
   
   //Визначаємо мінімальної фазну напругу між трьома фазами
-  min_voltage_dr = measurements_U_min_dr[6];
-  if (min_voltage_dr > measurements_U_min_dr[7]) min_voltage_dr = measurements_U_min_dr[7];
-  if (min_voltage_dr > measurements_U_min_dr[8]) min_voltage_dr = measurements_U_min_dr[8];
+  min_voltage_dr = measurement[index_IM_UA];
+  if (min_voltage_dr > measurement[index_IM_UB]) min_voltage_dr = measurement[index_IM_UB];
+  if (min_voltage_dr > measurement[index_IM_UC]) min_voltage_dr = measurement[index_IM_UC];
 
   //Фіксуємо час з моменту початку аварійного запису
   measurements_U_min_dr[19] = time_tmp;
@@ -3926,11 +4092,34 @@ inline void start_monitoring_min_U(unsigned int time_tmp)
 /*****************************************************/
 inline void continue_monitoring_min_U(unsigned int time_tmp)
 {
+  unsigned int index_IM_UA, index_IM_UB, index_IM_UC;
+//  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
+  if (TN1_TN2 == 1)
+  {
+    index_IM_UA = IM_UA2;
+    index_IM_UB = IM_UB2;
+    index_IM_UC = IM_UC2;
+
+//    index_IM_UAB = IM_UAB2;
+//    index_IM_UBC = IM_UBC2;
+//    index_IM_UCA = IM_UCA2;
+  }
+  else
+  {
+    index_IM_UA = IM_UA1;
+    index_IM_UB = IM_UB1;
+    index_IM_UC = IM_UC1;
+
+//    index_IM_UAB = IM_UAB1;
+//    index_IM_UBC = IM_UBC1;
+//    index_IM_UCA = IM_UCA1;
+  }
+
   //Перевірка, чи не є зарза досліджувана напуга менша, ніж та що помічена мінімальною
   if (
-      (min_voltage_dr > measurement[IM_UA1]) ||
-      (min_voltage_dr > measurement[IM_UB1]) ||
-      (min_voltage_dr > measurement[IM_UC1])
+      (min_voltage_dr > measurement[index_IM_UA]) ||
+      (min_voltage_dr > measurement[index_IM_UB]) ||
+      (min_voltage_dr > measurement[index_IM_UC])
      )
   {
     //Зафіксовано зріз при найнижчій досліджуваній напрузі з моменту початку спостереження за нею
@@ -3961,9 +4150,9 @@ inline void continue_monitoring_min_U(unsigned int time_tmp)
     measurements_U_min_dr[18] = (unsigned int)frequency_val_2_int;
 
     //Визначаємо мінімальну фазну напругу між трьома фазами
-    min_voltage_dr = measurements_U_min_dr[6];
-    if (min_voltage_dr > measurements_U_min_dr[7]) min_voltage_dr = measurements_U_min_dr[7];
-    if (min_voltage_dr > measurements_U_min_dr[8]) min_voltage_dr = measurements_U_min_dr[8];
+    min_voltage_dr = measurement[index_IM_UA];
+    if (min_voltage_dr > measurement[index_IM_UB]) min_voltage_dr = measurement[index_IM_UB];
+    if (min_voltage_dr > measurement[index_IM_UC]) min_voltage_dr = measurement[index_IM_UC];
 
     //Фіксуємо час з моменту початку аварійного запису
     measurements_U_min_dr[19] = time_tmp;
@@ -3976,6 +4165,29 @@ inline void continue_monitoring_min_U(unsigned int time_tmp)
 /*****************************************************/
 inline void start_monitoring_max_U(unsigned int time_tmp)
 {
+  unsigned int index_IM_UA, index_IM_UB, index_IM_UC;
+//  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
+  if (TN1_TN2 == 1)
+  {
+    index_IM_UA = IM_UA2;
+    index_IM_UB = IM_UB2;
+    index_IM_UC = IM_UC2;
+
+//    index_IM_UAB = IM_UAB2;
+//    index_IM_UBC = IM_UBC2;
+//    index_IM_UCA = IM_UCA2;
+  }
+  else
+  {
+    index_IM_UA = IM_UA1;
+    index_IM_UB = IM_UB1;
+    index_IM_UC = IM_UC1;
+
+//    index_IM_UAB = IM_UAB1;
+//    index_IM_UBC = IM_UBC1;
+//    index_IM_UCA = IM_UCA1;
+  }
+
   //Збільшуємо кількість фіксованих значень максимальної фазної/лінійної напруги
   number_max_U_dr++;
   
@@ -4007,9 +4219,9 @@ inline void start_monitoring_max_U(unsigned int time_tmp)
   measurements_U_max_dr[18] = (unsigned int)frequency_val_2_int;
   
   //Визначаємо макисальну фазну напругу між трьома фазами
-  max_voltage_dr = measurements_U_max_dr[6];
-  if (max_voltage_dr < measurements_U_max_dr[7]) max_voltage_dr = measurements_U_max_dr[7];
-  if (max_voltage_dr < measurements_U_max_dr[8]) max_voltage_dr = measurements_U_max_dr[8];
+  max_voltage_dr = measurement[index_IM_UA];
+  if (max_voltage_dr < measurement[index_IM_UB]) max_voltage_dr = measurement[index_IM_UB];
+  if (max_voltage_dr <measurement[index_IM_UC]) max_voltage_dr = measurement[index_IM_UC];
 
   //Фіксуємо час з моменту початку аварійного запису
   measurements_U_max_dr[19] = time_tmp;
@@ -4024,11 +4236,34 @@ inline void start_monitoring_max_U(unsigned int time_tmp)
 /*****************************************************/
 inline void continue_monitoring_max_U(unsigned int time_tmp)
 {
+  unsigned int index_IM_UA, index_IM_UB, index_IM_UC;
+//  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
+  if (TN1_TN2 == 1)
+  {
+    index_IM_UA = IM_UA2;
+    index_IM_UB = IM_UB2;
+    index_IM_UC = IM_UC2;
+
+//    index_IM_UAB = IM_UAB2;
+//    index_IM_UBC = IM_UBC2;
+//    index_IM_UCA = IM_UCA2;
+  }
+  else
+  {
+    index_IM_UA = IM_UA1;
+    index_IM_UB = IM_UB1;
+    index_IM_UC = IM_UC1;
+
+//    index_IM_UAB = IM_UAB1;
+//    index_IM_UBC = IM_UBC1;
+//    index_IM_UCA = IM_UCA1;
+  }
+
   //Перевірка, чи не є зарза досліджувана напуга більша, ніж та що помічена максимальною
   if (
-      (max_voltage_dr < measurement[IM_UA1]) ||
-      (max_voltage_dr < measurement[IM_UB1]) ||
-      (max_voltage_dr < measurement[IM_UC1])
+      (max_voltage_dr < measurement[index_IM_UA]) ||
+      (max_voltage_dr < measurement[index_IM_UB]) ||
+      (max_voltage_dr < measurement[index_IM_UC])
     )    
   {
     //Зафіксовано зріз при найвищійу досліджуваній напрузі з моменту початку спостереження за нею
@@ -4059,9 +4294,9 @@ inline void continue_monitoring_max_U(unsigned int time_tmp)
     measurements_U_max_dr[18] = (unsigned int)frequency_val_2_int;
 
     //Визначаємо макисальну фазну напругу між трьома фазами
-    max_voltage_dr = measurements_U_max_dr[6];
-    if (max_voltage_dr < measurements_U_max_dr[7]) max_voltage_dr = measurements_U_max_dr[7];
-    if (max_voltage_dr < measurements_U_max_dr[8]) max_voltage_dr = measurements_U_max_dr[8];
+    max_voltage_dr = measurement[index_IM_UA];
+    if (max_voltage_dr < measurement[index_IM_UB]) max_voltage_dr = measurement[index_IM_UB];
+    if (max_voltage_dr <measurement[index_IM_UC]) max_voltage_dr = measurement[index_IM_UC];
 
     //Фіксуємо час з моменту початку аварійного запису
     measurements_U_max_dr[19] = time_tmp;
@@ -4089,7 +4324,7 @@ inline void start_monitoring_max_ZOP(unsigned int time_tmp)
   measurements_ZOP_max_dr[ 2] = measurement[IM_IC];
   measurements_ZOP_max_dr [3] = measurement[IM_I2];
   measurements_ZOP_max_dr[ 4] = measurement[IM_I1];
-  measurements_U_max_dr[ 5] = measurement[IM_UA1];
+  measurements_ZOP_max_dr[ 5] = measurement[IM_UA1];
   measurements_ZOP_max_dr[ 6] = measurement[IM_UB1];
   measurements_ZOP_max_dr[ 7] = measurement[IM_UC1];
   measurements_ZOP_max_dr[ 8] = measurement[IM_UA2];
@@ -5970,6 +6205,22 @@ inline void main_protection(void)
   {
     //Теоретично цього ніколи не мало б бути
     total_error_sw_fixed(51);
+  }
+  /**************************/
+
+  /**************************/
+  //Вибір звідки брати напругу (ТН1 чи ТН2)
+  /**************************/
+  if (
+      (( _CHECK_SET_BIT(active_functions, RANG_STATE_VV_K1) ) == 0 ) &&
+      (( _CHECK_SET_BIT(active_functions, RANG_STATE_VV_K2) ) != 0 )
+     )
+  {
+    TN1_TN2 = 1;
+  }
+  else
+  {
+    TN1_TN2 = 0;
   }
   /**************************/
 

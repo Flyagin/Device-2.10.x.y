@@ -252,6 +252,7 @@ unsigned int temp_states_for_mtz = 0;
 
 unsigned int i1_bilshe_porogu = 0, i2_bilshe_porogu = 0;
 
+unsigned int TN1_TN2 = 0; //0 - ТН1; 1 - ТН2
 volatile unsigned int state_inputs = 0; //"є сигнал " - відповідає встановленому біту (1); "немає сигналу" - відповідає скинутому біту (0)
 volatile unsigned int active_inputs = 0; //"вхід активний" - відповідає встановленому біту (1); "вхід пасивний" - відповідає скинутому біту (0)
 unsigned int state_outputs = 0;
