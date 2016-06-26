@@ -2951,6 +2951,26 @@ void umax2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
 /*****************************************************/
 void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
 {
+  unsigned int logic_AVR_0 = 0;
+
+  logic_AVR_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_VIDKL_VID_ZAKHYSTIV) != 0) << 0;
+  logic_AVR_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_APV_WORK) != 0) << 1;
+  logic_AVR_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_OTKL_VV) != 0) << 2;
+  logic_AVR_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_OTKL_AVR) != 0) << 3;
+  logic_AVR_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_OTKL_VID_ZOVN_ZAHYSTIV) != 0) << 4;
+  logic_AVR_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_PRYVID_VV) != 0) << 5;
+  _OR6(logic_AVR_0, 0, logic_AVR_0, 1, logic_AVR_0, 2, logic_AVR_0, 3, logic_AVR_0, 4, logic_AVR_0, 5, logic_AVR_0, 6);
+
+  logic_AVR_0 |= ((current_settings_prt.control_avr & CTR_AVR_OTKL_BLK) != 0) << 7;
+  logic_AVR_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_SBROS_BLOCK_AVR) != 0) << 8;
+  _OR2(logic_AVR_0, 7, logic_AVR_0, 8, logic_AVR_0, 9);
+
+  _D_TRIGGER(1,  0, _GET_OUTPUT_STATE(logic_AVR_0, 9), previous_states_AVR_0, 0, logic_AVR_0, 6, trigger_AVR_0, 0);
+  _INVERTOR(trigger_AVR_0, 0, logic_AVR_0, 10);
+
+  logic_AVR_0 |= ((current_settings_prt.control_avr & CTR_AVR) != 0) << 11;
+  logic_AVR_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV) == 0) << 12;
+  _AND3(logic_AVR_0, 10, logic_AVR_0, 11, logic_AVR_0, 12, logic_AVR_0, 13);
 }
 /*****************************************************/
 

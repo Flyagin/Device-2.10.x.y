@@ -109,10 +109,10 @@
 
 #define INDEX_CTR_AVR                           0
 #define CTR_AVR                                 (1 << INDEX_CTR_AVR)
-#define INDEX_CTR_AVR_OTKL_BLK_VID_ZAHYSTIV     1
-#define CTR_AVR_OTKL_BLK_VID_ZAHYSTIV           (1 << INDEX_CTR_AVR_OTKL_BLK_VID_ZAHYSTIV)
+#define INDEX_CTR_AVR_OTKL_BLK                  1
+#define CTR_AVR_OTKL_BLK                       (1 << INDEX_CTR_AVR_OTKL_BLK)
 
 #define CTR_AVR_MASKA                           (CTR_AVR                       |\
-                                                 CTR_AVR_OTKL_BLK_VID_ZAHYSTIV)
+                                                 CTR_AVR_OTKL_BLK)
 
 #endif

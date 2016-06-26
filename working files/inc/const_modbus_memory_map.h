@@ -465,7 +465,7 @@
 #define MA_CONTROL_AVR                    564
 #define BIT_MA_CONTROL_AVR_BASE               55224
 #define BIT_MA_CONTROL_AVR                    55224
-#define BIT_MA_CONTROL_AVR_OTKL_BLK_VID_ZAHYSTIV 55225
+#define BIT_MA_CONTROL_AVR_OTKL_BLK           55225
 
 #define MA_CONTROL_CTRL_VV                565
 #define BIT_MA_CONTROL_CTRL_VV_BASE            55240

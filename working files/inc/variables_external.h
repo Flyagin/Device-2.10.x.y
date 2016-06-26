@@ -184,6 +184,8 @@ extern unsigned int etap_execution_df[NUMBER_DEFINED_FUNCTIONS];
 extern unsigned int previous_states_APV_0;
 extern unsigned int trigger_APV_0;
 
+extern unsigned int previous_states_AVR_0;
+extern unsigned int trigger_AVR_0;
 
 extern _Bool previous_states_ready_tu;
 extern _Bool trigger_ready_tu;

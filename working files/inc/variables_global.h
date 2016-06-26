@@ -286,6 +286,9 @@ unsigned int etap_execution_df[NUMBER_DEFINED_FUNCTIONS]; //≈тап виконанн€ опред
 unsigned int previous_states_APV_0 = 0;
 unsigned int trigger_APV_0 = 0;
 
+unsigned int previous_states_AVR_0 = 0;
+unsigned int trigger_AVR_0 = 0;
+
 _Bool previous_states_ready_tu = 0;
 _Bool trigger_ready_tu = 0;
 

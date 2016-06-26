@@ -4622,8 +4622,8 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       {
         int input_value = current_settings_interfaces.control_avr;
         
-        temp_value = (((input_value >> INDEX_CTR_AVR                      ) & 0x1 ) << (BIT_MA_CONTROL_AVR                       - BIT_MA_CONTROL_AVR_BASE)) |
-                     (((input_value >> INDEX_CTR_AVR_OTKL_BLK_VID_ZAHYSTIV) & 0x1 ) << (BIT_MA_CONTROL_AVR_OTKL_BLK_VID_ZAHYSTIV - BIT_MA_CONTROL_AVR_BASE));
+        temp_value = (((input_value >> INDEX_CTR_AVR         ) & 0x1 ) << (BIT_MA_CONTROL_AVR          - BIT_MA_CONTROL_AVR_BASE)) |
+                     (((input_value >> INDEX_CTR_AVR_OTKL_BLK) & 0x1 ) << (BIT_MA_CONTROL_AVR_OTKL_BLK - BIT_MA_CONTROL_AVR_BASE));
         break;
       }
     case MA_CONTROL_APV:
@@ -7571,8 +7571,8 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
         {
           int output_value = 0;
 
-          output_value |= ((data >> (BIT_MA_CONTROL_AVR                       - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR;
-          output_value |= ((data >> (BIT_MA_CONTROL_AVR_OTKL_BLK_VID_ZAHYSTIV - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR_OTKL_BLK_VID_ZAHYSTIV;
+          output_value |= ((data >> (BIT_MA_CONTROL_AVR          - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR;
+          output_value |= ((data >> (BIT_MA_CONTROL_AVR_OTKL_BLK - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR_OTKL_BLK;
         
           target_label->control_avr = output_value;
         }

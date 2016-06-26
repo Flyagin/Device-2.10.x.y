@@ -11562,8 +11562,8 @@ void main_manu_function(void)
                 unsigned int maska = 0;
           
                 //Виділяємо, який біт треба міняти
-                if      (current_ekran.index_position == INDEX_CTR_AVR                      ) maska = CTR_AVR;
-                else if (current_ekran.index_position == INDEX_CTR_AVR_OTKL_BLK_VID_ZAHYSTIV) maska = CTR_AVR_OTKL_BLK_VID_ZAHYSTIV;
+                if      (current_ekran.index_position == INDEX_CTR_AVR         ) maska = CTR_AVR;
+                else if (current_ekran.index_position == INDEX_CTR_AVR_OTKL_BLK) maska = CTR_AVR_OTKL_BLK;
                 
                 //Міняємо на протилежний відповідний біт для вибраної позиції
                 edition_settings.control_avr ^= maska;
@@ -12761,8 +12761,8 @@ void main_manu_function(void)
                 unsigned int maska = 0;
           
                 //Виділяємо, який біт треба міняти
-                if      (current_ekran.index_position == INDEX_CTR_AVR                      ) maska = CTR_AVR;
-                else if (current_ekran.index_position == INDEX_CTR_AVR_OTKL_BLK_VID_ZAHYSTIV) maska = CTR_AVR_OTKL_BLK_VID_ZAHYSTIV;
+                if      (current_ekran.index_position == INDEX_CTR_AVR         ) maska = CTR_AVR;
+                else if (current_ekran.index_position == INDEX_CTR_AVR_OTKL_BLK) maska = CTR_AVR_OTKL_BLK_VID;
                 
                 //Міняємо на протилежний відповідний біт для вибраної позиції
                 edition_settings.control_avr ^= maska;

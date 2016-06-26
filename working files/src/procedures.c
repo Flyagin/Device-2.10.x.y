@@ -1873,6 +1873,12 @@ void restore_trigger_functions(unsigned int *active_functions_point)
   active_functions[RANG_DT2_OUT >> 5] |= _CHECK_SET_BIT(active_functions_point, RANG_DT2_OUT);
   active_functions[RANG_DT3_OUT >> 5] |= _CHECK_SET_BIT(active_functions_point, RANG_DT3_OUT);
   active_functions[RANG_DT4_OUT >> 5] |= _CHECK_SET_BIT(active_functions_point, RANG_DT4_OUT);
+
+  unsigned int tmp_state;
+
+  tmp_state = _CHECK_SET_BIT(active_functions_point, RANG_BLOCK_AVR_VID_ZAKHYSTIV);
+  trigger_AVR_0 |= ((tmp_state != 0) << 0);
+  active_functions[RANG_BLOCK_AVR_VID_ZAKHYSTIV >> 5] |= tmp_state;
 }
 /*****************************************************/
 
