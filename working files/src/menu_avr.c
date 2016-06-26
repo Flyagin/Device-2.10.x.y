@@ -288,7 +288,7 @@ void make_ekran_timeout_avr(unsigned int group)
         }
         else if ((index_of_ekran>>1) == INDEX_ML_TMOAVR_D_DIJI_K1)
         {
-          vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки
+          vaga = 10000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки
           if (current_ekran.edition == 0) value = current_settings.timeout_avr_d_diji_k1[group]; //у змінну value поміщаємо значення витримки
           else value = edition_settings.timeout_avr_d_diji_k1[group];
           first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
@@ -337,7 +337,7 @@ void make_ekran_timeout_avr(unsigned int group)
         }
         else if ((index_of_ekran>>1) == INDEX_ML_TMOAVR_D_DIJI_K2)
         {
-          vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки
+          vaga = 10000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки
           if (current_ekran.edition == 0) value = current_settings.timeout_avr_d_diji_k2[group]; //у змінну value поміщаємо значення витримки
           else value = edition_settings.timeout_avr_d_diji_k2[group];
           first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
@@ -643,19 +643,19 @@ void make_ekran_control_avr()
   {
     {
       "      АВР       ",
-      "Откл.Б.АВР от з."
+      "  Откл.Бл.АВР   "
     },
     {
       "      АВР       ",
-      "Вимк.Б.АВР від з"
+      "  Вимк.Бл.АВР   "
     },
     {
       "      АВР       ",
-      "Откл.Б.АВР от з."
+      "  Откл.Бл.АВР   "
     },
     {
       "      АВР       ",
-      "Откл.Б.АВР от з."
+      "  Откл.Бл.АВР   "
     }
   };
   int index_language = index_language_in_array(current_settings.language);
