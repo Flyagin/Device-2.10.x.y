@@ -2952,6 +2952,7 @@ void umax2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
 void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
 {
   unsigned int logic_AVR_0 = 0;
+  unsigned int logic_AVR_1 = 0;
 
   logic_AVR_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_VIDKL_VID_ZAKHYSTIV) != 0) << 0;
   logic_AVR_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_APV_WORK) != 0) << 1;
@@ -2967,10 +2968,143 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
 
   _D_TRIGGER(1,  0, _GET_OUTPUT_STATE(logic_AVR_0, 9), previous_states_AVR_0, 0, logic_AVR_0, 6, trigger_AVR_0, 0);
   _INVERTOR(trigger_AVR_0, 0, logic_AVR_0, 10);
+  //"Блок.АВР від захистів"
+  if (_GET_OUTPUT_STATE(trigger_AVR_0, 0)) _SET_BIT(p_active_functions, RANG_BLOCK_AVR_VID_ZAKHYSTIV);
+  else  _CLEAR_BIT(p_active_functions, RANG_BLOCK_AVR_VID_ZAKHYSTIV);
 
   logic_AVR_0 |= ((current_settings_prt.control_avr & CTR_AVR) != 0) << 11;
   logic_AVR_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV) == 0) << 12;
   _AND3(logic_AVR_0, 10, logic_AVR_0, 11, logic_AVR_0, 12, logic_AVR_0, 13);
+  
+  unsigned int setpoint_U_AVR_min1 = (_CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MIN1) == 0) ?
+    current_settings_prt.setpoint_avr_min1[number_group_stp] :
+    (current_settings_prt.setpoint_avr_min1[number_group_stp]*U_DOWN/100);
+  logic_AVR_0 |= (
+                  (measurement[IM_UAB1] <= setpoint_U_AVR_min1) &&
+                  (measurement[IM_UBC1] <= setpoint_U_AVR_min1) &&
+                  (measurement[IM_UCA1] <= setpoint_U_AVR_min1)
+                 ) << 14;   
+  //"ПО UАВРmin 1"
+  if (_GET_OUTPUT_STATE(logic_AVR_0, 14)) _SET_BIT(p_active_functions, RANG_PO_UAVR_MIN1);
+  else  _CLEAR_BIT(p_active_functions, RANG_PO_UAVR_MIN1);
+    
+  unsigned int setpoint_U_AVR_max2 = (_CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MAX2) == 0) ?
+    current_settings_prt.setpoint_avr_max2[number_group_stp] :
+    (current_settings_prt.setpoint_avr_max2[number_group_stp]*U_UP/100);
+  logic_AVR_0 |= (
+                  (measurement[IM_UAB2] >= setpoint_U_AVR_max2) &&
+                  (measurement[IM_UBC2] >= setpoint_U_AVR_max2) &&
+                  (measurement[IM_UCA2] >= setpoint_U_AVR_max2)
+                 ) << 15;   
+  //"ПО UАВРmax 2"
+  if (_GET_OUTPUT_STATE(logic_AVR_0, 15)) _SET_BIT(p_active_functions, RANG_PO_UAVR_MAX2);
+  else  _CLEAR_BIT(p_active_functions, RANG_PO_UAVR_MAX2);
+    
+  logic_AVR_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV_K1) == 0) << 16;
+  _TIMER_IMPULSE(INDEX_TIMER_AVR_PUSK_K1, current_settings_prt.timeout_avr_d_diji_k1[number_group_stp], previous_states_AVR_0, 1, logic_AVR_0, 16, logic_AVR_0, 17);
+  
+  logic_AVR_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_STAT_BLOCK_AVR_1) != 0) << 18;
+  
+  logic_AVR_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_KOM3_ON_AVR) != 0) << 19;
+  do
+  {
+    //"Ком.3 Вкл.АВР" (ця операція не має значення для першої ітерації, але потрібна для наступних ітерацій)
+    if (_GET_OUTPUT_STATE(logic_AVR_0, 19)) _SET_BIT(p_active_functions, RANG_KOM3_ON_AVR);
+    else  _CLEAR_BIT(p_active_functions, RANG_KOM3_ON_AVR);
+    
+    _OR2(logic_AVR_0, 19, logic_AVR_0, 18, logic_AVR_0, 20);
+    _TIMER_0_T(INDEX_TIMER_AVR_BLK_K1, current_settings_prt.timeout_avr_blk_k1[number_group_stp], logic_AVR_0, 20, logic_AVR_0, 21);
+    _INVERTOR(logic_AVR_0, 21, logic_AVR_0, 22);
+    
+    _AND4(logic_AVR_0, 13, logic_AVR_0, 22, logic_AVR_0, 14, logic_AVR_0, 15, logic_AVR_0, 23);
+    //"ПО АВР к.1"
+    if (_GET_OUTPUT_STATE(logic_AVR_0, 23)) _SET_BIT(p_active_functions, RANG_PO_AVR_K1);
+    else  _CLEAR_BIT(p_active_functions, RANG_PO_AVR_K1);
+
+    _TIMER_T_0(INDEX_TIMER_AVR_VYMK_ROB_K1, current_settings_prt.timeout_avr_vymk_rob_k1[number_group_stp], logic_AVR_0, 23, logic_AVR_0, 24);
+    _TIMER_0_T(INDEX_TIMER_AVR_VYMK_K1, current_settings_prt.timeout_avr_vymk_k1[number_group_stp], logic_AVR_0, 24, logic_AVR_0, 25);
+    //"Ком.1 Откл.АВР"
+    if (_GET_OUTPUT_STATE(logic_AVR_0, 25)) _SET_BIT(p_active_functions, RANG_KOM1_OFF_AVR);
+    else  _CLEAR_BIT(p_active_functions, RANG_KOM1_OFF_AVR);
+    
+    _AND2(logic_AVR_0, 17, logic_AVR_0, 23, logic_AVR_0, 26);
+
+    _TIMER_T_0(INDEX_TIMER_AVR_VVIMK_REZ_K1, current_settings_prt.timeout_avr_vvimk_rez_k1[number_group_stp], logic_AVR_0, 26, logic_AVR_0, 27);
+    _TIMER_0_T(INDEX_TIMER_AVR_VVIMK_K1, current_settings_prt.timeout_avr_vvimk_k1[number_group_stp], logic_AVR_0, 27, logic_AVR_0, 28);
+    //"Ком.1 Вкл.АВР"
+    if (_GET_OUTPUT_STATE(logic_AVR_0, 28)) _SET_BIT(p_active_functions, RANG_KOM1_ON_AVR);
+    else  _CLEAR_BIT(p_active_functions, RANG_KOM1_ON_AVR);
+
+    _TIMER_T_0(INDEX_TIMER_AVR_D_DIJI_K1, current_settings_prt.timeout_avr_d_diji_k1[number_group_stp], logic_AVR_0, 26, logic_AVR_0, 29);
+    _TIMER_0_T(INDEX_TIMER_AVR_TMP_1MS_K1, 1, logic_AVR_0, 29, logic_AVR_0, 19);
+  }
+  while(_GET_OUTPUT_STATE(logic_AVR_0, 19) != (_CHECK_SET_BIT(p_active_functions, RANG_KOM3_ON_AVR) != 0));
+  /*Якщо ми вийшли з цього циклу, то гарантовано біт logic_AVR_0.19 рівний стану команди "Ком.3 Вкл.АВР"*/
+ 
+  unsigned int setpoint_U_AVR_min2 = (_CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MIN2) == 0) ?
+    current_settings_prt.setpoint_avr_min2[number_group_stp] :
+    (current_settings_prt.setpoint_avr_min2[number_group_stp]*U_DOWN/100);
+  logic_AVR_1 |= (
+                  (measurement[IM_UAB2] <= setpoint_U_AVR_min2) &&
+                  (measurement[IM_UBC2] <= setpoint_U_AVR_min2) &&
+                  (measurement[IM_UCA2] <= setpoint_U_AVR_min2)
+                 ) << 0;   
+  //"ПО UАВРmin 2"
+  if (_GET_OUTPUT_STATE(logic_AVR_1, 0)) _SET_BIT(p_active_functions, RANG_PO_UAVR_MIN2);
+  else  _CLEAR_BIT(p_active_functions, RANG_PO_UAVR_MIN2);
+    
+  unsigned int setpoint_U_AVR_max1 = (_CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MAX1) == 0) ?
+    current_settings_prt.setpoint_avr_max1[number_group_stp] :
+    (current_settings_prt.setpoint_avr_max1[number_group_stp]*U_UP/100);
+  logic_AVR_1 |= (
+                  (measurement[IM_UAB1] >= setpoint_U_AVR_max1) &&
+                  (measurement[IM_UBC1] >= setpoint_U_AVR_max1) &&
+                  (measurement[IM_UCA1] >= setpoint_U_AVR_max1)
+                 ) << 1;   
+  //"ПО UАВРmax 1"
+  if (_GET_OUTPUT_STATE(logic_AVR_1, 1)) _SET_BIT(p_active_functions, RANG_PO_UAVR_MAX1);
+  else  _CLEAR_BIT(p_active_functions, RANG_PO_UAVR_MAX1);
+    
+  logic_AVR_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV_K2) == 0) << 2;
+  _TIMER_IMPULSE(INDEX_TIMER_AVR_PUSK_K2, current_settings_prt.timeout_avr_d_diji_k2[number_group_stp], previous_states_AVR_0, 2, logic_AVR_1, 2, logic_AVR_1, 3);
+  
+  logic_AVR_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_STAT_BLOCK_AVR_2) != 0) << 4;
+  
+  logic_AVR_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_KOM4_ON_AVR) != 0) << 5;
+  do
+  {
+    //"Ком.4 Вкл.АВР" (ця операція не має значення для першої ітерації, але потрібна для наступних ітерацій)
+    if (_GET_OUTPUT_STATE(logic_AVR_1, 5)) _SET_BIT(p_active_functions, RANG_KOM4_ON_AVR);
+    else  _CLEAR_BIT(p_active_functions, RANG_KOM4_ON_AVR);
+    
+    _OR2(logic_AVR_1, 5, logic_AVR_1, 4, logic_AVR_1, 6);
+    _TIMER_0_T(INDEX_TIMER_AVR_BLK_K2, current_settings_prt.timeout_avr_blk_k2[number_group_stp], logic_AVR_1, 6, logic_AVR_1, 7);
+    _INVERTOR(logic_AVR_1, 7, logic_AVR_1, 8);
+    
+    _AND4(logic_AVR_0, 13, logic_AVR_1, 8, logic_AVR_1, 1, logic_AVR_1, 0, logic_AVR_1, 9);
+    //"ПО АВР к.2"
+    if (_GET_OUTPUT_STATE(logic_AVR_1, 9)) _SET_BIT(p_active_functions, RANG_PO_AVR_K2);
+    else  _CLEAR_BIT(p_active_functions, RANG_PO_AVR_K2);
+
+    _TIMER_T_0(INDEX_TIMER_AVR_VYMK_ROB_K2, current_settings_prt.timeout_avr_vymk_rob_k2[number_group_stp], logic_AVR_1, 9, logic_AVR_1, 10);
+    _TIMER_0_T(INDEX_TIMER_AVR_VYMK_K2, current_settings_prt.timeout_avr_vymk_k2[number_group_stp], logic_AVR_1, 10, logic_AVR_1, 11);
+    //"Ком.2 Откл.АВР"
+    if (_GET_OUTPUT_STATE(logic_AVR_1, 11)) _SET_BIT(p_active_functions, RANG_KOM2_OFF_AVR);
+    else  _CLEAR_BIT(p_active_functions, RANG_KOM2_OFF_AVR);
+    
+    _AND2(logic_AVR_1, 3, logic_AVR_1, 9, logic_AVR_1, 12);
+
+    _TIMER_T_0(INDEX_TIMER_AVR_VVIMK_REZ_K2, current_settings_prt.timeout_avr_vvimk_rez_k2[number_group_stp], logic_AVR_1, 12, logic_AVR_1, 13);
+    _TIMER_0_T(INDEX_TIMER_AVR_VVIMK_K2, current_settings_prt.timeout_avr_vvimk_k2[number_group_stp], logic_AVR_1, 13, logic_AVR_1, 14);
+    //"Ком.2 Вкл.АВР"
+    if (_GET_OUTPUT_STATE(logic_AVR_1, 14)) _SET_BIT(p_active_functions, RANG_KOM2_ON_AVR);
+    else  _CLEAR_BIT(p_active_functions, RANG_KOM2_ON_AVR);
+
+    _TIMER_T_0(INDEX_TIMER_AVR_D_DIJI_K2, current_settings_prt.timeout_avr_d_diji_k2[number_group_stp], logic_AVR_1, 12, logic_AVR_1, 15);
+    _TIMER_0_T(INDEX_TIMER_AVR_TMP_1MS_K2, 1, logic_AVR_1, 15, logic_AVR_1, 5);
+  }
+  while(_GET_OUTPUT_STATE(logic_AVR_1, 5) != (_CHECK_SET_BIT(p_active_functions, RANG_KOM4_ON_AVR) != 0));
+  /*Якщо ми вийшли з цього циклу, то гарантовано біт logic_AVR_1.5 рівний стану команди "Ком.4 Вкл.АВР"*/
 }
 /*****************************************************/
 
