@@ -2061,18 +2061,8 @@ inline void mtz_handler(volatile unsigned int *p_active_functions, unsigned int 
     _CLEAR_BIT(p_active_functions, RANG_NCN_MTZ);
   /******Неисправность цепей напряжения для 4-х ступеней*******/
   
-  for (int mtz_level = 0; mtz_level < NUMBER_LEVEL_MTZ; mtz_level++) {
-    //Для отладки
-//    if (mtz_level == 0) {
-//      mtz_level = 0;
-//    } else if (mtz_level == 1) {
-//      mtz_level = 1;
-//    } else if (mtz_level == 2) {
-//      mtz_level = 2;
-//    } else if (mtz_level == 3) {
-//      mtz_level = 3;
-//    }
-    
+  for (int mtz_level = 0; mtz_level < NUMBER_LEVEL_MTZ; mtz_level++) 
+  {
     //М
     /*Проверяем тип МТЗ*/
     tmp_value = (*type_mtz_arr[mtz_level] == 1)                                  << 0; //Направленная
@@ -2080,8 +2070,8 @@ inline void mtz_handler(volatile unsigned int *p_active_functions, unsigned int 
     tmp_value |= (*type_mtz_arr[mtz_level] == 0)                                 << 2; //Простая
     tmp_value |= (
                   (mtz_level == 1)
-                  && (*type_mtz_arr[mtz_level] >= TYPE_MTZ_DEPENDENT_A) //A, B, C (3-5)
-                  && (*type_mtz_arr[mtz_level] <= TYPE_MTZ_DEPENDENT_C)
+                  && (*type_mtz_arr[mtz_level] >= TYPE_MTZ_DEPENDENT_A)
+                  && (*type_mtz_arr[mtz_level] <= TYPE_MTZ_DEPENDENT_RTV_I) 
                  )                                                               << 3; //Зависимая (если mtz_level == 1 (2-я ступень МТЗ))
     
     /******ПО МТЗх***********************/
