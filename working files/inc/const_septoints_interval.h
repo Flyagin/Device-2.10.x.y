@@ -133,14 +133,29 @@
 #define TIMEOUT_MTZ3_MIN                        0
 #define TIMEOUT_MTZ3_MAX                        300000
 
+#define TIMEOUT_MTZ3_PR_MIN                     200
+#define TIMEOUT_MTZ3_PR_MAX                     5000
+
 #define TIMEOUT_MTZ3_N_VPERED_MIN               0
 #define TIMEOUT_MTZ3_N_VPERED_MAX               300000
+
+#define TIMEOUT_MTZ3_N_VPERED_PR_MIN            200
+#define TIMEOUT_MTZ3_N_VPERED_PR_MAX            5000
 
 #define TIMEOUT_MTZ3_N_NAZAD_MIN                0
 #define TIMEOUT_MTZ3_N_NAZAD_MAX                300000
 
+#define TIMEOUT_MTZ3_N_NAZAD_PR_MIN             200
+#define TIMEOUT_MTZ3_N_NAZAD_PR_MAX             5000
+
 #define TIMEOUT_MTZ3_PO_NAPRUZI_MIN             0
 #define TIMEOUT_MTZ3_PO_NAPRUZI_MAX             300000
+
+#define TIMEOUT_MTZ3_PO_NAPRUZI_PR_MIN          200
+#define TIMEOUT_MTZ3_PO_NAPRUZI_PR_MAX          5000
+
+#define TIMEOUT_MTZ3_VVID_PR_MIN                200
+#define TIMEOUT_MTZ3_VVID_PR_MAX                5000
 
 #define TIMEOUT_MTZ4_MIN                        0
 #define TIMEOUT_MTZ4_MAX                        300000

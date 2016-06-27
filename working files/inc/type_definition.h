@@ -160,9 +160,14 @@ typedef struct
   int timeout_mtz_2_po_napruzi_pr[NUMBER_GROUP_USTAVOK];        //Витримка присторення МТЗ другої ступені (по напрузі)
   int timeout_mtz_2_vvid_pr[NUMBER_GROUP_USTAVOK];              //Витримка вводу присорення МТЗ2
   int timeout_mtz_3[NUMBER_GROUP_USTAVOK];                      //Витримка МТЗ третьої ступені
+  int timeout_mtz_3_pr[NUMBER_GROUP_USTAVOK];                   //Витримка присторення МТЗ третьої ступені
   int timeout_mtz_3_n_vpered[NUMBER_GROUP_USTAVOK];             //Витримка МТЗ третьої ступені (направлена:вперед)
+  int timeout_mtz_3_n_vpered_pr[NUMBER_GROUP_USTAVOK];          //Витримка присторення МТЗ третьої ступені (направлена:вперед)
   int timeout_mtz_3_n_nazad[NUMBER_GROUP_USTAVOK];              //Витримка МТЗ третьої ступені (направлена:назад)
+  int timeout_mtz_3_n_nazad_pr[NUMBER_GROUP_USTAVOK];           //Витримка присторення МТЗ третьої ступені (направлена:назад)
   int timeout_mtz_3_po_napruzi[NUMBER_GROUP_USTAVOK];           //Витримка МТЗ третьої ступені (по напрузі)
+  int timeout_mtz_3_po_napruzi_pr[NUMBER_GROUP_USTAVOK];        //Витримка присторення МТЗ третьої ступені (по напрузі)
+  int timeout_mtz_3_vvid_pr[NUMBER_GROUP_USTAVOK];              //Витримка вводу присорення МТЗ3
   int timeout_mtz_4[NUMBER_GROUP_USTAVOK];                      //Витримка МТЗ четвертої ступені
   int timeout_mtz_4_n_vpered[NUMBER_GROUP_USTAVOK];             //Витримка МТЗ третьої ступені (направлена:вперед)
   int timeout_mtz_4_n_nazad[NUMBER_GROUP_USTAVOK];              //Витримка МТЗ третьої ступені (направлена:назад)

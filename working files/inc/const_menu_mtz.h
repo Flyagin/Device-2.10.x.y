@@ -12,8 +12,8 @@
 #define EKRAN_CONTROL_MTZ           (EKRAN_TIMEOUT_AVR_GROUP4 + 1)
 
 #define MAX_ROW_FOR_SETPOINT_MTZ        24
-#define MAX_ROW_FOR_TIMEOUT_MTZ         21
-#define MAX_ROW_FOR_CONTROL_MTZ         19
+#define MAX_ROW_FOR_TIMEOUT_MTZ         26
+#define MAX_ROW_FOR_CONTROL_MTZ         21
 
 #define INDEX_ML_STPMTZ1                0
 #define INDEX_ML_STPMTZ1_N_VPERED       1
@@ -54,13 +54,18 @@
 #define INDEX_ML_TMOMTZ2_PO_NAPRUZI_PR                  11
 #define INDEX_ML_TMOMTZ2_VVID_PR                        12
 #define INDEX_ML_TMOMTZ3                                13
-#define INDEX_ML_TMOMTZ3_N_VPERED                       14
-#define INDEX_ML_TMOMTZ3_N_NAZAD                        15
-#define INDEX_ML_TMOMTZ3_PO_NAPRUZI                     16
-#define INDEX_ML_TMOMTZ4                                17
-#define INDEX_ML_TMOMTZ4_N_VPERED                       18
-#define INDEX_ML_TMOMTZ4_N_NAZAD                        19
-#define INDEX_ML_TMOMTZ4_PO_NAPRUZI                     20
+#define INDEX_ML_TMOMTZ3_PR                             14
+#define INDEX_ML_TMOMTZ3_N_VPERED                       15
+#define INDEX_ML_TMOMTZ3_N_VPERED_PR                    16
+#define INDEX_ML_TMOMTZ3_N_NAZAD                        17
+#define INDEX_ML_TMOMTZ3_N_NAZAD_PR                     18
+#define INDEX_ML_TMOMTZ3_PO_NAPRUZI                     19
+#define INDEX_ML_TMOMTZ3_PO_NAPRUZI_PR                  20
+#define INDEX_ML_TMOMTZ3_VVID_PR                        21
+#define INDEX_ML_TMOMTZ4                                22
+#define INDEX_ML_TMOMTZ4_N_VPERED                       23
+#define INDEX_ML_TMOMTZ4_N_NAZAD                        24
+#define INDEX_ML_TMOMTZ4_PO_NAPRUZI                     25
 
 #define COL_SETPOINT_MTZ_1_BEGIN                3
 #define COL_SETPOINT_MTZ_1_COMMA                6
@@ -210,17 +215,37 @@
 #define COL_TMO_MTZ_3_COMMA                     6
 #define COL_TMO_MTZ_3_END                       8
 
+#define COL_TMO_MTZ_3_PR_BEGIN                  5
+#define COL_TMO_MTZ_3_PR_COMMA                  6
+#define COL_TMO_MTZ_3_PR_END                    8
+
 #define COL_TMO_MTZ_3_N_VPERED_BEGIN            3
 #define COL_TMO_MTZ_3_N_VPERED_COMMA            6
 #define COL_TMO_MTZ_3_N_VPERED_END              8
+
+#define COL_TMO_MTZ_3_N_VPERED_PR_BEGIN         5
+#define COL_TMO_MTZ_3_N_VPERED_PR_COMMA         6
+#define COL_TMO_MTZ_3_N_VPERED_PR_END           8
 
 #define COL_TMO_MTZ_3_N_NAZAD_BEGIN             3
 #define COL_TMO_MTZ_3_N_NAZAD_COMMA             6
 #define COL_TMO_MTZ_3_N_NAZAD_END               8
 
+#define COL_TMO_MTZ_3_N_NAZAD_PR_BEGIN          5
+#define COL_TMO_MTZ_3_N_NAZAD_PR_COMMA          6
+#define COL_TMO_MTZ_3_N_NAZAD_PR_END            8
+
 #define COL_TMO_MTZ_3_PO_NAPRUZI_BEGIN          3
 #define COL_TMO_MTZ_3_PO_NAPRUZI_COMMA          6
 #define COL_TMO_MTZ_3_PO_NAPRUZI_END            8
+
+#define COL_TMO_MTZ_3_PO_NAPRUZI_PR_BEGIN       5
+#define COL_TMO_MTZ_3_PO_NAPRUZI_PR_COMMA       6
+#define COL_TMO_MTZ_3_PO_NAPRUZI_PR_END         8
+
+#define COL_TMO_MTZ_3_VVID_PR_BEGIN             5
+#define COL_TMO_MTZ_3_VVID_PR_COMMA             6
+#define COL_TMO_MTZ_3_VVID_PR_END               8
 
 #define COL_TMO_MTZ_4_BEGIN                     3
 #define COL_TMO_MTZ_4_COMMA                     6
@@ -252,11 +277,13 @@
 #define INDEX_ML_CTRMTZ_3_TYPE                  11          
 #define INDEX_ML_CTRMTZ_3_VPERED                12         
 #define INDEX_ML_CTRMTZ_3_NAZAD                 13          
-#define INDEX_ML_CTRMTZ_4                       14         
-#define INDEX_ML_CTRMTZ_4_TYPE                  15         
-#define INDEX_ML_CTRMTZ_4_VPERED                16         
-#define INDEX_ML_CTRMTZ_4_NAZAD                 17         
-#define INDEX_ML_CTRMTZ_NESPR_KIL_NAPR          18      
+#define INDEX_ML_CTRMTZ_3_PRYSKORENNJA          14         
+#define INDEX_ML_CTRMTZ_3_PRYSKORENA            15         
+#define INDEX_ML_CTRMTZ_4                       16         
+#define INDEX_ML_CTRMTZ_4_TYPE                  17         
+#define INDEX_ML_CTRMTZ_4_VPERED                18         
+#define INDEX_ML_CTRMTZ_4_NAZAD                 19         
+#define INDEX_ML_CTRMTZ_NESPR_KIL_NAPR          20      
 
 #define N_BIT_CTRMTZ_1                          (INDEX_ML_CTRMTZ_1 - 0)          
 #define CTR_MTZ_1                               (1 << N_BIT_CTRMTZ_1)          
@@ -280,6 +307,10 @@
 #define CTR_MTZ_3_VPERED                        (1 << N_BIT_CTRMTZ_3_VPERED)          
 #define N_BIT_CTRMTZ_3_NAZAD                    (INDEX_ML_CTRMTZ_3_NAZAD - 3)          
 #define CTR_MTZ_3_NAZAD                         (1 << N_BIT_CTRMTZ_3_NAZAD)          
+#define N_BIT_CTRMTZ_3_PRYSKORENNJA             (INDEX_ML_CTRMTZ_3_PRYSKORENNJA - 3)         
+#define CTR_MTZ_3_PRYSKORENNJA                  (1 << N_BIT_CTRMTZ_3_PRYSKORENNJA)      
+#define N_BIT_CTRMTZ_3_PRYSKORENA               (INDEX_ML_CTRMTZ_3_PRYSKORENA - 3)          
+#define CTR_MTZ_3_PRYSKORENA                    (1 << N_BIT_CTRMTZ_3_PRYSKORENA)          
 #define N_BIT_CTRMTZ_4                          (INDEX_ML_CTRMTZ_4 - 3)         
 #define CTR_MTZ_4                               (1 << N_BIT_CTRMTZ_4)          
 #define N_BIT_CTRMTZ_4_VPERED                   (INDEX_ML_CTRMTZ_4_VPERED - 4)         
@@ -309,6 +340,8 @@ enum {
                                          CTR_MTZ_3                      |\
                                          CTR_MTZ_3_VPERED               |\
                                          CTR_MTZ_3_NAZAD                |\
+                                         CTR_MTZ_3_PRYSKORENNJA         |\
+                                         CTR_MTZ_3_PRYSKORENA           |\
                                          CTR_MTZ_4                      |\
                                          CTR_MTZ_4_VPERED               |\
                                          CTR_MTZ_4_NAZAD                |\

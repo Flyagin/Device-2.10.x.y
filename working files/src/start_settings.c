@@ -1802,9 +1802,14 @@ void min_settings(__SETTINGS *target_label)
     target_label->timeout_mtz_2_vvid_pr[i] = TIMEOUT_MTZ2_VVID_PR_MIN;
 
     target_label->timeout_mtz_3[i] = TIMEOUT_MTZ3_MIN; 
+    target_label->timeout_mtz_3_pr[i] = TIMEOUT_MTZ3_PR_MIN; 
     target_label->timeout_mtz_3_n_vpered[i] = TIMEOUT_MTZ3_N_VPERED_MIN; 
+    target_label->timeout_mtz_3_n_vpered_pr[i] = TIMEOUT_MTZ3_N_VPERED_PR_MIN; 
     target_label->timeout_mtz_3_n_nazad[i] = TIMEOUT_MTZ3_N_NAZAD_MIN; 
+    target_label->timeout_mtz_3_n_nazad_pr[i] = TIMEOUT_MTZ3_N_NAZAD_PR_MIN; 
     target_label->timeout_mtz_3_po_napruzi[i] = TIMEOUT_MTZ3_PO_NAPRUZI_MIN; 
+    target_label->timeout_mtz_3_po_napruzi_pr[i] = TIMEOUT_MTZ3_PO_NAPRUZI_PR_MIN; 
+    target_label->timeout_mtz_3_vvid_pr[i] = TIMEOUT_MTZ3_VVID_PR_MIN;
 
     target_label->timeout_mtz_4[i] = TIMEOUT_MTZ4_MIN; 
     target_label->timeout_mtz_4_n_vpered[i] = TIMEOUT_MTZ4_N_VPERED_MIN; 

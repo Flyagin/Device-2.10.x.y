@@ -759,9 +759,14 @@ void make_ekran_timeout_mtz(unsigned int group)
       "   Уск.МТЗПН2   ",
       " Ввод Уск.МТЗ2  ",
       "      МТЗ3      ",
+      "    Уск.МТЗ3    ",
       "  МТЗН3 Вперёд  ",
+      "Уск.МТЗН3 Вперёд",
       "  МТЗН3 Назад   ",
+      " Уск.МТЗН3 Назад",
       "     МТЗПН3     ",
+      "   Уск.МТЗПН3   ",
+      " Ввод Уск.МТЗ3  ",
       "      МТЗ4      ",
       "  МТЗН4 Вперёд  ",
       "  МТЗН4 Назад   ",
@@ -782,9 +787,14 @@ void make_ekran_timeout_mtz(unsigned int group)
       "  Приск.МСЗПН2  ",
       " Ввід Приск.МСЗ2",
       "      МСЗ3      ",
+      "   Приск.МСЗ3   ",
       "  МСЗН3 Вперед  ",
+      " Приск.МСЗН3 Вп.",
       "  МСЗН3 Назад   ",
+      "Приск.МСЗН3 Наз.",
       "     МСЗПН3     ",
+      "  Приск.МСЗПН3  ",
+      " Ввід Приск.МСЗ3",
       "      МСЗ4      ",
       "  МСЗН4 Вперед  ",
       "  МСЗН4 Назад   ",
@@ -805,9 +815,14 @@ void make_ekran_timeout_mtz(unsigned int group)
       "   Уск.МТЗПН2   ",
       " Ввод Уск.МТЗ2  ",
       "      OCP3      ",
+      "    Уск.МТЗ3    ",
       "  МТЗН3 Вперёд  ",
+      "Уск.МТЗН3 Вперёд",
       "  МТЗН3 Назад   ",
+      " Уск.МТЗН3 Назад",
       "     МТЗПН3     ",
+      "   Уск.МТЗПН3   ",
+      " Ввод Уск.МТЗ3  ",
       "      OCP4      ",
       "  МТЗН4 Вперёд  ",
       "  МТЗН4 Назад   ",
@@ -828,9 +843,14 @@ void make_ekran_timeout_mtz(unsigned int group)
       "   Уск.МТЗПН2   ",
       " Ввод Уск.МТЗ2  ",
       "      МТЗ3      ",
+      "    Уск.МТЗ3    ",
       "  МТЗН3 Вперёд  ",
+      "Уск.МТЗН3 Вперёд",
       "  МТЗН3 Назад   ",
+      " Уск.МТЗН3 Назад",
       "     МТЗПН3     ",
+      "   Уск.МТЗПН3   ",
+      " Ввод Уск.МТЗ3  ",
       "      МТЗ4      ",
       "  МТЗН4 Вперёд  ",
       "  МТЗН4 Назад   ",
@@ -939,11 +959,23 @@ void make_ekran_timeout_mtz(unsigned int group)
           if (current_ekran.edition == 0) value = current_settings.timeout_mtz_3[group]; //у змінну value поміщаємо значення витримки
           else value = edition_settings.timeout_mtz_3[group];
         }
+        else if ((index_of_ekran>>1) == INDEX_ML_TMOMTZ3_PR)
+        {
+          vaga = 1000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки
+          if (current_ekran.edition == 0) value = current_settings.timeout_mtz_3_pr[group]; //у змінну value поміщаємо значення витримки
+          else value = edition_settings.timeout_mtz_3_pr[group];
+        }
         else if ((index_of_ekran>>1) == INDEX_ML_TMOMTZ3_N_VPERED)
         {
           vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки
           if (current_ekran.edition == 0) value = current_settings.timeout_mtz_3_n_vpered[group]; //у змінну value поміщаємо значення витримки
           else value = edition_settings.timeout_mtz_3_n_vpered[group];
+        }
+        else if ((index_of_ekran>>1) == INDEX_ML_TMOMTZ3_N_VPERED_PR)
+        {
+          vaga = 1000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки
+          if (current_ekran.edition == 0) value = current_settings.timeout_mtz_3_n_vpered_pr[group]; //у змінну value поміщаємо значення витримки
+          else value = edition_settings.timeout_mtz_3_n_vpered_pr[group];
         }
         else if ((index_of_ekran>>1) == INDEX_ML_TMOMTZ3_N_NAZAD)
         {
@@ -951,11 +983,29 @@ void make_ekran_timeout_mtz(unsigned int group)
           if (current_ekran.edition == 0) value = current_settings.timeout_mtz_3_n_nazad[group]; //у змінну value поміщаємо значення витримки
           else value = edition_settings.timeout_mtz_3_n_nazad[group];
         }
+        else if ((index_of_ekran>>1) == INDEX_ML_TMOMTZ3_N_NAZAD_PR)
+        {
+          vaga = 1000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки
+          if (current_ekran.edition == 0) value = current_settings.timeout_mtz_3_n_nazad_pr[group]; //у змінну value поміщаємо значення витримки
+          else value = edition_settings.timeout_mtz_3_n_nazad_pr[group];
+        }
         else if ((index_of_ekran>>1) == INDEX_ML_TMOMTZ3_PO_NAPRUZI)
         {
           vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки
           if (current_ekran.edition == 0) value = current_settings.timeout_mtz_3_po_napruzi[group]; //у змінну value поміщаємо значення витримки
           else value = edition_settings.timeout_mtz_3_po_napruzi[group];
+        }
+        else if ((index_of_ekran>>1) == INDEX_ML_TMOMTZ3_PO_NAPRUZI_PR)
+        {
+          vaga = 1000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки
+          if (current_ekran.edition == 0) value = current_settings.timeout_mtz_3_po_napruzi_pr[group]; //у змінну value поміщаємо значення витримки
+          else value = edition_settings.timeout_mtz_3_po_napruzi_pr[group];
+        }
+        else if ((index_of_ekran>>1) == INDEX_ML_TMOMTZ3_VVID_PR)
+        {
+          vaga = 1000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки
+          if (current_ekran.edition == 0) value = current_settings.timeout_mtz_3_vvid_pr[group]; //у змінну value поміщаємо значення витримки
+          else value = edition_settings.timeout_mtz_3_vvid_pr[group];
         }
         else if ((index_of_ekran>>1) == INDEX_ML_TMOMTZ4)
         {
@@ -1143,6 +1193,17 @@ void make_ekran_timeout_mtz(unsigned int group)
             else
               calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_TMO_MTZ_3_COMMA, 0);
           }
+          else if ((index_of_ekran>>1) == INDEX_ML_TMOMTZ3_PR)
+          {
+            if (
+                ((j < COL_TMO_MTZ_3_PR_BEGIN) ||  (j > COL_TMO_MTZ_3_PR_END )) &&
+                (j != (COL_TMO_MTZ_3_PR_END + 2))  
+               )working_ekran[i][j] = ' ';
+            else if (j == COL_TMO_MTZ_3_PR_COMMA )working_ekran[i][j] = ',';
+            else if (j == (COL_TMO_MTZ_3_PR_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_SECOND];
+            else
+              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_TMO_MTZ_3_PR_COMMA, 0);
+          }
           else if ((index_of_ekran>>1) == INDEX_ML_TMOMTZ3_N_VPERED)
           {
             if (
@@ -1153,6 +1214,17 @@ void make_ekran_timeout_mtz(unsigned int group)
             else if (j == (COL_TMO_MTZ_3_N_VPERED_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_SECOND];
             else
               calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_TMO_MTZ_3_N_VPERED_COMMA, 0);
+          }
+          else if ((index_of_ekran>>1) == INDEX_ML_TMOMTZ3_N_VPERED_PR)
+          {
+            if (
+                ((j < COL_TMO_MTZ_3_N_VPERED_PR_BEGIN) ||  (j > COL_TMO_MTZ_3_N_VPERED_PR_END )) &&
+                (j != (COL_TMO_MTZ_3_N_VPERED_PR_END + 2))  
+               )working_ekran[i][j] = ' ';
+            else if (j == COL_TMO_MTZ_3_N_VPERED_PR_COMMA )working_ekran[i][j] = ',';
+            else if (j == (COL_TMO_MTZ_3_N_VPERED_PR_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_SECOND];
+            else
+              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_TMO_MTZ_3_N_VPERED_PR_COMMA, 0);
           }
           else if ((index_of_ekran>>1) == INDEX_ML_TMOMTZ3_N_NAZAD)
           {
@@ -1165,6 +1237,17 @@ void make_ekran_timeout_mtz(unsigned int group)
             else
               calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_TMO_MTZ_3_N_NAZAD_COMMA, 0);
           }
+          else if ((index_of_ekran>>1) == INDEX_ML_TMOMTZ3_N_NAZAD_PR)
+          {
+            if (
+                ((j < COL_TMO_MTZ_3_N_NAZAD_PR_BEGIN) ||  (j > COL_TMO_MTZ_3_N_NAZAD_PR_END )) &&
+                (j != (COL_TMO_MTZ_3_N_NAZAD_PR_END + 2))  
+               )working_ekran[i][j] = ' ';
+            else if (j == COL_TMO_MTZ_3_N_NAZAD_PR_COMMA )working_ekran[i][j] = ',';
+            else if (j == (COL_TMO_MTZ_3_N_NAZAD_PR_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_SECOND];
+            else
+              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_TMO_MTZ_3_N_NAZAD_PR_COMMA, 0);
+          }
           else if ((index_of_ekran>>1) == INDEX_ML_TMOMTZ3_PO_NAPRUZI)
           {
             if (
@@ -1175,6 +1258,28 @@ void make_ekran_timeout_mtz(unsigned int group)
             else if (j == (COL_TMO_MTZ_3_PO_NAPRUZI_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_SECOND];
             else
               calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_TMO_MTZ_3_PO_NAPRUZI_COMMA, 0);
+          }
+          else if ((index_of_ekran>>1) == INDEX_ML_TMOMTZ3_PO_NAPRUZI_PR)
+          {
+            if (
+                ((j < COL_TMO_MTZ_3_PO_NAPRUZI_PR_BEGIN) ||  (j > COL_TMO_MTZ_3_PO_NAPRUZI_PR_END )) &&
+                (j != (COL_TMO_MTZ_3_PO_NAPRUZI_PR_END + 2))  
+               )working_ekran[i][j] = ' ';
+            else if (j == COL_TMO_MTZ_3_PO_NAPRUZI_PR_COMMA )working_ekran[i][j] = ',';
+            else if (j == (COL_TMO_MTZ_3_PO_NAPRUZI_PR_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_SECOND];
+            else
+              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_TMO_MTZ_3_PO_NAPRUZI_PR_COMMA, 0);
+          }
+          else if ((index_of_ekran>>1) == INDEX_ML_TMOMTZ3_VVID_PR)
+          {
+            if (
+                ((j < COL_TMO_MTZ_3_VVID_PR_BEGIN) ||  (j > COL_TMO_MTZ_3_VVID_PR_END )) &&
+                (j != (COL_TMO_MTZ_3_VVID_PR_END + 2))  
+               )working_ekran[i][j] = ' ';
+            else if (j == COL_TMO_MTZ_3_VVID_PR_COMMA )working_ekran[i][j] = ',';
+            else if (j == (COL_TMO_MTZ_3_VVID_PR_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_SECOND];
+            else
+              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_TMO_MTZ_3_VVID_PR_COMMA, 0);
           }
           else if ((index_of_ekran>>1) == INDEX_ML_TMOMTZ4)
           {
@@ -1382,6 +1487,8 @@ void make_ekran_control_mtz()
       "    Тип МТЗ3    ",
       "  МТЗН3 Вперёд  ",
       "  МТЗН3 Назад   ",
+      " Ускорение МТЗ3 ",
+      "Ускоренная МТЗ3 ",
       "      МТЗ4      ",
       "    Тип МТЗ4    ",
       "  МТЗН4 Вперёд  ",
@@ -1403,6 +1510,8 @@ void make_ekran_control_mtz()
       "    Тип МСЗ3    ",
       "  МСЗН3 Вперед  ",
       "  МСЗН3 Назад   ",
+      "Прискорення МСЗ3",
+      "Прискорена МСЗ3 ",
       "      МСЗ4      ",
       "    Тип МСЗ4    ",
       "  МСЗН4 Вперед  ",
@@ -1424,6 +1533,8 @@ void make_ekran_control_mtz()
       " Option of OCP2 ",
       "  МТЗН3 Вперёд  ",
       "  МТЗН3 Назад   ",
+      "   OCP3 Acc.    ",
+      "Accelerated OCP3",
       "  OCP Stage 4   ",
       " Option of OCP4 ",
       "  МТЗН4 Вперёд  ",
@@ -1445,6 +1556,8 @@ void make_ekran_control_mtz()
       "    Тип МТЗ3    ",
       "  МТЗН3 Вперёд  ",
       "  МТЗН3 Назад   ",
+      " Ускорение МТЗ3 ",
+      "Ускоренная МТЗ3 ",
       "      МТЗ4      ",
       "    Тип МТЗ4    ",
       "  МТЗН4 Вперёд  ",
@@ -1542,6 +1655,8 @@ void make_ekran_control_mtz()
           else if (index_ctr == INDEX_ML_CTRMTZ_3             ) n_bit = N_BIT_CTRMTZ_3;
           else if (index_ctr == INDEX_ML_CTRMTZ_3_VPERED      ) n_bit = N_BIT_CTRMTZ_3_VPERED;
           else if (index_ctr == INDEX_ML_CTRMTZ_3_NAZAD       ) n_bit = N_BIT_CTRMTZ_3_NAZAD;
+          else if (index_ctr == INDEX_ML_CTRMTZ_3_PRYSKORENNJA) n_bit = N_BIT_CTRMTZ_3_PRYSKORENNJA;
+          else if (index_ctr == INDEX_ML_CTRMTZ_3_PRYSKORENA  ) n_bit = N_BIT_CTRMTZ_3_PRYSKORENA;
           else if (index_ctr == INDEX_ML_CTRMTZ_4             ) n_bit = N_BIT_CTRMTZ_4;
           else if (index_ctr == INDEX_ML_CTRMTZ_4_VPERED      ) n_bit = N_BIT_CTRMTZ_4_VPERED;
           else if (index_ctr == INDEX_ML_CTRMTZ_4_NAZAD       ) n_bit = N_BIT_CTRMTZ_4_NAZAD;

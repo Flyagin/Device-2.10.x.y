@@ -5008,20 +5008,45 @@ void main_manu_function(void)
                     edition_settings.timeout_mtz_3[group] = current_settings.timeout_mtz_3[group];
                     current_ekran.position_cursor_x = COL_TMO_MTZ_3_BEGIN;
                   }
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_PR)
+                  {
+                    edition_settings.timeout_mtz_3_pr[group] = current_settings.timeout_mtz_3_pr[group];
+                    current_ekran.position_cursor_x = COL_TMO_MTZ_3_PR_BEGIN;
+                  }
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_VPERED)
                   {
                     edition_settings.timeout_mtz_3_n_vpered[group] = current_settings.timeout_mtz_3_n_vpered[group];
                     current_ekran.position_cursor_x = COL_TMO_MTZ_3_N_VPERED_BEGIN;
+                  }
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_VPERED_PR)
+                  {
+                    edition_settings.timeout_mtz_3_n_vpered_pr[group] = current_settings.timeout_mtz_3_n_vpered_pr[group];
+                    current_ekran.position_cursor_x = COL_TMO_MTZ_3_N_VPERED_PR_BEGIN;
                   }
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_NAZAD)
                   {
                     edition_settings.timeout_mtz_3_n_nazad[group] = current_settings.timeout_mtz_3_n_nazad[group];
                     current_ekran.position_cursor_x = COL_TMO_MTZ_3_N_NAZAD_BEGIN;
                   }
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_NAZAD_PR)
+                  {
+                    edition_settings.timeout_mtz_3_n_nazad_pr[group] = current_settings.timeout_mtz_3_n_nazad_pr[group];
+                    current_ekran.position_cursor_x = COL_TMO_MTZ_3_N_NAZAD_PR_BEGIN;
+                  }
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_PO_NAPRUZI)
                   {
                     edition_settings.timeout_mtz_3_po_napruzi[group] = current_settings.timeout_mtz_3_po_napruzi[group];
                     current_ekran.position_cursor_x = COL_TMO_MTZ_3_PO_NAPRUZI_BEGIN;
+                  }
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_PO_NAPRUZI_PR)
+                  {
+                    edition_settings.timeout_mtz_3_po_napruzi_pr[group] = current_settings.timeout_mtz_3_po_napruzi_pr[group];
+                    current_ekran.position_cursor_x = COL_TMO_MTZ_3_PO_NAPRUZI_PR_BEGIN;
+                  }
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_VVID_PR)
+                  {
+                    edition_settings.timeout_mtz_3_vvid_pr[group] = current_settings.timeout_mtz_3_vvid_pr[group];
+                    current_ekran.position_cursor_x = COL_TMO_MTZ_3_VVID_PR_BEGIN;
                   }
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ4)
                   {
@@ -5762,17 +5787,37 @@ void main_manu_function(void)
                   {
                     if (edition_settings.timeout_mtz_3[group] != current_settings.timeout_mtz_3[group]) found_changes = 1;
                   }
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_PR)
+                  {
+                    if (edition_settings.timeout_mtz_3_pr[group] != current_settings.timeout_mtz_3_pr[group]) found_changes = 1;
+                  }
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_VPERED)
                   {
                     if (edition_settings.timeout_mtz_3_n_vpered[group] != current_settings.timeout_mtz_3_n_vpered[group]) found_changes = 1;
+                  }
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_VPERED_PR)
+                  {
+                    if (edition_settings.timeout_mtz_3_n_vpered_pr[group] != current_settings.timeout_mtz_3_n_vpered_pr[group]) found_changes = 1;
                   }
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_NAZAD)
                   {
                     if (edition_settings.timeout_mtz_3_n_nazad[group] != current_settings.timeout_mtz_3_n_nazad[group]) found_changes = 1;
                   }
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_NAZAD_PR)
+                  {
+                    if (edition_settings.timeout_mtz_3_n_nazad_pr[group] != current_settings.timeout_mtz_3_n_nazad_pr[group]) found_changes = 1;
+                  }
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_PO_NAPRUZI)
                   {
                     if (edition_settings.timeout_mtz_3_po_napruzi[group] != current_settings.timeout_mtz_3_po_napruzi[group]) found_changes = 1;
+                  }
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_PO_NAPRUZI_PR)
+                  {
+                    if (edition_settings.timeout_mtz_3_po_napruzi_pr[group] != current_settings.timeout_mtz_3_po_napruzi_pr[group]) found_changes = 1;
+                  }
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_VVID_PR)
+                  {
+                    if (edition_settings.timeout_mtz_3_vvid_pr[group] != current_settings.timeout_mtz_3_vvid_pr[group]) found_changes = 1;
                   }
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ4)
                   {
@@ -6950,6 +6995,23 @@ void main_manu_function(void)
                       current_ekran.edition = 0;
                     }
                   }
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_PR)
+                  {
+                    if (check_data_setpoint(edition_settings.timeout_mtz_3_pr[group], TIMEOUT_MTZ3_PR_MIN, TIMEOUT_MTZ3_PR_MAX) == 1)
+                    {
+                      if (edition_settings.timeout_mtz_3_pr[group] != current_settings.timeout_mtz_3_pr[group])
+                      {
+                        //Помічаємо, що поле структури зараз буде змінене
+                        changed_settings = CHANGED_ETAP_EXECUTION;
+                        
+                        current_settings.timeout_mtz_3_pr[group] = edition_settings.timeout_mtz_3_pr[group];
+                        //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
+                        fix_change_settings(0, 1);
+                      }
+                      //Виходимо з режиму редагування
+                      current_ekran.edition = 0;
+                    }
+                  }
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_VPERED)
                   {
                     if (check_data_setpoint(edition_settings.timeout_mtz_3_n_vpered[group], TIMEOUT_MTZ3_N_VPERED_MIN, TIMEOUT_MTZ3_N_VPERED_MAX) == 1)
@@ -6960,6 +7022,23 @@ void main_manu_function(void)
                         changed_settings = CHANGED_ETAP_EXECUTION;
                         
                         current_settings.timeout_mtz_3_n_vpered[group] = edition_settings.timeout_mtz_3_n_vpered[group];
+                        //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
+                        fix_change_settings(0, 1);
+                      }
+                      //Виходимо з режиму редагування
+                      current_ekran.edition = 0;
+                    }
+                  }
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_VPERED_PR)
+                  {
+                    if (check_data_setpoint(edition_settings.timeout_mtz_3_n_vpered_pr[group], TIMEOUT_MTZ3_N_VPERED_PR_MIN, TIMEOUT_MTZ3_N_VPERED_PR_MAX) == 1)
+                    {
+                      if (edition_settings.timeout_mtz_3_n_vpered_pr[group] != current_settings.timeout_mtz_3_n_vpered_pr[group])
+                      {
+                        //Помічаємо, що поле структури зараз буде змінене
+                        changed_settings = CHANGED_ETAP_EXECUTION;
+                        
+                        current_settings.timeout_mtz_3_n_vpered_pr[group] = edition_settings.timeout_mtz_3_n_vpered_pr[group];
                         //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                         fix_change_settings(0, 1);
                       }
@@ -6984,6 +7063,23 @@ void main_manu_function(void)
                       current_ekran.edition = 0;
                     }
                   }
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_NAZAD_PR)
+                  {
+                    if (check_data_setpoint(edition_settings.timeout_mtz_3_n_nazad_pr[group], TIMEOUT_MTZ3_N_NAZAD_PR_MIN, TIMEOUT_MTZ3_N_NAZAD_PR_MAX) == 1)
+                    {
+                      if (edition_settings.timeout_mtz_3_n_nazad_pr[group] != current_settings.timeout_mtz_3_n_nazad_pr[group])
+                      {
+                        //Помічаємо, що поле структури зараз буде змінене
+                        changed_settings = CHANGED_ETAP_EXECUTION;
+                        
+                        current_settings.timeout_mtz_3_n_nazad_pr[group] = edition_settings.timeout_mtz_3_n_nazad_pr[group];
+                        //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
+                        fix_change_settings(0, 1);
+                      }
+                      //Виходимо з режиму редагування
+                      current_ekran.edition = 0;
+                    }
+                  }
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_PO_NAPRUZI)
                   {
                     if (check_data_setpoint(edition_settings.timeout_mtz_3_po_napruzi[group], TIMEOUT_MTZ3_PO_NAPRUZI_MIN, TIMEOUT_MTZ3_PO_NAPRUZI_MAX) == 1)
@@ -6994,6 +7090,40 @@ void main_manu_function(void)
                         changed_settings = CHANGED_ETAP_EXECUTION;
                         
                         current_settings.timeout_mtz_3_po_napruzi[group] = edition_settings.timeout_mtz_3_po_napruzi[group];
+                        //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
+                        fix_change_settings(0, 1);
+                      }
+                      //Виходимо з режиму редагування
+                      current_ekran.edition = 0;
+                    }
+                  }
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_PO_NAPRUZI_PR)
+                  {
+                    if (check_data_setpoint(edition_settings.timeout_mtz_3_po_napruzi_pr[group], TIMEOUT_MTZ3_PO_NAPRUZI_PR_MIN, TIMEOUT_MTZ3_PO_NAPRUZI_PR_MAX) == 1)
+                    {
+                      if (edition_settings.timeout_mtz_3_po_napruzi_pr[group] != current_settings.timeout_mtz_3_po_napruzi_pr[group])
+                      {
+                        //Помічаємо, що поле структури зараз буде змінене
+                        changed_settings = CHANGED_ETAP_EXECUTION;
+                        
+                        current_settings.timeout_mtz_3_po_napruzi_pr[group] = edition_settings.timeout_mtz_3_po_napruzi_pr[group];
+                        //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
+                        fix_change_settings(0, 1);
+                      }
+                      //Виходимо з режиму редагування
+                      current_ekran.edition = 0;
+                    }
+                  }
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_VVID_PR)
+                  {
+                    if (check_data_setpoint(edition_settings.timeout_mtz_3_vvid_pr[group], TIMEOUT_MTZ3_VVID_PR_MIN, TIMEOUT_MTZ3_VVID_PR_MAX) == 1)
+                    {
+                      if (edition_settings.timeout_mtz_3_vvid_pr[group] != current_settings.timeout_mtz_3_vvid_pr[group])
+                      {
+                        //Помічаємо, що поле структури зараз буде змінене
+                        changed_settings = CHANGED_ETAP_EXECUTION;
+                        
+                        current_settings.timeout_mtz_3_vvid_pr[group] = edition_settings.timeout_mtz_3_vvid_pr[group];
                         //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                         fix_change_settings(0, 1);
                       }
@@ -8962,12 +9092,22 @@ void main_manu_function(void)
                     edition_settings.timeout_mtz_2_vvid_pr[group] = edit_setpoint(1, edition_settings.timeout_mtz_2_vvid_pr[group], 1, COL_TMO_MTZ_2_VVID_PR_COMMA, COL_TMO_MTZ_2_VVID_PR_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ3)
                     edition_settings.timeout_mtz_3[group] = edit_setpoint(1, edition_settings.timeout_mtz_3[group], 1, COL_TMO_MTZ_3_COMMA, COL_TMO_MTZ_3_END, 10);
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_PR)
+                    edition_settings.timeout_mtz_3_pr[group] = edit_setpoint(1, edition_settings.timeout_mtz_3_pr[group], 1, COL_TMO_MTZ_3_PR_COMMA, COL_TMO_MTZ_3_PR_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_VPERED)
                     edition_settings.timeout_mtz_3_n_vpered[group] = edit_setpoint(1, edition_settings.timeout_mtz_3_n_vpered[group], 1, COL_TMO_MTZ_3_N_VPERED_COMMA, COL_TMO_MTZ_3_N_VPERED_END, 10);
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_VPERED_PR)
+                    edition_settings.timeout_mtz_3_n_vpered_pr[group] = edit_setpoint(1, edition_settings.timeout_mtz_3_n_vpered_pr[group], 1, COL_TMO_MTZ_3_N_VPERED_PR_COMMA, COL_TMO_MTZ_3_N_VPERED_PR_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_NAZAD)
                     edition_settings.timeout_mtz_3_n_nazad[group] = edit_setpoint(1, edition_settings.timeout_mtz_3_n_nazad[group], 1, COL_TMO_MTZ_3_N_NAZAD_COMMA, COL_TMO_MTZ_3_N_NAZAD_END, 10);
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_NAZAD_PR)
+                    edition_settings.timeout_mtz_3_n_nazad_pr[group] = edit_setpoint(1, edition_settings.timeout_mtz_3_n_nazad_pr[group], 1, COL_TMO_MTZ_3_N_NAZAD_PR_COMMA, COL_TMO_MTZ_3_N_NAZAD_PR_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_PO_NAPRUZI)
                     edition_settings.timeout_mtz_3_po_napruzi[group] = edit_setpoint(1, edition_settings.timeout_mtz_3_po_napruzi[group], 1, COL_TMO_MTZ_3_PO_NAPRUZI_COMMA, COL_TMO_MTZ_3_PO_NAPRUZI_END, 10);
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_PO_NAPRUZI_PR)
+                    edition_settings.timeout_mtz_3_po_napruzi_pr[group] = edit_setpoint(1, edition_settings.timeout_mtz_3_po_napruzi_pr[group], 1, COL_TMO_MTZ_3_PO_NAPRUZI_PR_COMMA, COL_TMO_MTZ_3_PO_NAPRUZI_PR_END, 10);
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_VVID_PR)
+                    edition_settings.timeout_mtz_3_vvid_pr[group] = edit_setpoint(1, edition_settings.timeout_mtz_3_vvid_pr[group], 1, COL_TMO_MTZ_3_VVID_PR_COMMA, COL_TMO_MTZ_3_VVID_PR_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ4)
                     edition_settings.timeout_mtz_4[group] = edit_setpoint(1, edition_settings.timeout_mtz_4[group], 1, COL_TMO_MTZ_4_COMMA, COL_TMO_MTZ_4_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ4_N_VPERED)
@@ -9874,12 +10014,22 @@ void main_manu_function(void)
                     edition_settings.timeout_mtz_2_vvid_pr[group] = edit_setpoint(0, edition_settings.timeout_mtz_2_vvid_pr[group], 1, COL_TMO_MTZ_2_VVID_PR_COMMA, COL_TMO_MTZ_2_VVID_PR_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ3)
                     edition_settings.timeout_mtz_3[group] = edit_setpoint(0, edition_settings.timeout_mtz_3[group], 1, COL_TMO_MTZ_3_COMMA, COL_TMO_MTZ_3_END, 10);
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_PR)
+                    edition_settings.timeout_mtz_3_pr[group] = edit_setpoint(0, edition_settings.timeout_mtz_3_pr[group], 1, COL_TMO_MTZ_3_PR_COMMA, COL_TMO_MTZ_3_PR_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_VPERED)
                     edition_settings.timeout_mtz_3_n_vpered[group] = edit_setpoint(0, edition_settings.timeout_mtz_3_n_vpered[group], 1, COL_TMO_MTZ_3_N_VPERED_COMMA, COL_TMO_MTZ_3_N_VPERED_END, 10);
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_VPERED_PR)
+                    edition_settings.timeout_mtz_3_n_vpered_pr[group] = edit_setpoint(0, edition_settings.timeout_mtz_3_n_vpered_pr[group], 1, COL_TMO_MTZ_3_N_VPERED_PR_COMMA, COL_TMO_MTZ_3_N_VPERED_PR_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_NAZAD)
                     edition_settings.timeout_mtz_3_n_nazad[group] = edit_setpoint(0, edition_settings.timeout_mtz_3_n_nazad[group], 1, COL_TMO_MTZ_3_N_NAZAD_COMMA, COL_TMO_MTZ_3_N_NAZAD_END, 10);
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_NAZAD_PR)
+                    edition_settings.timeout_mtz_3_n_nazad_pr[group] = edit_setpoint(0, edition_settings.timeout_mtz_3_n_nazad_pr[group], 1, COL_TMO_MTZ_3_N_NAZAD_PR_COMMA, COL_TMO_MTZ_3_N_NAZAD_PR_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_PO_NAPRUZI)
                     edition_settings.timeout_mtz_3_po_napruzi[group] = edit_setpoint(0, edition_settings.timeout_mtz_3_po_napruzi[group], 1, COL_TMO_MTZ_3_PO_NAPRUZI_COMMA, COL_TMO_MTZ_3_PO_NAPRUZI_END, 10);
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_PO_NAPRUZI_PR)
+                    edition_settings.timeout_mtz_3_po_napruzi_pr[group] = edit_setpoint(0, edition_settings.timeout_mtz_3_po_napruzi_pr[group], 1, COL_TMO_MTZ_3_PO_NAPRUZI_PR_COMMA, COL_TMO_MTZ_3_PO_NAPRUZI_PR_END, 10);
+                  else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_VVID_PR)
+                    edition_settings.timeout_mtz_3_vvid_pr[group] = edit_setpoint(0, edition_settings.timeout_mtz_3_vvid_pr[group], 1, COL_TMO_MTZ_3_VVID_PR_COMMA, COL_TMO_MTZ_3_VVID_PR_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ4)
                     edition_settings.timeout_mtz_4[group] = edit_setpoint(0, edition_settings.timeout_mtz_4[group], 1, COL_TMO_MTZ_4_COMMA, COL_TMO_MTZ_4_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOMTZ4_N_VPERED)
