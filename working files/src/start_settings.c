@@ -302,7 +302,7 @@ void global_vareiables_installation(void)
   /**************************/
 
   /**************************/
-  //Дополнительные константы для МТЗ
+  //Додаткові константи для МСЗ
   /**************************/
   mtz_settings_prt[MTZ_LEVEL1][RANG_BLOCK_MTZ] = RANG_BLOCK_MTZ1;
   mtz_settings_prt[MTZ_LEVEL1][RANG_SECTOR_VPERED_MTZN] = RANG_SECTOR_VPERED_MTZN1;
@@ -326,6 +326,7 @@ void global_vareiables_installation(void)
   mtz_settings_prt[MTZ_LEVEL2][RANG_MTZ] = RANG_MTZ2;
   
   mtz_settings_prt[MTZ_LEVEL3][RANG_BLOCK_MTZ] = RANG_BLOCK_MTZ3;
+  mtz_settings_prt[MTZ_LEVEL3][RANG_BLOCK_USK_MTZ] = RANG_BLOCK_USK_MTZ3;
   mtz_settings_prt[MTZ_LEVEL3][RANG_SECTOR_VPERED_MTZN] = RANG_SECTOR_VPERED_MTZN3;
   mtz_settings_prt[MTZ_LEVEL3][RANG_SECTOR_NAZAD_MTZN] = RANG_SECTOR_NAZAD_MTZN3;
   mtz_settings_prt[MTZ_LEVEL3][RANG_PO_MTZ] = RANG_PO_MTZ3;
@@ -352,10 +353,16 @@ void global_vareiables_installation(void)
   mtz_const_menu_settings_prt[MTZ_LEVEL2][CTR_MTZ] = CTR_MTZ_2;
   mtz_const_menu_settings_prt[MTZ_LEVEL2][CTR_MTZ_VPERED] = CTR_MTZ_2_VPERED;
   mtz_const_menu_settings_prt[MTZ_LEVEL2][CTR_MTZ_NAZAD] = CTR_MTZ_2_NAZAD;
+
+  mtz_prysk_const_menu_settings_prt[MTZ_LEVEL2 - MTZ_LEVEL2][CTR_MTZ_PRYSKORENNJA] = CTR_MTZ_2_PRYSKORENNJA;
+  mtz_prysk_const_menu_settings_prt[MTZ_LEVEL2 - MTZ_LEVEL2][CTR_MTZ_PRYSKORENA] = CTR_MTZ_2_PRYSKORENA;
   
   mtz_const_menu_settings_prt[MTZ_LEVEL3][CTR_MTZ] = CTR_MTZ_3;
   mtz_const_menu_settings_prt[MTZ_LEVEL3][CTR_MTZ_VPERED] = CTR_MTZ_3_VPERED;
   mtz_const_menu_settings_prt[MTZ_LEVEL3][CTR_MTZ_NAZAD] = CTR_MTZ_3_NAZAD;
+
+  mtz_prysk_const_menu_settings_prt[MTZ_LEVEL3 - MTZ_LEVEL2][CTR_MTZ_PRYSKORENNJA] = CTR_MTZ_3_PRYSKORENNJA;
+  mtz_prysk_const_menu_settings_prt[MTZ_LEVEL3 - MTZ_LEVEL2][CTR_MTZ_PRYSKORENA] = CTR_MTZ_3_PRYSKORENA;
   
   mtz_const_menu_settings_prt[MTZ_LEVEL4][CTR_MTZ] = CTR_MTZ_4;
   mtz_const_menu_settings_prt[MTZ_LEVEL4][CTR_MTZ_VPERED] = CTR_MTZ_4_VPERED;
@@ -395,10 +402,10 @@ void global_vareiables_installation(void)
   mtz_tmr_const[MTZ_LEVEL1][INDEX_TIMER_MTZ_N_VPERED] = INDEX_TIMER_MTZ1_N_VPERED;
   mtz_tmr_const[MTZ_LEVEL1][INDEX_TIMER_MTZ_N_NAZAD] = INDEX_TIMER_MTZ1_N_NAZAD;
   mtz_tmr_const[MTZ_LEVEL1][INDEX_TIMER_MTZ_PO_NAPRUZI] = INDEX_TIMER_MTZ1_PO_NAPRUZI;
-  mtz_tmr_const[MTZ_LEVEL2][INDEX_TIMER_MTZ] = 0;
-  mtz_tmr_const[MTZ_LEVEL2][INDEX_TIMER_MTZ_N_VPERED] = 0;
-  mtz_tmr_const[MTZ_LEVEL2][INDEX_TIMER_MTZ_N_NAZAD] = 0;
-  mtz_tmr_const[MTZ_LEVEL2][INDEX_TIMER_MTZ_PO_NAPRUZI] = 0;
+  mtz_tmr_const[MTZ_LEVEL2][INDEX_TIMER_MTZ] = INDEX_TIMER_MTZ2;
+  mtz_tmr_const[MTZ_LEVEL2][INDEX_TIMER_MTZ_N_VPERED] = INDEX_TIMER_MTZ2_N_VPERED;
+  mtz_tmr_const[MTZ_LEVEL2][INDEX_TIMER_MTZ_N_NAZAD] = INDEX_TIMER_MTZ2_N_NAZAD;
+  mtz_tmr_const[MTZ_LEVEL2][INDEX_TIMER_MTZ_PO_NAPRUZI] = INDEX_TIMER_MTZ2_PO_NAPRUZI;
   mtz_tmr_const[MTZ_LEVEL3][INDEX_TIMER_MTZ] = INDEX_TIMER_MTZ3;
   mtz_tmr_const[MTZ_LEVEL3][INDEX_TIMER_MTZ_N_VPERED] = INDEX_TIMER_MTZ3_N_VPERED;
   mtz_tmr_const[MTZ_LEVEL3][INDEX_TIMER_MTZ_N_NAZAD] = INDEX_TIMER_MTZ3_N_NAZAD;
@@ -407,26 +414,52 @@ void global_vareiables_installation(void)
   mtz_tmr_const[MTZ_LEVEL4][INDEX_TIMER_MTZ_N_VPERED] = INDEX_TIMER_MTZ4_N_VPERED;
   mtz_tmr_const[MTZ_LEVEL4][INDEX_TIMER_MTZ_N_NAZAD] = INDEX_TIMER_MTZ4_N_NAZAD;
   mtz_tmr_const[MTZ_LEVEL4][INDEX_TIMER_MTZ_PO_NAPRUZI] = INDEX_TIMER_MTZ4_PO_NAPRUZI;
+
+  mtz_prysk_tmr_const[MTZ_LEVEL2 - MTZ_LEVEL2][INDEX_TIMER_MTZ_PR] = INDEX_TIMER_MTZ2_PR;
+  mtz_prysk_tmr_const[MTZ_LEVEL2 - MTZ_LEVEL2][INDEX_TIMER_MTZ_N_VPERED_PR] = INDEX_TIMER_MTZ2_N_VPERED_PR;
+  mtz_prysk_tmr_const[MTZ_LEVEL2 - MTZ_LEVEL2][INDEX_TIMER_MTZ_N_NAZAD_PR] = INDEX_TIMER_MTZ2_N_NAZAD_PR;
+  mtz_prysk_tmr_const[MTZ_LEVEL2 - MTZ_LEVEL2][INDEX_TIMER_MTZ_PO_NAPRUZI_PR] = INDEX_TIMER_MTZ2_PO_NAPRUZI_PR;
+  mtz_prysk_tmr_const[MTZ_LEVEL2 - MTZ_LEVEL2][INDEX_TIMER_MTZ_VVID_PR] = INDEX_TIMER_MTZ2_VVID_PR;
+  mtz_prysk_tmr_const[MTZ_LEVEL3 - MTZ_LEVEL2][INDEX_TIMER_MTZ_PR] = INDEX_TIMER_MTZ3_PR;
+  mtz_prysk_tmr_const[MTZ_LEVEL3 - MTZ_LEVEL2][INDEX_TIMER_MTZ_N_VPERED_PR] = INDEX_TIMER_MTZ2_N_VPERED_PR;
+  mtz_prysk_tmr_const[MTZ_LEVEL3 - MTZ_LEVEL2][INDEX_TIMER_MTZ_N_NAZAD_PR] = INDEX_TIMER_MTZ3_N_NAZAD_PR;
+  mtz_prysk_tmr_const[MTZ_LEVEL3 - MTZ_LEVEL2][INDEX_TIMER_MTZ_PO_NAPRUZI_PR] = INDEX_TIMER_MTZ3_PO_NAPRUZI_PR;
+  mtz_prysk_tmr_const[MTZ_LEVEL3 - MTZ_LEVEL2][INDEX_TIMER_MTZ_VVID_PR] = INDEX_TIMER_MTZ3_VVID_PR;
   
   timeout_mtz[MTZ_LEVEL1] = current_settings_prt.timeout_mtz_1;
-  timeout_mtz[MTZ_LEVEL2] = 0;
+  timeout_mtz[MTZ_LEVEL2] = current_settings_prt.timeout_mtz_2;
   timeout_mtz[MTZ_LEVEL3] = current_settings_prt.timeout_mtz_3;
   timeout_mtz[MTZ_LEVEL4] = current_settings_prt.timeout_mtz_4;
+
+  timeout_mtz_prysk[MTZ_LEVEL2 - MTZ_LEVEL2] = current_settings_prt.timeout_mtz_2_pr;
+  timeout_mtz_prysk[MTZ_LEVEL3 - MTZ_LEVEL2] = current_settings_prt.timeout_mtz_3_pr;
   
   timeout_mtz_n_vpered[MTZ_LEVEL1] = current_settings_prt.timeout_mtz_1_n_vpered;
-  timeout_mtz_n_vpered[MTZ_LEVEL2] = 0;
+  timeout_mtz_n_vpered[MTZ_LEVEL2] = current_settings_prt.timeout_mtz_2_n_vpered;
   timeout_mtz_n_vpered[MTZ_LEVEL3] = current_settings_prt.timeout_mtz_3_n_vpered;
   timeout_mtz_n_vpered[MTZ_LEVEL4] = current_settings_prt.timeout_mtz_4_n_vpered;
+
+  timeout_mtz_n_vpered_prysk[MTZ_LEVEL2 - MTZ_LEVEL2] = current_settings_prt.timeout_mtz_2_n_vpered_pr;
+  timeout_mtz_n_vpered_prysk[MTZ_LEVEL3 - MTZ_LEVEL2] = current_settings_prt.timeout_mtz_3_n_vpered_pr;
   
   timeout_mtz_n_nazad[MTZ_LEVEL1] = current_settings_prt.timeout_mtz_1_n_nazad;
-  timeout_mtz_n_nazad[MTZ_LEVEL2] = 0;
+  timeout_mtz_n_nazad[MTZ_LEVEL2] = current_settings_prt.timeout_mtz_2_n_nazad;
   timeout_mtz_n_nazad[MTZ_LEVEL3] = current_settings_prt.timeout_mtz_3_n_nazad;
   timeout_mtz_n_nazad[MTZ_LEVEL4] = current_settings_prt.timeout_mtz_4_n_nazad;
+
+  timeout_mtz_n_nazad_prysk[MTZ_LEVEL2-MTZ_LEVEL2] = current_settings_prt.timeout_mtz_2_n_nazad_pr;
+  timeout_mtz_n_nazad_prysk[MTZ_LEVEL3-MTZ_LEVEL2] = current_settings_prt.timeout_mtz_3_n_nazad_pr;
   
   timeout_mtz_po_napruzi[MTZ_LEVEL1] = current_settings_prt.timeout_mtz_1_po_napruzi;
-  timeout_mtz_po_napruzi[MTZ_LEVEL2] = 0;
+  timeout_mtz_po_napruzi[MTZ_LEVEL2] = current_settings_prt.timeout_mtz_2_po_napruzi;
   timeout_mtz_po_napruzi[MTZ_LEVEL3] = current_settings_prt.timeout_mtz_3_po_napruzi;
   timeout_mtz_po_napruzi[MTZ_LEVEL4] = current_settings_prt.timeout_mtz_4_po_napruzi;
+
+  timeout_mtz_po_napruzi_prysk[MTZ_LEVEL2-MTZ_LEVEL2] = current_settings_prt.timeout_mtz_2_po_napruzi_pr;
+  timeout_mtz_po_napruzi_prysk[MTZ_LEVEL3-MTZ_LEVEL2] = current_settings_prt.timeout_mtz_3_po_napruzi_pr;
+
+  timeout_mtz_vvid_prysk[MTZ_LEVEL2-MTZ_LEVEL2] = current_settings_prt.timeout_mtz_2_vvid_pr;
+  timeout_mtz_vvid_prysk[MTZ_LEVEL3-MTZ_LEVEL2] = current_settings_prt.timeout_mtz_3_vvid_pr;
   
   i_nom_const = I_NOM * KOEF_1_2_I;
   u_linear_nom_const = U_LINEAR_NOM * KOEF_0_2_U;

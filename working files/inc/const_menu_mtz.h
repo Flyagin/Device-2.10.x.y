@@ -327,6 +327,13 @@ enum {
   /*************************************/
   MTZ_CONST_MENU_SETTINGS_LENGTH
 };
+enum {
+  CTR_MTZ_PRYSKORENNJA = 0,
+  CTR_MTZ_PRYSKORENA,
+  /*************************************/
+  MTZ_PR_CONST_MENU_SETTINGS_LENGTH
+};
+
 
 #define CTR_MTZ_MASKA                   (                                \
                                          CTR_MTZ_1                      |\

@@ -2069,7 +2069,7 @@ inline void mtz_handler(volatile unsigned int *p_active_functions, unsigned int 
     tmp_value |= (*type_mtz_arr[mtz_level] == 2)                                 << 1; //С пуском
     tmp_value |= (*type_mtz_arr[mtz_level] == 0)                                 << 2; //Простая
     tmp_value |= (
-                  (mtz_level == 1)
+                  (mtz_level == MTZ_LEVEL2)
                   && (*type_mtz_arr[mtz_level] >= TYPE_MTZ_DEPENDENT_A)
                   && (*type_mtz_arr[mtz_level] <= TYPE_MTZ_DEPENDENT_RTV_I) 
                  )                                                               << 3; //Зависимая (если mtz_level == 1 (2-я ступень МТЗ))
@@ -2201,18 +2201,22 @@ inline void mtz_handler(volatile unsigned int *p_active_functions, unsigned int 
                   (measurement[IM_IC] >= po_mtzpn_x_setpoint)) << 17; //ПО МТЗПНх
     /******ПО МТЗПНх***********************/
     
-    if (mtz_level == 1) { //только для 2-ой ступени
+    if ((mtz_level == MTZ_LEVEL2) || (mtz_level == MTZ_LEVEL3))
+    { 
+      //тільки для 2-ої або 3-ої ступеней
       //ДВ
       tmp_value |= (_CHECK_SET_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_BLOCK_USK_MTZ]) == 0) << 9; //Блокировка ускорения МТЗ 2
       //М
-      tmp_value |= ((current_settings_prt.control_mtz & CTR_MTZ_2_PRYSKORENA) != 0) << 10; //МТЗ2 Ускоренная
+      tmp_value |= ((current_settings_prt.control_mtz & mtz_prysk_const_menu_settings_prt[mtz_level - MTZ_LEVEL2][CTR_MTZ_PRYSKORENNJA]/*CTR_MTZ_2_PRYSKORENA*/) != 0) << 10; //МТЗ2 Ускоренная
       //ДВ
       tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV) != 0) << 18; //Положение ВВ
       //M
-      tmp_value |= ((current_settings_prt.control_mtz & CTR_MTZ_2_PRYSKORENNJA) != 0) << 11; //Ускорение МТЗ2 вкл.
+      tmp_value |= ((current_settings_prt.control_mtz & mtz_prysk_const_menu_settings_prt[mtz_level - MTZ_LEVEL2][CTR_MTZ_PRYSKORENA]/*CTR_MTZ_2_PRYSKORENNJA*/) != 0) << 11; //Ускорение МТЗ2 вкл.
     }
     
-    if (_GET_OUTPUT_STATE(tmp_value, 15)) { //Если зафиксирована неисправность цепей напряжения для ступени МТЗх
+    if (_GET_OUTPUT_STATE(tmp_value, 15)) 
+    {
+      //Если зафиксирована неисправность цепей напряжения для ступени МТЗх
       _CLEAR_STATE(tmp_value, 16); //Очистка ПО U МТЗПНх
     }
     
@@ -2280,16 +2284,20 @@ inline void mtz_handler(volatile unsigned int *p_active_functions, unsigned int 
     else
       _CLEAR_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZPN]);
     
-    if (mtz_level != 1) { //для всех ступеней кроме 2-ой
+    if ((mtz_level != MTZ_LEVEL2) && (mtz_level != MTZ_LEVEL3))
+    { 
+      //Для всіх ступенів крів 2-ої і 3-ої
       _TIMER_T_0(mtz_tmr_const[mtz_level][INDEX_TIMER_MTZ], *(timeout_mtz[mtz_level] + number_group_stp), tmp_value, 21, tmp_value, 25);
       _TIMER_T_0(mtz_tmr_const[mtz_level][INDEX_TIMER_MTZ_N_VPERED], *(timeout_mtz_n_vpered[mtz_level] + number_group_stp), tmp_value, 22, tmp_value, 26);
       _TIMER_T_0(mtz_tmr_const[mtz_level][INDEX_TIMER_MTZ_N_NAZAD], *(timeout_mtz_n_nazad[mtz_level] + number_group_stp), tmp_value, 23, tmp_value, 27);
       _TIMER_T_0(mtz_tmr_const[mtz_level][INDEX_TIMER_MTZ_PO_NAPRUZI], *(timeout_mtz_po_napruzi[mtz_level] + number_group_stp), tmp_value, 24, tmp_value, 28);
       _OR4(tmp_value, 25, tmp_value, 26, tmp_value, 27, tmp_value, 28, tmp_value, 31);
-    } else {
+    }
+    else 
+    {
       unsigned int tmp = 0;
       _AND2(tmp_value, 18, tmp_value, 11, tmp, 0);
-      _TIMER_IMPULSE(INDEX_TIMER_MTZ2_VVID_PR, current_settings_prt.timeout_mtz_2_vvid_pr[number_group_stp], temp_states_for_mtz, 0, tmp, 0, tmp, 1);
+      _TIMER_IMPULSE(mtz_prysk_tmr_const[mtz_level - MTZ_LEVEL2][INDEX_TIMER_MTZ_VVID_PR]/*INDEX_TIMER_MTZ2_VVID_PR*/, *(timeout_mtz_vvid_prysk[mtz_level - MTZ_LEVEL2] + number_group_stp)/*current_settings_prt.timeout_mtz_2_vvid_pr[number_group_stp]*/, temp_states_for_mtz, (mtz_level - MTZ_LEVEL2), tmp, 0, tmp, 1);
       _OR2(tmp, 1, tmp_value, 10, tmp, 2);
       _AND2(tmp_value, 9, tmp, 2, tmp, 3);
       _INVERTOR(tmp, 3, tmp, 4);
@@ -2308,14 +2316,14 @@ inline void mtz_handler(volatile unsigned int *p_active_functions, unsigned int 
       if (i_max < measurement[IM_IB]) i_max = measurement[IM_IB];
       if (i_max < measurement[IM_IC]) i_max = measurement[IM_IC];
       _TIMER_T_0_LOCK(INDEX_TIMER_MTZ2_DEPENDENT, timeout_dependent_general(i_max, number_group_stp), tmp, 5, p_global_trigger_state_mtz2, 0);
-      _TIMER_T_0(INDEX_TIMER_MTZ2_PR, current_settings_prt.timeout_mtz_2_pr[number_group_stp], tmp, 6, tmp, 15);
-      _TIMER_T_0(INDEX_TIMER_MTZ2, current_settings_prt.timeout_mtz_2[number_group_stp], tmp, 7, tmp, 16);
-      _TIMER_T_0(INDEX_TIMER_MTZ2_N_VPERED, current_settings_prt.timeout_mtz_2_n_vpered[number_group_stp], tmp, 8, tmp, 17);
-      _TIMER_T_0(INDEX_TIMER_MTZ2_N_VPERED_PR, current_settings_prt.timeout_mtz_2_n_vpered_pr[number_group_stp], tmp, 9, tmp, 18);
-      _TIMER_T_0(INDEX_TIMER_MTZ2_N_NAZAD, current_settings_prt.timeout_mtz_2_n_nazad[number_group_stp], tmp, 10, tmp, 19);
-      _TIMER_T_0(INDEX_TIMER_MTZ2_N_NAZAD_PR, current_settings_prt.timeout_mtz_2_n_nazad_pr[number_group_stp], tmp, 11, tmp, 20);
-      _TIMER_T_0(INDEX_TIMER_MTZ2_PO_NAPRUZI, current_settings_prt.timeout_mtz_2_po_napruzi[number_group_stp], tmp, 12, tmp, 21);
-      _TIMER_T_0(INDEX_TIMER_MTZ2_PO_NAPRUZI_PR, current_settings_prt.timeout_mtz_2_po_napruzi_pr[number_group_stp], tmp, 13, tmp, 22);
+      _TIMER_T_0(mtz_prysk_tmr_const[mtz_level - MTZ_LEVEL2][INDEX_TIMER_MTZ_PR]/*INDEX_TIMER_MTZ2_PR*/, *(timeout_mtz_prysk[mtz_level - MTZ_LEVEL2] + number_group_stp)/*current_settings_prt.timeout_mtz_2_pr[number_group_stp]*/, tmp, 6, tmp, 15);
+      _TIMER_T_0(mtz_tmr_const[mtz_level - MTZ_LEVEL2][INDEX_TIMER_MTZ]/*INDEX_TIMER_MTZ2*/, *(timeout_mtz[mtz_level - MTZ_LEVEL2] + number_group_stp)/*current_settings_prt.timeout_mtz_2[number_group_stp]*/, tmp, 7, tmp, 16);
+      _TIMER_T_0(mtz_tmr_const[mtz_level - MTZ_LEVEL2][INDEX_TIMER_MTZ_N_VPERED]/*INDEX_TIMER_MTZ2_N_VPERED*/, *(timeout_mtz_n_vpered[mtz_level - MTZ_LEVEL2] + number_group_stp)/*current_settings_prt.timeout_mtz_2_n_vpered[number_group_stp]*/, tmp, 8, tmp, 17);
+      _TIMER_T_0(mtz_prysk_tmr_const[mtz_level - MTZ_LEVEL2][INDEX_TIMER_MTZ_N_VPERED_PR]/*INDEX_TIMER_MTZ2_N_VPERED_PR*/, *(timeout_mtz_n_vpered_prysk[mtz_level - MTZ_LEVEL2] + number_group_stp)/*current_settings_prt.timeout_mtz_2_n_vpered_pr[number_group_stp]*/, tmp, 9, tmp, 18);
+      _TIMER_T_0(mtz_tmr_const[mtz_level - MTZ_LEVEL2][INDEX_TIMER_MTZ_N_NAZAD]/*INDEX_TIMER_MTZ2_N_NAZAD*/, *(timeout_mtz_n_nazad[mtz_level - MTZ_LEVEL2] + number_group_stp)/*current_settings_prt.timeout_mtz_2_n_nazad[number_group_stp]*/, tmp, 10, tmp, 19);
+      _TIMER_T_0(mtz_prysk_tmr_const[mtz_level - MTZ_LEVEL2][INDEX_TIMER_MTZ_N_NAZAD_PR]/*INDEX_TIMER_MTZ2_N_NAZAD_PR*/, *(timeout_mtz_n_nazad_prysk[mtz_level - MTZ_LEVEL2] + number_group_stp)/*current_settings_prt.timeout_mtz_2_n_nazad_pr[number_group_stp]*/, tmp, 11, tmp, 20);
+      _TIMER_T_0(mtz_tmr_const[mtz_level - MTZ_LEVEL2][INDEX_TIMER_MTZ_PO_NAPRUZI]/*INDEX_TIMER_MTZ2_PO_NAPRUZI*/, *(timeout_mtz_po_napruzi[mtz_level - MTZ_LEVEL2] + number_group_stp)/*current_settings_prt.timeout_mtz_2_po_napruzi[number_group_stp]*/, tmp, 12, tmp, 21);
+      _TIMER_T_0(mtz_prysk_tmr_const[mtz_level - MTZ_LEVEL2][INDEX_TIMER_MTZ_PO_NAPRUZI_PR]/*INDEX_TIMER_MTZ2_PO_NAPRUZI_PR*/, *(timeout_mtz_po_napruzi_prysk[mtz_level - MTZ_LEVEL2] + number_group_stp)/*current_settings_prt.timeout_mtz_2_po_napruzi_pr[number_group_stp]*/, tmp, 13, tmp, 22);
       
       _OR6(p_global_trigger_state_mtz2, 0, tmp, 15, tmp, 16, tmp, 17, tmp, 18, tmp, 19, tmp_value, 29);
       _OR3(tmp, 20, tmp, 21, tmp, 22, tmp_value, 30);

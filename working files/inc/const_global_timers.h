@@ -25,10 +25,15 @@
 #define INDEX_TIMER_MTZ2_PO_NAPRUZI_PR                         (INDEX_TIMER_MTZ2_PO_NAPRUZI + 1)
 #define INDEX_TIMER_MTZ2_VVID_PR                               (INDEX_TIMER_MTZ2_PO_NAPRUZI_PR + 1)
 #define INDEX_TIMER_MTZ3                                       (INDEX_TIMER_MTZ2_VVID_PR + 1)
-#define INDEX_TIMER_MTZ3_N_VPERED                              (INDEX_TIMER_MTZ3 + 1)
-#define INDEX_TIMER_MTZ3_N_NAZAD                               (INDEX_TIMER_MTZ3_N_VPERED + 1)
-#define INDEX_TIMER_MTZ3_PO_NAPRUZI                            (INDEX_TIMER_MTZ3_N_NAZAD + 1)
-#define INDEX_TIMER_MTZ4                                       (INDEX_TIMER_MTZ3_PO_NAPRUZI + 1)
+#define INDEX_TIMER_MTZ3_PR                                    (INDEX_TIMER_MTZ3 + 1)
+#define INDEX_TIMER_MTZ3_N_VPERED                              (INDEX_TIMER_MTZ3_PR + 1)
+#define INDEX_TIMER_MTZ3_N_VPERED_PR                           (INDEX_TIMER_MTZ3_N_VPERED + 1)
+#define INDEX_TIMER_MTZ3_N_NAZAD                               (INDEX_TIMER_MTZ3_N_VPERED_PR + 1)
+#define INDEX_TIMER_MTZ3_N_NAZAD_PR                            (INDEX_TIMER_MTZ3_N_NAZAD + 1)
+#define INDEX_TIMER_MTZ3_PO_NAPRUZI                            (INDEX_TIMER_MTZ3_N_NAZAD_PR + 1)
+#define INDEX_TIMER_MTZ3_PO_NAPRUZI_PR                         (INDEX_TIMER_MTZ3_PO_NAPRUZI + 1)
+#define INDEX_TIMER_MTZ3_VVID_PR                               (INDEX_TIMER_MTZ3_PO_NAPRUZI_PR + 1)
+#define INDEX_TIMER_MTZ4                                       (INDEX_TIMER_MTZ3_VVID_PR + 1)
 #define INDEX_TIMER_MTZ4_N_VPERED                              (INDEX_TIMER_MTZ4 + 1)
 #define INDEX_TIMER_MTZ4_N_NAZAD                               (INDEX_TIMER_MTZ4_N_VPERED + 1)
 #define INDEX_TIMER_MTZ4_PO_NAPRUZI                            (INDEX_TIMER_MTZ4_N_NAZAD + 1)
@@ -79,6 +84,16 @@ enum __mtz_tmr_const {
   INDEX_TIMER_MTZ_PO_NAPRUZI,
   /*************************************/
   NUMBER_LEVEL_TMR_CONST
+};
+
+enum __mtz_prysk_tmr_const {
+  INDEX_TIMER_MTZ_PR,
+  INDEX_TIMER_MTZ_N_VPERED_PR,
+  INDEX_TIMER_MTZ_N_NAZAD_PR,
+  INDEX_TIMER_MTZ_PO_NAPRUZI_PR,
+  INDEX_TIMER_MTZ_VVID_PR,
+  /*************************************/
+  NUMBER_LEVEL_TMR_MTZ_PRYSK_CONST
 };
 
 #define MAX_NUMBER_GLOBAL_TIMERS                               NEXT_TIMER   //Максимальна кількість таймерів
