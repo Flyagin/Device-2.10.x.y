@@ -2507,16 +2507,16 @@ inline void zop_handler(volatile unsigned int *p_active_functions, unsigned int 
 void umin1_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
 {
   unsigned int index_IM_UA, index_IM_UB, index_IM_UC;
-//  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
+  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
   if (TN1_TN2 == 1)
   {
     index_IM_UA = IM_UA2;
     index_IM_UB = IM_UB2;
     index_IM_UC = IM_UC2;
 
-//    index_IM_UAB = IM_UAB2;
-//    index_IM_UBC = IM_UBC2;
-//    index_IM_UCA = IM_UCA2;
+    index_IM_UAB = IM_UAB2;
+    index_IM_UBC = IM_UBC2;
+    index_IM_UCA = IM_UCA2;
   }
   else
   {
@@ -2524,9 +2524,9 @@ void umin1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
     index_IM_UB = IM_UB1;
     index_IM_UC = IM_UC1;
 
-//    index_IM_UAB = IM_UAB1;
-//    index_IM_UBC = IM_UBC1;
-//    index_IM_UCA = IM_UCA1;
+    index_IM_UAB = IM_UAB1;
+    index_IM_UBC = IM_UBC1;
+    index_IM_UCA = IM_UCA1;
   }
 
   _Bool previous_state_po_umin1 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UMIN1) > 0;
@@ -2537,9 +2537,9 @@ void umin1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
           current_settings_prt.setpoint_Umin1[number_group_stp] * U_DOWN / 100 :
           current_settings_prt.setpoint_Umin1[number_group_stp];
   
-//  _Bool Uab_is_smaller_than_Umin1 = measurement[inex_IM_UAB] <= setpoint1;
-//  _Bool Ubc_is_smaller_than_Umin1 = measurement[inex_IM_UBC] <= setpoint1;
-//  _Bool Uca_is_smaller_than_Umin1 = measurement[inex_IM_UCA] <= setpoint1;
+  _Bool Uab_is_smaller_than_Umin1 = measurement[index_IM_UAB] <= setpoint1;
+  _Bool Ubc_is_smaller_than_Umin1 = measurement[index_IM_UBC] <= setpoint1;
+  _Bool Uca_is_smaller_than_Umin1 = measurement[index_IM_UCA] <= setpoint1;
   
   _Bool Ua_is_smaller_than_Umin1 = measurement[index_IM_UA] <= setpoint1;
   _Bool Ub_is_smaller_than_Umin1 = measurement[index_IM_UB] <= setpoint1;
@@ -2549,7 +2549,7 @@ void umin1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
           KOEF_MIN_UMIN * U_DOWN / 100 : KOEF_MIN_UMIN;
           
   _Bool Ua_or_Ub_or_Uc_is_smaller_than_250mV = (measurement[index_IM_UA] <= setpoint2) || (measurement[index_IM_UB] <= setpoint2) || (measurement[index_IM_UC] <= setpoint2);
-//  _Bool Uab_or_Ubc_or_Uca_is_smaller_than_250mV = (measurement[inex_IM_UAB] <= setpoint2) || (measurement[inex_IM_UBC] <= setpoint2) || (measurement[inex_IM_UCA] <= setpoint2);
+  _Bool Uab_or_Ubc_or_Uca_is_smaller_than_250mV = (measurement[index_IM_UAB] <= setpoint2) || (measurement[index_IM_UBC] <= setpoint2) || (measurement[index_IM_UCA] <= setpoint2);
   
   unsigned int setpoint3 = previous_state_po_iblk_umin1 ?
           current_settings_prt.setpoint_Umin1_Iblk[number_group_stp] * KOEF_POVERNENNJA_GENERAL / 100 :
@@ -2558,10 +2558,7 @@ void umin1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
   _Bool Ia_or_Ic_is_larger_than_Iust = (measurement[IM_IA] >= setpoint3) ||
                                        (measurement[IM_IC] >= setpoint3);
   //М
-  unsigned int tmp_value = 0;
-//  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)         << 0;
-//  tmp_value |= ((current_settings_prt.control_Umin & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
-//  _INVERTOR(tmp_value, 1, tmp_value, 1);
+  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) != 0)         << 0;
   tmp_value |= ((current_settings_prt.control_Umin & CTR_UMIN1) != 0)                                                            << 2;
   tmp_value |= ((current_settings_prt.control_Umin & CTR_PO_UMIN1_OR_AND) != 0)                                                  << 3;
   tmp_value |= ((current_settings_prt.control_Umin & CTR_UMIN1_UBLK) != 0)                                                       << 4;
@@ -2572,9 +2569,7 @@ void umin1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
   _INVERTOR(tmp_value, 6, tmp_value, 6);
   tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_START_UMIN1) != 0)                                     << 7;
   
-//  _AND2(tmp_value, 0, tmp_value, 1, tmp_value, 8);
-  
-//  if (_GET_OUTPUT_STATE(tmp_value, 0)) 
+  if (_GET_OUTPUT_STATE(tmp_value, 0)) 
   {
     //Фазные
     _AND4(Ua_is_smaller_than_Umin1, 0, Ub_is_smaller_than_Umin1, 0, Uc_is_smaller_than_Umin1, 0, tmp_value, 3, tmp_value, 9);
@@ -2591,23 +2586,23 @@ void umin1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
     else
       _CLEAR_BIT(p_active_functions, RANG_PO_UBLK_UMIN1);
   } 
-//  else 
-//  {
-//    //Линейные
-//    _AND4(Uab_is_smaller_than_Umin1, 0, Ubc_is_smaller_than_Umin1, 0, Uca_is_smaller_than_Umin1, 0, tmp_value, 3, tmp_value, 9);
-//    _OR3(Uab_is_smaller_than_Umin1, 0, Ubc_is_smaller_than_Umin1, 0, Uca_is_smaller_than_Umin1, 0, tmp_value, 10);
-//    _INVERTOR(tmp_value, 3, tmp_value, 3);
-//    _AND2(tmp_value, 10, tmp_value, 3, tmp_value, 11);
-//    _AND2(tmp_value, 5, Ia_or_Ic_is_larger_than_Iust, 0, tmp_value, 12);
-//    _INVERTOR(tmp_value, 5, tmp_value, 5);
-//    _AND3(Uab_or_Ubc_or_Uca_is_smaller_than_250mV, 0, tmp_value, 4, tmp_value, 5, tmp_value, 13);
-//    
-//    //ПО Uблк. Umin1
-//    if (Uab_or_Ubc_or_Uca_is_smaller_than_250mV)
-//      _SET_BIT(p_active_functions, RANG_PO_UBLK_UMIN1);
-//    else
-//      _CLEAR_BIT(p_active_functions, RANG_PO_UBLK_UMIN1);
-//  }
+  else 
+  {
+    //Линейные
+    _AND4(Uab_is_smaller_than_Umin1, 0, Ubc_is_smaller_than_Umin1, 0, Uca_is_smaller_than_Umin1, 0, tmp_value, 3, tmp_value, 9);
+    _OR3(Uab_is_smaller_than_Umin1, 0, Ubc_is_smaller_than_Umin1, 0, Uca_is_smaller_than_Umin1, 0, tmp_value, 10);
+    _INVERTOR(tmp_value, 3, tmp_value, 3);
+    _AND2(tmp_value, 10, tmp_value, 3, tmp_value, 11);
+    _AND2(tmp_value, 5, Ia_or_Ic_is_larger_than_Iust, 0, tmp_value, 12);
+    _INVERTOR(tmp_value, 5, tmp_value, 5);
+    _AND3(Uab_or_Ubc_or_Uca_is_smaller_than_250mV, 0, tmp_value, 4, tmp_value, 5, tmp_value, 13);
+    
+    //ПО Uблк. Umin1
+    if (Uab_or_Ubc_or_Uca_is_smaller_than_250mV)
+      _SET_BIT(p_active_functions, RANG_PO_UBLK_UMIN1);
+    else
+      _CLEAR_BIT(p_active_functions, RANG_PO_UBLK_UMIN1);
+  }
   _INVERTOR(tmp_value, 12, tmp_value, 12);
   _INVERTOR(tmp_value, 13, tmp_value, 13);
   _OR3(tmp_value, 7, tmp_value, 9, tmp_value, 11, tmp_value, 14);
@@ -2642,16 +2637,16 @@ void umin1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
 void umin2_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
 {
   unsigned int index_IM_UA, index_IM_UB, index_IM_UC;
-//  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
+  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
   if (TN1_TN2 == 1)
   {
     index_IM_UA = IM_UA2;
     index_IM_UB = IM_UB2;
     index_IM_UC = IM_UC2;
 
-//    index_IM_UAB = IM_UAB2;
-//    index_IM_UBC = IM_UBC2;
-//    index_IM_UCA = IM_UCA2;
+    index_IM_UAB = IM_UAB2;
+    index_IM_UBC = IM_UBC2;
+    index_IM_UCA = IM_UCA2;
   }
   else
   {
@@ -2659,9 +2654,9 @@ void umin2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
     index_IM_UB = IM_UB1;
     index_IM_UC = IM_UC1;
 
-//    index_IM_UAB = IM_UAB1;
-//    index_IM_UBC = IM_UBC1;
-//    index_IM_UCA = IM_UCA1;
+    index_IM_UAB = IM_UAB1;
+    index_IM_UBC = IM_UBC1;
+    index_IM_UCA = IM_UCA1;
   }
 
   _Bool previous_state_po_umin2 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UMIN2) > 0;
@@ -2672,9 +2667,9 @@ void umin2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
           current_settings_prt.setpoint_Umin2[number_group_stp] * U_DOWN / 100 :
           current_settings_prt.setpoint_Umin2[number_group_stp];
   
-//  _Bool Uab_is_smaller_than_Umin2 = measurement[inex_IM_UAB] <= setpoint1;
-//  _Bool Ubc_is_smaller_than_Umin2 = measurement[inex_IM_UBC] <= setpoint1;
-//  _Bool Uca_is_smaller_than_Umin2 = measurement[inex_IM_UCA] <= setpoint1;
+  _Bool Uab_is_smaller_than_Umin2 = measurement[index_IM_UAB] <= setpoint1;
+  _Bool Ubc_is_smaller_than_Umin2 = measurement[index_IM_UBC] <= setpoint1;
+  _Bool Uca_is_smaller_than_Umin2 = measurement[index_IM_UCA] <= setpoint1;
   
   _Bool Ua_is_smaller_than_Umin2 = measurement[index_IM_UA] <= setpoint1;
   _Bool Ub_is_smaller_than_Umin2 = measurement[index_IM_UB] <= setpoint1;
@@ -2684,7 +2679,7 @@ void umin2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
           KOEF_MIN_UMIN * U_DOWN / 100 : KOEF_MIN_UMIN;
           
   _Bool Ua_or_Ub_or_Uc_is_smaller_than_250mV = (measurement[index_IM_UA] <= setpoint2) || (measurement[index_IM_UB] <= setpoint2) || (measurement[index_IM_UC] <= setpoint2);
-//  _Bool Uab_or_Ubc_or_Uca_is_smaller_than_250mV = (measurement[inex_IM_UAB] <= setpoint2) || (measurement[inex_IM_UBC] <= setpoint2) || (measurement[inex_IM_UCA] <= setpoint2);
+  _Bool Uab_or_Ubc_or_Uca_is_smaller_than_250mV = (measurement[index_IM_UAB] <= setpoint2) || (measurement[index_IM_UBC] <= setpoint2) || (measurement[index_IM_UCA] <= setpoint2);
   
   unsigned int setpoint3 = previous_state_po_iblk_umin2 ?
           current_settings_prt.setpoint_Umin2_Iblk[number_group_stp] * KOEF_POVERNENNJA_GENERAL / 100 :
@@ -2693,10 +2688,7 @@ void umin2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
   _Bool Ia_or_Ic_is_larger_than_Iust = (measurement[IM_IA] >= setpoint3) ||
                                        (measurement[IM_IC] >= setpoint3);
   //М
-  unsigned int tmp_value = 0;
-//  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)         << 0;
-//  tmp_value |= ((current_settings_prt.control_Umin & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
-//  _INVERTOR(tmp_value, 1, tmp_value, 1);
+  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) != 0)         << 0;
   tmp_value |= ((current_settings_prt.control_Umin & CTR_UMIN2) != 0)                                                            << 2;
   tmp_value |= ((current_settings_prt.control_Umin & CTR_PO_UMIN2_OR_AND) != 0)                                                  << 3;
   tmp_value |= ((current_settings_prt.control_Umin & CTR_UMIN2_UBLK) != 0)                                                       << 4;
@@ -2707,9 +2699,7 @@ void umin2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
   _INVERTOR(tmp_value, 6, tmp_value, 6);
   tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_START_UMIN2) != 0)                                    << 7;
   
-//  _AND2(tmp_value, 0, tmp_value, 1, tmp_value, 8);
-  
-//  if (_GET_OUTPUT_STATE(tmp_value, 0))
+  if (_GET_OUTPUT_STATE(tmp_value, 0))
   {
     //Фазные
     _AND4(Ua_is_smaller_than_Umin2, 0, Ub_is_smaller_than_Umin2, 0, Uc_is_smaller_than_Umin2, 0, tmp_value, 3, tmp_value, 9);
@@ -2727,23 +2717,23 @@ void umin2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
       _CLEAR_BIT(p_active_functions, RANG_PO_UBLK_UMIN2);
     
   } 
-//  else 
-//  {
-//    //Линейные
-//    _AND4(Uab_is_smaller_than_Umin2, 0, Ubc_is_smaller_than_Umin2, 0, Uca_is_smaller_than_Umin2, 0, tmp_value, 3, tmp_value, 9);
-//    _OR3(Uab_is_smaller_than_Umin2, 0, Ubc_is_smaller_than_Umin2, 0, Uca_is_smaller_than_Umin2, 0, tmp_value, 10);
-//    _INVERTOR(tmp_value, 3, tmp_value, 3);
-//    _AND2(tmp_value, 10, tmp_value, 3, tmp_value, 11);
-//    _AND2(tmp_value, 5, Ia_or_Ic_is_larger_than_Iust, 0, tmp_value, 12);
-//    _INVERTOR(tmp_value, 5, tmp_value, 5);
-//    _AND3(Uab_or_Ubc_or_Uca_is_smaller_than_250mV, 0, tmp_value, 4, tmp_value, 5, tmp_value, 13);
-//    
-//    //ПО Uблк. Umin2
-//    if (Uab_or_Ubc_or_Uca_is_smaller_than_250mV)
-//      _SET_BIT(p_active_functions, RANG_PO_UBLK_UMIN2);
-//    else
-//      _CLEAR_BIT(p_active_functions, RANG_PO_UBLK_UMIN2);
-//  }
+  else 
+  {
+    //Линейные
+    _AND4(Uab_is_smaller_than_Umin2, 0, Ubc_is_smaller_than_Umin2, 0, Uca_is_smaller_than_Umin2, 0, tmp_value, 3, tmp_value, 9);
+    _OR3(Uab_is_smaller_than_Umin2, 0, Ubc_is_smaller_than_Umin2, 0, Uca_is_smaller_than_Umin2, 0, tmp_value, 10);
+    _INVERTOR(tmp_value, 3, tmp_value, 3);
+    _AND2(tmp_value, 10, tmp_value, 3, tmp_value, 11);
+    _AND2(tmp_value, 5, Ia_or_Ic_is_larger_than_Iust, 0, tmp_value, 12);
+    _INVERTOR(tmp_value, 5, tmp_value, 5);
+    _AND3(Uab_or_Ubc_or_Uca_is_smaller_than_250mV, 0, tmp_value, 4, tmp_value, 5, tmp_value, 13);
+    
+    //ПО Uблк. Umin2
+    if (Uab_or_Ubc_or_Uca_is_smaller_than_250mV)
+      _SET_BIT(p_active_functions, RANG_PO_UBLK_UMIN2);
+    else
+      _CLEAR_BIT(p_active_functions, RANG_PO_UBLK_UMIN2);
+  }
   _INVERTOR(tmp_value, 12, tmp_value, 12);
   _INVERTOR(tmp_value, 13, tmp_value, 13);
   _OR3(tmp_value, 7, tmp_value, 9, tmp_value, 11, tmp_value, 14);
@@ -2778,16 +2768,16 @@ void umin2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
 void umax1_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
 {
   unsigned int index_IM_UA, index_IM_UB, index_IM_UC;
-//  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
+  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
   if (TN1_TN2 == 1)
   {
     index_IM_UA = IM_UA2;
     index_IM_UB = IM_UB2;
     index_IM_UC = IM_UC2;
 
-//    index_IM_UAB = IM_UAB2;
-//    index_IM_UBC = IM_UBC2;
-//    index_IM_UCA = IM_UCA2;
+    index_IM_UAB = IM_UAB2;
+    index_IM_UBC = IM_UBC2;
+    index_IM_UCA = IM_UCA2;
   }
   else
   {
@@ -2795,9 +2785,9 @@ void umax1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
     index_IM_UB = IM_UB1;
     index_IM_UC = IM_UC1;
 
-//    index_IM_UAB = IM_UAB1;
-//    index_IM_UBC = IM_UBC1;
-//    index_IM_UCA = IM_UCA1;
+    index_IM_UAB = IM_UAB1;
+    index_IM_UBC = IM_UBC1;
+    index_IM_UCA = IM_UCA1;
   }
 
   _Bool previous_state_po_umax1 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UMAX1) > 0;
@@ -2806,35 +2796,32 @@ void umax1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
           current_settings_prt.setpoint_Umax1[number_group_stp] * U_UP / 100 :
           current_settings_prt.setpoint_Umax1[number_group_stp];
   
-//  _Bool Uab_is_larger_than_Umax1 = measurement[inex_IM_UAB] >= setpoint1;
-//  _Bool Ubc_is_larger_than_Umax1 = measurement[inex_IM_UBC] >= setpoint1;
-//  _Bool Uca_is_larger_than_Umax1 = measurement[inex_IM_UCA] >= setpoint1;
+  _Bool Uab_is_larger_than_Umax1 = measurement[index_IM_UAB] >= setpoint1;
+  _Bool Ubc_is_larger_than_Umax1 = measurement[index_IM_UBC] >= setpoint1;
+  _Bool Uca_is_larger_than_Umax1 = measurement[index_IM_UCA] >= setpoint1;
   
   _Bool Ua_is_larger_than_Umax1 = measurement[index_IM_UA] >= setpoint1;
   _Bool Ub_is_larger_than_Umax1 = measurement[index_IM_UB] >= setpoint1;
   _Bool Uc_is_larger_than_Umax1 = measurement[index_IM_UC] >= setpoint1;
   
   //М
-  unsigned int tmp_value = 0;
-//  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)         << 0;
-//  tmp_value |= ((current_settings_prt.control_Umax & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
-//  _INVERTOR(tmp_value, 1, tmp_value, 1);
+  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) != 0)         << 0;
   tmp_value |= ((current_settings_prt.control_Umax & CTR_PO_UMAX1_OR_AND) != 0)                                                  << 2;
   tmp_value |= ((current_settings_prt.control_Umax & CTR_UMAX1) != 0)                                                            << 3;
   
   //ДВ
   tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_UMAX1) != 0)                                    << 4;
   
-//  if (_GET_OUTPUT_STATE(tmp_value, 0)) 
+  if (_GET_OUTPUT_STATE(tmp_value, 0)) 
   {
     _AND4(Ua_is_larger_than_Umax1, 0, Ub_is_larger_than_Umax1, 0, Uc_is_larger_than_Umax1, 0, tmp_value, 2, tmp_value, 5);
     _OR3(Ua_is_larger_than_Umax1, 0, Ub_is_larger_than_Umax1, 0, Uc_is_larger_than_Umax1, 0, tmp_value, 6);
   } 
-//  else 
-//  {
-//    _AND4(Uab_is_larger_than_Umax1, 0, Ubc_is_larger_than_Umax1, 0, Uca_is_larger_than_Umax1, 0, tmp_value, 2, tmp_value, 5);
-//    _OR3(Uab_is_larger_than_Umax1, 0, Ubc_is_larger_than_Umax1, 0, Uca_is_larger_than_Umax1, 0, tmp_value, 6);
-//  }
+  else 
+  {
+    _AND4(Uab_is_larger_than_Umax1, 0, Ubc_is_larger_than_Umax1, 0, Uca_is_larger_than_Umax1, 0, tmp_value, 2, tmp_value, 5);
+    _OR3(Uab_is_larger_than_Umax1, 0, Ubc_is_larger_than_Umax1, 0, Uca_is_larger_than_Umax1, 0, tmp_value, 6);
+  }
   
   _INVERTOR(tmp_value, 2, tmp_value, 2);
   _AND2(tmp_value, 6, tmp_value, 2, tmp_value, 7);
@@ -2864,16 +2851,16 @@ void umax1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
 void umax2_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
 {
   unsigned int index_IM_UA, index_IM_UB, index_IM_UC;
-//  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
+  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
   if (TN1_TN2 == 1)
   {
     index_IM_UA = IM_UA2;
     index_IM_UB = IM_UB2;
     index_IM_UC = IM_UC2;
 
-//    index_IM_UAB = IM_UAB2;
-//    index_IM_UBC = IM_UBC2;
-//    index_IM_UCA = IM_UCA2;
+    index_IM_UAB = IM_UAB2;
+    index_IM_UBC = IM_UBC2;
+    index_IM_UCA = IM_UCA2;
   }
   else
   {
@@ -2881,9 +2868,9 @@ void umax2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
     index_IM_UB = IM_UB1;
     index_IM_UC = IM_UC1;
 
-//    index_IM_UAB = IM_UAB1;
-//    index_IM_UBC = IM_UBC1;
-//    index_IM_UCA = IM_UCA1;
+    index_IM_UAB = IM_UAB1;
+    index_IM_UBC = IM_UBC1;
+    index_IM_UCA = IM_UCA1;
   }
 
   _Bool previous_state_po_umax2 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UMAX2) > 0;
@@ -2892,35 +2879,32 @@ void umax2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
           current_settings_prt.setpoint_Umax2[number_group_stp] * U_UP / 100 :
           current_settings_prt.setpoint_Umax2[number_group_stp];
   
-//  _Bool Uab_is_larger_than_Umax2 = measurement[inex_IM_UAB] >= setpoint1;
-//  _Bool Ubc_is_larger_than_Umax2 = measurement[inex_IM_UBC] >= setpoint1;
-//  _Bool Uca_is_larger_than_Umax2 = measurement[inex_IM_UCA] >= setpoint1;
+  _Bool Uab_is_larger_than_Umax2 = measurement[index_IM_UAB] >= setpoint1;
+  _Bool Ubc_is_larger_than_Umax2 = measurement[index_IM_UBC] >= setpoint1;
+  _Bool Uca_is_larger_than_Umax2 = measurement[index_IM_UCA] >= setpoint1;
   
   _Bool Ua_is_larger_than_Umax2 = measurement[index_IM_UA] >= setpoint1;
   _Bool Ub_is_larger_than_Umax2 = measurement[index_IM_UB] >= setpoint1;
   _Bool Uc_is_larger_than_Umax2 = measurement[index_IM_UC] >= setpoint1;
   
   //М
-  unsigned int tmp_value = 0;
-//  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)         << 0;
-//  tmp_value |= ((current_settings_prt.control_Umax & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
-//  _INVERTOR(tmp_value, 1, tmp_value, 1);
+  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) != 0)         << 0;
   tmp_value |= ((current_settings_prt.control_Umax & CTR_PO_UMAX2_OR_AND) != 0)                                                  << 2;
   tmp_value |= ((current_settings_prt.control_Umax & CTR_UMAX2) != 0)                                                            << 3;
   
   //ДВ
   tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_UMAX2) != 0)                                    << 4;
   
-//  if (_GET_OUTPUT_STATE(tmp_value, 0)) 
+  if (_GET_OUTPUT_STATE(tmp_value, 0)) 
   {
     _AND4(Ua_is_larger_than_Umax2, 0, Ub_is_larger_than_Umax2, 0, Uc_is_larger_than_Umax2, 0, tmp_value, 2, tmp_value, 5);
     _OR3(Ua_is_larger_than_Umax2, 0, Ub_is_larger_than_Umax2, 0, Uc_is_larger_than_Umax2, 0, tmp_value, 6);
   } 
-//  else 
-//  {
-//    _AND4(Uab_is_larger_than_Umax2, 0, Ubc_is_larger_than_Umax2, 0, Uca_is_larger_than_Umax2, 0, tmp_value, 2, tmp_value, 5);
-//    _OR3(Uab_is_larger_than_Umax2, 0, Ubc_is_larger_than_Umax2, 0, Uca_is_larger_than_Umax2, 0, tmp_value, 6);
-//  }
+  else 
+  {
+    _AND4(Uab_is_larger_than_Umax2, 0, Ubc_is_larger_than_Umax2, 0, Uca_is_larger_than_Umax2, 0, tmp_value, 2, tmp_value, 5);
+    _OR3(Uab_is_larger_than_Umax2, 0, Ubc_is_larger_than_Umax2, 0, Uca_is_larger_than_Umax2, 0, tmp_value, 6);
+  }
   
   _INVERTOR(tmp_value, 2, tmp_value, 2);
   _AND2(tmp_value, 6, tmp_value, 2, tmp_value, 7);
@@ -6689,7 +6673,7 @@ inline void main_protection(void)
     }
     /**************************/
 
-    if ((current_settings_prt.configuration & (1 << AVR_BIT_CONFIGURATION)) > 0) 
+    if ((current_settings_prt.configuration & (1 << AVR_BIT_CONFIGURATION)) != 0) 
     {
       /**************************/
       //АВР
@@ -6712,7 +6696,26 @@ inline void main_protection(void)
         MASKA_AVR_SIGNALS_7
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_avr_signals[i]);
+      
+      global_timers[INDEX_TIMER_AVR_BLK_K1] = -1;
+      global_timers[INDEX_TIMER_AVR_PUSK_K1] = -1;
+      global_timers[INDEX_TIMER_AVR_D_DIJI_K1] = -1;
+      global_timers[INDEX_TIMER_AVR_VVIMK_REZ_K1] = -1;
+      global_timers[INDEX_TIMER_AVR_VVIMK_K1] = -1;
+      global_timers[INDEX_TIMER_AVR_VYMK_ROB_K1] = -1;
+      global_timers[INDEX_TIMER_AVR_VYMK_K1] = -1;
+      global_timers[INDEX_TIMER_AVR_TMP_1MS_K1] = -1;
+      global_timers[INDEX_TIMER_AVR_BLK_K2] = -1;
+      global_timers[INDEX_TIMER_AVR_PUSK_K2] = -1;
+      global_timers[INDEX_TIMER_AVR_D_DIJI_K2] = -1;
+      global_timers[INDEX_TIMER_AVR_VVIMK_REZ_K2] = -1;
+      global_timers[INDEX_TIMER_AVR_VVIMK_K2] = -1;
+      global_timers[INDEX_TIMER_AVR_VYMK_ROB_K2] = -1;
+      global_timers[INDEX_TIMER_AVR_VYMK_K2] = -1;
+      global_timers[INDEX_TIMER_AVR_TMP_1MS_K2] = -1;
 
+      previous_states_AVR_0 = 0;
+      trigger_AVR_0 = 0;
     }
     
     /**************************/
@@ -6889,15 +6892,15 @@ inline void main_protection(void)
     previous_states_APV_0 = 0;
     trigger_APV_0 = 0;
 
+    previous_states_AVR_0 = 0;
+    trigger_AVR_0 = 0;
+
     previous_states_ready_tu = 0;
     trigger_ready_tu = 0;
     
     //Скидаємо всі таймери, які присутні у лозіці
     for(unsigned int i = INDEX_TIMER_DF_PROLONG_SET_FOR_BUTTON_INTERFACE_START; i < MAX_NUMBER_GLOBAL_TIMERS; i++)
       global_timers[i] = -1;
-    
-//    //Стан всіх ОФ переводимо у пасивний
-//    state_df = 0;
     
     //Стан виконання ОФ переводимо у початковий
     for(unsigned int i = 0; i < NUMBER_DEFINED_FUNCTIONS; i++)

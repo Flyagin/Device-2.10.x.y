@@ -9149,6 +9149,16 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
           case (180 + NUMBER_ANALOG_CANALES):
           case (181 + NUMBER_ANALOG_CANALES):
           case (182 + NUMBER_ANALOG_CANALES):
+          case (183 + NUMBER_ANALOG_CANALES):
+          case (184 + NUMBER_ANALOG_CANALES):
+          case (185 + NUMBER_ANALOG_CANALES):
+          case (186 + NUMBER_ANALOG_CANALES):
+          case (187 + NUMBER_ANALOG_CANALES):
+          case (188 + NUMBER_ANALOG_CANALES):
+          case (189 + NUMBER_ANALOG_CANALES):
+          case (190 + NUMBER_ANALOG_CANALES):
+          case (191 + NUMBER_ANALOG_CANALES):
+          case (192 + NUMBER_ANALOG_CANALES):
             {
               if (length <= 19)
               {
@@ -10586,6 +10596,16 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
           case 180:
           case 181:
           case 182:
+          case 183:
+          case 184:
+          case 185:
+          case 186:
+          case 187:
+          case 188:
+          case 189:
+          case 190:
+          case 191:
+          case 192:
             {
               if (length <= 19)
               {
