@@ -411,10 +411,10 @@
 #define BIT_MA_CONTROL_PO_UMAX1_AND_OR        55130
 #define BIT_MA_CONTROL_PO_UMAX2_AND_OR        55131
 
-//#define MA_CONTROL_558                    559
-//#define BIT_MA_CONTROL_558_BASE               55144
+#define MA_CONTROL_558                    559
+#define BIT_MA_CONTROL_558_BASE               55144
 
-//#define BIT_MA_CONTROL_PHASE_LINE             55145
+#define BIT_MA_CONTROL_PHASE_LINE             55145
 //#define BIT_MA_CONTROL_3U0_Ubc_TN2            55146
 //#define BIT_MA_CONTROL_IB_I04                 55147
 
