@@ -4900,6 +4900,21 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         temp_value = measurement_low[IM_UCA1] >> 3;
         break;
       }
+    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_UAB_2):
+      {
+        temp_value = measurement_low[IM_UAB2] >> 3;
+        break;
+      }
+    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_UBC_2):
+      {
+        temp_value = measurement_low[IM_UBC2] >> 3;
+        break;
+      }
+    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_UCA_2):
+      {
+        temp_value = measurement_low[IM_UCA2] >> 3;
+        break;
+      }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_IA_1):
       {
         temp_value = measurement_low[IM_IA] >> 2;
@@ -5228,6 +5243,30 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         case DR_OFFSET_MEASUREMENT_UC_1:
           {
             index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 8)*sizeof(unsigned int);
+            value = *((unsigned int *)(point_to_buffer + index));
+            
+            temp_value = value >> 3;
+            break;
+          }
+        case DR_OFFSET_MEASUREMENT_UAB_2:
+          {
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 14)*sizeof(unsigned int);
+            value = *((unsigned int *)(point_to_buffer + index));
+            
+            temp_value = value >> 3;
+            break;
+          }
+        case DR_OFFSET_MEASUREMENT_UBC_2:
+          {
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 15)*sizeof(unsigned int);
+            value = *((unsigned int *)(point_to_buffer + index));
+            
+            temp_value = value >> 3;
+            break;
+          }
+        case DR_OFFSET_MEASUREMENT_UCA_2:
+          {
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 16)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 3;

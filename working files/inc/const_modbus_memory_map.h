@@ -905,8 +905,9 @@
 #define OFFSET_MEASUREMENT_I2                   32
 
 
-//#define OFFSET_MEASUREMENT_UAB_2                35
-//#define OFFSET_MEASUREMENT_UBC_2                36
+#define OFFSET_MEASUREMENT_UAB_2                35
+#define OFFSET_MEASUREMENT_UBC_2                36
+#define OFFSET_MEASUREMENT_UCA_2                37
 
 #define OFFSET_FREQUENCY_2                      39
 
@@ -971,8 +972,9 @@
 #define DR_OFFSET_MEASUREMENT_I2              15
 #define DR_OFFSET_FREQUENCY_1                 16
 
-//#define DR_OFFSET_MEASUREMENT_UAB_2           19
-//#define DR_OFFSET_MEASUREMENT_UBC_2           20
+#define DR_OFFSET_MEASUREMENT_UAB_2           19
+#define DR_OFFSET_MEASUREMENT_UBC_2           20
+#define DR_OFFSET_MEASUREMENT_UCA_2           21
 
 #define DR_OFFSET_FREQUENCY_2                 23
 
