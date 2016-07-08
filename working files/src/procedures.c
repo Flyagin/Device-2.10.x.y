@@ -205,7 +205,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
     //Вводимо нову конфігурацю у цільову структуру
     target_label->configuration = new_configuration;
     
-    unsigned int maska[N_SMALL] = {0, 0}, maska_1[N_BIG] = {0, 0, 0, 0, 0, 0, 0, 0}, maska_2 = 0;
+    unsigned int maska[N_SMALL] = {0, 0}, maska_1[N_BIG] = {0, 0, 0, 0, 0, 0, 0}, maska_2 = 0;
   
     //Перевіряємо, чи МТЗ зараз знято з конфігурації
     if ((target_label->configuration & (1<<MTZ_BIT_CONFIGURATION)) == 0)
@@ -1203,7 +1203,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
     //"Розширена логіка"
     maska[0] = 0;
     maska[1] = 0;
-    unsigned int array_full[N_BIG] = {0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff};
+    unsigned int array_full[N_BIG] = {0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff};
     unsigned int *point_to_mask_array;
     for (unsigned int i = 0; i < N_BIG; i++ ) maska_1[i] = 0;
     maska_2 = 0;

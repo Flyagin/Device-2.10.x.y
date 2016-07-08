@@ -1128,8 +1128,7 @@ inline void df_handler(volatile unsigned int *p_active_functions, unsigned int *
         (current_settings_prt.ranguvannja_df_source_plus[N_BIG*i + 3] !=0) ||
         (current_settings_prt.ranguvannja_df_source_plus[N_BIG*i + 4] !=0) ||
         (current_settings_prt.ranguvannja_df_source_plus[N_BIG*i + 5] !=0) ||
-        (current_settings_prt.ranguvannja_df_source_plus[N_BIG*i + 6] !=0) ||
-        (current_settings_prt.ranguvannja_df_source_plus[N_BIG*i + 7] !=0)
+        (current_settings_prt.ranguvannja_df_source_plus[N_BIG*i + 6] !=0)
        )
     {
       //Випадок, якщо функції зранжовані на джерело прямих функцій
@@ -1140,8 +1139,7 @@ inline void df_handler(volatile unsigned int *p_active_functions, unsigned int *
          ( ( current_settings_prt.ranguvannja_df_source_plus[N_BIG*i + 3] & p_active_functions[3] ) != 0) ||
          ( ( current_settings_prt.ranguvannja_df_source_plus[N_BIG*i + 4] & p_active_functions[4] ) != 0) ||
          ( ( current_settings_prt.ranguvannja_df_source_plus[N_BIG*i + 5] & p_active_functions[5] ) != 0) ||
-         ( ( current_settings_prt.ranguvannja_df_source_plus[N_BIG*i + 6] & p_active_functions[6] ) != 0) ||
-         ( ( current_settings_prt.ranguvannja_df_source_plus[N_BIG*i + 7] & p_active_functions[7] ) != 0) 
+         ( ( current_settings_prt.ranguvannja_df_source_plus[N_BIG*i + 6] & p_active_functions[6] ) != 0)
         )
       {
         source_activation_df |= (1 << i);
@@ -1155,8 +1153,7 @@ inline void df_handler(volatile unsigned int *p_active_functions, unsigned int *
         (current_settings_prt.ranguvannja_df_source_minus[N_BIG*i + 3] !=0) ||
         (current_settings_prt.ranguvannja_df_source_minus[N_BIG*i + 4] !=0) ||
         (current_settings_prt.ranguvannja_df_source_minus[N_BIG*i + 5] !=0) ||
-        (current_settings_prt.ranguvannja_df_source_minus[N_BIG*i + 6] !=0) ||
-        (current_settings_prt.ranguvannja_df_source_minus[N_BIG*i + 7] !=0)
+        (current_settings_prt.ranguvannja_df_source_minus[N_BIG*i + 6] !=0)
        )
     {
       //Випадок, якщо функції зранжовані на джерело інверсних функцій
@@ -1167,8 +1164,7 @@ inline void df_handler(volatile unsigned int *p_active_functions, unsigned int *
          ( ( current_settings_prt.ranguvannja_df_source_minus[N_BIG*i + 3] & ((unsigned int)(~p_active_functions[3])) ) != 0 ) ||
          ( ( current_settings_prt.ranguvannja_df_source_minus[N_BIG*i + 4] & ((unsigned int)(~p_active_functions[4])) ) != 0 ) ||
          ( ( current_settings_prt.ranguvannja_df_source_minus[N_BIG*i + 5] & ((unsigned int)(~p_active_functions[5])) ) != 0 ) ||
-         ( ( current_settings_prt.ranguvannja_df_source_minus[N_BIG*i + 6] & ((unsigned int)(~p_active_functions[6])) ) != 0 ) ||
-         ( ( current_settings_prt.ranguvannja_df_source_minus[N_BIG*i + 7] & ((unsigned int)(~p_active_functions[7])) ) != 0 )
+         ( ( current_settings_prt.ranguvannja_df_source_minus[N_BIG*i + 6] & ((unsigned int)(~p_active_functions[6])) ) != 0 )
         )
       {
         source_activation_df |= (1<< i);
@@ -1182,8 +1178,7 @@ inline void df_handler(volatile unsigned int *p_active_functions, unsigned int *
         (current_settings_prt.ranguvannja_df_source_blk[N_BIG*i + 3] !=0) ||
         (current_settings_prt.ranguvannja_df_source_blk[N_BIG*i + 4] !=0) ||
         (current_settings_prt.ranguvannja_df_source_blk[N_BIG*i + 5] !=0) ||
-        (current_settings_prt.ranguvannja_df_source_blk[N_BIG*i + 6] !=0) ||
-        (current_settings_prt.ranguvannja_df_source_blk[N_BIG*i + 7] !=0)
+        (current_settings_prt.ranguvannja_df_source_blk[N_BIG*i + 6] !=0)
        )
     {
       //Випадок, якщо функції зранжовані насправді на джерело блокування
@@ -1194,8 +1189,7 @@ inline void df_handler(volatile unsigned int *p_active_functions, unsigned int *
          ( ( current_settings_prt.ranguvannja_df_source_blk[N_BIG*i + 3] & p_active_functions[3] ) != 0 ) ||
          ( ( current_settings_prt.ranguvannja_df_source_blk[N_BIG*i + 4] & p_active_functions[4] ) != 0 ) ||
          ( ( current_settings_prt.ranguvannja_df_source_blk[N_BIG*i + 5] & p_active_functions[5] ) != 0 ) ||
-         ( ( current_settings_prt.ranguvannja_df_source_blk[N_BIG*i + 6] & p_active_functions[6] ) != 0 ) ||
-         ( ( current_settings_prt.ranguvannja_df_source_blk[N_BIG*i + 7] & p_active_functions[7] ) != 0 )
+         ( ( current_settings_prt.ranguvannja_df_source_blk[N_BIG*i + 6] & p_active_functions[6] ) != 0 )
         )
       {
         source_blk_df |= (1<< i);
@@ -1513,8 +1507,7 @@ inline void dt_handler(volatile unsigned int *p_active_functions)
         (current_settings_prt.ranguvannja_set_dt_source_plus[N_BIG*i + 3] !=0) ||
         (current_settings_prt.ranguvannja_set_dt_source_plus[N_BIG*i + 4] !=0) ||
         (current_settings_prt.ranguvannja_set_dt_source_plus[N_BIG*i + 5] !=0) ||
-        (current_settings_prt.ranguvannja_set_dt_source_plus[N_BIG*i + 6] !=0) ||
-        (current_settings_prt.ranguvannja_set_dt_source_plus[N_BIG*i + 7] !=0)
+        (current_settings_prt.ranguvannja_set_dt_source_plus[N_BIG*i + 6] !=0)
        )
     {
       //Випадок, якщо функції зранжовані на джерело прямих функцій
@@ -1525,8 +1518,7 @@ inline void dt_handler(volatile unsigned int *p_active_functions)
          (( current_settings_prt.ranguvannja_set_dt_source_plus[N_BIG*i + 3] & p_active_functions[3]) != 0) ||
          (( current_settings_prt.ranguvannja_set_dt_source_plus[N_BIG*i + 4] & p_active_functions[4]) != 0) ||
          (( current_settings_prt.ranguvannja_set_dt_source_plus[N_BIG*i + 5] & p_active_functions[5]) != 0) ||
-         (( current_settings_prt.ranguvannja_set_dt_source_plus[N_BIG*i + 6] & p_active_functions[6]) != 0) ||
-         (( current_settings_prt.ranguvannja_set_dt_source_plus[N_BIG*i + 7] & p_active_functions[7]) != 0)
+         (( current_settings_prt.ranguvannja_set_dt_source_plus[N_BIG*i + 6] & p_active_functions[6]) != 0)
         )
       {
         source_set_dt |= (1 << i);
@@ -1540,8 +1532,7 @@ inline void dt_handler(volatile unsigned int *p_active_functions)
         (current_settings_prt.ranguvannja_set_dt_source_minus[N_BIG*i + 3] !=0) ||
         (current_settings_prt.ranguvannja_set_dt_source_minus[N_BIG*i + 4] !=0) ||
         (current_settings_prt.ranguvannja_set_dt_source_minus[N_BIG*i + 5] !=0) ||
-        (current_settings_prt.ranguvannja_set_dt_source_minus[N_BIG*i + 6] !=0) ||
-        (current_settings_prt.ranguvannja_set_dt_source_minus[N_BIG*i + 7] !=0)
+        (current_settings_prt.ranguvannja_set_dt_source_minus[N_BIG*i + 6] !=0)
        )
     {
       //Випадок, якщо функції зранжовані на джерело інверсних функцій
@@ -1552,8 +1543,7 @@ inline void dt_handler(volatile unsigned int *p_active_functions)
          ( ( current_settings_prt.ranguvannja_set_dt_source_minus[N_BIG*i + 3] & ((unsigned int)(~p_active_functions[3])) ) != 0 ) ||
          ( ( current_settings_prt.ranguvannja_set_dt_source_minus[N_BIG*i + 4] & ((unsigned int)(~p_active_functions[4])) ) != 0 ) ||
          ( ( current_settings_prt.ranguvannja_set_dt_source_minus[N_BIG*i + 5] & ((unsigned int)(~p_active_functions[5])) ) != 0 ) ||
-         ( ( current_settings_prt.ranguvannja_set_dt_source_minus[N_BIG*i + 6] & ((unsigned int)(~p_active_functions[6])) ) != 0 ) ||
-         ( ( current_settings_prt.ranguvannja_set_dt_source_minus[N_BIG*i + 7] & ((unsigned int)(~p_active_functions[7])) ) != 0 )
+         ( ( current_settings_prt.ranguvannja_set_dt_source_minus[N_BIG*i + 6] & ((unsigned int)(~p_active_functions[6])) ) != 0 )
         )
       {
         source_set_dt |= (1<< i);
@@ -1567,8 +1557,7 @@ inline void dt_handler(volatile unsigned int *p_active_functions)
         (current_settings_prt.ranguvannja_reset_dt_source_plus[N_BIG*i + 3] !=0) ||
         (current_settings_prt.ranguvannja_reset_dt_source_plus[N_BIG*i + 4] !=0) ||
         (current_settings_prt.ranguvannja_reset_dt_source_plus[N_BIG*i + 5] !=0) ||
-        (current_settings_prt.ranguvannja_reset_dt_source_plus[N_BIG*i + 6] !=0) ||
-        (current_settings_prt.ranguvannja_reset_dt_source_plus[N_BIG*i + 7] !=0)
+        (current_settings_prt.ranguvannja_reset_dt_source_plus[N_BIG*i + 6] !=0)
        )
     {
       //Випадок, якщо функції зранжовані на джерело прямих функцій
@@ -1579,8 +1568,7 @@ inline void dt_handler(volatile unsigned int *p_active_functions)
          (( current_settings_prt.ranguvannja_reset_dt_source_plus[N_BIG*i + 3] & p_active_functions[3]) != 0) ||
          (( current_settings_prt.ranguvannja_reset_dt_source_plus[N_BIG*i + 4] & p_active_functions[4]) != 0) ||
          (( current_settings_prt.ranguvannja_reset_dt_source_plus[N_BIG*i + 5] & p_active_functions[5]) != 0) ||
-         (( current_settings_prt.ranguvannja_reset_dt_source_plus[N_BIG*i + 6] & p_active_functions[6]) != 0) ||
-         (( current_settings_prt.ranguvannja_reset_dt_source_plus[N_BIG*i + 7] & p_active_functions[7]) != 0)
+         (( current_settings_prt.ranguvannja_reset_dt_source_plus[N_BIG*i + 6] & p_active_functions[6]) != 0)
         )
       {
         source_reset_dt |= (1 << i);
@@ -1594,8 +1582,7 @@ inline void dt_handler(volatile unsigned int *p_active_functions)
         (current_settings_prt.ranguvannja_reset_dt_source_minus[N_BIG*i + 3] !=0) ||
         (current_settings_prt.ranguvannja_reset_dt_source_minus[N_BIG*i + 4] !=0) ||
         (current_settings_prt.ranguvannja_reset_dt_source_minus[N_BIG*i + 5] !=0) ||
-        (current_settings_prt.ranguvannja_reset_dt_source_minus[N_BIG*i + 6] !=0) ||
-        (current_settings_prt.ranguvannja_reset_dt_source_minus[N_BIG*i + 7] !=0)
+        (current_settings_prt.ranguvannja_reset_dt_source_minus[N_BIG*i + 6] !=0)
        )
     {
       //Випадок, якщо функції зранжовані на джерело інверсних функцій
@@ -1606,8 +1593,7 @@ inline void dt_handler(volatile unsigned int *p_active_functions)
          ( ( current_settings_prt.ranguvannja_reset_dt_source_minus[N_BIG*i + 3] & ((unsigned int)(~p_active_functions[3])) ) != 0 ) ||
          ( ( current_settings_prt.ranguvannja_reset_dt_source_minus[N_BIG*i + 4] & ((unsigned int)(~p_active_functions[4])) ) != 0 ) ||
          ( ( current_settings_prt.ranguvannja_reset_dt_source_minus[N_BIG*i + 5] & ((unsigned int)(~p_active_functions[5])) ) != 0 ) ||
-         ( ( current_settings_prt.ranguvannja_reset_dt_source_minus[N_BIG*i + 6] & ((unsigned int)(~p_active_functions[6])) ) != 0 ) ||
-         ( ( current_settings_prt.ranguvannja_reset_dt_source_minus[N_BIG*i + 7] & ((unsigned int)(~p_active_functions[7])) ) != 0 )
+         ( ( current_settings_prt.ranguvannja_reset_dt_source_minus[N_BIG*i + 6] & ((unsigned int)(~p_active_functions[6])) ) != 0 )
         )
       {
         source_reset_dt |= (1<< i);
@@ -1685,8 +1671,7 @@ inline void d_and_handler(volatile unsigned int *p_active_functions)
         ((current_settings_prt.ranguvannja_d_and[N_BIG*i + 3] & p_active_functions[3]) == current_settings_prt.ranguvannja_d_and[N_BIG*i + 3]) &&
         ((current_settings_prt.ranguvannja_d_and[N_BIG*i + 4] & p_active_functions[4]) == current_settings_prt.ranguvannja_d_and[N_BIG*i + 4]) &&
         ((current_settings_prt.ranguvannja_d_and[N_BIG*i + 5] & p_active_functions[5]) == current_settings_prt.ranguvannja_d_and[N_BIG*i + 5]) &&
-        ((current_settings_prt.ranguvannja_d_and[N_BIG*i + 6] & p_active_functions[6]) == current_settings_prt.ranguvannja_d_and[N_BIG*i + 6]) &&
-        ((current_settings_prt.ranguvannja_d_and[N_BIG*i + 7] & p_active_functions[7]) == current_settings_prt.ranguvannja_d_and[N_BIG*i + 7])
+        ((current_settings_prt.ranguvannja_d_and[N_BIG*i + 6] & p_active_functions[6]) == current_settings_prt.ranguvannja_d_and[N_BIG*i + 6])
        )
     {
       state_defined_and |= (1 << i);
@@ -1730,8 +1715,7 @@ inline void d_or_handler(volatile unsigned int *p_active_functions)
         ((current_settings_prt.ranguvannja_d_or[N_BIG*i + 3] & p_active_functions[3]) != 0) ||
         ((current_settings_prt.ranguvannja_d_or[N_BIG*i + 4] & p_active_functions[4]) != 0) ||
         ((current_settings_prt.ranguvannja_d_or[N_BIG*i + 5] & p_active_functions[5]) != 0) ||
-        ((current_settings_prt.ranguvannja_d_or[N_BIG*i + 6] & p_active_functions[6]) != 0) ||
-        ((current_settings_prt.ranguvannja_d_or[N_BIG*i + 7] & p_active_functions[7]) != 0)
+        ((current_settings_prt.ranguvannja_d_or[N_BIG*i + 6] & p_active_functions[6]) != 0)
        )
     {
       state_defined_or |= (1 << i);
@@ -1776,7 +1760,6 @@ inline void d_xor_handler(volatile unsigned int *p_active_functions)
     temp_array[4] = current_settings_prt.ranguvannja_d_xor[N_BIG*i + 4] & p_active_functions[4];
     temp_array[5] = current_settings_prt.ranguvannja_d_xor[N_BIG*i + 5] & p_active_functions[5];
     temp_array[6] = current_settings_prt.ranguvannja_d_xor[N_BIG*i + 6] & p_active_functions[6];
-    temp_array[7] = current_settings_prt.ranguvannja_d_xor[N_BIG*i + 7] & p_active_functions[7];
     
     if (
         (temp_array[0] != 0) || 
@@ -1785,8 +1768,7 @@ inline void d_xor_handler(volatile unsigned int *p_active_functions)
         (temp_array[3] != 0) ||
         (temp_array[4] != 0) ||
         (temp_array[5] != 0) ||
-        (temp_array[6] != 0) ||
-        (temp_array[7] != 0)
+        (temp_array[6] != 0)
        )
     {
       unsigned int signals = 0;
@@ -1838,8 +1820,7 @@ inline void d_not_handler(volatile unsigned int *p_active_functions)
         ((current_settings_prt.ranguvannja_d_not[N_BIG*i + 3] & p_active_functions[3]) == 0) &&
         ((current_settings_prt.ranguvannja_d_not[N_BIG*i + 4] & p_active_functions[4]) == 0) &&
         ((current_settings_prt.ranguvannja_d_not[N_BIG*i + 5] & p_active_functions[5]) == 0) &&
-        ((current_settings_prt.ranguvannja_d_not[N_BIG*i + 6] & p_active_functions[6]) == 0) &&
-        ((current_settings_prt.ranguvannja_d_not[N_BIG*i + 7] & p_active_functions[7]) == 0)
+        ((current_settings_prt.ranguvannja_d_not[N_BIG*i + 6] & p_active_functions[6]) == 0)
        )
     {
       state_defined_not |= (1 << i);
@@ -3438,7 +3419,7 @@ inline void apv_handler(volatile unsigned int *p_active_functions, unsigned int 
 inline void on_off_handler(volatile unsigned int *p_active_functions)
 {
   static unsigned int previous_active_functions[N_BIG];
-  unsigned int maska[N_BIG] = {0, 0, 0, 0, 0, 0, 0, 0};
+  unsigned int maska[N_BIG] = {0, 0, 0, 0, 0, 0, 0};
 
   /*********************/
   //Спочатку опрацьовуємо таймери
@@ -3511,8 +3492,7 @@ inline void on_off_handler(volatile unsigned int *p_active_functions)
       ((p_active_functions[3] & current_settings_prt.ranguvannja_off_cb[3]) != 0) ||
       ((p_active_functions[4] & current_settings_prt.ranguvannja_off_cb[4]) != 0) ||
       ((p_active_functions[5] & current_settings_prt.ranguvannja_off_cb[5]) != 0) ||
-      ((p_active_functions[6] & current_settings_prt.ranguvannja_off_cb[6]) != 0) ||
-      ((p_active_functions[7] & current_settings_prt.ranguvannja_off_cb[7]) != 0) 
+      ((p_active_functions[6] & current_settings_prt.ranguvannja_off_cb[6]) != 0)
      )
   {
     //Є умова активації блку вимкнення
@@ -3541,8 +3521,7 @@ inline void on_off_handler(volatile unsigned int *p_active_functions)
         ((p_active_functions[3] & maska[3]) != 0) ||
         ((p_active_functions[4] & maska[4]) != 0) ||
         ((p_active_functions[5] & maska[5]) != 0) ||
-        ((p_active_functions[6] & maska[6]) != 0) ||
-        ((p_active_functions[7] & maska[7]) != 0) 
+        ((p_active_functions[6] & maska[6]) != 0)
        )
     {
       //Вимкнення від захистів
@@ -3723,8 +3702,7 @@ inline void on_off_handler(volatile unsigned int *p_active_functions)
           (temp_array_of_outputs[3] != 0) ||
           (temp_array_of_outputs[4] != 0) ||
           (temp_array_of_outputs[5] != 0) ||
-          (temp_array_of_outputs[6] != 0) ||
-          (temp_array_of_outputs[7] != 0)
+          (temp_array_of_outputs[6] != 0)
          )
          &&
          (
@@ -3734,8 +3712,7 @@ inline void on_off_handler(volatile unsigned int *p_active_functions)
           ((previous_active_functions[3] & temp_array_of_outputs[3])!= temp_array_of_outputs[3]) ||
           ((previous_active_functions[4] & temp_array_of_outputs[4])!= temp_array_of_outputs[4]) ||
           ((previous_active_functions[5] & temp_array_of_outputs[5])!= temp_array_of_outputs[5]) ||
-          ((previous_active_functions[6] & temp_array_of_outputs[6])!= temp_array_of_outputs[6]) ||
-          ((previous_active_functions[7] & temp_array_of_outputs[7])!= temp_array_of_outputs[7])
+          ((previous_active_functions[6] & temp_array_of_outputs[6])!= temp_array_of_outputs[6])
          ) 
         )   
       {
@@ -3765,8 +3742,7 @@ inline void on_off_handler(volatile unsigned int *p_active_functions)
         ((p_active_functions[3] & current_settings_prt.ranguvannja_on_cb[3]) != 0) ||
         ((p_active_functions[4] & current_settings_prt.ranguvannja_on_cb[4]) != 0) ||
         ((p_active_functions[5] & current_settings_prt.ranguvannja_on_cb[5]) != 0) ||
-        ((p_active_functions[6] & current_settings_prt.ranguvannja_on_cb[6]) != 0) ||
-        ((p_active_functions[7] & current_settings_prt.ranguvannja_on_cb[7]) != 0) 
+        ((p_active_functions[6] & current_settings_prt.ranguvannja_on_cb[6]) != 0)
       )
     {
       //Відмічаємо у масиві функцій, які зараз активуються, що ще треба активувати блок БВ (якщо він ще не активний)
@@ -3986,8 +3962,7 @@ inline unsigned int stop_regisrator(volatile unsigned int* carrent_active_functi
         ((carrent_active_functions[3] & ranguvannja_registrator[3]) == 0) &&
         ((carrent_active_functions[4] & ranguvannja_registrator[4]) == 0) &&
         ((carrent_active_functions[5] & ranguvannja_registrator[5]) == 0) &&
-        ((carrent_active_functions[6] & ranguvannja_registrator[6]) == 0) &&
-        ((carrent_active_functions[7] & ranguvannja_registrator[7]) == 0)
+        ((carrent_active_functions[6] & ranguvannja_registrator[6]) == 0)
       )
     {
       //Зафіксовано, що ні одне джерело активації реєстратора зараз не активне
@@ -3999,8 +3974,7 @@ inline unsigned int stop_regisrator(volatile unsigned int* carrent_active_functi
           ((carrent_active_functions[3] & MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_3) == 0) &&
           ((carrent_active_functions[4] & MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_4) == 0) &&
           ((carrent_active_functions[5] & MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_5) == 0) &&
-          ((carrent_active_functions[6] & MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_6) == 0) &&
-          ((carrent_active_functions[7] & MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_7) == 0)
+          ((carrent_active_functions[6] & MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_6) == 0)
         )
       {
         //Зафіксовано, що всі функції, які можуть утримувати реєстратор активним зараз скинуті
@@ -4818,8 +4792,7 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
          ((carrent_active_functions[3] & MASKA_MONITOTYNG_PHASE_SIGNALES_3) != 0) ||
          ((carrent_active_functions[4] & MASKA_MONITOTYNG_PHASE_SIGNALES_4) != 0) ||
          ((carrent_active_functions[5] & MASKA_MONITOTYNG_PHASE_SIGNALES_5) != 0) ||
-         ((carrent_active_functions[6] & MASKA_MONITOTYNG_PHASE_SIGNALES_6) != 0) ||
-         ((carrent_active_functions[7] & MASKA_MONITOTYNG_PHASE_SIGNALES_7) != 0)
+         ((carrent_active_functions[6] & MASKA_MONITOTYNG_PHASE_SIGNALES_6) != 0)
         )
       {
         if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE)) == 0)
@@ -4842,8 +4815,7 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
            ((carrent_active_functions[3] & MASKA_MONITOTYNG_UMIN_SIGNALES_3) != 0) ||
            ((carrent_active_functions[4] & MASKA_MONITOTYNG_UMIN_SIGNALES_4) != 0) ||
            ((carrent_active_functions[5] & MASKA_MONITOTYNG_UMIN_SIGNALES_5) != 0) ||
-           ((carrent_active_functions[6] & MASKA_MONITOTYNG_UMIN_SIGNALES_6) != 0) ||
-           ((carrent_active_functions[7] & MASKA_MONITOTYNG_UMIN_SIGNALES_7) != 0)
+           ((carrent_active_functions[6] & MASKA_MONITOTYNG_UMIN_SIGNALES_6) != 0)
           )
         {
           if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE)) == 0)
@@ -4862,8 +4834,7 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
          ((carrent_active_functions[3] & MASKA_MONITOTYNG_UMAX_SIGNALES_3) != 0) ||
          ((carrent_active_functions[4] & MASKA_MONITOTYNG_UMAX_SIGNALES_4) != 0) ||
          ((carrent_active_functions[5] & MASKA_MONITOTYNG_UMAX_SIGNALES_5) != 0) ||
-         ((carrent_active_functions[6] & MASKA_MONITOTYNG_UMAX_SIGNALES_6) != 0) ||
-         ((carrent_active_functions[7] & MASKA_MONITOTYNG_UMAX_SIGNALES_7) != 0)
+         ((carrent_active_functions[6] & MASKA_MONITOTYNG_UMAX_SIGNALES_6) != 0)
       )
       {
         if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE)) == 0)
@@ -4881,8 +4852,7 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
          ((carrent_active_functions[3] & MASKA_MONITOTYNG_ZOP_SIGNALES_3) != 0) ||
          ((carrent_active_functions[4] & MASKA_MONITOTYNG_ZOP_SIGNALES_4) != 0) ||
          ((carrent_active_functions[5] & MASKA_MONITOTYNG_ZOP_SIGNALES_5) != 0) ||
-         ((carrent_active_functions[6] & MASKA_MONITOTYNG_ZOP_SIGNALES_6) != 0) ||
-         ((carrent_active_functions[7] & MASKA_MONITOTYNG_ZOP_SIGNALES_7) != 0)
+         ((carrent_active_functions[6] & MASKA_MONITOTYNG_ZOP_SIGNALES_6) != 0)
         )
       {
         if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP)) == 0)
@@ -4970,7 +4940,6 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
            ((carrent_active_functions[4] & current_settings_prt.ranguvannja_digital_registrator[4]) != 0) ||
            ((carrent_active_functions[5] & current_settings_prt.ranguvannja_digital_registrator[5]) != 0) ||
            ((carrent_active_functions[6] & current_settings_prt.ranguvannja_digital_registrator[6]) != 0) ||
-           ((carrent_active_functions[7] & current_settings_prt.ranguvannja_digital_registrator[7]) != 0) ||
            (state_dr_record == STATE_DR_FORCE_START_NEW_RECORD)
           )   
          )
@@ -5020,8 +4989,7 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
              ((carrent_active_functions[3] & MASKA_MONITOTYNG_PHASE_SIGNALES_3) != 0) ||
              ((carrent_active_functions[4] & MASKA_MONITOTYNG_PHASE_SIGNALES_4) != 0) ||
              ((carrent_active_functions[5] & MASKA_MONITOTYNG_PHASE_SIGNALES_5) != 0) ||
-             ((carrent_active_functions[6] & MASKA_MONITOTYNG_PHASE_SIGNALES_6) != 0) ||
-             ((carrent_active_functions[7] & MASKA_MONITOTYNG_PHASE_SIGNALES_7) != 0)
+             ((carrent_active_functions[6] & MASKA_MONITOTYNG_PHASE_SIGNALES_6) != 0)
             )
           {
             start_monitoring_max_phase_current(time_from_start_record_dr);
@@ -5037,8 +5005,7 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
              ((carrent_active_functions[3] & MASKA_MONITOTYNG_UMIN_SIGNALES_3) != 0) ||
              ((carrent_active_functions[4] & MASKA_MONITOTYNG_UMIN_SIGNALES_4) != 0) ||
              ((carrent_active_functions[5] & MASKA_MONITOTYNG_UMIN_SIGNALES_5) != 0) ||
-             ((carrent_active_functions[6] & MASKA_MONITOTYNG_UMIN_SIGNALES_6) != 0) ||
-             ((carrent_active_functions[7] & MASKA_MONITOTYNG_UMIN_SIGNALES_7) != 0)
+             ((carrent_active_functions[6] & MASKA_MONITOTYNG_UMIN_SIGNALES_6) != 0)
             )
           {
             start_monitoring_min_U(time_from_start_record_dr);
@@ -5061,8 +5028,7 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
              ((carrent_active_functions[3] & MASKA_MONITOTYNG_UMAX_SIGNALES_3) != 0) ||
              ((carrent_active_functions[4] & MASKA_MONITOTYNG_UMAX_SIGNALES_4) != 0) ||
              ((carrent_active_functions[5] & MASKA_MONITOTYNG_UMAX_SIGNALES_5) != 0) ||
-             ((carrent_active_functions[6] & MASKA_MONITOTYNG_UMAX_SIGNALES_6) != 0) ||
-             ((carrent_active_functions[7] & MASKA_MONITOTYNG_UMAX_SIGNALES_7) != 0)
+             ((carrent_active_functions[6] & MASKA_MONITOTYNG_UMAX_SIGNALES_6) != 0)
             )
           {
             start_monitoring_max_U(time_from_start_record_dr);
@@ -5076,8 +5042,7 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
              ((carrent_active_functions[3] & MASKA_MONITOTYNG_ZOP_SIGNALES_3) != 0) ||
              ((carrent_active_functions[4] & MASKA_MONITOTYNG_ZOP_SIGNALES_4) != 0) ||
              ((carrent_active_functions[5] & MASKA_MONITOTYNG_ZOP_SIGNALES_5) != 0) ||
-             ((carrent_active_functions[6] & MASKA_MONITOTYNG_ZOP_SIGNALES_6) != 0) ||
-             ((carrent_active_functions[7] & MASKA_MONITOTYNG_ZOP_SIGNALES_7) != 0)
+             ((carrent_active_functions[6] & MASKA_MONITOTYNG_ZOP_SIGNALES_6) != 0)
             )
           {
             start_monitoring_max_ZOP(time_from_start_record_dr);
@@ -5114,10 +5079,10 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 25] = (previous_active_functions[5] >> 16) & 0xff;
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 26] = (previous_active_functions[5] >> 24) & 0xff;
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 27] =  previous_active_functions[6]        & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 28] = (previous_active_functions[6] >> 8)  & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 29] = (previous_active_functions[6] >> 16) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 30] = (previous_active_functions[6] >> 24) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 31] =  previous_active_functions[7]        & 0xff;
+//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 28] = (previous_active_functions[6] >> 8)  & 0xff;
+//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 29] = (previous_active_functions[6] >> 16) & 0xff;
+//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 30] = (previous_active_functions[6] >> 24) & 0xff;
+//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 31] =  previous_active_functions[7]        & 0xff;
           //Нулем позначаємо у цій позиції кількість змін
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 32] = 0;
 
@@ -5161,10 +5126,10 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 25] = (carrent_active_functions[5] >> 16) & 0xff;
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 26] = (carrent_active_functions[5] >> 24) & 0xff;
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 27] =  carrent_active_functions[6]        & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 28] = (carrent_active_functions[6] >> 8 ) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 29] = (carrent_active_functions[6] >> 16) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 30] = (carrent_active_functions[6] >> 24) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 31] =  carrent_active_functions[7]        & 0xff;
+//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 28] = (carrent_active_functions[6] >> 8 ) & 0xff;
+//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 29] = (carrent_active_functions[6] >> 16) & 0xff;
+//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 30] = (carrent_active_functions[6] >> 24) & 0xff;
+//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 31] =  carrent_active_functions[7]        & 0xff;
           
           //Кількість змін сигналів у порівнянні із попереднім станом
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 32] = number_changes_into_current_item & 0xff;
@@ -5196,8 +5161,7 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
          ((carrent_active_functions[3] & MASKA_MONITOTYNG_PHASE_SIGNALES_3) != 0) ||
          ((carrent_active_functions[4] & MASKA_MONITOTYNG_PHASE_SIGNALES_4) != 0) ||
          ((carrent_active_functions[5] & MASKA_MONITOTYNG_PHASE_SIGNALES_5) != 0) ||
-         ((carrent_active_functions[6] & MASKA_MONITOTYNG_PHASE_SIGNALES_6) != 0) ||
-         ((carrent_active_functions[7] & MASKA_MONITOTYNG_PHASE_SIGNALES_7) != 0)
+         ((carrent_active_functions[6] & MASKA_MONITOTYNG_PHASE_SIGNALES_6) != 0)
         )
       {
         if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE)) != 0)
@@ -5227,8 +5191,7 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
            ((carrent_active_functions[3] & MASKA_MONITOTYNG_UMIN_SIGNALES_3) != 0) ||
            ((carrent_active_functions[4] & MASKA_MONITOTYNG_UMIN_SIGNALES_4) != 0) ||
            ((carrent_active_functions[5] & MASKA_MONITOTYNG_UMIN_SIGNALES_5) != 0) ||
-           ((carrent_active_functions[6] & MASKA_MONITOTYNG_UMIN_SIGNALES_6) != 0) ||
-           ((carrent_active_functions[7] & MASKA_MONITOTYNG_UMIN_SIGNALES_7) != 0)
+           ((carrent_active_functions[6] & MASKA_MONITOTYNG_UMIN_SIGNALES_6) != 0)
           )
         {
           if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE)) != 0)
@@ -5260,8 +5223,7 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
          ((carrent_active_functions[3] & MASKA_MONITOTYNG_UMAX_SIGNALES_3) != 0) ||
          ((carrent_active_functions[4] & MASKA_MONITOTYNG_UMAX_SIGNALES_4) != 0) ||
          ((carrent_active_functions[5] & MASKA_MONITOTYNG_UMAX_SIGNALES_5) != 0) ||
-         ((carrent_active_functions[6] & MASKA_MONITOTYNG_UMAX_SIGNALES_6) != 0) ||
-         ((carrent_active_functions[7] & MASKA_MONITOTYNG_UMAX_SIGNALES_7) != 0)
+         ((carrent_active_functions[6] & MASKA_MONITOTYNG_UMAX_SIGNALES_6) != 0)
         )
       {
         if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE)) != 0)
@@ -5283,8 +5245,7 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
          ((carrent_active_functions[3] & MASKA_MONITOTYNG_ZOP_SIGNALES_3) != 0) ||
          ((carrent_active_functions[4] & MASKA_MONITOTYNG_ZOP_SIGNALES_4) != 0) ||
          ((carrent_active_functions[5] & MASKA_MONITOTYNG_ZOP_SIGNALES_5) != 0) ||
-         ((carrent_active_functions[6] & MASKA_MONITOTYNG_ZOP_SIGNALES_6) != 0) ||
-         ((carrent_active_functions[7] & MASKA_MONITOTYNG_ZOP_SIGNALES_7) != 0)
+         ((carrent_active_functions[6] & MASKA_MONITOTYNG_ZOP_SIGNALES_6) != 0)
         )
       {
         if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP)) != 0)
@@ -5320,8 +5281,7 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
             ((carrent_active_functions[3] != previous_active_functions[3])) ||
             ((carrent_active_functions[4] != previous_active_functions[4])) ||
             ((carrent_active_functions[5] != previous_active_functions[5])) ||
-            ((carrent_active_functions[6] != previous_active_functions[6])) ||
-            ((carrent_active_functions[7] != previous_active_functions[7])) 
+            ((carrent_active_functions[6] != previous_active_functions[6]))
            )
         {
           //Теперішній стан сигналів не співпадає з попереднім станом сигналів
@@ -5365,10 +5325,10 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 25] = (carrent_active_functions[5] >> 16) & 0xff;
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 26] = (carrent_active_functions[5] >> 24) & 0xff;
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 27] =  carrent_active_functions[6]        & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 28] = (carrent_active_functions[6] >> 8 ) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 29] = (carrent_active_functions[6] >> 16) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 30] = (carrent_active_functions[6] >> 24) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 31] =  carrent_active_functions[7]        & 0xff;
+//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 28] = (carrent_active_functions[6] >> 8 ) & 0xff;
+//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 29] = (carrent_active_functions[6] >> 16) & 0xff;
+//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 30] = (carrent_active_functions[6] >> 24) & 0xff;
+//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 31] =  carrent_active_functions[7]        & 0xff;
           //Кількість змін сигналів у порівнянні із попереднім станом
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 32] = number_changes_into_current_item & 0xff;
         }
@@ -5511,8 +5471,7 @@ inline void analog_registrator(volatile unsigned int* carrent_active_functions)
        ((carrent_active_functions[3] & current_settings_prt.ranguvannja_analog_registrator[3]) == 0) &&
        ((carrent_active_functions[4] & current_settings_prt.ranguvannja_analog_registrator[4]) == 0) &&
        ((carrent_active_functions[5] & current_settings_prt.ranguvannja_analog_registrator[5]) == 0) &&
-       ((carrent_active_functions[6] & current_settings_prt.ranguvannja_analog_registrator[6]) == 0) &&
-       ((carrent_active_functions[7] & current_settings_prt.ranguvannja_analog_registrator[7]) == 0) 
+       ((carrent_active_functions[6] & current_settings_prt.ranguvannja_analog_registrator[6]) == 0)
       ) 
     {
       //Умова розблокування можливості початку нового запису виконана
@@ -5543,8 +5502,7 @@ inline void analog_registrator(volatile unsigned int* carrent_active_functions)
            ((carrent_active_functions[3] & current_settings_prt.ranguvannja_analog_registrator[3]) != 0) ||
            ((carrent_active_functions[4] & current_settings_prt.ranguvannja_analog_registrator[4]) != 0) ||
            ((carrent_active_functions[5] & current_settings_prt.ranguvannja_analog_registrator[5]) != 0) ||
-           ((carrent_active_functions[6] & current_settings_prt.ranguvannja_analog_registrator[6]) != 0) ||
-           ((carrent_active_functions[7] & current_settings_prt.ranguvannja_analog_registrator[7]) != 0)
+           ((carrent_active_functions[6] & current_settings_prt.ranguvannja_analog_registrator[6]) != 0)
           )
           &&  
           (continue_previous_record_ar == 0) /*при попередній роботі ан.реєстротора (якщо така була) вже всі джерела активації були зняті і зароз вони знову виникли*/ 
@@ -5653,8 +5611,7 @@ inline void analog_registrator(volatile unsigned int* carrent_active_functions)
                 ((carrent_active_functions[3] & current_settings_prt.ranguvannja_analog_registrator[3]) != 0) ||
                 ((carrent_active_functions[4] & current_settings_prt.ranguvannja_analog_registrator[4]) != 0) ||
                 ((carrent_active_functions[5] & current_settings_prt.ranguvannja_analog_registrator[5]) != 0) ||
-                ((carrent_active_functions[6] & current_settings_prt.ranguvannja_analog_registrator[6]) != 0) ||
-                ((carrent_active_functions[7] & current_settings_prt.ranguvannja_analog_registrator[7]) != 0)
+                ((carrent_active_functions[6] & current_settings_prt.ranguvannja_analog_registrator[6]) != 0)
                ) 
             {
               //Виставляємо помилку, що тимчасово аналоговий реєстратор є занятий (черз те, що завершується попередній запис)
@@ -5776,8 +5733,7 @@ inline void analog_registrator(volatile unsigned int* carrent_active_functions)
           ((carrent_active_functions[3] & current_settings_prt.ranguvannja_analog_registrator[3]) != 0) ||
           ((carrent_active_functions[4] & current_settings_prt.ranguvannja_analog_registrator[4]) != 0) ||
           ((carrent_active_functions[5] & current_settings_prt.ranguvannja_analog_registrator[5]) != 0) ||
-          ((carrent_active_functions[6] & current_settings_prt.ranguvannja_analog_registrator[6]) != 0) ||
-          ((carrent_active_functions[7] & current_settings_prt.ranguvannja_analog_registrator[7]) != 0)
+          ((carrent_active_functions[6] & current_settings_prt.ranguvannja_analog_registrator[6]) != 0)
          )
       {
         //Виставляємо помилку, що тимчасово аналоговий реєстратор є занятий
@@ -5813,8 +5769,7 @@ inline void main_protection(void)
     MASKA_FOR_INPUT_SIGNALS_3, 
     MASKA_FOR_INPUT_SIGNALS_4, 
     MASKA_FOR_INPUT_SIGNALS_5, 
-    MASKA_FOR_INPUT_SIGNALS_6, 
-    MASKA_FOR_INPUT_SIGNALS_7
+    MASKA_FOR_INPUT_SIGNALS_6 
   };
   for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_input_signals[i]);
   
@@ -6235,6 +6190,8 @@ inline void main_protection(void)
     active_functions[RANG_SBROS_BLOCK_AVR  >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_SBROS_BLOCK_AVR ) != 0) << (RANG_SBROS_BLOCK_AVR  & 0x1f);
     active_functions[RANG_STAT_BLOCK_AVR_1 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_STAT_BLOCK_AVR_1) != 0) << (RANG_STAT_BLOCK_AVR_1 & 0x1f);
     active_functions[RANG_STAT_BLOCK_AVR_2 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_STAT_BLOCK_AVR_2) != 0) << (RANG_STAT_BLOCK_AVR_2 & 0x1f);
+    active_functions[RANG_VZT_AVR_1        >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_VZT_AVR_1       ) != 0) << (RANG_VZT_AVR_1        & 0x1f);
+    active_functions[RANG_VZT_AVR_2        >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_VZT_AVR_2       ) != 0) << (RANG_VZT_AVR_2        & 0x1f);
   }
   /**************************/
 
@@ -6244,8 +6201,8 @@ inline void main_protection(void)
   {
     static unsigned int previous_activating_functions[N_BIG];
     //Формуємо маску сигналів, які треба позначити, як активні тільки в момент переходу з "0" в "1"
-    unsigned int temp_maska_filter_function[N_BIG] = {0, 0, 0, 0, 0, 0, 0, 0};
-    unsigned int temp_activating_functions[N_BIG] = {0, 0, 0, 0, 0, 0, 0, 0};
+    unsigned int temp_maska_filter_function[N_BIG] = {0, 0, 0, 0, 0, 0, 0};
+    unsigned int temp_activating_functions[N_BIG] = {0, 0, 0, 0, 0, 0, 0};
   
     //Сигнал "Сблос индикации"
     _SET_BIT(temp_maska_filter_function, RANG_RESET_LEDS);
@@ -6307,8 +6264,7 @@ inline void main_protection(void)
       ((active_functions[3] & MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_3) != 0) ||
       ((active_functions[4] & MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_4) != 0) ||
       ((active_functions[5] & MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_5) != 0) ||
-      ((active_functions[6] & MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_6) != 0) ||
-      ((active_functions[7] & MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_7) != 0)
+      ((active_functions[6] & MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_6) != 0)
     )
   {
     //Іде блокування груп уставок - група уставок залишається тою, яка вибрана попередньо
@@ -6523,8 +6479,7 @@ inline void main_protection(void)
         MASKA_MTZ_SIGNALS_3, 
         MASKA_MTZ_SIGNALS_4, 
         MASKA_MTZ_SIGNALS_5,
-        MASKA_MTZ_SIGNALS_6, 
-        MASKA_MTZ_SIGNALS_7
+        MASKA_MTZ_SIGNALS_6
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_mtz_signals[i]);
       
@@ -6571,8 +6526,7 @@ inline void main_protection(void)
         MASKA_ZDZ_SIGNALS_3, 
         MASKA_ZDZ_SIGNALS_4, 
         MASKA_ZDZ_SIGNALS_5, 
-        MASKA_ZDZ_SIGNALS_6, 
-        MASKA_ZDZ_SIGNALS_7
+        MASKA_ZDZ_SIGNALS_6
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_zdz_signals[i]);
     }
@@ -6596,8 +6550,7 @@ inline void main_protection(void)
         MASKA_ZOP_SIGNALS_3, 
         MASKA_ZOP_SIGNALS_4, 
         MASKA_ZOP_SIGNALS_5, 
-        MASKA_ZOP_SIGNALS_6, 
-        MASKA_ZOP_SIGNALS_7
+        MASKA_ZOP_SIGNALS_6
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_zop_signals[i]);
       global_timers[INDEX_TIMER_ZOP] = -1;
@@ -6629,8 +6582,7 @@ inline void main_protection(void)
         MASKA_UMIN_SIGNALS_3, 
         MASKA_UMIN_SIGNALS_4, 
         MASKA_UMIN_SIGNALS_5, 
-        MASKA_UMIN_SIGNALS_6, 
-        MASKA_UMIN_SIGNALS_7
+        MASKA_UMIN_SIGNALS_6
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_umin_signals[i]);
 
@@ -6663,8 +6615,7 @@ inline void main_protection(void)
         MASKA_UMAX_SIGNALS_3, 
         MASKA_UMAX_SIGNALS_4, 
         MASKA_UMAX_SIGNALS_5, 
-        MASKA_UMAX_SIGNALS_6, 
-        MASKA_UMAX_SIGNALS_7
+        MASKA_UMAX_SIGNALS_6
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_umax_signals[i]);
 
@@ -6692,8 +6643,7 @@ inline void main_protection(void)
         MASKA_AVR_SIGNALS_3, 
         MASKA_AVR_SIGNALS_4, 
         MASKA_AVR_SIGNALS_5, 
-        MASKA_AVR_SIGNALS_6, 
-        MASKA_AVR_SIGNALS_7
+        MASKA_AVR_SIGNALS_6
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_avr_signals[i]);
       
@@ -6736,8 +6686,7 @@ inline void main_protection(void)
         MASKA_UROV_SIGNALS_3, 
         MASKA_UROV_SIGNALS_4, 
         MASKA_UROV_SIGNALS_5, 
-        MASKA_UROV_SIGNALS_6, 
-        MASKA_UROV_SIGNALS_7
+        MASKA_UROV_SIGNALS_6
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_urov_signals[i]);
 
@@ -6764,8 +6713,7 @@ inline void main_protection(void)
         MASKA_APV_SIGNALS_3, 
         MASKA_APV_SIGNALS_4, 
         MASKA_APV_SIGNALS_5, 
-        MASKA_APV_SIGNALS_6, 
-        MASKA_APV_SIGNALS_7
+        MASKA_APV_SIGNALS_6
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_apv_signals[i]);
 
@@ -6802,7 +6750,6 @@ inline void main_protection(void)
         active_functions_tmp[4] = active_functions[4];
         active_functions_tmp[5] = active_functions[5];
         active_functions_tmp[6] = active_functions[6];
-        active_functions_tmp[7] = active_functions[7];
 
         d_and_handler(active_functions);
         d_or_handler(active_functions);
@@ -6823,8 +6770,7 @@ inline void main_protection(void)
               (active_functions_tmp[3] != active_functions[3]) ||
               (active_functions_tmp[4] != active_functions[4]) ||
               (active_functions_tmp[5] != active_functions[5]) ||
-              (active_functions_tmp[6] != active_functions[6]) ||
-              (active_functions_tmp[7] != active_functions[7])
+              (active_functions_tmp[6] != active_functions[6])
              ) 
             );
       
@@ -6842,8 +6788,7 @@ inline void main_protection(void)
         MASKA_EL_SIGNALS_3, 
         MASKA_EL_SIGNALS_4, 
         MASKA_EL_SIGNALS_5, 
-        MASKA_EL_SIGNALS_6, 
-        MASKA_EL_SIGNALS_7
+        MASKA_EL_SIGNALS_6
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_el_signals[i]);
       
@@ -6883,7 +6828,6 @@ inline void main_protection(void)
     active_functions[4] &= MASKA_INFO_SIGNALES_4;
     active_functions[5] &= MASKA_INFO_SIGNALES_5;
     active_functions[6] &= MASKA_INFO_SIGNALES_6;
-    active_functions[7] &= MASKA_INFO_SIGNALES_7;
     
     //Деактивовуємо всі реле
     state_outputs = 0;
@@ -6924,7 +6868,7 @@ inline void main_protection(void)
   /**************************/
   //Робота з функціями, які мають записуватися у енергонезалежну пам'ять
   /**************************/
-  const unsigned int maska_trg_func_array[N_BIG] = {MASKA_TRIGGER_SIGNALES_0, MASKA_TRIGGER_SIGNALES_1, MASKA_TRIGGER_SIGNALES_2, MASKA_TRIGGER_SIGNALES_3, MASKA_TRIGGER_SIGNALES_4, MASKA_TRIGGER_SIGNALES_5, MASKA_TRIGGER_SIGNALES_6, MASKA_TRIGGER_SIGNALES_7};
+  const unsigned int maska_trg_func_array[N_BIG] = {MASKA_TRIGGER_SIGNALES_0, MASKA_TRIGGER_SIGNALES_1, MASKA_TRIGGER_SIGNALES_2, MASKA_TRIGGER_SIGNALES_3, MASKA_TRIGGER_SIGNALES_4, MASKA_TRIGGER_SIGNALES_5, MASKA_TRIGGER_SIGNALES_6};
   unsigned int comparison_true = true;
   for (unsigned int i = 0; i < N_BIG; i++)
   {
@@ -7030,8 +6974,7 @@ inline void main_protection(void)
           (temp_array_of_outputs[3] != 0) ||
           (temp_array_of_outputs[4] != 0) ||
           (temp_array_of_outputs[5] != 0) ||
-          (temp_array_of_outputs[6] != 0) ||
-          (temp_array_of_outputs[7] != 0)
+          (temp_array_of_outputs[6] != 0)
          )
       {
         //Для сигнального реле виконуємо його замикання, а для командного перевіряємо чи нема спроби активувати реле при умові що на нього заведено блок включення, причому він блокований
@@ -7139,8 +7082,7 @@ inline void main_protection(void)
         (temp_array_of_leds[3] != 0) ||
         (temp_array_of_leds[4] != 0) ||
         (temp_array_of_leds[5] != 0) ||
-        (temp_array_of_leds[6] != 0) ||
-        (temp_array_of_leds[7] != 0)
+        (temp_array_of_leds[6] != 0)
        )
     {
       //Відмічаємо, що даний світлоіндикатор - ГОРИТЬ

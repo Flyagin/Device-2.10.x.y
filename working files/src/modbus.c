@@ -2612,8 +2612,7 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
       (input_value[3] != 0) ||
       (input_value[4] != 0) ||
       (input_value[5] != 0) ||
-      (input_value[6] != 0) ||
-      (input_value[7] != 0)
+      (input_value[6] != 0)
      )
   {
     //Якщо ця величина не нульова, то це означає, що якісь функції зранжовані
@@ -9215,6 +9214,8 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
           case (190 + NUMBER_ANALOG_CANALES):
           case (191 + NUMBER_ANALOG_CANALES):
           case (192 + NUMBER_ANALOG_CANALES):
+          case (193 + NUMBER_ANALOG_CANALES):
+          case (194 + NUMBER_ANALOG_CANALES):
             {
               if (length <= 19)
               {
@@ -9341,6 +9342,8 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         " Сброс Блок.АВР ",
                         " Стат.блок.АВР 1",
                         " Стат.блок.АВР 2",
+                        "    ОЗТ 1к.     ",
+                        "    ОЗТ 2к.     ",
                         " Бл.АВР от защит",
                         " ПО U АВР мин.1 ",
                         " ПО U АВР макс.1",
@@ -9534,6 +9537,8 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         " Скид.Блок.АВР  ",
                         " Стат.блок.АВР 1",
                         " Стат.блок.АВР 2",
+                        "    ВЗТ 1к.     ",
+                        "    ВЗТ 2к.     ",
                         " Бл.АВР від зах.",
                         " ПО U АВР мін.1 ",
                         " ПО U АВР макс.1",
@@ -9727,6 +9732,8 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         " Сброс Блок.АВР ",
                         " Стат.блок.АВР 1",
                         " Стат.блок.АВР 2",
+                        "    ОЗТ 1к.     ",
+                        "    ОЗТ 2к.     ",
                         " Бл.АВР от защит",
                         " ПО U АВР мин.1 ",
                         " ПО U АВР макс.1",
@@ -9920,6 +9927,8 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         " Сброс Блок.АВР ",
                         " Стат.блок.АВР 1",
                         " Стат.блок.АВР 2",
+                        "    ОЗТ 1к.     ",
+                        "    ОЗТ 2к.     ",
                         " Бл.АВР от защит",
                         " ПО U АВР мин.1 ",
                         " ПО U АВР макс.1",
@@ -10662,6 +10671,8 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
           case 190:
           case 191:
           case 192:
+          case 193:
+          case 194:
             {
               if (length <= 19)
               {
@@ -10788,6 +10799,8 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         " Сброс Блок.АВР ",
                         " Стат.блок.АВР 1",
                         " Стат.блок.АВР 2",
+                        "    ОЗТ 1к.     ",
+                        "    ОЗТ 2к.     ",
                         " Бл.АВР от защит",
                         " ПО U АВР мин.1 ",
                         " ПО U АВР макс.1",
@@ -10981,6 +10994,8 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         " Скид.Блок.АВР  ",
                         " Стат.блок.АВР 1",
                         " Стат.блок.АВР 2",
+                        "    ВЗТ 1к.     ",
+                        "    ВЗТ 2к.     ",
                         " Бл.АВР від зах.",
                         " ПО U АВР мін.1 ",
                         " ПО U АВР макс.1",
@@ -11174,6 +11189,8 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         " Сброс Блок.АВР ",
                         " Стат.блок.АВР 1",
                         " Стат.блок.АВР 2",
+                        "    ОЗТ 1к.     ",
+                        "    ОЗТ 2к.     ",
                         " Бл.АВР от защит",
                         " ПО U АВР мин.1 ",
                         " ПО U АВР макс.1",
@@ -11367,6 +11384,8 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         " Сброс Блок.АВР ",
                         " Стат.блок.АВР 1",
                         " Стат.блок.АВР 2",
+                        "    ОЗТ 1к.     ",
+                        "    ОЗТ 2к.     ",
                         " Бл.АВР от защит",
                         " ПО U АВР мин.1 ",
                         " ПО U АВР макс.1",

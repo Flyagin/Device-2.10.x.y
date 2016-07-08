@@ -1030,6 +1030,8 @@ void make_ekran_changing_signals_digital_registrator(void)
         " Сброс Блок.АВР ",
         " Стат.блок.АВР 1",
         " Стат.блок.АВР 2",
+        "    ОЗТ 1к.     ",
+        "    ОЗТ 2к.     ",
         " Бл.АВР от защит",
         " ПО U АВР мин.1 ",
         " ПО U АВР макс.1",
@@ -1223,6 +1225,8 @@ void make_ekran_changing_signals_digital_registrator(void)
         " Скид.Блок.АВР  ",
         " Стат.блок.АВР 1",
         " Стат.блок.АВР 2",
+        "    ВЗТ 1к.     ",
+        "    ВЗТ 2к.     ",
         " Бл.АВР від зах.",
         " ПО U АВР мін.1 ",
         " ПО U АВР макс.1",
@@ -1416,6 +1420,8 @@ void make_ekran_changing_signals_digital_registrator(void)
         " Сброс Блок.АВР ",
         " Стат.блок.АВР 1",
         " Стат.блок.АВР 2",
+        "    ОЗТ 1к.     ",
+        "    ОЗТ 2к.     ",
         " Бл.АВР от защит",
         " ПО U АВР мин.1 ",
         " ПО U АВР макс.1",
@@ -1609,6 +1615,8 @@ void make_ekran_changing_signals_digital_registrator(void)
         " Сброс Блок.АВР ",
         " Стат.блок.АВР 1",
         " Стат.блок.АВР 2",
+        "    ОЗТ 1к.     ",
+        "    ОЗТ 2к.     ",
         " Бл.АВР от защит",
         " ПО U АВР мин.1 ",
         " ПО U АВР макс.1",
@@ -1730,8 +1738,7 @@ void make_ekran_changing_signals_digital_registrator(void)
         array_new[3] = buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice    ) + 15] + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice    ) + 16]<<8) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice    ) + 17]<<16) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice    ) + 18]<<24);
         array_new[4] = buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice    ) + 19] + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice    ) + 20]<<8) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice    ) + 21]<<16) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice    ) + 22]<<24);
         array_new[5] = buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice    ) + 23] + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice    ) + 24]<<8) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice    ) + 25]<<16) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice    ) + 26]<<24);
-        array_new[6] = buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice    ) + 27] + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice    ) + 28]<<8) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice    ) + 29]<<16) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice    ) + 30]<<24);
-        array_new[7] = buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice    ) + 31];
+        array_new[6] = buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice    ) + 27];
 
         array_old[0] = buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) +  3] + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) +  4]<<8) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) +  5]<<16) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) +  6]<<24);
         array_old[1] = buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) +  7] + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) +  8]<<8) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) +  9]<<16) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) + 10]<<24);
@@ -1739,8 +1746,7 @@ void make_ekran_changing_signals_digital_registrator(void)
         array_old[3] = buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) + 15] + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) + 16]<<8) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) + 17]<<16) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) + 18]<<24);
         array_old[4] = buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) + 19] + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) + 20]<<8) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) + 21]<<16) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) + 22]<<24);
         array_old[5] = buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) + 23] + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) + 24]<<8) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) + 25]<<16) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) + 26]<<24);
-        array_old[6] = buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) + 27] + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) + 28]<<8) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) + 29]<<16) + (buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) + 30]<<24);
-        array_old[7] = buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) + 31];
+        array_old[6] = buffer_for_manu_read_record[FIRST_INDEX_FIRST_DATA_DR + 33*(1 + index_of_the_slice - 1) + 27];
         
         //Визначаємо, які сигнали змінилися
         for (unsigned int j = 0; j < N_BIG; j++) array_changing[j] = array_new[j] ^ array_old[j];

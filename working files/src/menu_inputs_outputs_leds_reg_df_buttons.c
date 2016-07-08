@@ -617,6 +617,8 @@ void make_ekran_set_function_in_input(unsigned int number_ekran)
       " Сброс Блок.АВР ",
       " Стат.блок.АВР 1",
       " Стат.блок.АВР 2",
+      "    ОЗТ 1к.     ",
+      "    ОЗТ 2к.     ",
       " Вх.О-функции1  ",
       " Вх.О-функции2  ",
       " Вх.О-функции3  ",
@@ -674,6 +676,8 @@ void make_ekran_set_function_in_input(unsigned int number_ekran)
       " Скид.Блок.АВР  ",
       " Стат.блок.АВР 1",
       " Стат.блок.АВР 2",
+      "    ВЗТ 1к.     ",
+      "    ВЗТ 2к.     ",
       " Вх.В-функції1  ",
       " Вх.В-функції2  ",
       " Вх.В-функції3  ",
@@ -731,6 +735,8 @@ void make_ekran_set_function_in_input(unsigned int number_ekran)
       " Сброс Блок.АВР ",
       " Стат.блок.АВР 1",
       " Стат.блок.АВР 2",
+      "    ОЗТ 1к.     ",
+      "    ОЗТ 2к.     ",
       "    UDF1 In     ",
       "    UDF2 In     ",
       "    UDF3 In     ",
@@ -788,6 +794,8 @@ void make_ekran_set_function_in_input(unsigned int number_ekran)
       " Сброс Блок.АВР ",
       " Стат.блок.АВР 1",
       " Стат.блок.АВР 2",
+      "    ОЗТ 1к.     ",
+      "    ОЗТ 2к.     ",
       " Вх.О-функции1  ",
       " Вх.О-функции2  ",
       " Вх.О-функции3  ",
@@ -1309,6 +1317,8 @@ void make_ekran_set_function_in_output_led_df_dt_reg(unsigned int number_ekran, 
       " Сброс Блок.АВР ",
       " Стат.блок.АВР 1",
       " Стат.блок.АВР 2",
+      "    ОЗТ 1к.     ",
+      "    ОЗТ 2к.     ",
       " Бл.АВР от защит",
       " ПО U АВР мин.1 ",
       " ПО U АВР макс.1",
@@ -1504,6 +1514,8 @@ void make_ekran_set_function_in_output_led_df_dt_reg(unsigned int number_ekran, 
       " Скид.Блок.АВР  ",
       " Стат.блок.АВР 1",
       " Стат.блок.АВР 2",
+      "    ВЗТ 1к.     ",
+      "    ВЗТ 2к.     ",
       " Бл.АВР від зах.",
       " ПО U АВР мін.1 ",
       " ПО U АВР макс.1",
@@ -1699,6 +1711,8 @@ void make_ekran_set_function_in_output_led_df_dt_reg(unsigned int number_ekran, 
       " Сброс Блок.АВР ",
       " Стат.блок.АВР 1",
       " Стат.блок.АВР 2",
+      "    ОЗТ 1к.     ",
+      "    ОЗТ 2к.     ",
       " Бл.АВР от защит",
       " ПО U АВР мин.1 ",
       " ПО U АВР макс.1",
@@ -1894,6 +1908,8 @@ void make_ekran_set_function_in_output_led_df_dt_reg(unsigned int number_ekran, 
       " Сброс Блок.АВР ",
       " Стат.блок.АВР 1",
       " Стат.блок.АВР 2",
+      "    ОЗТ 1к.     ",
+      "    ОЗТ 2к.     ",
       " Бл.АВР от защит",
       " ПО U АВР мин.1 ",
       " ПО U АВР макс.1",
@@ -2317,8 +2333,7 @@ void make_ekran_set_function_in_output_led_df_dt_reg(unsigned int number_ekran, 
         (state_viewing_input[3] == 0) &&
         (state_viewing_input[4] == 0) &&
         (state_viewing_input[5] == 0) &&
-        (state_viewing_input[6] == 0) &&
-        (state_viewing_input[7] == 0)
+        (state_viewing_input[6] == 0)
        )
     {
       //Це означає, що на даний вхід нічого не відранжовано
@@ -2496,7 +2511,7 @@ void make_ekran_set_function_in_output_led_df_dt_reg(unsigned int number_ekran, 
       /*************************************************************/
 
       //Формуємо маску біт, які не треба переміщати при переміщенні імен полів
-      unsigned int maska[N_BIG] = {0, 0, 0, 0, 0, 0, 0, 0};
+      unsigned int maska[N_BIG] = {0, 0, 0, 0, 0, 0, 0};
       for (unsigned int j = 0; j < (index_deleted_function - offset); j++) _SET_BIT(maska, j);
           
       /***/
@@ -2667,7 +2682,7 @@ void make_ekran_set_function_in_output_led_df_dt_reg(unsigned int number_ekran, 
 
             //Відкидати імена функцій і зміщати біти треба тільки у тому випадку, якщо функції пристні у списку для ранжування для даного захисту
             //Формуємо маску біт, які не треба переміщати при переміщенні імен полів
-            unsigned int maska[N_BIG] = {0, 0, 0, 0, 0, 0, 0, 0};
+            unsigned int maska[N_BIG] = {0, 0, 0, 0, 0, 0, 0};
             unsigned int j1;
             for (j1 = 0; j1 < (min_max_number[i][0] - offset); j1++) _SET_BIT(maska, j1);
           
@@ -2824,7 +2839,7 @@ void make_ekran_set_function_in_output_led_df_dt_reg(unsigned int number_ekran, 
       {
         //Відкидати імена функцій і зміщати біти треба тільки у тому випадку, якщо функції пристні у списку для ранжування для даного захисту
         //Формуємо маску біт, які не треба переміщати при переміщенні імен полів
-        unsigned int maska[N_BIG] = {0, 0, 0, 0, 0, 0, 0, 0};
+        unsigned int maska[N_BIG] = {0, 0, 0, 0, 0, 0, 0};
         for (unsigned int j = 0; j < (min_max_number[i][0] - offset); j++) _SET_BIT(maska, j);
           
         //Відкидаємо назви функцій із списку, які є зайвими
