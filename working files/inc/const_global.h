@@ -172,8 +172,8 @@ RANG_INPUT_OTKL_AVR,
 RANG_INPUT_SBROS_BLOCK_AVR,
 RANG_INPUT_STAT_BLOCK_AVR_1,
 RANG_INPUT_STAT_BLOCK_AVR_2,
-RANG_INPUT_VZT_AVR_1,
-RANG_INPUT_VZT_AVR_2,
+RANG_INPUT_OZT_AVR_1,
+RANG_INPUT_OZT_AVR_2,
 
 RANG_INPUT_DF1_IN,
 RANG_INPUT_DF2_IN,
@@ -339,8 +339,8 @@ RANG_OTKL_AVR,
 RANG_SBROS_BLOCK_AVR,
 RANG_STAT_BLOCK_AVR_1,
 RANG_STAT_BLOCK_AVR_2,
-RANG_VZT_AVR_1,
-RANG_VZT_AVR_2,
+RANG_OZT_AVR_1,
+RANG_OZT_AVR_2,
 RANG_BLOCK_AVR_VID_ZAKHYSTIV,
 RANG_PO_UAVR_MIN1,
 RANG_PO_UAVR_MAX1,
@@ -535,8 +535,8 @@ enum __mtz_abc_direction_const {
   | (1 << (RANG_SBROS_BLOCK_AVR  - 96))                      /*106*/\
   | (1 << (RANG_STAT_BLOCK_AVR_1 - 96))                      /*107*/\
   | (1 << (RANG_STAT_BLOCK_AVR_2 - 96))                      /*108*/\
-  | (1 << (RANG_VZT_AVR_1 - 96))                             /*109*/\
-  | (1 << (RANG_VZT_AVR_2 - 96))                             /*110*/\
+  | (1 << (RANG_OZT_AVR_1 - 96))                             /*109*/\
+  | (1 << (RANG_OZT_AVR_2 - 96))                             /*110*/\
   | (1 << (RANG_DF1_IN - 96))                                /*124*/\
   | (1 << (RANG_DF2_IN - 96))                                /*126*/\
 )
@@ -756,8 +756,8 @@ enum __mtz_abc_direction_const {
    | (1 << (RANG_SBROS_BLOCK_AVR - 96))                     /*106*/\
    | (1 << (RANG_STAT_BLOCK_AVR_1 - 96))                    /*107*/\
    | (1 << (RANG_STAT_BLOCK_AVR_2 - 96))                    /*108*/\
-   | (1 << (RANG_VZT_AVR_1 - 96))                           /*109*/\
-   | (1 << (RANG_VZT_AVR_2 - 96))                           /*110*/\
+   | (1 << (RANG_OZT_AVR_1 - 96))                           /*109*/\
+   | (1 << (RANG_OZT_AVR_2 - 96))                           /*110*/\
    | (1 << (RANG_BLOCK_AVR_VID_ZAKHYSTIV - 96))             /*111*/\
    | (1 << (RANG_PO_UAVR_MIN1 - 96))                        /*112*/\
    | (1 << (RANG_PO_UAVR_MAX1 - 96))                        /*113*/\

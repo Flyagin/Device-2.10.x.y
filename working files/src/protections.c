@@ -2969,7 +2969,7 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   
   logic_AVR_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_STAT_BLOCK_AVR_1) != 0) << 4;
   
-  logic_AVR_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_VZT_AVR_1) != 0) << 16;
+  logic_AVR_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_OZT_AVR_1) != 0) << 16;
 
   logic_AVR_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_KOM3_ON_AVR) != 0) << 5;
   do
@@ -3042,7 +3042,7 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   
   logic_AVR_2 |= (_CHECK_SET_BIT(p_active_functions, RANG_STAT_BLOCK_AVR_2) != 0) << 4;
   
-  logic_AVR_2 |= (_CHECK_SET_BIT(p_active_functions, RANG_VZT_AVR_2) != 0) << 16;
+  logic_AVR_2 |= (_CHECK_SET_BIT(p_active_functions, RANG_OZT_AVR_2) != 0) << 16;
 
   logic_AVR_2 |= (_CHECK_SET_BIT(p_active_functions, RANG_KOM4_ON_AVR) != 0) << 5;
   do
@@ -6207,8 +6207,8 @@ inline void main_protection(void)
     active_functions[RANG_SBROS_BLOCK_AVR  >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_SBROS_BLOCK_AVR ) != 0) << (RANG_SBROS_BLOCK_AVR  & 0x1f);
     active_functions[RANG_STAT_BLOCK_AVR_1 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_STAT_BLOCK_AVR_1) != 0) << (RANG_STAT_BLOCK_AVR_1 & 0x1f);
     active_functions[RANG_STAT_BLOCK_AVR_2 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_STAT_BLOCK_AVR_2) != 0) << (RANG_STAT_BLOCK_AVR_2 & 0x1f);
-    active_functions[RANG_VZT_AVR_1        >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_VZT_AVR_1       ) != 0) << (RANG_VZT_AVR_1        & 0x1f);
-    active_functions[RANG_VZT_AVR_2        >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_VZT_AVR_2       ) != 0) << (RANG_VZT_AVR_2        & 0x1f);
+    active_functions[RANG_OZT_AVR_1        >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_OZT_AVR_1       ) != 0) << (RANG_OZT_AVR_1        & 0x1f);
+    active_functions[RANG_OZT_AVR_2        >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_OZT_AVR_2       ) != 0) << (RANG_OZT_AVR_2        & 0x1f);
   }
   /**************************/
 
