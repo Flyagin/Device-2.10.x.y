@@ -24,9 +24,9 @@
 #define NUMBER_PAGES_INTO_DR            480
 #define NUMBER_PAGES_INTO_PR_ERR        (NUMBER_PAGES_INTO_DATAFLASH_1 - NUMBER_PAGES_INTO_DR)
 
-#define NUMBER_PAGES_IN_ONE_DR_RECORD         10
+#define NUMBER_PAGES_IN_ONE_DR_RECORD         8
 #define SIZE_BUFFER_FOR_DR_RECORD             (SIZE_PAGE_DATAFLASH_1*NUMBER_PAGES_IN_ONE_DR_RECORD) 
-#define MAX_NUMBER_RECORDS_INTO_DR            48
+#define MAX_NUMBER_RECORDS_INTO_DR            60
 #define MIN_ADDRESS_DR_AREA                   0x0
 #define SIZE_DR_AREA                          (NUMBER_PAGES_INTO_DR<<VAGA_SIZE_PAGE_DATAFLASH_1)
 #define MAX_ADDRESS_DR_AREA                   (MIN_ADDRESS_DR_AREA + SIZE_DR_AREA - 1)
@@ -41,7 +41,7 @@
 #define FIRST_INDEX_NUMBER_MAX_U_DR           45
 #define FIRST_INDEX_NUMBER_MAX_ZOP_DR         46
 #define FIRST_INDEX_FIRST_BLOCK_DR            47
-#define FIRST_INDEX_FIRST_DATA_DR             1096
+#define FIRST_INDEX_FIRST_DATA_DR             846
 
 #define VAGA_SIZE_ONE_RECORD_PR_ERR           5
 #define SIZE_ONE_RECORD_PR_ERR                (1<<VAGA_SIZE_ONE_RECORD_PR_ERR)
@@ -120,9 +120,9 @@
 #define STATE_DR_CUT_RECORD                       4 //ќформлен≥ под≥њ оформити €к запис, але ще не дос€гнуто умови завершенн€ роботи дискретного реЇстратора тому при наступному проход≥ розпочати новий запис
 
 #define MAX_TIME_OFFSET_FROM_START                      0xFFFFFF // 4 год. 39 хв. 37 сек. 215 м≥л≥сек.
-#define MAX_EVENTS_IN_ONE_RECORD                        42
+#define MAX_EVENTS_IN_ONE_RECORD                        41
 #define MAX_NUMBER_FIX_MAX_MEASUREMENTS                 10
-#define SIZE_ARRAY_FIX_MAX_MEASUREMENTS                 (NUMBER_ANALOG_CANALES + 2*(3 + 1) + 2 + 1)
+#define SIZE_ARRAY_FIX_MAX_MEASUREMENTS                 (NUMBER_ANALOG_CANALES + 2 + 2*3 + 2 + 1)
 
 #define LABEL_START_RECORD_DR           0xA5
 

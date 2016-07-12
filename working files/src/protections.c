@@ -4149,16 +4149,16 @@ inline void continue_monitoring_max_phase_current(unsigned int time_tmp)
 inline void start_monitoring_min_U(unsigned int time_tmp)
 {
   unsigned int index_IM_UA, index_IM_UB, index_IM_UC;
-//  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
+  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
   if (TN1_TN2 == 1)
   {
     index_IM_UA = IM_UA2;
     index_IM_UB = IM_UB2;
     index_IM_UC = IM_UC2;
 
-//    index_IM_UAB = IM_UAB2;
-//    index_IM_UBC = IM_UBC2;
-//    index_IM_UCA = IM_UCA2;
+    index_IM_UAB = IM_UAB2;
+    index_IM_UBC = IM_UBC2;
+    index_IM_UCA = IM_UCA2;
   }
   else
   {
@@ -4166,9 +4166,9 @@ inline void start_monitoring_min_U(unsigned int time_tmp)
     index_IM_UB = IM_UB1;
     index_IM_UC = IM_UC1;
 
-//    index_IM_UAB = IM_UAB1;
-//    index_IM_UBC = IM_UBC1;
-//    index_IM_UCA = IM_UCA1;
+    index_IM_UAB = IM_UAB1;
+    index_IM_UBC = IM_UBC1;
+    index_IM_UCA = IM_UCA1;
   }
 
   //Збільшуємо кількість фіксованих значень мінімальної фазної/лінійної напруги
@@ -4201,10 +4201,20 @@ inline void start_monitoring_min_U(unsigned int time_tmp)
   measurements_U_min_dr[17] = (unsigned int)frequency_val_1_int;
   measurements_U_min_dr[18] = (unsigned int)frequency_val_2_int;
   
-  //Визначаємо мінімальної фазну напругу між трьома фазами
-  min_voltage_dr = measurement[index_IM_UA];
-  if (min_voltage_dr > measurement[index_IM_UB]) min_voltage_dr = measurement[index_IM_UB];
-  if (min_voltage_dr > measurement[index_IM_UC]) min_voltage_dr = measurement[index_IM_UC];
+  if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) == 0)
+  {
+    //Визначаємо мінімальної лінійну напругу між трьома фазами
+    min_voltage_dr = measurement[index_IM_UAB];
+    if (min_voltage_dr > measurement[index_IM_UBC]) min_voltage_dr = measurement[index_IM_UBC];
+    if (min_voltage_dr > measurement[index_IM_UCA]) min_voltage_dr = measurement[index_IM_UCA];
+  }
+  else
+  {
+    //Визначаємо мінімальної фазну напругу між трьома фазами
+    min_voltage_dr = measurement[index_IM_UA];
+    if (min_voltage_dr > measurement[index_IM_UB]) min_voltage_dr = measurement[index_IM_UB];
+    if (min_voltage_dr > measurement[index_IM_UC]) min_voltage_dr = measurement[index_IM_UC];
+  }
 
   //Фіксуємо час з моменту початку аварійного запису
   measurements_U_min_dr[19] = time_tmp;
@@ -4220,16 +4230,16 @@ inline void start_monitoring_min_U(unsigned int time_tmp)
 inline void continue_monitoring_min_U(unsigned int time_tmp)
 {
   unsigned int index_IM_UA, index_IM_UB, index_IM_UC;
-//  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
+  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
   if (TN1_TN2 == 1)
   {
     index_IM_UA = IM_UA2;
     index_IM_UB = IM_UB2;
     index_IM_UC = IM_UC2;
 
-//    index_IM_UAB = IM_UAB2;
-//    index_IM_UBC = IM_UBC2;
-//    index_IM_UCA = IM_UCA2;
+    index_IM_UAB = IM_UAB2;
+    index_IM_UBC = IM_UBC2;
+    index_IM_UCA = IM_UCA2;
   }
   else
   {
@@ -4237,17 +4247,31 @@ inline void continue_monitoring_min_U(unsigned int time_tmp)
     index_IM_UB = IM_UB1;
     index_IM_UC = IM_UC1;
 
-//    index_IM_UAB = IM_UAB1;
-//    index_IM_UBC = IM_UBC1;
-//    index_IM_UCA = IM_UCA1;
+    index_IM_UAB = IM_UAB1;
+    index_IM_UBC = IM_UBC1;
+    index_IM_UCA = IM_UCA1;
   }
 
   //Перевірка, чи не є зарза досліджувана напуга менша, ніж та що помічена мінімальною
   if (
-      (min_voltage_dr > measurement[index_IM_UA]) ||
-      (min_voltage_dr > measurement[index_IM_UB]) ||
-      (min_voltage_dr > measurement[index_IM_UC])
+      (
+       ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) == 0) &&
+       (  
+        (min_voltage_dr > measurement[index_IM_UAB]) ||
+        (min_voltage_dr > measurement[index_IM_UBC]) ||
+        (min_voltage_dr > measurement[index_IM_UCA])
+       )
+      )   
+      || 
+      (
+       ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) != 0) &&
+       (  
+        (min_voltage_dr > measurement[index_IM_UA]) ||
+        (min_voltage_dr > measurement[index_IM_UB]) ||
+        (min_voltage_dr > measurement[index_IM_UC])
+       )
      )
+    )    
   {
     //Зафіксовано зріз при найнижчій досліджуваній напрузі з моменту початку спостереження за нею
     int frequency_val_1_int = (int)frequency_val_1;
@@ -4276,10 +4300,20 @@ inline void continue_monitoring_min_U(unsigned int time_tmp)
     measurements_U_min_dr[17] = (unsigned int)frequency_val_1_int;
     measurements_U_min_dr[18] = (unsigned int)frequency_val_2_int;
 
-    //Визначаємо мінімальну фазну напругу між трьома фазами
-    min_voltage_dr = measurement[index_IM_UA];
-    if (min_voltage_dr > measurement[index_IM_UB]) min_voltage_dr = measurement[index_IM_UB];
-    if (min_voltage_dr > measurement[index_IM_UC]) min_voltage_dr = measurement[index_IM_UC];
+    if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) == 0)
+    {
+      //Визначаємо мінімальної лінійну напругу між трьома фазами
+      min_voltage_dr = measurement[index_IM_UAB];
+      if (min_voltage_dr > measurement[index_IM_UBC]) min_voltage_dr = measurement[index_IM_UBC];
+      if (min_voltage_dr > measurement[index_IM_UCA]) min_voltage_dr = measurement[index_IM_UCA];
+    }
+    else
+    {
+      //Визначаємо мінімальної фазну напругу між трьома фазами
+      min_voltage_dr = measurement[index_IM_UA];
+      if (min_voltage_dr > measurement[index_IM_UB]) min_voltage_dr = measurement[index_IM_UB];
+      if (min_voltage_dr > measurement[index_IM_UC]) min_voltage_dr = measurement[index_IM_UC];
+    }
 
     //Фіксуємо час з моменту початку аварійного запису
     measurements_U_min_dr[19] = time_tmp;
@@ -4293,16 +4327,16 @@ inline void continue_monitoring_min_U(unsigned int time_tmp)
 inline void start_monitoring_max_U(unsigned int time_tmp)
 {
   unsigned int index_IM_UA, index_IM_UB, index_IM_UC;
-//  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
+  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
   if (TN1_TN2 == 1)
   {
     index_IM_UA = IM_UA2;
     index_IM_UB = IM_UB2;
     index_IM_UC = IM_UC2;
 
-//    index_IM_UAB = IM_UAB2;
-//    index_IM_UBC = IM_UBC2;
-//    index_IM_UCA = IM_UCA2;
+    index_IM_UAB = IM_UAB2;
+    index_IM_UBC = IM_UBC2;
+    index_IM_UCA = IM_UCA2;
   }
   else
   {
@@ -4310,9 +4344,9 @@ inline void start_monitoring_max_U(unsigned int time_tmp)
     index_IM_UB = IM_UB1;
     index_IM_UC = IM_UC1;
 
-//    index_IM_UAB = IM_UAB1;
-//    index_IM_UBC = IM_UBC1;
-//    index_IM_UCA = IM_UCA1;
+    index_IM_UAB = IM_UAB1;
+    index_IM_UBC = IM_UBC1;
+    index_IM_UCA = IM_UCA1;
   }
 
   //Збільшуємо кількість фіксованих значень максимальної фазної/лінійної напруги
@@ -4345,10 +4379,20 @@ inline void start_monitoring_max_U(unsigned int time_tmp)
   measurements_U_max_dr[17] = (unsigned int)frequency_val_1_int;
   measurements_U_max_dr[18] = (unsigned int)frequency_val_2_int;
   
-  //Визначаємо макисальну фазну напругу між трьома фазами
-  max_voltage_dr = measurement[index_IM_UA];
-  if (max_voltage_dr < measurement[index_IM_UB]) max_voltage_dr = measurement[index_IM_UB];
-  if (max_voltage_dr <measurement[index_IM_UC]) max_voltage_dr = measurement[index_IM_UC];
+  if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) == 0)
+  {
+    //Визначаємо макисальну лінійну напругу між трьома фазами
+    max_voltage_dr = measurement[index_IM_UAB];
+    if (max_voltage_dr < measurement[index_IM_UBC]) max_voltage_dr = measurement[index_IM_UBC];
+    if (max_voltage_dr <measurement[index_IM_UCA]) max_voltage_dr = measurement[index_IM_UCA];
+  }
+  else
+  {
+    //Визначаємо макисальну фазну напругу між трьома фазами
+    max_voltage_dr = measurement[index_IM_UA];
+    if (max_voltage_dr < measurement[index_IM_UB]) max_voltage_dr = measurement[index_IM_UB];
+    if (max_voltage_dr <measurement[index_IM_UC]) max_voltage_dr = measurement[index_IM_UC];
+  }
 
   //Фіксуємо час з моменту початку аварійного запису
   measurements_U_max_dr[19] = time_tmp;
@@ -4364,16 +4408,16 @@ inline void start_monitoring_max_U(unsigned int time_tmp)
 inline void continue_monitoring_max_U(unsigned int time_tmp)
 {
   unsigned int index_IM_UA, index_IM_UB, index_IM_UC;
-//  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
+  unsigned int index_IM_UAB, index_IM_UBC, index_IM_UCA;
   if (TN1_TN2 == 1)
   {
     index_IM_UA = IM_UA2;
     index_IM_UB = IM_UB2;
     index_IM_UC = IM_UC2;
 
-//    index_IM_UAB = IM_UAB2;
-//    index_IM_UBC = IM_UBC2;
-//    index_IM_UCA = IM_UCA2;
+    index_IM_UAB = IM_UAB2;
+    index_IM_UBC = IM_UBC2;
+    index_IM_UCA = IM_UCA2;
   }
   else
   {
@@ -4381,16 +4425,30 @@ inline void continue_monitoring_max_U(unsigned int time_tmp)
     index_IM_UB = IM_UB1;
     index_IM_UC = IM_UC1;
 
-//    index_IM_UAB = IM_UAB1;
-//    index_IM_UBC = IM_UBC1;
-//    index_IM_UCA = IM_UCA1;
+    index_IM_UAB = IM_UAB1;
+    index_IM_UBC = IM_UBC1;
+    index_IM_UCA = IM_UCA1;
   }
 
   //Перевірка, чи не є зарза досліджувана напуга більша, ніж та що помічена максимальною
   if (
-      (max_voltage_dr < measurement[index_IM_UA]) ||
-      (max_voltage_dr < measurement[index_IM_UB]) ||
-      (max_voltage_dr < measurement[index_IM_UC])
+      (
+       ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) == 0) &&
+       (  
+        (max_voltage_dr < measurement[index_IM_UAB]) ||
+        (max_voltage_dr < measurement[index_IM_UBC]) ||
+        (max_voltage_dr < measurement[index_IM_UCA])
+       )
+      )   
+      || 
+      (
+       ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) != 0) &&
+       (  
+        (max_voltage_dr < measurement[index_IM_UA]) ||
+        (max_voltage_dr < measurement[index_IM_UB]) ||
+        (max_voltage_dr < measurement[index_IM_UC])
+       )
+     )
     )    
   {
     //Зафіксовано зріз при найвищійу досліджуваній напрузі з моменту початку спостереження за нею
@@ -4420,10 +4478,20 @@ inline void continue_monitoring_max_U(unsigned int time_tmp)
     measurements_U_max_dr[17] = (unsigned int)frequency_val_1_int;
     measurements_U_max_dr[18] = (unsigned int)frequency_val_2_int;
 
-    //Визначаємо макисальну фазну напругу між трьома фазами
-    max_voltage_dr = measurement[index_IM_UA];
-    if (max_voltage_dr < measurement[index_IM_UB]) max_voltage_dr = measurement[index_IM_UB];
-    if (max_voltage_dr <measurement[index_IM_UC]) max_voltage_dr = measurement[index_IM_UC];
+    if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) == 0)
+    {
+      //Визначаємо макисальну лінійну напругу між трьома фазами
+      max_voltage_dr = measurement[index_IM_UAB];
+      if (max_voltage_dr < measurement[index_IM_UBC]) max_voltage_dr = measurement[index_IM_UBC];
+      if (max_voltage_dr <measurement[index_IM_UCA]) max_voltage_dr = measurement[index_IM_UCA];
+    }
+    else
+    {
+      //Визначаємо макисальну фазну напругу між трьома фазами
+      max_voltage_dr = measurement[index_IM_UA];
+      if (max_voltage_dr < measurement[index_IM_UB]) max_voltage_dr = measurement[index_IM_UB];
+      if (max_voltage_dr <measurement[index_IM_UC]) max_voltage_dr = measurement[index_IM_UC];
+    }
 
     //Фіксуємо час з моменту початку аварійного запису
     measurements_U_max_dr[19] = time_tmp;
@@ -5096,12 +5164,8 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 25] = (previous_active_functions[5] >> 16) & 0xff;
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 26] = (previous_active_functions[5] >> 24) & 0xff;
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 27] =  previous_active_functions[6]        & 0xff;
-//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 28] = (previous_active_functions[6] >> 8)  & 0xff;
-//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 29] = (previous_active_functions[6] >> 16) & 0xff;
-//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 30] = (previous_active_functions[6] >> 24) & 0xff;
-//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 31] =  previous_active_functions[7]        & 0xff;
           //Нулем позначаємо у цій позиції кількість змін
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 32] = 0;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 28] = 0;
 
           //Помічаємо кількість нових зрізів
           number_items_dr = 1;
@@ -5114,42 +5178,38 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
       
           //Записуємо текучий cтан сигналів
           //Мітка часу
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  0] =  time_from_start_record_dr        & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  1] = (time_from_start_record_dr >> 8 ) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  2] = (time_from_start_record_dr >> 16) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  0] =  time_from_start_record_dr        & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  1] = (time_from_start_record_dr >> 8 ) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  2] = (time_from_start_record_dr >> 16) & 0xff;
           //Текучий стан сигналів
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  3] =  carrent_active_functions[0]        & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  4] = (carrent_active_functions[0] >> 8 ) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  5] = (carrent_active_functions[0] >> 16) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  6] = (carrent_active_functions[0] >> 24) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  7] =  carrent_active_functions[1]        & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  8] = (carrent_active_functions[1] >> 8 ) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  9] = (carrent_active_functions[1] >> 16) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 10] = (carrent_active_functions[1] >> 24) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 11] =  carrent_active_functions[2]        & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 12] = (carrent_active_functions[2] >> 8 ) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 13] = (carrent_active_functions[2] >> 16) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 14] = (carrent_active_functions[2] >> 24) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 15] =  carrent_active_functions[3]        & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 16] = (carrent_active_functions[3] >> 8 ) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 17] = (carrent_active_functions[3] >> 16) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 18] = (carrent_active_functions[3] >> 24) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 19] =  carrent_active_functions[4]        & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 20] = (carrent_active_functions[4] >> 8 ) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 21] = (carrent_active_functions[4] >> 16) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 22] = (carrent_active_functions[4] >> 24) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 23] =  carrent_active_functions[5]        & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 24] = (carrent_active_functions[5] >> 8 ) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 25] = (carrent_active_functions[5] >> 16) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 26] = (carrent_active_functions[5] >> 24) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 27] =  carrent_active_functions[6]        & 0xff;
-//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 28] = (carrent_active_functions[6] >> 8 ) & 0xff;
-//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 29] = (carrent_active_functions[6] >> 16) & 0xff;
-//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 30] = (carrent_active_functions[6] >> 24) & 0xff;
-//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 31] =  carrent_active_functions[7]        & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  3] =  carrent_active_functions[0]        & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  4] = (carrent_active_functions[0] >> 8 ) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  5] = (carrent_active_functions[0] >> 16) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  6] = (carrent_active_functions[0] >> 24) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  7] =  carrent_active_functions[1]        & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  8] = (carrent_active_functions[1] >> 8 ) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  9] = (carrent_active_functions[1] >> 16) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 10] = (carrent_active_functions[1] >> 24) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 11] =  carrent_active_functions[2]        & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 12] = (carrent_active_functions[2] >> 8 ) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 13] = (carrent_active_functions[2] >> 16) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 14] = (carrent_active_functions[2] >> 24) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 15] =  carrent_active_functions[3]        & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 16] = (carrent_active_functions[3] >> 8 ) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 17] = (carrent_active_functions[3] >> 16) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 18] = (carrent_active_functions[3] >> 24) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 19] =  carrent_active_functions[4]        & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 20] = (carrent_active_functions[4] >> 8 ) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 21] = (carrent_active_functions[4] >> 16) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 22] = (carrent_active_functions[4] >> 24) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 23] =  carrent_active_functions[5]        & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 24] = (carrent_active_functions[5] >> 8 ) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 25] = (carrent_active_functions[5] >> 16) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 26] = (carrent_active_functions[5] >> 24) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 27] =  carrent_active_functions[6]        & 0xff;
           
           //Кількість змін сигналів у порівнянні із попереднім станом
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 32] = number_changes_into_current_item & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 28] = number_changes_into_current_item & 0xff;
         }
         else
         {
@@ -5313,41 +5373,38 @@ inline void digital_registrator(volatile unsigned int* carrent_active_functions)
       
           //Записуємо текучий cтан сигналів
           //Мітка часу
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  0] =  time_from_start_record_dr        & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  1] = (time_from_start_record_dr >> 8 ) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  2] = (time_from_start_record_dr >> 16) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  0] =  time_from_start_record_dr        & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  1] = (time_from_start_record_dr >> 8 ) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  2] = (time_from_start_record_dr >> 16) & 0xff;
           //Текучий стан сигналів
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  3] =  carrent_active_functions[0]        & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  4] = (carrent_active_functions[0] >> 8 ) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  5] = (carrent_active_functions[0] >> 16) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  6] = (carrent_active_functions[0] >> 24) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  7] =  carrent_active_functions[1]        & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  8] = (carrent_active_functions[1] >> 8 ) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 +  9] = (carrent_active_functions[1] >> 16) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 10] = (carrent_active_functions[1] >> 24) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 11] =  carrent_active_functions[2]        & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 12] = (carrent_active_functions[2] >> 8 ) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 13] = (carrent_active_functions[2] >> 16) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 14] = (carrent_active_functions[2] >> 24) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 15] =  carrent_active_functions[3]        & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 16] = (carrent_active_functions[3] >> 8 ) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 17] = (carrent_active_functions[3] >> 16) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 18] = (carrent_active_functions[3] >> 24) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 19] =  carrent_active_functions[4]        & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 20] = (carrent_active_functions[4] >> 8 ) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 21] = (carrent_active_functions[4] >> 16) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 22] = (carrent_active_functions[4] >> 24) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 23] =  carrent_active_functions[5]        & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 24] = (carrent_active_functions[5] >> 8 ) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 25] = (carrent_active_functions[5] >> 16) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 26] = (carrent_active_functions[5] >> 24) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 27] =  carrent_active_functions[6]        & 0xff;
-//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 28] = (carrent_active_functions[6] >> 8 ) & 0xff;
-//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 29] = (carrent_active_functions[6] >> 16) & 0xff;
-//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 30] = (carrent_active_functions[6] >> 24) & 0xff;
-//          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 31] =  carrent_active_functions[7]        & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  3] =  carrent_active_functions[0]        & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  4] = (carrent_active_functions[0] >> 8 ) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  5] = (carrent_active_functions[0] >> 16) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  6] = (carrent_active_functions[0] >> 24) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  7] =  carrent_active_functions[1]        & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  8] = (carrent_active_functions[1] >> 8 ) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 +  9] = (carrent_active_functions[1] >> 16) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 10] = (carrent_active_functions[1] >> 24) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 11] =  carrent_active_functions[2]        & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 12] = (carrent_active_functions[2] >> 8 ) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 13] = (carrent_active_functions[2] >> 16) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 14] = (carrent_active_functions[2] >> 24) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 15] =  carrent_active_functions[3]        & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 16] = (carrent_active_functions[3] >> 8 ) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 17] = (carrent_active_functions[3] >> 16) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 18] = (carrent_active_functions[3] >> 24) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 19] =  carrent_active_functions[4]        & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 20] = (carrent_active_functions[4] >> 8 ) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 21] = (carrent_active_functions[4] >> 16) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 22] = (carrent_active_functions[4] >> 24) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 23] =  carrent_active_functions[5]        & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 24] = (carrent_active_functions[5] >> 8 ) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 25] = (carrent_active_functions[5] >> 16) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 26] = (carrent_active_functions[5] >> 24) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 27] =  carrent_active_functions[6]        & 0xff;
+
           //Кількість змін сигналів у порівнянні із попереднім станом
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*33 + 32] = number_changes_into_current_item & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*29 + 28] = number_changes_into_current_item & 0xff;
         }
         
         //Перевіряємо, чи стоїть умова завершення запису
