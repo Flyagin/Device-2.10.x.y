@@ -25,84 +25,55 @@
 #define INDEX_ML_TMOCTRL_PHASE_SEQ_TN1         3
 #define INDEX_ML_TMOCTRL_PHASE_SEQ_TN2         4
 
-#define COL_SETPOINT_CTRL_PHASE_U_BEGIN        6
-#define COL_SETPOINT_CTRL_PHASE_U_COMMA        8
-#define COL_SETPOINT_CTRL_PHASE_U_END          9
+#define COL_SETPOINT_CTRL_PHASE_U_BEGIN        5
+#define COL_SETPOINT_CTRL_PHASE_U_COMMA        7
+#define COL_SETPOINT_CTRL_PHASE_U_END          8
 
-#define COL_SETPOINT_CTRL_PHASE_PHI_BEGIN      6
-#define COL_SETPOINT_CTRL_PHASE_PHI_COMMA      8
-#define COL_SETPOINT_CTRL_PHASE_PHI_END        9
+#define COL_SETPOINT_CTRL_PHASE_PHI_BEGIN      5
+#define COL_SETPOINT_CTRL_PHASE_PHI_COMMA      7
+#define COL_SETPOINT_CTRL_PHASE_PHI_END        8
 
 #define COL_SETPOINT_CTRL_PHASE_F_BEGIN        6
 #define COL_SETPOINT_CTRL_PHASE_F_COMMA        7
 #define COL_SETPOINT_CTRL_PHASE_F_END          9
 
-#define COL_SETPOINT_CTRL_PHASE_MAX2_BEGIN     5
-#define COL_SETPOINT_CTRL_PHASE_MAX2_COMMA     8
-#define COL_SETPOINT_CTRL_PHASE_MAX2_END       9
+#define COL_TMO_CTRL_PHASE_U_BEGIN             4
+#define COL_TMO_CTRL_PHASE_U_COMMA             6
+#define COL_TMO_CTRL_PHASE_U_END               8
 
-#define COL_TMO_CTRL_PHASE_BLK_K1_BEGIN        4
-#define COL_TMO_CTRL_PHASE_BLK_K1_COMMA        6
-#define COL_TMO_CTRL_PHASE_BLK_K1_END          8
+#define COL_TMO_CTRL_PHASE_PHI_BEGIN           4
+#define COL_TMO_CTRL_PHASE_PHI_COMMA           6
+#define COL_TMO_CTRL_PHASE_PHI_END             8
 
-#define COL_TMO_CTRL_PHASE_PUSK_K1_BEGIN       4
-#define COL_TMO_CTRL_PHASE_PUSK_K1_COMMA       6
-#define COL_TMO_CTRL_PHASE_PUSK_K1_END         8
+#define COL_TMO_CTRL_PHASE_F_BEGIN             4
+#define COL_TMO_CTRL_PHASE_F_COMMA             6
+#define COL_TMO_CTRL_PHASE_F_END               8
 
-#define COL_TMO_CTRL_PHASE_D_DIJI_K1_BEGIN     4
-#define COL_TMO_CTRL_PHASE_D_DIJI_K1_COMMA     6
-#define COL_TMO_CTRL_PHASE_D_DIJI_K1_END       8
+#define COL_TMO_CTRL_PHASE_SEQ_TN1_BEGIN       4
+#define COL_TMO_CTRL_PHASE_SEQ_TN1_COMMA       6
+#define COL_TMO_CTRL_PHASE_SEQ_TN1_END         8
 
-#define COL_TMO_CTRL_PHASE_VVIMK_REZ_K1_BEGIN  4
-#define COL_TMO_CTRL_PHASE_VVIMK_REZ_K1_COMMA  6
-#define COL_TMO_CTRL_PHASE_VVIMK_REZ_K1_END    8
+#define COL_TMO_CTRL_PHASE_SEQ_TN2_BEGIN       4
+#define COL_TMO_CTRL_PHASE_SEQ_TN2_COMMA       6
+#define COL_TMO_CTRL_PHASE_SEQ_TN2_END         8
 
-#define COL_TMO_CTRL_PHASE_VVIMK_K1_BEGIN      4
-#define COL_TMO_CTRL_PHASE_VVIMK_K1_COMMA      6
-#define COL_TMO_CTRL_PHASE_VVIMK_K1_END        8
+#define INDEX_CTR_CTRL_PHASE_U                 0
+#define CTR_CTRL_PHASE_U                       (1 << INDEX_CTR_CTRL_PHASE_U)
+#define INDEX_CTR_CTRL_PHASE_PHI               1
+#define CTR_CTRL_PHASE_PHI                     (1 << INDEX_CTR_CTRL_PHASE_PHI)
+#define INDEX_CTR_CTRL_PHASE_F                 2
+#define CTR_CTRL_PHASE_F                       (1 << INDEX_CTR_CTRL_PHASE_F)
+#define INDEX_CTR_CTRL_PHASE_SEQ_TN1           3
+#define CTR_CTRL_PHASE_SEQ_TN1                 (1 << INDEX_CTR_CTRL_PHASE_SEQ_TN1)
+#define INDEX_CTR_CTRL_PHASE_SEQ_TN2           4
+#define CTR_CTRL_PHASE_SEQ_TN2                 (1 << INDEX_CTR_CTRL_PHASE_SEQ_TN2)
 
-#define COL_TMO_CTRL_PHASE_VYMK_ROB_K1_BEGIN   4
-#define COL_TMO_CTRL_PHASE_VYMK_ROB_K1_COMMA   6
-#define COL_TMO_CTRL_PHASE_VYMK_ROB_K1_END     8
-
-#define COL_TMO_CTRL_PHASE_VYMK_K1_BEGIN       4
-#define COL_TMO_CTRL_PHASE_VYMK_K1_COMMA       6
-#define COL_TMO_CTRL_PHASE_VYMK_K1_END         8
-
-#define COL_TMO_CTRL_PHASE_BLK_K2_BEGIN        4
-#define COL_TMO_CTRL_PHASE_BLK_K2_COMMA        6
-#define COL_TMO_CTRL_PHASE_BLK_K2_END          8
-
-#define COL_TMO_CTRL_PHASE_PUSK_K2_BEGIN       4
-#define COL_TMO_CTRL_PHASE_PUSK_K2_COMMA       6
-#define COL_TMO_CTRL_PHASE_PUSK_K2_END         8
-
-#define COL_TMO_CTRL_PHASE_D_DIJI_K2_BEGIN     4
-#define COL_TMO_CTRL_PHASE_D_DIJI_K2_COMMA     6
-#define COL_TMO_CTRL_PHASE_D_DIJI_K2_END       8
-
-#define COL_TMO_CTRL_PHASE_VVIMK_REZ_K2_BEGIN  4
-#define COL_TMO_CTRL_PHASE_VVIMK_REZ_K2_COMMA  6
-#define COL_TMO_CTRL_PHASE_VVIMK_REZ_K2_END    8
-
-#define COL_TMO_CTRL_PHASE_VVIMK_K2_BEGIN      4
-#define COL_TMO_CTRL_PHASE_VVIMK_K2_COMMA      6
-#define COL_TMO_CTRL_PHASE_VVIMK_K2_END        8
-
-#define COL_TMO_CTRL_PHASE_VYMK_ROB_K2_BEGIN   4
-#define COL_TMO_CTRL_PHASE_VYMK_ROB_K2_COMMA   6
-#define COL_TMO_CTRL_PHASE_VYMK_ROB_K2_END     8
-
-#define COL_TMO_CTRL_PHASE_VYMK_K2_BEGIN       4
-#define COL_TMO_CTRL_PHASE_VYMK_K2_COMMA       6
-#define COL_TMO_CTRL_PHASE_VYMK_K2_END         8
-
-#define INDEX_CTR_CTRL_PHASE                           0
-#define CTR_CTRL_PHASE                                 (1 << INDEX_CTR_CTRL_PHASE)
-#define INDEX_CTR_CTRL_PHASE_OTKL_BLK                  1
-#define CTR_CTRL_PHASE_OTKL_BLK                       (1 << INDEX_CTR_CTRL_PHASE_OTKL_BLK)
-
-#define CTR_CTRL_PHASE_MASKA                           (CTR_CTRL_PHASE                       |\
-                                                 CTR_CTRL_PHASE_OTKL_BLK)
+#define CTR_CTRL_PHASE_MASKA                   (                         \
+                                                CTR_CTRL_PHASE_U        |\
+                                                CTR_CTRL_PHASE_PHI      |\
+                                                CTR_CTRL_PHASE_F        |\
+                                                CTR_CTRL_PHASE_SEQ_TN1  |\
+                                                CTR_CTRL_PHASE_SEQ_TN2   \
+                                               )
 
 #endif

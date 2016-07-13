@@ -1896,6 +1896,15 @@ void min_settings(__SETTINGS *target_label)
     target_label->timeout_avr_vvimk_k2[i] = TIMEOUT_AVR_VVIMK_K2_MIN;
     target_label->timeout_avr_vymk_rob_k2[i] = TIMEOUT_AVR_VYMK_ROB_K2_MIN;
     target_label->timeout_avr_vymk_k2[i] = TIMEOUT_AVR_VYMK_K2_MIN;
+
+    target_label->setpoint_ctrl_phase_U[i] = SETPOINT_CTRL_PHASE_U_MIN;
+    target_label->setpoint_ctrl_phase_phi[i] = SETPOINT_CTRL_PHASE_PHI_MIN;
+    target_label->setpoint_ctrl_phase_f[i] = SETPOINT_CTRL_PHASE_F_MIN;
+    target_label->timeout_ctrl_phase_U[i] = TIMEOUT_CTRL_PHASE_U_MIN;
+    target_label->timeout_ctrl_phase_phi[i] = TIMEOUT_CTRL_PHASE_PHI_MIN;
+    target_label->timeout_ctrl_phase_f[i] = TIMEOUT_CTRL_PHASE_F_MIN;
+    target_label->timeout_ctrl_phase_seq_TN1[i] = TIMEOUT_CTRL_PHASE_SEQ_TN1_MIN;
+    target_label->timeout_ctrl_phase_seq_TN2[i] = TIMEOUT_CTRL_PHASE_SEQ_TN2_MIN;
   }
 
   target_label->control_mtz = 0;
@@ -1906,6 +1915,7 @@ void min_settings(__SETTINGS *target_label)
   target_label->control_Umin = 0;
   target_label->control_Umax = 0;
   target_label->control_avr = 0;
+  target_label->control_ctrl_phase = 0;
   
   target_label->setpoint_Inom = SETPOINT_Inom_MIN;
   target_label->setpoint_r_kom_st_Inom = SETPOINT_RKS_Inom_MIN;

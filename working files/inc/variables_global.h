@@ -326,10 +326,10 @@ volatile unsigned int periodical_tasks_CALC_DELTA_PHI = false;
 
 const unsigned char odynyci_vymirjuvannja[MAX_NAMBER_LANGUAGE][NUMBER_ODYNYCI_VYMIRJUVANNJA] =
 {
-  {'À', 'Â', 'ñ'},
-  {'À', 'Â', 'ñ'},
-  {'A', 'V', 's'},
-  {'À', 'Â', 'ñ'}
+  {'À', 'Â', '°', 'ñ'},
+  {'À', 'Â', '°', 'ñ'},
+  {'A', 'V', '°', 's'},
+  {'À', 'Â', '°', 'ñ'}
 };
 
 unsigned int fixed_power_down_into_RTC = 0; 

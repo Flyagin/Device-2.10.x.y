@@ -289,6 +289,30 @@
 #define TIMEOUT_AVR_VYMK_K2_MIN       200
 #define TIMEOUT_AVR_VYMK_K2_MAX       32000
 
+#define SETPOINT_CTRL_PHASE_U_MIN     100
+#define SETPOINT_CTRL_PHASE_U_MAX     50000
+
+#define SETPOINT_CTRL_PHASE_PHI_MIN   1         //формат xy <- x.y, тобто 0.1
+#define SETPOINT_CTRL_PHASE_PHI_MAX   450       //формат xy <- x.y, тобто 45.0
+
+#define SETPOINT_CTRL_PHASE_F_MIN     10        //формат xyzl <- x.yzl, тобто 0.010
+#define SETPOINT_CTRL_PHASE_F_MAX     5000      //формат xyzl <- x.yzl, тобто 5.000
+
+#define TIMEOUT_CTRL_PHASE_U_MIN      0
+#define TIMEOUT_CTRL_PHASE_U_MAX      32000
+
+#define TIMEOUT_CTRL_PHASE_PHI_MIN    0
+#define TIMEOUT_CTRL_PHASE_PHI_MAX    32000
+
+#define TIMEOUT_CTRL_PHASE_F_MIN      0
+#define TIMEOUT_CTRL_PHASE_F_MAX      32000
+
+#define TIMEOUT_CTRL_PHASE_SEQ_TN1_MIN 0
+#define TIMEOUT_CTRL_PHASE_SEQ_TN1_MAX 32000
+
+#define TIMEOUT_CTRL_PHASE_SEQ_TN2_MIN 0
+#define TIMEOUT_CTRL_PHASE_SEQ_TN2_MAX 32000
+
 #define SETPOINT_Inom_MIN             5
 #define SETPOINT_Inom_MAX             (SETPOINT_Inom_MIN*KOEF_TT_MAX)
 
