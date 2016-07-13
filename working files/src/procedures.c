@@ -189,6 +189,31 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
       )
       error_window |= (1 << AVR_BIT_CONFIGURATION );
   }
+  //Перевірка "Перевірка фазування"
+  if ((new_configuration & (1<<CTRL_PHASE_BIT_CONFIGURATION)) == 0)
+  {
+    if(
+       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_CTRL_PHASE)
+       || 
+       (
+        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_CTRL_PHASE) &&
+        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_CTRL_PHASE) 
+       )  
+       ||
+       (
+        (current_ekran.current_level >= EKRAN_SETPOINT_CTRL_PHASE_GROUP1) &&
+        (current_ekran.current_level <= EKRAN_SETPOINT_CTRL_PHASE_GROUP4)
+       )
+       ||  
+       (
+        (current_ekran.current_level >= EKRAN_TIMEOUT_CTRL_PHASE_GROUP1) &&
+        (current_ekran.current_level <= EKRAN_TIMEOUT_CTRL_PHASE_GROUP4)
+       )
+       ||  
+       (current_ekran.current_level == EKRAN_CONTROL_CTRL_PHASE)
+      )
+      error_window |= (1 << CTRL_PHASE_BIT_CONFIGURATION );
+  }
   //Перевірка "Розширеної логіки"
   if ((new_configuration & (1<<EL_BIT_CONFIGURATION)) == 0)
   {
@@ -1200,6 +1225,146 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
       }
     }
 
+    //Перевіряємо, чи "Перевірка фазування" зараз знята з конфігурації
+    if ((target_label->configuration & (1<<CTRL_PHASE_BIT_CONFIGURATION)) == 0)
+    {
+      //Виводим всі "Перевірки фазування"
+      target_label->control_ctrl_phase &= (unsigned int)(~CTR_CTRL_PHASE_U | CTR_CTRL_PHASE_PHI | CTR_CTRL_PHASE_F | CTR_CTRL_PHASE_SEQ_TN1 | CTR_CTRL_PHASE_SEQ_TN2);
+   
+      //Формуємо маски функцій "Перевірка фазування"
+      maska[0] = 0;
+      maska[1] = 0;
+      for (int i = 0; i < NUMBER_CTRL_PHASE_SIGNAL_FOR_RANG_INPUT; i++)
+        _SET_BIT(
+                 maska, 
+                 (
+                  NUMBER_GENERAL_SIGNAL_FOR_RANG_INPUT    + 
+                  NUMBER_MTZ_SIGNAL_FOR_RANG_INPUT        +
+                  NUMBER_ZDZ_SIGNAL_FOR_RANG_INPUT        +
+                  NUMBER_APV_SIGNAL_FOR_RANG_INPUT        +
+                  NUMBER_UROV_SIGNAL_FOR_RANG_INPUT       +
+                  NUMBER_ZOP_SIGNAL_FOR_RANG_INPUT        +
+                  NUMBER_UMIN_SIGNAL_FOR_RANG_INPUT       +
+                  NUMBER_UMAX_SIGNAL_FOR_RANG_INPUT       +
+                  NUMBER_AVR_SIGNAL_FOR_RANG_INPUT       +
+                  i
+                 )
+                );
+     
+      maska_1[0] = 0;
+      maska_1[1] = 0;
+      maska_1[2] = 0;
+      maska_1[3] = 0;
+      maska_1[4] = 0;
+      maska_1[5] = 0;
+      for (int i = 0; i < NUMBER_CTRL_PHASE_SIGNAL_FOR_RANG; i++)
+        _SET_BIT(
+                 maska_1, 
+                 (
+                  NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
+                  NUMBER_MTZ_SIGNAL_FOR_RANG        +
+                  NUMBER_ZDZ_SIGNAL_FOR_RANG        +
+                  NUMBER_APV_SIGNAL_FOR_RANG        +
+                  NUMBER_UROV_SIGNAL_FOR_RANG       +
+                  NUMBER_ZOP_SIGNAL_FOR_RANG        +
+                  NUMBER_UMIN_SIGNAL_FOR_RANG       +
+                  NUMBER_UMAX_SIGNAL_FOR_RANG       +
+                  NUMBER_AVR_SIGNAL_FOR_RANG       +
+                  i
+                 )
+                );
+
+
+      maska_2 = 0;
+      for (int i = 0; i < NUMBER_CTRL_PHASE_SIGNAL_FOR_RANG_BUTTON; i++) maska_2 = (maska_2 <<1) + 0x1;
+      maska_2 =(
+                maska_2 << (
+                            NUMBER_GENERAL_SIGNAL_FOR_RANG_BUTTON    + 
+                            NUMBER_MTZ_SIGNAL_FOR_RANG_BUTTON        +
+                            NUMBER_ZDZ_SIGNAL_FOR_RANG_BUTTON        +
+                            NUMBER_APV_SIGNAL_FOR_RANG_BUTTON        +
+                            NUMBER_UROV_SIGNAL_FOR_RANG_BUTTON       +
+                            NUMBER_ZOP_SIGNAL_FOR_RANG_BUTTON        +
+                            NUMBER_UMIN_SIGNAL_FOR_RANG_BUTTON       +
+                            NUMBER_UMAX_SIGNAL_FOR_RANG_BUTTON       +
+                            NUMBER_AVR_SIGNAL_FOR_RANG_BUTTON
+                           )
+               );
+
+      //Знімаємо всі функції для ранжування входів
+      for (int i = 0; i < NUMBER_DEFINED_BUTTONS; i++)
+        target_label->ranguvannja_buttons[i] &= ~maska_2;
+      //Знімаємо всі функції для ранжування входів
+      for (int i = 0; i < NUMBER_INPUTS; i++)
+      {
+        target_label->ranguvannja_inputs[N_SMALL*i  ] &= ~maska[0];
+        target_label->ranguvannja_inputs[N_SMALL*i+1] &= ~maska[1];
+      }
+      //Знімаємо всі функції для ранжування виходів
+      for (int i = 0; i < NUMBER_OUTPUTS; i++)
+      {
+        for (unsigned int j = 0; j < N_BIG; j++ ) target_label->ranguvannja_outputs[N_BIG*i+j] &= ~maska_1[j];
+      }
+      //Знімаємо всі функції для ранжування світоіндикаторів
+      for (int i = 0; i < NUMBER_LEDS; i++)
+      {
+        for (unsigned int j = 0; j < N_BIG; j++ ) target_label->ranguvannja_leds[N_BIG*i+j] &= ~maska_1[j];
+      }
+      //Знімаємо всі функції для ранжування аналогового, дискретного реєстраторів, блоків ввімкнення і вимкнення
+      for (unsigned int j = 0; j < N_BIG; j++ ) 
+      {
+        target_label->ranguvannja_analog_registrator[j]  &= ~maska_1[j];
+        target_label->ranguvannja_digital_registrator[j] &= ~maska_1[j];
+        target_label->ranguvannja_off_cb[j] &= ~maska_1[j];
+        target_label->ranguvannja_on_cb[j]  &= ~maska_1[j];
+      }
+      //Знімаємо всі функції для ранжування оприділювальних функцій
+      for (int i = 0; i < NUMBER_DEFINED_FUNCTIONS; i++)
+      {
+        for (unsigned int j = 0; j < N_BIG; j++ ) 
+        {
+          target_label->ranguvannja_df_source_plus[N_BIG*i+j]  &= ~maska_1[j];
+          target_label->ranguvannja_df_source_minus[N_BIG*i+j] &= ~maska_1[j];
+          target_label->ranguvannja_df_source_blk[N_BIG*i+j]   &= ~maska_1[j];
+        }
+      }
+      //Знімаємо всі функції для ранжування оприділювальних триґерів
+      for (int i = 0; i < NUMBER_DEFINED_TRIGGERS; i++)
+      {
+        for (unsigned int j = 0; j < N_BIG; j++ ) 
+        {
+          target_label->ranguvannja_set_dt_source_plus[N_BIG*i+j]    &= ~maska_1[j];
+          target_label->ranguvannja_set_dt_source_minus[N_BIG*i+j]   &= ~maska_1[j];
+          target_label->ranguvannja_reset_dt_source_plus[N_BIG*i+j]  &= ~maska_1[j];
+          target_label->ranguvannja_reset_dt_source_minus[N_BIG*i+j] &= ~maska_1[j];
+        }
+      }
+  
+      //Знімаємо всі функції для ранжування визначуваних "І"
+      for(unsigned int i = 0; i < NUMBER_DEFINED_AND; i++)
+      {
+        for (unsigned int j = 0; j < N_BIG; j++ ) target_label->ranguvannja_d_and[N_BIG*i+j] &= ~maska_1[j];
+      }
+  
+      //Знімаємо всі функції для ранжування визначуваних "АБО"
+      for(unsigned int i = 0; i < NUMBER_DEFINED_OR; i++)
+      {
+        for (unsigned int j = 0; j < N_BIG; j++ ) target_label->ranguvannja_d_or[N_BIG*i+j] &= ~maska_1[j];
+      }
+  
+      //Знімаємо всі функції для ранжування визначуваних "Викл.АБО"
+      for(unsigned int i = 0; i < NUMBER_DEFINED_XOR; i++)
+      {
+        for (unsigned int j = 0; j < N_BIG; j++ ) target_label->ranguvannja_d_xor[N_BIG*i+j] &= ~maska_1[j];
+      }
+  
+      //Знімаємо всі функції для ранжування визначуваних "НЕ"
+      for(unsigned int i = 0; i < NUMBER_DEFINED_NOT; i++)
+      {
+        for (unsigned int j = 0; j < N_BIG; j++ ) target_label->ranguvannja_d_not[N_BIG*i+j] &= ~maska_1[j];
+      }
+    }
+
     //"Розширена логіка"
     maska[0] = 0;
     maska[1] = 0;
@@ -1225,6 +1390,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_UMIN_SIGNAL_FOR_RANG_INPUT       +
                   NUMBER_UMAX_SIGNAL_FOR_RANG_INPUT       +
                   NUMBER_AVR_SIGNAL_FOR_RANG_INPUT        +
+                  NUMBER_CTRL_PHASE_SIGNAL_FOR_RANG_INPUT +
                   i
                  )
                 );
@@ -1242,6 +1408,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_UMIN_SIGNAL_FOR_RANG       +
                   NUMBER_UMAX_SIGNAL_FOR_RANG       +
                   NUMBER_AVR_SIGNAL_FOR_RANG        +
+                  NUMBER_CTRL_PHASE_SIGNAL_FOR_RANG +
                   i
                  )
                 );
@@ -1258,7 +1425,8 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                             NUMBER_ZOP_SIGNAL_FOR_RANG_BUTTON        +
                             NUMBER_UMIN_SIGNAL_FOR_RANG_BUTTON       +
                             NUMBER_UMAX_SIGNAL_FOR_RANG_BUTTON       +
-                            NUMBER_AVR_SIGNAL_FOR_RANG_BUTTON
+                            NUMBER_AVR_SIGNAL_FOR_RANG_BUTTON        +
+                            NUMBER_CTRL_PHASE_SIGNAL_FOR_RANG_BUTTON
                            )
                );
       

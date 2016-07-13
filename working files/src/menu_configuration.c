@@ -18,6 +18,7 @@ void make_ekran_configuration(unsigned int configuration_edit_temp)
      "ЗНмин     ",
      "ЗНмакс    ",
      " АВР      ",
+     "Контр.фаз ",
      "Расш.лог. "
     },
     {
@@ -29,6 +30,7 @@ void make_ekran_configuration(unsigned int configuration_edit_temp)
      "ЗНмін     ",
      "ЗНмакс    ",
      " АВР      ",
+     "Контр.фаз ",
      "Розш.лог. "
     },
     {
@@ -40,6 +42,7 @@ void make_ekran_configuration(unsigned int configuration_edit_temp)
      "Umin      ",
      "Umax      ",
      " АВР      ",
+     "Контр.фаз ",
      "Ext.logic "
     },
     {
@@ -51,6 +54,7 @@ void make_ekran_configuration(unsigned int configuration_edit_temp)
      "ЗНмин     ",
      "ЗНмакс    ",
      " АВР      ",
+     "Контр.фаз ",
      "Расш.лог. "
     }
   };

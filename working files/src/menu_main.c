@@ -25,7 +25,8 @@ void make_ekran_main(void)
      " ЗОП(КОФ)       ",
      " ЗНмин          ",
      " ЗНмакс         ",
-     " АВР            "
+     " АВР            ",
+     " Контр.фаз.     "
     },
     {
      " Годинник       ",
@@ -45,7 +46,8 @@ void make_ekran_main(void)
      " ЗЗП(КОФ)       ",
      " ЗНмін          ",
      " ЗНмакс         ",
-     " АВР            "
+     " АВР            ",
+     " Контр.фаз.     "
     },
     {
      " Clock          ",
@@ -66,6 +68,7 @@ void make_ekran_main(void)
      " Umin           ",
      " Umax           ",
      " АВР            ",
+     " Контр.фаз.     "
     },
     {
      " Саfат          ",
@@ -86,6 +89,7 @@ void make_ekran_main(void)
      " ЗНмин          ",
      " ЗНмакс         ",
      " АВР            ",
+     " Контр.фаз.     "
     }
   };
   unsigned char name_string_tmp[MAX_ROW_FOR_EKRAN_MAIN][MAX_COL_LCD];

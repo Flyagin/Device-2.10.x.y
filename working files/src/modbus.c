@@ -9216,6 +9216,11 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
           case (192 + NUMBER_ANALOG_CANALES):
           case (193 + NUMBER_ANALOG_CANALES):
           case (194 + NUMBER_ANALOG_CANALES):
+          case (195 + NUMBER_ANALOG_CANALES):
+          case (196 + NUMBER_ANALOG_CANALES):
+          case (197 + NUMBER_ANALOG_CANALES):
+          case (198 + NUMBER_ANALOG_CANALES):
+          case (199 + NUMBER_ANALOG_CANALES):
             {
               if (length <= 19)
               {
@@ -9357,6 +9362,11 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         " Ком.2 Вкл.АВР  ",
                         " Ком.2 Откл.АВР ",
                         " Ком.4 Вкл.АВР  ",
+                        "Нед.разн.напр.с.",
+                        " Нед.разн.фаз с.",
+                        "  Нед.разн.ч.с. ",
+                        "Нед.посл.фаз с.1",
+                        "Нед.посл.фаз с.2",
                         " Вх.О-функции1  ",
                         " Вых.О-функции1 ",
                         " Вх.О-функции2  ",
@@ -9552,6 +9562,11 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         " Ком.2 Ввікл.АВР",
                         " Ком.2 Вимк.АВР ",
                         " Ком.4 Ввікл.АВР",
+                        "Нед.різн.напр.с.",
+                        " Нед.різн.фаз с.",
+                        "  Нед.різн.ч.с. ",
+                        "Нед.посл.фаз с.1",
+                        "Нед.посл.фаз с.2",
                         " Вх.В-функції1  ",
                         " Вих.В-функції1 ",
                         " Вх.В-функції2  ",
@@ -9747,6 +9762,11 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         " Ком.2 Вкл.АВР  ",
                         " Ком.2 Откл.АВР ",
                         " Ком.4 Вкл.АВР  ",
+                        "Нед.разн.напр.с.",
+                        " Нед.разн.фаз с.",
+                        "  Нед.разн.ч.с. ",
+                        "Нед.посл.фаз с.1",
+                        "Нед.посл.фаз с.2",
                         "    UDF1 In     ",
                         "    UDF1 Out    ",
                         "    UDF2 In     ",
@@ -9942,6 +9962,11 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         " Ком.2 Вкл.АВР  ",
                         " Ком.2 Откл.АВР ",
                         " Ком.4 Вкл.АВР  ",
+                        "Нед.разн.напр.с.",
+                        " Нед.разн.фаз с.",
+                        "  Нед.разн.ч.с. ",
+                        "Нед.посл.фаз с.1",
+                        "Нед.посл.фаз с.2",
                         " Вх.О-функции1  ",
                         " Вых.О-функции1 ",
                         " Вх.О-функции2  ",
@@ -10673,6 +10698,11 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
           case 192:
           case 193:
           case 194:
+          case 195:
+          case 196:
+          case 197:
+          case 198:
+          case 199:
             {
               if (length <= 19)
               {
@@ -10814,6 +10844,11 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         " Ком.2 Вкл.АВР  ",
                         " Ком.2 Откл.АВР ",
                         " Ком.4 Вкл.АВР  ",
+                        "Нед.разн.напр.с.",
+                        " Нед.разн.фаз с.",
+                        "  Нед.разн.ч.с. ",
+                        "Нед.посл.фаз с.1",
+                        "Нед.посл.фаз с.2",
                         " Вх.О-функции1  ",
                         " Вых.О-функции1 ",
                         " Вх.О-функции2  ",
@@ -11009,6 +11044,11 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         " Ком.2 Ввікл.АВР",
                         " Ком.2 Вимк.АВР ",
                         " Ком.4 Ввікл.АВР",
+                        "Нед.різн.напр.с.",
+                        " Нед.різн.фаз с.",
+                        "  Нед.різн.ч.с. ",
+                        "Нед.посл.фаз с.1",
+                        "Нед.посл.фаз с.2",
                         " Вх.В-функції1  ",
                         " Вих.В-функції1 ",
                         " Вх.В-функції2  ",
@@ -11204,6 +11244,11 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         " Ком.2 Вкл.АВР  ",
                         " Ком.2 Откл.АВР ",
                         " Ком.4 Вкл.АВР  ",
+                        "Нед.разн.напр.с.",
+                        " Нед.разн.фаз с.",
+                        "  Нед.разн.ч.с. ",
+                        "Нед.посл.фаз с.1",
+                        "Нед.посл.фаз с.2",
                         "    UDF1 In     ",
                         "    UDF1 Out    ",
                         "    UDF2 In     ",
@@ -11399,6 +11444,11 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                         " Ком.2 Вкл.АВР  ",
                         " Ком.2 Откл.АВР ",
                         " Ком.4 Вкл.АВР  ",
+                        "Нед.разн.напр.с.",
+                        " Нед.разн.фаз с.",
+                        "  Нед.разн.ч.с. ",
+                        "Нед.посл.фаз с.1",
+                        "Нед.посл.фаз с.2",
                         " Вх.О-функции1  ",
                         " Вых.О-функции1 ",
                         " Вх.О-функции2  ",

@@ -548,6 +548,10 @@ void main_manu_function(void)
                 current_ekran.index_position++;
               if ((current_ekran.index_position == INDEX_ML1_UMAX) && ((current_settings.configuration & (1<<UMAX_BIT_CONFIGURATION)) == 0))
                 current_ekran.index_position++;
+              if ((current_ekran.index_position == INDEX_ML1_AVR) && ((current_settings.configuration & (1<<AVR_BIT_CONFIGURATION)) == 0))
+                current_ekran.index_position++;
+              if ((current_ekran.index_position == INDEX_ML1_CTRL_PHASE) && ((current_settings.configuration & (1<<CTRL_PHASE_BIT_CONFIGURATION)) == 0))
+                current_ekran.index_position++;
             }
             while (current_ekran.index_position >= MAX_ROW_FOR_EKRAN_MAIN);
             position_in_current_level_menu[EKRAN_MAIN] = current_ekran.index_position;
@@ -676,7 +680,8 @@ void main_manu_function(void)
                       (current_ekran.index_position == INDEX_ML1_ZOP       ) ||
                       (current_ekran.index_position == INDEX_ML1_UMIN      ) ||
                       (current_ekran.index_position == INDEX_ML1_UMAX      ) || 
-                      (current_ekran.index_position == INDEX_ML1_AVR       ) 
+                      (current_ekran.index_position == INDEX_ML1_AVR       ) ||
+                      (current_ekran.index_position == INDEX_ML1_CTRL_PHASE) 
                      )
               {
                 //Переходимо на меню МТЗ
@@ -695,6 +700,8 @@ void main_manu_function(void)
                 else if(current_ekran.index_position == INDEX_ML1_UMAX) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_UMAX;
                 //Переходимо на меню АВР
                 else if(current_ekran.index_position == INDEX_ML1_AVR) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_AVR;
+                //Переходимо на меню Перевірки фазування
+                else if(current_ekran.index_position == INDEX_ML1_CTRL_PHASE) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_CTRL_PHASE;
                 
                 current_ekran.index_position = position_in_current_level_menu[current_ekran.current_level];
                 current_ekran.edition = 0;
@@ -719,6 +726,8 @@ void main_manu_function(void)
               {
                 if(current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_EKRAN_MAIN - 1;
 
+                if ((current_ekran.index_position == INDEX_ML1_CTRL_PHASE) && ((current_settings.configuration & (1<<CTRL_PHASE_BIT_CONFIGURATION)) == 0))
+                  current_ekran.index_position--;
                 if ((current_ekran.index_position == INDEX_ML1_AVR) && ((current_settings.configuration & (1<<AVR_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position--;
                 if ((current_ekran.index_position == INDEX_ML1_UMAX) && ((current_settings.configuration & (1<<UMAX_BIT_CONFIGURATION)) == 0))
@@ -769,6 +778,8 @@ void main_manu_function(void)
                 if ((current_ekran.index_position == INDEX_ML1_UMAX) && ((current_settings.configuration & (1<<UMAX_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position++;
                 if ((current_ekran.index_position == INDEX_ML1_AVR) && ((current_settings.configuration & (1<<AVR_BIT_CONFIGURATION)) == 0))
+                  current_ekran.index_position++;
+                if ((current_ekran.index_position == INDEX_ML1_CTRL_PHASE) && ((current_settings.configuration & (1<<CTRL_PHASE_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position++;
               }
               while (current_ekran.index_position >= MAX_ROW_FOR_EKRAN_MAIN);
@@ -1359,6 +1370,11 @@ void main_manu_function(void)
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP2_AVR:
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP3_AVR:
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_AVR:
+    case EKRAN_CHOOSE_SETTINGS_CTRL_PHASE:
+    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_CTRL_PHASE:
+    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP2_CTRL_PHASE:
+    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP3_CTRL_PHASE:
+    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_CTRL_PHASE:
     case EKRAN_CHOSE_SETTINGS:
     case EKRAN_LEVEL_CHOOSE_PASSWORDS:
     case EKRAN_LIST_INPUTS_FOR_RANGUVANNJA:
@@ -1503,7 +1519,8 @@ void main_manu_function(void)
                      (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_ZOP       )|| 
                      (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UMIN      )||
                      (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UMAX      )||
-                     (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_AVR       )
+                     (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_AVR       )||
+                     (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_CTRL_PHASE)
                     )   
             {
               if(current_ekran.index_position >= MAX_ROW_FOR_CHOSE_SETTINGS_PROTECTION_WITH_TWO_GROUP) current_ekran.index_position = 0;
@@ -2368,6 +2385,50 @@ void main_manu_function(void)
                 current_ekran.index_position = position_in_current_level_menu[current_ekran.current_level];
                 current_ekran.edition = 0;
               }
+              else if (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_CTRL_PHASE)
+              {
+                //Натисну кнопка Enter у вікні вибору група1-...-групаN-настройки "Перевірки фазування"
+                if(
+                   (current_ekran.index_position >= INDEX_ML_GROUP1) &&
+                   (current_ekran.index_position <= INDEX_ML_GROUP4)
+                  )  
+                {
+                  //Запам'ятовуємо поперердній екран
+                  //Переходимо на меню відображення обраної групи уставок для "Перевірки фазування"
+                  current_ekran.current_level = EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_CTRL_PHASE + (current_ekran.index_position - INDEX_ML_GROUP1);
+                }
+                else if (current_ekran.index_position == INDEX_ML_CONTROL_WITH_GROUPS)
+                {
+                  //Запам'ятовуємо поперердній екран
+                  //Переходимо на меню відображення управлінської інформації для "Перевірки фазування"
+                  current_ekran.current_level = EKRAN_CONTROL_CTRL_PHASE;
+                } 
+                current_ekran.index_position = position_in_current_level_menu[current_ekran.current_level];
+                current_ekran.edition = 0;
+                current_ekran.cursor_on = 1;
+                current_ekran.cursor_blinking_on = 0;
+              }
+              else if (
+                       (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_CTRL_PHASE) &&
+                       (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_CTRL_PHASE)
+                      )
+              {
+                //Натисну кнопка Enter у вікні вибору уставок-витримок "Перевірки фазування"
+                if(current_ekran.index_position == INDEX_ML_SETPOINT)
+                {
+                  //Запам'ятовуємо поперердній екран
+                  //Переходимо на меню відображення уставок для "Перевірки фазування"
+                  current_ekran.current_level = EKRAN_SETPOINT_CTRL_PHASE_GROUP1 + (current_ekran.current_level - EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_CTRL_PHASE);
+                }
+                else if(current_ekran.index_position == INDEX_ML_TIMEOUT)
+                {
+                  //Запам'ятовуємо поперердній екран
+                  //Переходимо на меню відображення витримок для "Перевірки фазування"
+                  current_ekran.current_level = EKRAN_TIMEOUT_ACTRL_PHASE_GROUP1 + (current_ekran.current_level - EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_CTRL_PHASE);
+                }
+                current_ekran.index_position = position_in_current_level_menu[current_ekran.current_level];
+                current_ekran.edition = 0;
+              }
               else if (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_SWITCHER)
               {
                 //Натисну кнопка Enter у вікні вибору настройок виключателя
@@ -3222,7 +3283,8 @@ void main_manu_function(void)
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_ZOP       )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UMIN      )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UMAX      )||
-                       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_AVR       )
+                       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_AVR       )||
+                       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_CTRL_PHASE)
                       )   
               {
                 if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_CHOSE_SETTINGS_PROTECTION_WITH_TWO_GROUP - 1;
@@ -3761,7 +3823,8 @@ void main_manu_function(void)
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_ZOP       )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UMIN      )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UMAX      )||
-                       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_AVR       )
+                       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_AVR       )||
+                       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_CTRL_PHASE)
                       )   
               {
                 if(++current_ekran.index_position >= MAX_ROW_FOR_CHOSE_SETTINGS_PROTECTION_WITH_TWO_GROUP) current_ekran.index_position = 0;

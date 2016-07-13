@@ -1436,6 +1436,9 @@
           <name>$PROJ_DIR$\..\..\working files\inc\const_menu_configuration.h</name>
         </file>
         <file>
+          <name>$PROJ_DIR$\..\..\working files\inc\const_menu_ctrl_phase.h</name>
+        </file>
+        <file>
           <name>$PROJ_DIR$\..\..\working files\inc\const_menu_d_and.h</name>
         </file>
         <file>
@@ -1746,9 +1749,6 @@
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\working files\src\protections.c</name>
-          <configuration>
-            <name>Flash-Debug</name>
-          </configuration>
         </file>
       </group>
       <group>

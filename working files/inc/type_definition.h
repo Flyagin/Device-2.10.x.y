@@ -237,6 +237,18 @@ typedef struct
   int timeout_avr_vymk_rob_k2[NUMBER_GROUP_USTAVOK];          //Витримка "T откл.раб.кан.2"
   int timeout_avr_vymk_k2[NUMBER_GROUP_USTAVOK];              //Витримка "T откл.кан.2"
   unsigned int control_avr;                                   //Поле для управління АВР
+  
+  //Перевірка фазування
+  unsigned int setpoint_ctrl_phase_U;                         //Уставка UФАЗ
+  unsigned int setpoint_ctrl_phase_phi;                       //Уставка PHIФАЗ
+  unsigned int setpoint_ctrl_phase_f;                         //Уставка FФАЗ
+  int timeout_ctrl_phase_U;                                   //Витримка UФАЗ
+  int timeout_ctrl_phase_phi;                                 //Витримка PHIФАЗ
+  int timeout_ctrl_phase_f;                                   //Витримка FФАЗ
+  int timeout_ctrl_phase_seq_TN1;                             //Витримка ППФАЗ1
+  int timeout_ctrl_phase_seq_TN2;                             //Витримка ППФАЗ1
+  unsigned int control_ctrl_phase;
+  
 
   unsigned int TCurrent;                //Коефіцієнт трансформації для трансформатора струмів
   unsigned int TVoltage;                //Коефіцієнт трансформації для трансформатора напруг
