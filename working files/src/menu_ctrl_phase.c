@@ -8,24 +8,24 @@ void make_ekran_setpoint_ctrl_phase(unsigned int group)
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_SETPOINT_CTRL_PHASE][MAX_COL_LCD] = 
   {
     {
-      "    U(фаз.)    ",
-      "   Phi(фаз.)   ",
-      "    f(фаз.)    "
+      "    U(фаз.)     ",
+      "   Phi(фаз.)    ",
+      "    f(фаз.)     "
     },
     {
-      "    U(фаз.)    ",
-      "   Phi(фаз.)   ",
-      "    f(фаз.)    "
+      "    U(фаз.)     ",
+      "   Phi(фаз.)    ",
+      "    f(фаз.)     "
     },
     {
-      "   U(phasing)  ",
-      " Phi(phasing)  ",
-      "   f(phasing)  "
+      "   U(phasing)   ",
+      "  Phi(phasing)  ",
+      "   f(phasing)   "
     },
     {
-      "    U(фаз.)    ",
-      "   Phi(фаз.)   ",
-      "    f(фаз.)    "
+      "    U(фаз.)     ",
+      "   Phi(фаз.)    ",
+      "    f(фаз.)     "
     }
   };
   const unsigned char hz[MAX_NAMBER_LANGUAGE][2] = {"Гц", "Гц", "Hz", "Гц"};
@@ -56,7 +56,7 @@ void make_ekran_setpoint_ctrl_phase(unsigned int group)
         }
         else if ((index_of_ekran>>1) == INDEX_ML_STPCTRL_PHASE_PHI)
         {
-          vaga = 1000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
+          vaga = 100; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
           if (current_ekran.edition == 0) value = current_settings.setpoint_ctrl_phase_phi[group]; //у змінну value поміщаємо значення уставки
           else value = edition_settings.setpoint_ctrl_phase_phi[group];
           first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
@@ -168,32 +168,32 @@ void make_ekran_timeout_ctrl_phase(unsigned int group)
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_TIMEOUT_CTRL_PHASE][MAX_COL_LCD] = 
   {
     {
-      "    U(фаз.)    ",
-      "   Phi(фаз.)   ",
-      "    f(фаз.)    ",
-      "    ППФАЗ1     ",
-      "    ППФАЗ2     "
+      "    U(фаз.)     ",
+      "   Phi(фаз.)    ",
+      "    f(фаз.)     ",
+      "     ППФАЗ1     ",
+      "     ППФАЗ2     "
     },
     {
-      "    U(фаз.)    ",
-      "   Phi(фаз.)   ",
-      "    f(фаз.)    ",
-      "    ППФАЗ1     ",
-      "    ППФАЗ2     "
+      "    U(фаз.)     ",
+      "   Phi(фаз.)    ",
+      "    f(фаз.)     ",
+      "     ППФАЗ1     ",
+      "     ППФАЗ2     "
     },
     {
-      "   U(phasing)  ",
-      " Phi(phasing)  ",
-      "   f(phasing)  ",
-      "    ППФАЗ1     ",
-      "    ППФАЗ2     "
+      "   U(phasing)   ",
+      "  Phi(phasing)  ",
+      "   f(phasing)   ",
+      "     ППФАЗ1     ",
+      "     ППФАЗ2     "
     },
     {
-      "    U(фаз.)    ",
-      "   Phi(фаз.)   ",
-      "    f(фаз.)    ",
-      "    ППФАЗ1     ",
-      "    ППФАЗ2     "
+      "    U(фаз.)     ",
+      "   Phi(фаз.)    ",
+      "    f(фаз.)     ",
+      "     ППФАЗ1     ",
+      "     ППФАЗ2     "
     }
   };
   int index_language = index_language_in_array(current_settings.language);
@@ -377,32 +377,32 @@ void make_ekran_control_ctrl_phase()
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_CONTROL_CTRL_PHASE][MAX_COL_LCD] = 
   {
     {
-      "    U(фаз.)    ",
-      "   Phi(фаз.)   ",
-      "    f(фаз.)    ",
-      "    ППФАЗ1     ",
-      "    ППФАЗ2     "
+      "    U(фаз.)     ",
+      "   Phi(фаз.)    ",
+      "    f(фаз.)     ",
+      "     ППФАЗ1     ",
+      "     ППФАЗ2     "
     },
     {
-      "    U(фаз.)    ",
-      "   Phi(фаз.)   ",
-      "    f(фаз.)    ",
-      "    ППФАЗ1     ",
-      "    ППФАЗ2     "
+      "    U(фаз.)     ",
+      "   Phi(фаз.)    ",
+      "    f(фаз.)     ",
+      "     ППФАЗ1     ",
+      "     ППФАЗ2     "
     },
     {
-      "   U(phasing)  ",
-      " Phi(phasing)  ",
-      "   f(phasing)  ",
-      "    ППФАЗ1     ",
-      "    ППФАЗ2     "
+      "   U(phasing)   ",
+      "  Phi(phasing)  ",
+      "   f(phasing)   ",
+      "     ППФАЗ1     ",
+      "     ППФАЗ2     "
     },
     {
-      "    U(фаз.)    ",
-      "   Phi(фаз.)   ",
-      "    f(фаз.)    ",
-      "    ППФАЗ1     ",
-      "    ППФАЗ2     "
+      "    U(фаз.)     ",
+      "   Phi(фаз.)    ",
+      "    f(фаз.)     ",
+      "     ППФАЗ1     ",
+      "     ППФАЗ2     "
     }
   };
   int index_language = index_language_in_array(current_settings.language);

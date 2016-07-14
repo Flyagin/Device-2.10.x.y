@@ -2991,6 +2991,7 @@ void check_current_index_is_presented_in_configuration(
                                                                   int number_Umin_function,
                                                                   int number_Umax_function,
                                                                   int number_avr_function,
+                                                                  int number_ctrl_phase_function,
                                                                   int number_el_function
                                                         )
 {
@@ -3039,10 +3040,15 @@ void check_current_index_is_presented_in_configuration(
         if ((current_settings.configuration & (1<<AVR_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
         else current_ekran.index_position = number_general_function + number_mtz_function + number_zdz_function + number_apv_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_avr_function;
       }
-      else if (current_ekran.index_position < (number_general_function + number_mtz_function + number_zdz_function + number_apv_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_avr_function + number_el_function))
+      else if (current_ekran.index_position < (number_general_function + number_mtz_function + number_zdz_function + number_apv_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_avr_function + number_ctrl_phase_function))
+      {
+        if ((current_settings.configuration & (1<<CTRL_PHASE_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
+        else current_ekran.index_position = number_general_function + number_mtz_function + number_zdz_function + number_apv_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_avr_function + number_ctrl_phase_function;
+      }
+      else if (current_ekran.index_position < (number_general_function + number_mtz_function + number_zdz_function + number_apv_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_avr_function + number_ctrl_phase_function + number_el_function))
       {
         if ((current_settings.configuration & (1<<EL_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
-        else current_ekran.index_position = number_general_function + number_mtz_function + number_zdz_function + number_apv_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_avr_function + number_el_function;
+        else current_ekran.index_position = number_general_function + number_mtz_function + number_zdz_function + number_apv_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_avr_function + number_ctrl_phase_function + number_el_function;
       }
     }
 
@@ -3105,10 +3111,15 @@ void check_current_index_is_presented_in_configuration(
         if ((current_settings.configuration & (1<<AVR_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
         else current_ekran.index_position = number_general_function + number_mtz_function + number_zdz_function + number_apv_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function - 1;
       }
-      else if (current_ekran.index_position < (number_general_function + number_mtz_function + number_zdz_function + number_apv_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_avr_function + number_el_function))
+      else if (current_ekran.index_position < (number_general_function + number_mtz_function + number_zdz_function + number_apv_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_avr_function + number_ctrl_phase_function))
+      {
+        if ((current_settings.configuration & (1<<CTRL_PHASE_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
+        else current_ekran.index_position = number_general_function + number_mtz_function + number_zdz_function + number_apv_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_avr_function - 1;
+      }
+      else if (current_ekran.index_position < (number_general_function + number_mtz_function + number_zdz_function + number_apv_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_avr_function + number_ctrl_phase_function + number_el_function))
       {
         if ((current_settings.configuration & (1<<EL_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
-        else current_ekran.index_position = number_general_function + number_mtz_function + number_zdz_function + number_apv_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_avr_function - 1;
+        else current_ekran.index_position = number_general_function + number_mtz_function + number_zdz_function + number_apv_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_avr_function + number_ctrl_phase_function - 1;
       }
     }
 
