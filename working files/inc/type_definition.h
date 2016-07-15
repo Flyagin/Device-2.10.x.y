@@ -243,10 +243,11 @@ typedef struct
   unsigned int setpoint_ctrl_phase_phi[NUMBER_GROUP_USTAVOK]; //Уставка PHIФАЗ
   unsigned int setpoint_ctrl_phase_f[NUMBER_GROUP_USTAVOK];   //Уставка FФАЗ
   int timeout_ctrl_phase_U[NUMBER_GROUP_USTAVOK];             //Витримка UФАЗ
+  int timeout_ctrl_phase_U_d[NUMBER_GROUP_USTAVOK];           //Витримка UФАЗ подовження
   int timeout_ctrl_phase_phi[NUMBER_GROUP_USTAVOK];           //Витримка PHIФАЗ
+  int timeout_ctrl_phase_phi_d[NUMBER_GROUP_USTAVOK];         //Витримка PHIФАЗ подовження
   int timeout_ctrl_phase_f[NUMBER_GROUP_USTAVOK];             //Витримка FФАЗ
-  int timeout_ctrl_phase_seq_TN1[NUMBER_GROUP_USTAVOK];       //Витримка ППФАЗ1
-  int timeout_ctrl_phase_seq_TN2[NUMBER_GROUP_USTAVOK];       //Витримка ППФАЗ1
+  int timeout_ctrl_phase_f_d[NUMBER_GROUP_USTAVOK];           //Витримка FФАЗ подовження
   unsigned int control_ctrl_phase;
   
 

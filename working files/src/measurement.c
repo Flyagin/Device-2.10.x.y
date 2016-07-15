@@ -1431,6 +1431,12 @@ void SPI_ADC_IRQHandler(void)
 
     if ((status_adc_read_work & DATA_VAL_1_READ) != 0)
     {
+      //Перевірка на правильну послідовність фаз
+      static unsigned int current_vector[2][2];
+      static unsigned int index_of_currnet_vector;
+      static unsigned int ready_vectors; 
+      sequence_TN1 = sequence_phases(current_vector, &index_of_currnet_vector, &ready_vectors, ADCs_data_raw, I_Ua1, IM_UA1);
+      
       /*
       Необхідно опрацювати оцифровані дані для перетворення Фур'є
       */
@@ -1512,6 +1518,11 @@ void SPI_ADC_IRQHandler(void)
     }
     if ((status_adc_read_work & DATA_VAL_2_READ) != 0)
     {
+      //Перевірка на правильну послідовність фаз
+      static unsigned int current_vector[2][2];
+      static unsigned int index_of_currnet_vector;
+      static unsigned int ready_vectors; 
+      sequence_TN2 = sequence_phases(current_vector, &index_of_currnet_vector, &ready_vectors, ADCs_data_raw, I_Ua2, IM_UA2);
       /*
       Необхідно опрацювати оцифровані дані для перетворення Фур'є для
       аналогових величин групи 2
@@ -2560,6 +2571,62 @@ void current_delta_phi(void)
     delta_phi_synchro = delta_phi_synchro_tmp;
   }
   else delta_phi_synchro = UNDEF_PHI;
+}
+/*****************************************************/
+
+/*****************************************************/
+//Контроль правильної послідовності фаз
+/*****************************************************/
+unsigned int sequence_phases(unsigned int p_current_vector[][2], unsigned int *p_index_of_currnet_vector, unsigned int *p_ready_vectors, EXTENDED_SAMPLE p_data[], unsigned int index_first_c_data, unsigned int index_first_i_data)
+{
+  unsigned int result = 0; //Результат у випадку, якщо хоча б одна напруга нижче порогу
+  
+  unsigned int bank_measurement_high_tmp = bank_measurement_high;
+  if (
+      (measurement_high[bank_measurement_high_tmp][index_first_i_data  + 0] >= PORIG_FOR_FAPCH) &&
+      (measurement_high[bank_measurement_high_tmp][index_first_i_data  + 1] >= PORIG_FOR_FAPCH) &&
+      (measurement_high[bank_measurement_high_tmp][index_first_i_data  + 2] >= PORIG_FOR_FAPCH)
+     )  
+  {
+   
+    int a = p_data[index_first_c_data + 0].value*ea[0] + p_data[index_first_c_data + 1].value*eb[0] + p_data[index_first_c_data + 2].value*ec[0];
+    int b = p_data[index_first_c_data + 0].value*ea[1] + p_data[index_first_c_data + 1].value*eb[1] + p_data[index_first_c_data + 2].value*ec[1];
+    
+    p_current_vector[*p_index_of_currnet_vector][0] = a;
+    p_current_vector[*p_index_of_currnet_vector][1] = b;
+    *p_index_of_currnet_vector = (*p_index_of_currnet_vector + 1) & 0x1; //після цієї операції p_index_of_currnet_vector вказує на сумарний вектор (t - dt) і у це місце буде записуватися наступний сумарний вектор
+    if (*p_ready_vectors < 2) (*p_ready_vectors)++;
+ 
+    if (*p_ready_vectors >= 2)
+    {
+      long long value = ((long long)p_current_vector[*p_index_of_currnet_vector][0])*((long long)b) - 
+                        ((long long)p_current_vector[*p_index_of_currnet_vector][1])*((long long)a);
+      
+      if (value > 0) result = 1; //є симетрія
+      else if (value < 0) result = 2; //немає симетрії
+      else result = 3; //невизначений стан, який ніколи не мав би виникати (вектори не крутяться, або прокрутилися аж на 180 градусів)
+    }
+    else
+    {
+      //ще не можна перевіряти послідловність, бо немає двох векторів
+      result = 0;
+    }
+    
+  }
+  else
+  {
+    //Хоча б одна напруга нижче порогу
+    p_current_vector[0][0] = 0;
+    p_current_vector[0][1] = 0;
+    p_current_vector[1][0] = 0;
+    p_current_vector[1][1] = 0;
+    *p_index_of_currnet_vector = 0;
+    *p_ready_vectors = 0;
+    
+    result = 0;
+  }
+  
+  return result;
 }
 /*****************************************************/
 

@@ -140,6 +140,12 @@ extern double energy[MAX_NUMBER_INDEXES_ENERGY];
 extern unsigned int clean_energy;
 extern unsigned int information_about_clean_energy;
 
+extern const int ea[2];
+extern const int eb[2];
+extern const int ec[2];
+extern unsigned int sequence_TN1;
+extern unsigned int sequence_TN2;
+
 extern int sector_1_mtz_tznp[8];
 extern int sector_2_mtz_tznp[8];
 

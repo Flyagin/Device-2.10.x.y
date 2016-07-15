@@ -241,6 +241,14 @@ double energy[MAX_NUMBER_INDEXES_ENERGY] = {0, 0, 0, 0, 0, 0};
 unsigned int clean_energy = 0;
 unsigned int information_about_clean_energy = 0;
 
+#define VAGA_E_AMPLITUDE        7
+const int ea[2] = {(int)(((float)(1 << VAGA_E_AMPLITUDE))*( 1.0000f)), (int)(((float)(1 << VAGA_E_AMPLITUDE))*( 0.0000f))};
+const int eb[2] = {(int)(((float)(1 << VAGA_E_AMPLITUDE))*(-0.5000f)), (int)(((float)(1 << VAGA_E_AMPLITUDE))*(-0.8660f))};
+const int ec[2] = {(int)(((float)(1 << VAGA_E_AMPLITUDE))*(-0.5000f)), (int)(((float)(1 << VAGA_E_AMPLITUDE))*( 0.8660f))};
+#undef  VAGA_E_AMPLITUDE
+unsigned int sequence_TN1 = 0;
+unsigned int sequence_TN2 = 0;
+
 int sector_1_mtz_tznp[8];
 int sector_2_mtz_tznp[8];
 

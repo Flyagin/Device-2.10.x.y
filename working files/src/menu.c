@@ -5547,25 +5547,30 @@ void main_manu_function(void)
                     edition_settings.timeout_ctrl_phase_U[group] = current_settings.timeout_ctrl_phase_U[group];
                     current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_U_BEGIN;
                   }
+                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_U_D)
+                  {
+                    edition_settings.timeout_ctrl_phase_U_d[group] = current_settings.timeout_ctrl_phase_U_d[group];
+                    current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_U_D_BEGIN;
+                  }
                   else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_PHI)
                   {
                     edition_settings.timeout_ctrl_phase_phi[group] = current_settings.timeout_ctrl_phase_phi[group];
                     current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_PHI_BEGIN;
+                  }
+                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_PHI_D)
+                  {
+                    edition_settings.timeout_ctrl_phase_phi_d[group] = current_settings.timeout_ctrl_phase_phi_d[group];
+                    current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_PHI_D_BEGIN;
                   }
                   else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_F)
                   {
                     edition_settings.timeout_ctrl_phase_f[group] = current_settings.timeout_ctrl_phase_f[group];
                     current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_F_BEGIN;
                   }
-                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_SEQ_TN1)
+                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_F_D)
                   {
-                    edition_settings.timeout_ctrl_phase_seq_TN1[group] = current_settings.timeout_ctrl_phase_seq_TN1[group];
-                    current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_SEQ_TN1_BEGIN;
-                  }
-                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_SEQ_TN2)
-                  {
-                    edition_settings.timeout_ctrl_phase_seq_TN2[group] = current_settings.timeout_ctrl_phase_seq_TN2[group];
-                    current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_SEQ_TN2_BEGIN;
+                    edition_settings.timeout_ctrl_phase_f_d[group] = current_settings.timeout_ctrl_phase_f_d[group];
+                    current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_F_D_BEGIN;
                   }
                 }
                 else if(current_ekran.current_level == EKRAN_CONTROL_CTRL_PHASE)
@@ -6331,21 +6336,25 @@ void main_manu_function(void)
                   {
                     if (edition_settings.timeout_ctrl_phase_U[group] != current_settings.timeout_ctrl_phase_U[group]) found_changes = 1;
                   }
+                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_U_D)
+                  {
+                    if (edition_settings.timeout_ctrl_phase_U_d[group] != current_settings.timeout_ctrl_phase_U_d[group]) found_changes = 1;
+                  }
                   else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_PHI)
                   {
                     if (edition_settings.timeout_ctrl_phase_phi[group] != current_settings.timeout_ctrl_phase_phi[group]) found_changes = 1;
+                  }
+                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_PHI_D)
+                  {
+                    if (edition_settings.timeout_ctrl_phase_phi_d[group] != current_settings.timeout_ctrl_phase_phi_d[group]) found_changes = 1;
                   }
                   else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_F)
                   {
                     if (edition_settings.timeout_ctrl_phase_f[group] != current_settings.timeout_ctrl_phase_f[group]) found_changes = 1;
                   }
-                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_SEQ_TN1)
+                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_F_D)
                   {
-                    if (edition_settings.timeout_ctrl_phase_seq_TN1[group] != current_settings.timeout_ctrl_phase_seq_TN1[group]) found_changes = 1;
-                  }
-                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_SEQ_TN2)
-                  {
-                    if (edition_settings.timeout_ctrl_phase_seq_TN2[group] != current_settings.timeout_ctrl_phase_seq_TN2[group]) found_changes = 1;
+                    if (edition_settings.timeout_ctrl_phase_f_d[group] != current_settings.timeout_ctrl_phase_f_d[group]) found_changes = 1;
                   }
                 }
                 else if(current_ekran.current_level == EKRAN_CONTROL_CTRL_PHASE)
@@ -8458,6 +8467,23 @@ void main_manu_function(void)
                       current_ekran.edition = 0;
                     }
                   }
+                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_U_D)
+                  {
+                    if (check_data_setpoint(edition_settings.timeout_ctrl_phase_U_d[group], TIMEOUT_CTRL_PHASE_U_D_MIN, TIMEOUT_CTRL_PHASE_U_D_MAX) == 1)
+                    {
+                      if (edition_settings.timeout_ctrl_phase_U_d[group] != current_settings.timeout_ctrl_phase_U_d[group])
+                      {
+                        //Помічаємо, що поле структури зараз буде змінене
+                        changed_settings = CHANGED_ETAP_EXECUTION;
+                        
+                        current_settings.timeout_ctrl_phase_U_d[group] = edition_settings.timeout_ctrl_phase_U_d[group];
+                        //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
+                        fix_change_settings(0, 1);
+                      }
+                      //Виходимо з режиму редагування
+                      current_ekran.edition = 0;
+                    }
+                  }
                   else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_PHI)
                   {
                     if (check_data_setpoint(edition_settings.timeout_ctrl_phase_phi[group], TIMEOUT_CTRL_PHASE_PHI_MIN, TIMEOUT_CTRL_PHASE_PHI_MAX) == 1)
@@ -8468,6 +8494,23 @@ void main_manu_function(void)
                         changed_settings = CHANGED_ETAP_EXECUTION;
                         
                         current_settings.timeout_ctrl_phase_phi[group] = edition_settings.timeout_ctrl_phase_phi[group];
+                        //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
+                        fix_change_settings(0, 1);
+                      }
+                      //Виходимо з режиму редагування
+                      current_ekran.edition = 0;
+                    }
+                  }
+                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_PHI_D)
+                  {
+                    if (check_data_setpoint(edition_settings.timeout_ctrl_phase_phi_d[group], TIMEOUT_CTRL_PHASE_PHI_D_MIN, TIMEOUT_CTRL_PHASE_PHI_D_MAX) == 1)
+                    {
+                      if (edition_settings.timeout_ctrl_phase_phi_d[group] != current_settings.timeout_ctrl_phase_phi_d[group])
+                      {
+                        //Помічаємо, що поле структури зараз буде змінене
+                        changed_settings = CHANGED_ETAP_EXECUTION;
+                        
+                        current_settings.timeout_ctrl_phase_phi_d[group] = edition_settings.timeout_ctrl_phase_phi_d[group];
                         //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                         fix_change_settings(0, 1);
                       }
@@ -8492,33 +8535,16 @@ void main_manu_function(void)
                       current_ekran.edition = 0;
                     }
                   }
-                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_SEQ_TN1)
+                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_F_D)
                   {
-                    if (check_data_setpoint(edition_settings.timeout_ctrl_phase_seq_TN1[group], TIMEOUT_CTRL_PHASE_SEQ_TN1_MIN, TIMEOUT_CTRL_PHASE_SEQ_TN1_MAX) == 1)
+                    if (check_data_setpoint(edition_settings.timeout_ctrl_phase_f_d[group], TIMEOUT_CTRL_PHASE_F_D_MIN, TIMEOUT_CTRL_PHASE_F_D_MAX) == 1)
                     {
-                      if (edition_settings.timeout_ctrl_phase_seq_TN1[group] != current_settings.timeout_ctrl_phase_seq_TN1[group])
+                      if (edition_settings.timeout_ctrl_phase_f_d[group] != current_settings.timeout_ctrl_phase_f_d[group])
                       {
                         //Помічаємо, що поле структури зараз буде змінене
                         changed_settings = CHANGED_ETAP_EXECUTION;
                         
-                        current_settings.timeout_ctrl_phase_seq_TN1[group] = edition_settings.timeout_ctrl_phase_seq_TN1[group];
-                        //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
-                        fix_change_settings(0, 1);
-                      }
-                      //Виходимо з режиму редагування
-                      current_ekran.edition = 0;
-                    }
-                  }
-                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_SEQ_TN2)
-                  {
-                    if (check_data_setpoint(edition_settings.timeout_ctrl_phase_seq_TN2[group], TIMEOUT_CTRL_PHASE_SEQ_TN2_MIN, TIMEOUT_CTRL_PHASE_SEQ_TN2_MAX) == 1)
-                    {
-                      if (edition_settings.timeout_ctrl_phase_seq_TN2[group] != current_settings.timeout_ctrl_phase_seq_TN2[group])
-                      {
-                        //Помічаємо, що поле структури зараз буде змінене
-                        changed_settings = CHANGED_ETAP_EXECUTION;
-                        
-                        current_settings.timeout_ctrl_phase_seq_TN2[group] = edition_settings.timeout_ctrl_phase_seq_TN2[group];
+                        current_settings.timeout_ctrl_phase_f_d[group] = edition_settings.timeout_ctrl_phase_f_d[group];
                         //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                         fix_change_settings(0, 1);
                       }
@@ -9996,14 +10022,16 @@ void main_manu_function(void)
                   //Редагування числа
                   if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_U)
                     edition_settings.timeout_ctrl_phase_U[group] = edit_setpoint(1, edition_settings.timeout_ctrl_phase_U[group], 1, COL_TMO_CTRL_PHASE_U_COMMA, COL_TMO_CTRL_PHASE_U_END, 10);
+                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_U_D)
+                    edition_settings.timeout_ctrl_phase_U_d[group] = edit_setpoint(1, edition_settings.timeout_ctrl_phase_U_d[group], 1, COL_TMO_CTRL_PHASE_U_D_COMMA, COL_TMO_CTRL_PHASE_U_D_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_PHI)
                     edition_settings.timeout_ctrl_phase_phi[group] = edit_setpoint(1, edition_settings.timeout_ctrl_phase_phi[group], 1, COL_TMO_CTRL_PHASE_PHI_COMMA, COL_TMO_CTRL_PHASE_PHI_END, 10);
+                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_PHI_D)
+                    edition_settings.timeout_ctrl_phase_phi_d[group] = edit_setpoint(1, edition_settings.timeout_ctrl_phase_phi_d[group], 1, COL_TMO_CTRL_PHASE_PHI_D_COMMA, COL_TMO_CTRL_PHASE_PHI_D_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_F)
                     edition_settings.timeout_ctrl_phase_f[group] = edit_setpoint(1, edition_settings.timeout_ctrl_phase_f[group], 1, COL_TMO_CTRL_PHASE_F_COMMA, COL_TMO_CTRL_PHASE_F_END, 10);
-                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_SEQ_TN1)
-                    edition_settings.timeout_ctrl_phase_seq_TN1[group] = edit_setpoint(1, edition_settings.timeout_ctrl_phase_seq_TN1[group], 1, COL_TMO_CTRL_PHASE_SEQ_TN1_COMMA, COL_TMO_CTRL_PHASE_SEQ_TN1_END, 10);
-                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_SEQ_TN2)
-                    edition_settings.timeout_ctrl_phase_seq_TN2[group] = edit_setpoint(1, edition_settings.timeout_ctrl_phase_seq_TN2[group], 1, COL_TMO_CTRL_PHASE_SEQ_TN2_COMMA, COL_TMO_CTRL_PHASE_SEQ_TN2_END, 10);
+                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_F_D)
+                    edition_settings.timeout_ctrl_phase_f_d[group] = edit_setpoint(1, edition_settings.timeout_ctrl_phase_f_d[group], 1, COL_TMO_CTRL_PHASE_F_D_COMMA, COL_TMO_CTRL_PHASE_F_D_END, 10);
                 }
                 //Формуємо екран витримок "Перевірки фаз"
                 make_ekran_timeout_ctrl_phase(group);
@@ -10979,14 +11007,16 @@ void main_manu_function(void)
                   //Редагування числа
                   if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_U)
                     edition_settings.timeout_ctrl_phase_U[group] = edit_setpoint(0, edition_settings.timeout_ctrl_phase_U[group], 1, COL_TMO_CTRL_PHASE_U_COMMA, COL_TMO_CTRL_PHASE_U_END, 10);
+                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_U_D)
+                    edition_settings.timeout_ctrl_phase_U_d[group] = edit_setpoint(0, edition_settings.timeout_ctrl_phase_U_d[group], 1, COL_TMO_CTRL_PHASE_U_D_COMMA, COL_TMO_CTRL_PHASE_U_D_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_PHI)
                     edition_settings.timeout_ctrl_phase_phi[group] = edit_setpoint(0, edition_settings.timeout_ctrl_phase_phi[group], 1, COL_TMO_CTRL_PHASE_PHI_COMMA, COL_TMO_CTRL_PHASE_PHI_END, 10);
+                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_PHI_D)
+                    edition_settings.timeout_ctrl_phase_phi_d[group] = edit_setpoint(0, edition_settings.timeout_ctrl_phase_phi_d[group], 1, COL_TMO_CTRL_PHASE_PHI_D_COMMA, COL_TMO_CTRL_PHASE_PHI_D_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_F)
                     edition_settings.timeout_ctrl_phase_f[group] = edit_setpoint(0, edition_settings.timeout_ctrl_phase_f[group], 1, COL_TMO_CTRL_PHASE_F_COMMA, COL_TMO_CTRL_PHASE_F_END, 10);
-                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_SEQ_TN1)
-                    edition_settings.timeout_ctrl_phase_seq_TN1[group] = edit_setpoint(0, edition_settings.timeout_ctrl_phase_seq_TN1[group], 1, COL_TMO_CTRL_PHASE_SEQ_TN1_COMMA, COL_TMO_CTRL_PHASE_SEQ_TN1_END, 10);
-                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_SEQ_TN2)
-                    edition_settings.timeout_ctrl_phase_seq_TN2[group] = edit_setpoint(0, edition_settings.timeout_ctrl_phase_seq_TN2[group], 1, COL_TMO_CTRL_PHASE_SEQ_TN2_COMMA, COL_TMO_CTRL_PHASE_SEQ_TN2_END, 10);
+                  else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_F_D)
+                    edition_settings.timeout_ctrl_phase_f_d[group] = edit_setpoint(0, edition_settings.timeout_ctrl_phase_f_d[group], 1, COL_TMO_CTRL_PHASE_F_D_COMMA, COL_TMO_CTRL_PHASE_F_D_END, 10);
                 }
                 //Формуємо екран витримок "Перевірки фазування"
                 make_ekran_timeout_ctrl_phase(group);
@@ -12285,12 +12315,26 @@ void main_manu_function(void)
                       (current_ekran.position_cursor_x > COL_TMO_CTRL_PHASE_U_END))
                     current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_U_BEGIN;
                 }
+                else if(current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_U_D)
+                {
+                  if (current_ekran.position_cursor_x == COL_TMO_CTRL_PHASE_U_D_COMMA )current_ekran.position_cursor_x++;
+                  if ((current_ekran.position_cursor_x < COL_TMO_CTRL_PHASE_U_D_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TMO_CTRL_PHASE_U_D_END))
+                    current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_U_D_BEGIN;
+                }
                 else if(current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_PHI)
                 {
                   if (current_ekran.position_cursor_x == COL_TMO_CTRL_PHASE_PHI_COMMA )current_ekran.position_cursor_x++;
                   if ((current_ekran.position_cursor_x < COL_TMO_CTRL_PHASE_PHI_BEGIN) ||
                       (current_ekran.position_cursor_x > COL_TMO_CTRL_PHASE_PHI_END))
                     current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_PHI_BEGIN;
+                }
+                else if(current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_PHI_D)
+                {
+                  if (current_ekran.position_cursor_x == COL_TMO_CTRL_PHASE_PHI_D_COMMA )current_ekran.position_cursor_x++;
+                  if ((current_ekran.position_cursor_x < COL_TMO_CTRL_PHASE_PHI_D_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TMO_CTRL_PHASE_PHI_D_END))
+                    current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_PHI_D_BEGIN;
                 }
                 else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_F)
                 {
@@ -12299,19 +12343,12 @@ void main_manu_function(void)
                       (current_ekran.position_cursor_x > COL_TMO_CTRL_PHASE_F_END))
                     current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_F_BEGIN;
                 }
-                else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_SEQ_TN1)
+                else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_F_D)
                 {
-                  if (current_ekran.position_cursor_x == COL_TMO_CTRL_PHASE_SEQ_TN1_COMMA )current_ekran.position_cursor_x++;
-                  if ((current_ekran.position_cursor_x < COL_TMO_CTRL_PHASE_SEQ_TN1_BEGIN) ||
-                      (current_ekran.position_cursor_x > COL_TMO_CTRL_PHASE_SEQ_TN1_END))
-                    current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_SEQ_TN1_BEGIN;
-                }
-                else if (current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_SEQ_TN2)
-                {
-                  if (current_ekran.position_cursor_x == COL_TMO_CTRL_PHASE_SEQ_TN2_COMMA )current_ekran.position_cursor_x++;
-                  if ((current_ekran.position_cursor_x < COL_TMO_CTRL_PHASE_SEQ_TN2_BEGIN) ||
-                      (current_ekran.position_cursor_x > COL_TMO_CTRL_PHASE_SEQ_TN2_END))
-                    current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_SEQ_TN2_BEGIN;
+                  if (current_ekran.position_cursor_x == COL_TMO_CTRL_PHASE_F_D_COMMA )current_ekran.position_cursor_x++;
+                  if ((current_ekran.position_cursor_x < COL_TMO_CTRL_PHASE_F_D_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TMO_CTRL_PHASE_F_D_END))
+                    current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_F_D_BEGIN;
                 }
 
                 //Формуємо екран витримок "Перевірки фазування"
@@ -13577,12 +13614,26 @@ void main_manu_function(void)
                       (current_ekran.position_cursor_x > COL_TMO_CTRL_PHASE_U_END))
                     current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_U_END;
                 }
+                else if(current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_U_D)
+                {
+                  if (current_ekran.position_cursor_x == COL_TMO_CTRL_PHASE_U_D_COMMA )current_ekran.position_cursor_x--;
+                  if ((current_ekran.position_cursor_x < COL_TMO_CTRL_PHASE_U_D_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TMO_CTRL_PHASE_U_D_END))
+                    current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_U_D_END;
+                }
                 else if(current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_PHI)
                 {
                   if (current_ekran.position_cursor_x == COL_TMO_CTRL_PHASE_PHI_COMMA )current_ekran.position_cursor_x--;
                   if ((current_ekran.position_cursor_x < COL_TMO_CTRL_PHASE_PHI_BEGIN) ||
                       (current_ekran.position_cursor_x > COL_TMO_CTRL_PHASE_PHI_END))
                     current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_PHI_END;
+                }
+                else if(current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_PHI_D)
+                {
+                  if (current_ekran.position_cursor_x == COL_TMO_CTRL_PHASE_PHI_D_COMMA )current_ekran.position_cursor_x--;
+                  if ((current_ekran.position_cursor_x < COL_TMO_CTRL_PHASE_PHI_D_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TMO_CTRL_PHASE_PHI_D_END))
+                    current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_PHI_D_END;
                 }
                 else if(current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_F)
                 {
@@ -13591,19 +13642,12 @@ void main_manu_function(void)
                       (current_ekran.position_cursor_x > COL_TMO_CTRL_PHASE_F_END))
                     current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_F_END;
                 }
-                else if(current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_SEQ_TN1)
+                else if(current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_F_D)
                 {
-                  if (current_ekran.position_cursor_x == COL_TMO_CTRL_PHASE_SEQ_TN1_COMMA )current_ekran.position_cursor_x--;
-                  if ((current_ekran.position_cursor_x < COL_TMO_CTRL_PHASE_SEQ_TN1_BEGIN) ||
-                      (current_ekran.position_cursor_x > COL_TMO_CTRL_PHASE_SEQ_TN1_END))
-                    current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_SEQ_TN1_END;
-                }
-                else if(current_ekran.index_position == INDEX_ML_TMOCTRL_PHASE_SEQ_TN2)
-                {
-                  if (current_ekran.position_cursor_x == COL_TMO_CTRL_PHASE_SEQ_TN2_COMMA )current_ekran.position_cursor_x--;
-                  if ((current_ekran.position_cursor_x < COL_TMO_CTRL_PHASE_SEQ_TN2_BEGIN) ||
-                      (current_ekran.position_cursor_x > COL_TMO_CTRL_PHASE_SEQ_TN2_END))
-                    current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_SEQ_TN2_END;
+                  if (current_ekran.position_cursor_x == COL_TMO_CTRL_PHASE_F_D_COMMA )current_ekran.position_cursor_x--;
+                  if ((current_ekran.position_cursor_x < COL_TMO_CTRL_PHASE_F_D_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TMO_CTRL_PHASE_F_D_END))
+                    current_ekran.position_cursor_x = COL_TMO_CTRL_PHASE_F_D_END;
                 }
 
                 //Формуємо екран витримок "Перевірки фазування"

@@ -75,7 +75,15 @@
 #define INDEX_TIMER_AVR_VYMK_ROB_K2                            (INDEX_TIMER_AVR_VVIMK_K2 + 1)
 #define INDEX_TIMER_AVR_VYMK_K2                                (INDEX_TIMER_AVR_VYMK_ROB_K2 + 1)
 #define INDEX_TIMER_AVR_TMP_1MS_K2                             (INDEX_TIMER_AVR_VYMK_K2 + 1)
-#define NEXT_TIMER                                             (INDEX_TIMER_AVR_TMP_1MS_K2 + 1)
+#define INDEX_TIMER_CTRL_PHASE_U                               (INDEX_TIMER_AVR_TMP_1MS_K2 + 1)
+#define INDEX_TIMER_CTRL_PHASE_U_D                             (INDEX_TIMER_CTRL_PHASE_U + 1)
+#define INDEX_TIMER_CTRL_PHASE_PHI                             (INDEX_TIMER_CTRL_PHASE_U_D + 1)
+#define INDEX_TIMER_CTRL_PHASE_PHI_D                           (INDEX_TIMER_CTRL_PHASE_PHI + 1)
+#define INDEX_TIMER_CTRL_PHASE_F                               (INDEX_TIMER_CTRL_PHASE_PHI_D + 1)
+#define INDEX_TIMER_CTRL_PHASE_F_D                             (INDEX_TIMER_CTRL_PHASE_F + 1)
+#define INDEX_TIMER_CTRL_PHASE_TMP1_100MS                      (INDEX_TIMER_CTRL_PHASE_F_D + 1)
+#define INDEX_TIMER_CTRL_PHASE_TMP2_100MS                      (INDEX_TIMER_CTRL_PHASE_TMP1_100MS + 1)
+#define NEXT_TIMER                                             (INDEX_TIMER_CTRL_PHASE_TMP2_100MS + 1)
 
 enum __mtz_tmr_const {
   INDEX_TIMER_MTZ = 0,

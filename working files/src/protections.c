@@ -3089,6 +3089,14 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
 /*****************************************************/
 
 /*****************************************************/
+// "Перевірка фазування"
+/*****************************************************/
+void ctrl_phase_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
+{
+}
+/*****************************************************/
+
+/*****************************************************/
 // Готовность к ТУ
 /*****************************************************/
 void ready_tu(volatile unsigned int *p_active_functions)
@@ -6536,6 +6544,39 @@ inline void main_protection(void)
     /**************************/
 
     /**************************/
+    //"Перевірка фазування"
+    /**************************/
+    if ((current_settings_prt.configuration & (1 << CTRL_PHASE_BIT_CONFIGURATION)) != 0) 
+    {
+      ctrl_phase_handler(active_functions, number_group_stp);
+    } 
+    else 
+    {
+      //Очищуємо сигнали, які не можуть бути у даній конфігурації
+      const unsigned int maska_ctrl_phase_signals[N_BIG] = 
+      {
+        MASKA_CTRL_PHASE_SIGNALS_0, 
+        MASKA_CTRL_PHASE_SIGNALS_1, 
+        MASKA_CTRL_PHASE_SIGNALS_2,
+        MASKA_CTRL_PHASE_SIGNALS_3, 
+        MASKA_CTRL_PHASE_SIGNALS_4, 
+        MASKA_CTRL_PHASE_SIGNALS_5, 
+        MASKA_CTRL_PHASE_SIGNALS_6
+      };
+      for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_ctrl_phase_signals[i]);
+      
+      global_timers[INDEX_TIMER_CTRL_PHASE_U] = -1;
+      global_timers[INDEX_TIMER_CTRL_PHASE_U_D] = -1;
+      global_timers[INDEX_TIMER_CTRL_PHASE_PHI] = -1;
+      global_timers[INDEX_TIMER_CTRL_PHASE_PHI_D] = -1;
+      global_timers[INDEX_TIMER_CTRL_PHASE_F] = -1;
+      global_timers[INDEX_TIMER_CTRL_PHASE_F_D] = -1;
+      global_timers[INDEX_TIMER_CTRL_PHASE_TMP1_100MS] = -1;
+      global_timers[INDEX_TIMER_CTRL_PHASE_TMP2_100MS] = -1;
+    }
+    /**************************/
+    
+    /**************************/
     //МТЗ
     /**************************/
     if ((current_settings_prt.configuration & (1 << MTZ_BIT_CONFIGURATION)) != 0)
@@ -6698,13 +6739,12 @@ inline void main_protection(void)
     }
     /**************************/
 
+    /**************************/
+    //АВР
+    /**************************/
     if ((current_settings_prt.configuration & (1 << AVR_BIT_CONFIGURATION)) != 0) 
     {
-      /**************************/
-      //АВР
-      /**************************/
       avr_handler(active_functions, number_group_stp);
-      /**************************/
     } 
     else 
     {
@@ -6741,6 +6781,7 @@ inline void main_protection(void)
       previous_states_AVR_0 = 0;
       trigger_AVR_0 = 0;
     }
+    /**************************/
     
     /**************************/
     //УРОВ
