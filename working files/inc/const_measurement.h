@@ -294,4 +294,12 @@ enum _index_energy
 #define UNDEF_PHI                              (1 << 31)
 #define UNDEF_SPEED_PHI                        (1 << 31)
 
+enum _const_sequence_TN
+{
+  CONST_SEQ_UNDEF = 0,
+  CONST_SEQ_OK,
+  CONST_SEQ_FAIL,
+  CONST_SEQ_UNREAL
+};
+
 #endif

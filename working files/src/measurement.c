@@ -2237,6 +2237,15 @@ void calc_angle(void)
   }
   
   /***
+  Копіювання кутів для більш пріоритетних систем
+  ***/
+  unsigned int bank_phi_angle_high_tmp = (bank_phi_angle_high ^ 0x1) & 0x1;
+  for (__full_ort_index index_tmp = FULL_ORT_Ua1; index_tmp < FULL_ORT_MAX; index_tmp++) phi_angle_high[bank_phi_angle_high_tmp][index_tmp] = phi_angle[index_tmp];
+  bank_phi_angle_high = bank_phi_angle_high_tmp;
+  /***/
+    
+  
+  /***
   Синхронізація між ФАПЧ1 і ФАПЧ2
   ***/
   unsigned int frequency_locking_bank_tmp = (frequency_locking_bank ^ 0x1) & 0x1;
@@ -2579,7 +2588,7 @@ void current_delta_phi(void)
 /*****************************************************/
 unsigned int sequence_phases(unsigned int p_current_vector[][2], unsigned int *p_index_of_currnet_vector, unsigned int *p_ready_vectors, EXTENDED_SAMPLE p_data[], unsigned int index_first_c_data, unsigned int index_first_i_data)
 {
-  unsigned int result = 0; //Результат у випадку, якщо хоча б одна напруга нижче порогу
+  unsigned int result = CONST_SEQ_UNDEF; //Результат у випадку, якщо хоча б одна напруга нижче порогу
   
   unsigned int bank_measurement_high_tmp = bank_measurement_high;
   if (
@@ -2602,14 +2611,14 @@ unsigned int sequence_phases(unsigned int p_current_vector[][2], unsigned int *p
       long long value = ((long long)p_current_vector[*p_index_of_currnet_vector][0])*((long long)b) - 
                         ((long long)p_current_vector[*p_index_of_currnet_vector][1])*((long long)a);
       
-      if (value > 0) result = 1; //є симетрія
-      else if (value < 0) result = 2; //немає симетрії
-      else result = 3; //невизначений стан, який ніколи не мав би виникати (вектори не крутяться, або прокрутилися аж на 180 градусів)
+      if (value > 0) result = CONST_SEQ_OK; //є симетрія
+      else if (value < 0) result = CONST_SEQ_FAIL; //немає симетрії
+      else result = CONST_SEQ_UNREAL; //невизначений стан, який ніколи не мав би виникати (вектори не крутяться, або прокрутилися аж на 180 градусів)
     }
     else
     {
       //ще не можна перевіряти послідловність, бо немає двох векторів
-      result = 0;
+      result = CONST_SEQ_UNDEF;
     }
     
   }
@@ -2623,7 +2632,7 @@ unsigned int sequence_phases(unsigned int p_current_vector[][2], unsigned int *p
     *p_index_of_currnet_vector = 0;
     *p_ready_vectors = 0;
     
-    result = 0;
+    result = CONST_SEQ_UNDEF;
   }
   
   return result;

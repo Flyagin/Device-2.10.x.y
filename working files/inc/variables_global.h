@@ -226,6 +226,8 @@ int ortogonal_calc[2*FULL_ORT_MAX];
 int ortogonal_calc_low[2*FULL_ORT_MAX];
 int phi_angle[FULL_ORT_MAX] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 int base_index_for_angle = -1;
+int phi_angle_high[2][FULL_ORT_MAX] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+unsigned int bank_phi_angle_high = 0;
 
 int P_plus[2] = {0, 0};
 int P_minus[2] = {0, 0};

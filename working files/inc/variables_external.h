@@ -125,6 +125,9 @@ extern int ortogonal_calc[2*FULL_ORT_MAX];
 extern int ortogonal_calc_low[2*FULL_ORT_MAX];
 extern int phi_angle[FULL_ORT_MAX];
 extern int base_index_for_angle;
+extern int phi_angle_high[2][FULL_ORT_MAX];
+extern unsigned int bank_phi_angle_high;
+
 
 extern int P_plus[2];
 extern int P_minus[2];
