@@ -14430,9 +14430,9 @@ void main_manu_function(void)
               else if (current_ekran.current_level == EKRAN_RANGUVANNJA_DIGITAL_REGISTRATOR)
                 max_row_ranguvannja = MAX_ROW_RANGUVANNJA_DIGITAL_REGISTRATOR;
               else if (current_ekran.current_level == EKRAN_RANGUVANNJA_OFF_CB)
-                max_row_ranguvannja = EKRAN_RANGUVANNJA_OFF_CB;
+                max_row_ranguvannja = MAX_ROW_RANGUVANNJA_OFF_CB;
               else if (current_ekran.current_level == EKRAN_RANGUVANNJA_ON_CB)
-                max_row_ranguvannja = EKRAN_RANGUVANNJA_ON_CB;
+                max_row_ranguvannja = MAX_ROW_RANGUVANNJA_ON_CB;
               else if ((current_ekran.current_level >= EKRAN_RANGUVANNJA_DF1_PLUS) && (current_ekran.current_level <= EKRAN_RANGUVANNJA_DF8_BLK ))
                 max_row_ranguvannja = MAX_ROW_RANGUVANNJA_DF;
               else if ((current_ekran.current_level >= EKRAN_RANGUVANNJA_SET_DT1_PLUS) && (current_ekran.current_level <= EKRAN_RANGUVANNJA_RESET_DT4_MINUS))
