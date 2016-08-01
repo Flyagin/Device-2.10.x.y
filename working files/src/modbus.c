@@ -142,12 +142,30 @@ void convert_order_list_function_to_gmm(unsigned int* input_array, unsigned shor
   //АВР
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OTKL_AVR               , (BIT_MA_OTKL_AVR                - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_SBROS_BLOCK_AVR        , (BIT_MA_SBROS_BLOCK_AVR         - BIT_MA_CURRENT_AF_BASE));
-//  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_STAT_BLOCK_AVR         , (BIT_MA_STAT_BLOCK_AVR          - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_STAT_BLOCK_AVR_1       , (BIT_MA_STAT_BLOCK_AVR_1        - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_STAT_BLOCK_AVR_2       , (BIT_MA_STAT_BLOCK_AVR_2        - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_AVR_VID_ZAKHYSTIV, (BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_UAVR_MIN1           , (BIT_MA_PO_UAVR_MIN1            - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_UAVR_MAX1           , (BIT_MA_PO_UAVR_MAX1            - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_UAVR_MIN2           , (BIT_MA_PO_UAVR_MIN2            - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_UAVR_MAX2           , (BIT_MA_PO_UAVR_MAX2            - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OZT_AVR_1              , (BIT_MA_OZT_AVR_1               - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OZT_AVR_2              , (BIT_MA_OZT_AVR_2               - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_AVR_K1              , (BIT_MA_PO_AVR_K1               - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_KOM1_ON_AVR            , (BIT_MA_KOM1_ON_AVR             - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_KOM1_OFF_AVR           , (BIT_MA_KOM1_OFF_AVR            - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_KOM3_ON_AVR            , (BIT_MA_KOM3_ON_AVR             - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_AVR_K2              , (BIT_MA_PO_AVR_K2               - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_KOM2_ON_AVR            , (BIT_MA_KOM2_ON_AVR             - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_KOM2_OFF_AVR           , (BIT_MA_KOM2_OFF_AVR            - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_KOM4_ON_AVR            , (BIT_MA_KOM4_ON_AVR             - BIT_MA_CURRENT_AF_BASE));
+
+  //Перевірка фазування
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_ERROR_DELTA_U_CTRL_PHASE  , (BIT_MA_ERROR_DELTA_U_CTRL_PHASE   - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_ERROR_DELTA_PHI_CTRL_PHASE, (BIT_MA_ERROR_DELTA_PHI_CTRL_PHASE - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_ERROR_DELTA_F_CTRL_PHASE  , (BIT_MA_ERROR_DELTA_F_CTRL_PHASE   - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_ERROR_SEC_TN1_CTRL_PHASE  , (BIT_MA_ERROR_SEC_TN1_CTRL_PHASE   - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_ERROR_SEC_TN2_CTRL_PHASE  , (BIT_MA_ERROR_SEC_TN2_CTRL_PHASE   - BIT_MA_CURRENT_AF_BASE));
 
   //ОФ
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_DF1_IN , (BIT_MA_INPUT_DF1  - BIT_MA_CURRENT_AF_BASE));
@@ -688,11 +706,26 @@ unsigned int convert_order_list_inputs_to_gmm(unsigned int number, unsigned int 
         rezultat = BIT_MA_SBROS_BLOCK_AVR;
         break;
       }
-//    case RANG_INPUT_STAT_BLOCK_AVR:
-//      {
-//        rezultat = BIT_MA_STAT_BLOCK_AVR;
-//        break;
-//      }
+    case RANG_INPUT_STAT_BLOCK_AVR_1:
+      {
+        rezultat = BIT_MA_STAT_BLOCK_AVR_1;
+        break;
+      }
+    case RANG_INPUT_STAT_BLOCK_AVR_2:
+      {
+        rezultat = BIT_MA_STAT_BLOCK_AVR_2;
+        break;
+      }
+    case RANG_INPUT_OZT_AVR_1:
+      {
+        rezultat = BIT_MA_OZT_AVR_1;
+        break;
+      }
+    case RANG_INPUT_OZT_AVR_2:
+      {
+        rezultat = BIT_MA_OZT_AVR_2;
+        break;
+      }
     default: break;
     }
   }
@@ -1652,11 +1685,26 @@ unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int nu
         rezultat = BIT_MA_SBROS_BLOCK_AVR;
         break;
       }
-//    case RANG_STAT_BLOCK_AVR:
-//      {
-//        rezultat = BIT_MA_STAT_BLOCK_AVR;
-//        break;
-//      }
+    case RANG_STAT_BLOCK_AVR_1:
+      {
+        rezultat = BIT_MA_STAT_BLOCK_AVR_1;
+        break;
+      }
+    case RANG_STAT_BLOCK_AVR_2:
+      {
+        rezultat = BIT_MA_STAT_BLOCK_AVR_2;
+        break;
+      }
+    case RANG_OZT_AVR_1:
+      {
+        rezultat = BIT_MA_OZT_AVR_1;
+        break;
+      }
+    case RANG_OZT_AVR_2:
+      {
+        rezultat = BIT_MA_OZT_AVR_2;
+        break;
+      }
     case RANG_BLOCK_AVR_VID_ZAKHYSTIV:
       {
         rezultat = BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV;
@@ -1680,6 +1728,71 @@ unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int nu
     case RANG_PO_UAVR_MAX2:
       {
         rezultat = BIT_MA_PO_UAVR_MAX2;
+        break;
+      }
+    case RANG_PO_AVR_K1:
+      {
+        rezultat = BIT_MA_PO_AVR_K1;
+        break;
+      }
+    case RANG_KOM1_ON_AVR:
+      {
+        rezultat = BIT_MA_KOM1_ON_AVR;
+        break;
+      }
+    case RANG_KOM1_OFF_AVR:
+      {
+        rezultat = BIT_MA_KOM1_OFF_AVR;
+        break;
+      }
+    case RANG_KOM3_ON_AVR:
+      {
+        rezultat = BIT_MA_KOM3_ON_AVR;
+        break;
+      }
+    case RANG_PO_AVR_K2:
+      {
+        rezultat = BIT_MA_PO_AVR_K2;
+        break;
+      }
+    case RANG_KOM2_ON_AVR:
+      {
+        rezultat = BIT_MA_KOM2_ON_AVR;
+        break;
+      }
+    case RANG_KOM2_OFF_AVR:
+      {
+        rezultat = BIT_MA_KOM2_OFF_AVR;
+        break;
+      }
+    case RANG_KOM4_ON_AVR:
+      {
+        rezultat = BIT_MA_KOM4_ON_AVR;
+        break;
+      }
+    case RANG_ERROR_DELTA_U_CTRL_PHASE:
+      {
+        rezultat = BIT_MA_ERROR_DELTA_U_CTRL_PHASE;
+        break;
+      }
+    case RANG_ERROR_DELTA_PHI_CTRL_PHASE:
+      {
+        rezultat = BIT_MA_ERROR_DELTA_PHI_CTRL_PHASE;
+        break;
+      }
+    case RANG_ERROR_DELTA_F_CTRL_PHASE:
+      {
+        rezultat = BIT_MA_ERROR_DELTA_F_CTRL_PHASE;
+        break;
+      }
+    case RANG_ERROR_SEC_TN1_CTRL_PHASE:
+      {
+        rezultat = BIT_MA_ERROR_SEC_TN1_CTRL_PHASE;
+        break;
+      }
+    case RANG_ERROR_SEC_TN2_CTRL_PHASE:
+      {
+        rezultat = BIT_MA_ERROR_SEC_TN2_CTRL_PHASE;
         break;
       }
     default: break;
@@ -1859,9 +1972,12 @@ unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int num
       else error = ERROR_ILLEGAL_DATA_VALUE;
     }
     else if (
-             (data == BIT_MA_OTKL_AVR       ) ||
-             (data == BIT_MA_SBROS_BLOCK_AVR)/* ||
-             (data == BIT_MA_STAT_BLOCK_AVR )*/
+             (data == BIT_MA_OTKL_AVR        ) ||
+             (data == BIT_MA_SBROS_BLOCK_AVR ) ||
+             (data == BIT_MA_STAT_BLOCK_AVR_1) ||
+             (data == BIT_MA_STAT_BLOCK_AVR_2) ||
+             (data == BIT_MA_OZT_AVR_1       ) ||
+             (data == BIT_MA_OZT_AVR_2       )
             )
     {
       //Зараз є намагання зранжувати функцю АВР і номер її є допустимим
@@ -2167,11 +2283,26 @@ unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int num
         _SET_BIT(set_array_rang, RANG_INPUT_SBROS_BLOCK_AVR);
         break;
       }
-//    case BIT_MA_STAT_BLOCK_AVR:
-//      {
-//        _SET_BIT(set_array_rang, RANG_INPUT_STAT_BLOCK_AVR);
-//        break;
-//      }
+    case BIT_MA_STAT_BLOCK_AVR_1:
+      {
+        _SET_BIT(set_array_rang, RANG_INPUT_STAT_BLOCK_AVR_1);
+        break;
+      }
+    case BIT_MA_STAT_BLOCK_AVR_2:
+      {
+        _SET_BIT(set_array_rang, RANG_INPUT_STAT_BLOCK_AVR_2);
+        break;
+      }
+    case BIT_MA_OZT_AVR_1:
+      {
+        _SET_BIT(set_array_rang, RANG_INPUT_OZT_AVR_1);
+        break;
+      }
+    case BIT_MA_OZT_AVR_2:
+      {
+        _SET_BIT(set_array_rang, RANG_INPUT_OZT_AVR_2);
+        break;
+      }
     default:
       {
         //Теоретично сюди б програма ніколи не мала б доходити
@@ -2476,15 +2607,38 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
     else if (
              (data == BIT_MA_OTKL_AVR               ) || 
              (data == BIT_MA_SBROS_BLOCK_AVR        ) || 
-//             (data == BIT_MA_STAT_BLOCK_AVR         ) || 
+             (data == BIT_MA_STAT_BLOCK_AVR_1       ) || 
+             (data == BIT_MA_STAT_BLOCK_AVR_2       ) || 
              (data == BIT_MA_PO_UAVR_MIN1           ) || 
              (data == BIT_MA_PO_UAVR_MAX1           ) || 
              (data == BIT_MA_PO_UAVR_MIN2           ) || 
              (data == BIT_MA_PO_UAVR_MAX2           ) || 
-             (data == BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV) 
+             (data == BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV) ||
+             (data == BIT_MA_OZT_AVR_1              ) ||
+             (data == BIT_MA_OZT_AVR_2              ) ||
+             (data == BIT_MA_PO_AVR_K1              ) ||
+             (data == BIT_MA_KOM1_ON_AVR            ) ||
+             (data == BIT_MA_KOM1_OFF_AVR           ) ||
+             (data == BIT_MA_KOM3_ON_AVR            ) ||
+             (data == BIT_MA_PO_AVR_K2              ) ||
+             (data == BIT_MA_KOM2_ON_AVR            ) ||
+             (data == BIT_MA_KOM2_OFF_AVR           ) ||
+             (data == BIT_MA_KOM4_ON_AVR            )
             )
     {
       //Зараз є намагання зранжувати функцю АВР і номер її є допустимим
+      if ((target_label->configuration & (1 << AVR_BIT_CONFIGURATION)) !=0 ) error = 0;
+      else error = ERROR_ILLEGAL_DATA_VALUE;
+    }
+    else if (
+             (data == BIT_MA_ERROR_DELTA_U_CTRL_PHASE  ) ||
+             (data == BIT_MA_ERROR_DELTA_PHI_CTRL_PHASE) ||
+             (data == BIT_MA_ERROR_DELTA_F_CTRL_PHASE  ) ||
+             (data == BIT_MA_ERROR_SEC_TN1_CTRL_PHASE  ) ||
+             (data == BIT_MA_ERROR_SEC_TN2_CTRL_PHASE  )
+            )
+    {
+      //Зараз є намагання зранжувати функцю Перевірки фазування і номер її є допустимим
       if ((target_label->configuration & (1 << AVR_BIT_CONFIGURATION)) !=0 ) error = 0;
       else error = ERROR_ILLEGAL_DATA_VALUE;
     }
@@ -3519,11 +3673,16 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
         _SET_BIT(set_array_rang, RANG_SBROS_BLOCK_AVR);
         break;
       }
-//    case BIT_MA_STAT_BLOCK_AVR:
-//      {
-//        _SET_BIT(set_array_rang, RANG_STAT_BLOCK_AVR);
-//        break;
-//      }
+    case BIT_MA_STAT_BLOCK_AVR_1:
+      {
+        _SET_BIT(set_array_rang, RANG_STAT_BLOCK_AVR_1);
+        break;
+      }
+    case BIT_MA_STAT_BLOCK_AVR_2:
+      {
+        _SET_BIT(set_array_rang, RANG_STAT_BLOCK_AVR_2);
+        break;
+      }
     case BIT_MA_PO_UAVR_MIN1:
       {
         _SET_BIT(set_array_rang, RANG_PO_UAVR_MIN1);
@@ -3547,6 +3706,81 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
     case BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV:
       {
         _SET_BIT(set_array_rang, RANG_BLOCK_AVR_VID_ZAKHYSTIV);
+        break;
+      }
+    case BIT_MA_OZT_AVR_1:
+      {
+        _SET_BIT(set_array_rang, RANG_OZT_AVR_1);
+        break;
+      }
+    case BIT_MA_OZT_AVR_2:
+      {
+        _SET_BIT(set_array_rang, RANG_OZT_AVR_2);
+        break;
+      }
+    case BIT_MA_PO_AVR_K1:
+      {
+        _SET_BIT(set_array_rang, RANG_PO_AVR_K1);
+        break;
+      }
+    case BIT_MA_KOM1_ON_AVR:
+      {
+        _SET_BIT(set_array_rang, RANG_KOM1_ON_AVR);
+        break;
+      }
+    case BIT_MA_KOM1_OFF_AVR:
+      {
+        _SET_BIT(set_array_rang, RANG_KOM1_OFF_AVR);
+        break;
+      }
+    case BIT_MA_KOM3_ON_AVR:
+      {
+        _SET_BIT(set_array_rang, RANG_KOM3_ON_AVR);
+        break;
+      }
+    case BIT_MA_PO_AVR_K2:
+      {
+        _SET_BIT(set_array_rang, RANG_PO_AVR_K2);
+        break;
+      }
+    case BIT_MA_KOM2_ON_AVR:
+      {
+        _SET_BIT(set_array_rang, RANG_KOM2_ON_AVR);
+        break;
+      }
+    case BIT_MA_KOM2_OFF_AVR:
+      {
+        _SET_BIT(set_array_rang, RANG_KOM2_OFF_AVR);
+        break;
+      }
+    case BIT_MA_KOM4_ON_AVR:
+      {
+        _SET_BIT(set_array_rang, RANG_KOM4_ON_AVR);
+        break;
+      }
+    case BIT_MA_ERROR_DELTA_U_CTRL_PHASE:
+      {
+        _SET_BIT(set_array_rang, RANG_ERROR_DELTA_U_CTRL_PHASE);
+        break;
+      }
+    case BIT_MA_ERROR_DELTA_PHI_CTRL_PHASE:
+      {
+        _SET_BIT(set_array_rang, RANG_ERROR_DELTA_PHI_CTRL_PHASE);
+        break;
+      }
+    case BIT_MA_ERROR_DELTA_F_CTRL_PHASE:
+      {
+        _SET_BIT(set_array_rang, RANG_ERROR_DELTA_F_CTRL_PHASE);
+        break;
+      }
+    case BIT_MA_ERROR_SEC_TN1_CTRL_PHASE:
+      {
+        _SET_BIT(set_array_rang, RANG_ERROR_SEC_TN1_CTRL_PHASE);
+        break;
+      }
+    case BIT_MA_ERROR_SEC_TN2_CTRL_PHASE:
+      {
+        _SET_BIT(set_array_rang, RANG_ERROR_SEC_TN2_CTRL_PHASE);
         break;
       }
     default:
@@ -4534,8 +4768,11 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     case MA_CONTROL_MTZ:
       {
         int input_value = current_settings_interfaces.control_mtz;
+        int input_conf = current_settings_interfaces.configuration;
         
-        temp_value = (((input_value >> N_BIT_CTRMTZ_1                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ1               - BIT_MA_CONTROL_MTZ_BASE) ) |
+        temp_value = (((input_conf  >> MTZ_BIT_CONFIGURATION         ) & 0x1 ) << (BIT_MA_CONFIGURATION_MTZ          - BIT_MA_CONTROL_MTZ_BASE) ) |
+          
+                     (((input_value >> N_BIT_CTRMTZ_1                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ1               - BIT_MA_CONTROL_MTZ_BASE) ) |
                      (((input_value >> N_BIT_CTRMTZ_2                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2               - BIT_MA_CONTROL_MTZ_BASE) ) | 
                      (((input_value >> N_BIT_CTRMTZ_3                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ3               - BIT_MA_CONTROL_MTZ_BASE) ) |
                      (((input_value >> N_BIT_CTRMTZ_4                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ4               - BIT_MA_CONTROL_MTZ_BASE) ) |
@@ -4555,8 +4792,11 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     case MA_CONTROL_ZDZ:
       {
         int input_value = current_settings_interfaces.control_zdz;
+        int input_conf = current_settings_interfaces.configuration;
         
-        temp_value = (((input_value >> INDEX_ML_CTRZDZ_STATE             ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ                   - BIT_MA_CONTROL_ZDZ_BASE)) |
+        temp_value = (((input_conf  >> ZDZ_BIT_CONFIGURATION             ) & 0x1 ) << (BIT_MA_CONFIGURATION_ZDZ             - BIT_MA_CONTROL_ZDZ_BASE) ) |
+          
+                     (((input_value >> INDEX_ML_CTRZDZ_STATE             ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ                   - BIT_MA_CONTROL_ZDZ_BASE)) |
                      (((input_value >> INDEX_ML_CTRZDZ_STARTED_FROM_MTZ1 ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_ZDZ_BASE)) |
                      (((input_value >> INDEX_ML_CTRZDZ_STARTED_FROM_MTZ2 ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_ZDZ_BASE)) |
                      (((input_value >> INDEX_ML_CTRZDZ_STARTED_FROM_MTZ3 ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_ZDZ_BASE)) |
@@ -4566,15 +4806,21 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     case MA_CONTROL_ZOP:
       {
         int input_value = current_settings_interfaces.control_zop;
+        int input_conf = current_settings_interfaces.configuration;
         
-        temp_value = (((input_value >> CTR_ZOP_STATE_BIT) & 0x1 ) << (BIT_MA_CONTROL_ZOP1 - BIT_MA_CONTROL_ZOP_BASE));
+        temp_value = (((input_conf  >> ZOP_BIT_CONFIGURATION) & 0x1 ) << (BIT_MA_CONFIGURATION_ZOP - BIT_MA_CONTROL_ZOP_BASE) ) |
+          
+                     (((input_value >> CTR_ZOP_STATE_BIT    ) & 0x1 ) << (BIT_MA_CONTROL_ZOP1      - BIT_MA_CONTROL_ZOP_BASE));
         break;
       }
     case MA_CONTROL_UMIN:
       {
         int input_value = current_settings_interfaces.control_Umin;
+        int input_conf = current_settings_interfaces.configuration;
         
-        temp_value = (((input_value >> INDEX_CTR_UMIN1          ) & 0x1 ) << (BIT_MA_CONTROL_UMIN1           - BIT_MA_CONTROL_UMIN_BASE)) |
+        temp_value = (((input_conf  >> UMIN_BIT_CONFIGURATION   ) & 0x1 ) << (BIT_MA_CONFIGURATION_UMIN      - BIT_MA_CONTROL_UMIN_BASE)) |
+          
+                     (((input_value >> INDEX_CTR_UMIN1          ) & 0x1 ) << (BIT_MA_CONTROL_UMIN1           - BIT_MA_CONTROL_UMIN_BASE)) |
                      (((input_value >> INDEX_CTR_UMIN2          ) & 0x1 ) << (BIT_MA_CONTROL_UMIN2           - BIT_MA_CONTROL_UMIN_BASE)) |
                      (((input_value >> INDEX_CTR_PO_UMIN1_OR_AND) & 0x1 ) << (BIT_MA_CONTROL_PO_UMIN1_AND_OR - BIT_MA_CONTROL_UMIN_BASE)) |
                      (((input_value >> INDEX_CTR_PO_UMIN2_OR_AND) & 0x1 ) << (BIT_MA_CONTROL_PO_UMIN2_AND_OR - BIT_MA_CONTROL_UMIN_BASE)) |
@@ -4587,25 +4833,31 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     case MA_CONTROL_UMAX:
       {
         int input_value = current_settings_interfaces.control_Umax;
+        int input_conf = current_settings_interfaces.configuration;
         
-        temp_value = (((input_value >> INDEX_CTR_UMAX1          ) & 0x1 ) << (BIT_MA_CONTROL_UMAX1           - BIT_MA_CONTROL_UMAX_BASE)) |
+        temp_value = (((input_conf  >> UMAX_BIT_CONFIGURATION   ) & 0x1 ) << (BIT_MA_CONFIGURATION_UMAX      - BIT_MA_CONTROL_UMAX_BASE)) |
+          
+                     (((input_value >> INDEX_CTR_UMAX1          ) & 0x1 ) << (BIT_MA_CONTROL_UMAX1           - BIT_MA_CONTROL_UMAX_BASE)) |
                      (((input_value >> INDEX_CTR_UMAX2          ) & 0x1 ) << (BIT_MA_CONTROL_UMAX2           - BIT_MA_CONTROL_UMAX_BASE)) |
                      (((input_value >> INDEX_CTR_PO_UMAX1_OR_AND) & 0x1 ) << (BIT_MA_CONTROL_PO_UMAX1_AND_OR - BIT_MA_CONTROL_UMAX_BASE)) |
                      (((input_value >> INDEX_CTR_PO_UMAX2_OR_AND) & 0x1 ) << (BIT_MA_CONTROL_PO_UMAX2_AND_OR - BIT_MA_CONTROL_UMAX_BASE));
         break;
       }
-    case MA_CONTROL_558:
+    case MA_CONTROL_EXTRA_SETTINGS:
       {
         int input_value1 = current_settings.control_extra_settings_1;
         
-        temp_value = ((((input_value1 >> INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_LINE_PHASE ) & 0x1 ) == 0) << (BIT_MA_CONTROL_PHASE_LINE - BIT_MA_CONTROL_558_BASE));
+        temp_value = ((((input_value1 >> INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_LINE_PHASE ) & 0x1 ) == 0) << (BIT_MA_CONTROL_PHASE_LINE - BIT_MA_CONTROL_EXTRA_SETTINGS_BASE));
         break;
       }
     case MA_CONTROL_UROV_PART1:
       {
         int input_value = current_settings_interfaces.control_urov;
+        int input_conf = current_settings_interfaces.configuration;
         
-        temp_value = (((input_value >> INDEX_ML_CTRUROV_STATE               ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STATE                - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+        temp_value = (((input_conf  >> UROV_BIT_CONFIGURATION               ) & 0x1 ) << (BIT_MA_CONFIGURATION_UROV                - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+          
+                     (((input_value >> INDEX_ML_CTRUROV_STATE               ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STATE                - BIT_MA_CONTROL_UROV_BASE_PART1)) |
                      (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_MTZ1   ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ1    - BIT_MA_CONTROL_UROV_BASE_PART1)) |
                      (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_MTZ2   ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ2    - BIT_MA_CONTROL_UROV_BASE_PART1)) |
                      (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_MTZ3   ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ3    - BIT_MA_CONTROL_UROV_BASE_PART1)) |
@@ -4627,16 +4879,22 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     case MA_CONTROL_AVR:
       {
         int input_value = current_settings_interfaces.control_avr;
+        int input_conf = current_settings_interfaces.configuration;
         
-        temp_value = (((input_value >> INDEX_CTR_AVR         ) & 0x1 ) << (BIT_MA_CONTROL_AVR          - BIT_MA_CONTROL_AVR_BASE)) |
+        temp_value = (((input_conf  >> AVR_BIT_CONFIGURATION ) & 0x1 ) << (BIT_MA_CONFIGURATION_AVR    - BIT_MA_CONTROL_AVR_BASE)) |
+          
+                     (((input_value >> INDEX_CTR_AVR         ) & 0x1 ) << (BIT_MA_CONTROL_AVR          - BIT_MA_CONTROL_AVR_BASE)) |
                      (((input_value >> INDEX_CTR_AVR_OTKL_BLK) & 0x1 ) << (BIT_MA_CONTROL_AVR_OTKL_BLK - BIT_MA_CONTROL_AVR_BASE));
         break;
       }
     case MA_CONTROL_APV:
       {
         int input_value = current_settings_interfaces.control_apv;
+        int input_conf = current_settings_interfaces.configuration;
         
-        temp_value = (((input_value >> INDEX_ML_CTRAPV_STAGE_1           ) & 0x1 ) << (BIT_MA_CONTROL_APV_CYCLE1            - BIT_MA_CONTROL_APV_BASE)) |
+        temp_value = (((input_conf  >> APV_BIT_CONFIGURATION             ) & 0x1 ) << (BIT_MA_CONFIGURATION_APV             - BIT_MA_CONTROL_APV_BASE)) |
+          
+                     (((input_value >> INDEX_ML_CTRAPV_STAGE_1           ) & 0x1 ) << (BIT_MA_CONTROL_APV_CYCLE1            - BIT_MA_CONTROL_APV_BASE)) |
                      (((input_value >> INDEX_ML_CTRAPV_STAGE_2           ) & 0x1 ) << (BIT_MA_CONTROL_APV_CYCLE2            - BIT_MA_CONTROL_APV_BASE)) |
                      (((input_value >> INDEX_ML_CTRAPV_STAGE_3           ) & 0x1 ) << (BIT_MA_CONTROL_APV_CYCLE3            - BIT_MA_CONTROL_APV_BASE)) |
                      (((input_value >> INDEX_ML_CTRAPV_STAGE_4           ) & 0x1 ) << (BIT_MA_CONTROL_APV_CYCLE4            - BIT_MA_CONTROL_APV_BASE)) |
@@ -4660,25 +4918,25 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
                      (((input_value2 >> INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_WINDOW_OFF_CB) & 0x1 ) << (BIT_MA_CONTROL_CTRL_WINDOW_OFF_CB      - BIT_MA_CONTROL_CTRL_VV_BASE));
         break;
       }
-    case MA_CONFIGURATION_PART1:
+    case MA_CONTROL_CTRL_PHASE:
       {
-        int input_value = current_settings_interfaces.configuration;
+        int input_value = current_settings_interfaces.control_ctrl_phase;
+        int input_conf = current_settings_interfaces.configuration;
         
-        temp_value = (((input_value >> MTZ_BIT_CONFIGURATION       ) & 0x1 ) << (BIT_MA_CONFIGURATION_MTZ        - BIT_MA_CONFIGURATION_BASE_PART1)) |
-                     (((input_value >> ZDZ_BIT_CONFIGURATION       ) & 0x1 ) << (BIT_MA_CONFIGURATION_ZDZ        - BIT_MA_CONFIGURATION_BASE_PART1)) |
-                     (((input_value >> ZOP_BIT_CONFIGURATION       ) & 0x1 ) << (BIT_MA_CONFIGURATION_ZOP        - BIT_MA_CONFIGURATION_BASE_PART1)) |
-                     (((input_value >> UMIN_BIT_CONFIGURATION      ) & 0x1 ) << (BIT_MA_CONFIGURATION_UMIN       - BIT_MA_CONFIGURATION_BASE_PART1)) |
-                     (((input_value >> UMAX_BIT_CONFIGURATION      ) & 0x1 ) << (BIT_MA_CONFIGURATION_UMAX       - BIT_MA_CONFIGURATION_BASE_PART1)) |
-                     (((input_value >> APV_BIT_CONFIGURATION       ) & 0x1 ) << (BIT_MA_CONFIGURATION_APV        - BIT_MA_CONFIGURATION_BASE_PART1)) |
-                     (((input_value >> UROV_BIT_CONFIGURATION      ) & 0x1 ) << (BIT_MA_CONFIGURATION_UROV       - BIT_MA_CONFIGURATION_BASE_PART1)) |
-                     (((input_value >> AVR_BIT_CONFIGURATION       ) & 0x1 ) << (BIT_MA_CONFIGURATION_AVR        - BIT_MA_CONFIGURATION_BASE_PART1));
+        temp_value = (((input_conf  >> CTRL_PHASE_BIT_CONFIGURATION  ) & 0x1 ) << (BIT_MA_CONFIGURATION_CTRL_PHASE    - BIT_MA_CONTROL_CTRL_PHASE_BASE) ) |
+          
+                     (((input_value >> INDEX_CTR_CTRL_PHASE_U         ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_PHASE_U       - BIT_MA_CONTROL_CTRL_PHASE_BASE) ) |
+                     (((input_value >> INDEX_CTR_CTRL_PHASE_PHI       ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_PHASE_PHI     - BIT_MA_CONTROL_CTRL_PHASE_BASE) ) |
+                     (((input_value >> INDEX_CTR_CTRL_PHASE_F         ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_PHASE_F       - BIT_MA_CONTROL_CTRL_PHASE_BASE) ) |
+                     (((input_value >> INDEX_CTR_CTRL_PHASE_SEQ_TN1   ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_PHASE_SEQ_TN1 - BIT_MA_CONTROL_CTRL_PHASE_BASE) ) |
+                     (((input_value >> INDEX_CTR_CTRL_PHASE_SEQ_TN2   ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_PHASE_SEQ_TN2 - BIT_MA_CONTROL_CTRL_PHASE_BASE) );
         break;
       }
-    case MA_CONFIGURATION_PART2:
+    case MA_CONTROL_EL:
       {
-        int input_value = current_settings_interfaces.configuration;
+        int input_conf = current_settings_interfaces.configuration;
         
-        temp_value = (((input_value >> EL_BIT_CONFIGURATION ) & 0x1 ) << (BIT_MA_CONFIGURATION_EL  - BIT_MA_CONFIGURATION_BASE_PART2));
+        temp_value = (((input_conf >> EL_BIT_CONFIGURATION) & 0x1 ) << (BIT_MA_CONFIGURATION_EL - BIT_MA_CONTROL_EL_BASE));
         break;
       }
     case MA_TO_DEACTIVATION_PASSWORD_INTERFACE:
@@ -4899,6 +5157,24 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         temp_value = measurement_low[IM_UCA1] >> 3;
         break;
       }
+    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_UA_2):
+      {
+        temp_value = measurement_low[IM_UA1] >> 3;
+
+        break;
+      }
+    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_UB_2):
+      {
+        temp_value = measurement_low[IM_UB1] >> 3;
+
+        break;
+      }
+    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_UC_2):
+      {
+        temp_value = measurement_low[IM_UC1] >> 3;
+
+        break;
+      }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_UAB_2):
       {
         temp_value = measurement_low[IM_UAB2] >> 3;
@@ -5015,11 +5291,73 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_BASE_CANAL_FOR_ANGLE):
       {
-        if (base_index_for_angle <= FULL_ORT_Uca2) temp_value = base_index_for_angle + 1;
-        else
+        switch (base_index_for_angle)
         {
-          //Теоретично цього ніколи не мало б бути
-          total_error_sw_fixed(72);
+        case FULL_ORT_Ua1:
+          {
+            temp_value = BASE_CANAL_UA_TN1;
+            break;
+          }
+        case FULL_ORT_Ub1:
+          {
+            temp_value = BASE_CANAL_UB_TN1;
+            break;
+          }
+        case FULL_ORT_Uc1:
+          {
+            temp_value = BASE_CANAL_UC_TN1;
+            break;
+          }
+        case FULL_ORT_Ua2:
+          {
+            temp_value = BASE_CANAL_UA_TN2;
+            break;
+          }
+        case FULL_ORT_Ub2:
+          {
+            temp_value = BASE_CANAL_UB_TN2;
+            break;
+          }
+        case FULL_ORT_Uc2:
+          {
+            temp_value = BASE_CANAL_UC_TN2;
+            break;
+          }
+        case FULL_ORT_Uab1:
+          {
+            temp_value = BASE_CANAL_UAB_TN1;
+            break;
+          }
+        case FULL_ORT_Ubc1:
+          {
+            temp_value = BASE_CANAL_UBC_TN1;
+            break;
+          }
+        case FULL_ORT_Uca1:
+          {
+            temp_value = BASE_CANAL_UCA_TN1;
+            break;
+          }
+        case FULL_ORT_Uab2:
+          {
+            temp_value = BASE_CANAL_UAB_TN2;
+            break;
+          }
+        case FULL_ORT_Ubc2:
+          {
+            temp_value = BASE_CANAL_UBC_TN2;
+            break;
+          }
+        case FULL_ORT_Uca2:
+          {
+            temp_value = BASE_CANAL_UCA_TN2;
+            break;
+          }
+        default:
+          {
+            //Теоретично цього ніколи не мало б бути
+            total_error_sw_fixed(72);
+          }
         }
 
         break;
@@ -5052,6 +5390,36 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_UCA_1):
       {
         temp_value = (unsigned int)phi_angle[FULL_ORT_Uca1];
+        break;
+      }
+    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_UA_2):
+      {
+        temp_value = (unsigned int)phi_angle[FULL_ORT_Ua2];
+        break;
+      }
+    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_UB_2):
+      {
+        temp_value = (unsigned int)phi_angle[FULL_ORT_Ub2];
+        break;
+      }
+    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_UC_2):
+      {
+        temp_value = (unsigned int)phi_angle[FULL_ORT_Uc2];
+        break;
+      }
+    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_UAB_2):
+      {
+        temp_value = (unsigned int)phi_angle[FULL_ORT_Uab2];
+        break;
+      }
+    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_UBC_2):
+      {
+        temp_value = (unsigned int)phi_angle[FULL_ORT_Ubc2];
+        break;
+      }
+    case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_UCA_2):
+      {
+        temp_value = (unsigned int)phi_angle[FULL_ORT_Uca2];
         break;
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_ANGLE_IA_1):
@@ -5225,7 +5593,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
           }
         case DR_OFFSET_MEASUREMENT_UA_1:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 6)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 5)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 3;
@@ -5233,7 +5601,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
           }
         case DR_OFFSET_MEASUREMENT_UB_1:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 7)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 6)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 3;
@@ -5241,7 +5609,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
           }
         case DR_OFFSET_MEASUREMENT_UC_1:
           {
-            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 8)*sizeof(unsigned int);
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 7)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 3;
@@ -5266,6 +5634,30 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         case DR_OFFSET_MEASUREMENT_UCA_2:
           {
             index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 16)*sizeof(unsigned int);
+            value = *((unsigned int *)(point_to_buffer + index));
+            
+            temp_value = value >> 3;
+            break;
+          }
+        case DR_OFFSET_MEASUREMENT_UA_2:
+          {
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 8)*sizeof(unsigned int);
+            value = *((unsigned int *)(point_to_buffer + index));
+            
+            temp_value = value >> 3;
+            break;
+          }
+        case DR_OFFSET_MEASUREMENT_UB_2:
+          {
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 9)*sizeof(unsigned int);
+            value = *((unsigned int *)(point_to_buffer + index));
+            
+            temp_value = value >> 3;
+            break;
+          }
+        case DR_OFFSET_MEASUREMENT_UC _2:
+          {
+            index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 10)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
             
             temp_value = value >> 3;
@@ -7374,138 +7766,220 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
       }
     case MA_CONTROL_MTZ:
       {
-        if ((target_label->configuration & (1 << MTZ_BIT_CONFIGURATION)) !=0 )
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << MTZ_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_MTZ  - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << MTZ_BIT_CONFIGURATION;
+        if (target_label->configuration ! = output_conf)
         {
-          int output_value = 0;
-
-          output_value |= ((data >> (BIT_MA_CONTROL_MTZ1               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_1;
-          output_value |= ((data >> (BIT_MA_CONTROL_MTZ2               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2;
-          output_value |= ((data >> (BIT_MA_CONTROL_MTZ3               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_3;
-          output_value |= ((data >> (BIT_MA_CONTROL_MTZ4               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_4;
-          output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_PRYSKORENNJA  - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_PRYSKORENNJA;
-          output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_PRYSKORENA    - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_PRYSKORENA;
-          output_value |= ((data >> (BIT_MA_CONTROL_MTZ1_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_1_VPERED;
-          output_value |= ((data >> (BIT_MA_CONTROL_MTZ1_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_1_NAZAD;
-          output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_VPERED;
-          output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_NAZAD;
-          output_value |= ((data >> (BIT_MA_CONTROL_MTZ3_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_3_VPERED;
-          output_value |= ((data >> (BIT_MA_CONTROL_MTZ3_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_3_NAZAD;
-          output_value |= ((data >> (BIT_MA_CONTROL_MTZ4_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_4_VPERED;
-          output_value |= ((data >> (BIT_MA_CONTROL_MTZ4_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_4_NAZAD;
-          output_value |= ((data >> (BIT_MA_CONTROL_MTZ_NESPR_KIL_NAPR - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_NESPR_KIL_NAPR;
-        
-          target_label->control_mtz = output_value;
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
         }
-        else
-          error = ERROR_ILLEGAL_DATA_ADDRESS;
+        
+        if (error == 0) 
+        {
+          if (
+              ((target_label->configuration & (1 << MTZ_BIT_CONFIGURATION)) !=0 ) ||
+              ((data & (
+                        (1 << (BIT_MA_CONTROL_MTZ1 - BIT_MA_CONTROL_MTZ_BASE)) |
+                        (1 << (BIT_MA_CONTROL_MTZ2 - BIT_MA_CONTROL_MTZ_BASE)) |
+                        (1 << (BIT_MA_CONTROL_MTZ3 - BIT_MA_CONTROL_MTZ_BASE)) |
+                        (1 << (BIT_MA_CONTROL_MTZ4 - BIT_MA_CONTROL_MTZ_BASE))
+                       )
+               ) == 0) 
+             )
+          {
+            int output_value = 0;
+
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ1               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_1;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ3               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_3;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ4               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_4;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_PRYSKORENNJA  - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_PRYSKORENNJA;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_PRYSKORENA    - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_PRYSKORENA;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ1_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_1_VPERED;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ1_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_1_NAZAD;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_VPERED;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_NAZAD;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ3_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_3_VPERED;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ3_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_3_NAZAD;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ4_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_4_VPERED;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ4_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_4_NAZAD;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ_NESPR_KIL_NAPR - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_NESPR_KIL_NAPR;
+        
+            target_label->control_mtz = output_value;
+          }
+          else
+            error = ERROR_ILLEGAL_DATA_VALUE;
+        }
 
         break;
       }
     case MA_CONTROL_ZDZ:
       {
-        if (
-            ((target_label->configuration & (1 << ZDZ_BIT_CONFIGURATION)) != 0)
-            &&
-            (
-             ((target_label->configuration & (1 << MTZ_BIT_CONFIGURATION)) != 0)
-             ||
-             (
-              ((target_label->configuration & (1 << MTZ_BIT_CONFIGURATION)) == 0)  
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << ZDZ_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_ZDZ  - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << ZDZ_BIT_CONFIGURATION;
+        if (target_label->configuration ! = output_conf)
+        {
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
+        }
+        
+        if (error == 0) 
+        {
+          if (
+              (
+               ((target_label->configuration & (1 << ZDZ_BIT_CONFIGURATION)) !=0 ) ||
+               ((data & (
+                         (1 << (BIT_MA_CONTROL_ZDZ - BIT_MA_CONTROL_ZDZ_BASE))
+                        )
+                ) == 0) 
+              )
               &&
               (
-               (((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) == 0) &&
-               (((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) == 0) &&
-               (((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) == 0) &&
-               (((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) == 0)
-              ) 
-             ) 
-            )
-           )   
-        {
-          int output_value = 0;
+               ((target_label->configuration & (1 << MTZ_BIT_CONFIGURATION)) != 0) ||
+               ((data & (
+                         (1 << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_ZDZ_BASE)) |
+                         (1 << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_ZDZ_BASE)) |
+                         (1 << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_ZDZ_BASE)) |
+                         (1 << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_ZDZ_BASE))
+                        )
+               ) == 0) 
+              )
+             )   
+          {
+            int output_value = 0;
 
-          output_value |= ((data >> (BIT_MA_CONTROL_ZDZ                   - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STATE;
-          output_value |= ((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STARTED_FROM_MTZ1;
-          output_value |= ((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STARTED_FROM_MTZ2;
-          output_value |= ((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STARTED_FROM_MTZ3;
-          output_value |= ((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STARTED_FROM_MTZ4;
+            output_value |= ((data >> (BIT_MA_CONTROL_ZDZ                   - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STATE;
+            output_value |= ((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STARTED_FROM_MTZ1;
+            output_value |= ((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STARTED_FROM_MTZ2;
+            output_value |= ((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STARTED_FROM_MTZ3;
+            output_value |= ((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STARTED_FROM_MTZ4;
         
-          target_label->control_zdz = output_value;
-        }
-        else
-        {
-          if ((target_label->configuration & (1 << ZDZ_BIT_CONFIGURATION)) == 0) error = ERROR_ILLEGAL_DATA_ADDRESS;
-          else  error = ERROR_ILLEGAL_DATA_VALUE;
+            target_label->control_zdz = output_value;
+          }
+          else
+            error = ERROR_ILLEGAL_DATA_VALUE;
         }
 
         break;
       }
     case MA_CONTROL_ZOP:
       {
-        if ((target_label->configuration & (1 << ZOP_BIT_CONFIGURATION)) !=0 )
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << ZOP_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_ZOP  - BIT_MA_CONTROL_ZOP_BASE)) & 0x1) << ZOP_BIT_CONFIGURATION;
+        if (target_label->configuration ! = output_conf)
         {
-          int output_value = 0;
-
-          output_value |= ((data >> (BIT_MA_CONTROL_ZOP1 - BIT_MA_CONTROL_ZOP_BASE)) & 0x1) << CTR_ZOP_STATE_BIT;
-        
-          target_label->control_zop = output_value;
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
         }
-        else
-          error = ERROR_ILLEGAL_DATA_ADDRESS;
+        
+        if (error == 0) 
+        {
+          if (
+              ((target_label->configuration & (1 << ZOP_BIT_CONFIGURATION)) !=0 ) ||
+              ((data & (
+                        (1 << (BIT_MA_CONTROL_ZOP1 - BIT_MA_CONTROL_ZOP_BASE))
+                       )
+               ) == 0) 
+             )
+          {
+            int output_value = 0;
+
+            output_value |= ((data >> (BIT_MA_CONTROL_ZOP1 - BIT_MA_CONTROL_ZOP_BASE)) & 0x1) << CTR_ZOP_STATE_BIT;
+        
+            target_label->control_zop = output_value;
+          }
+          else
+            error = ERROR_ILLEGAL_DATA_VALUE;
+        }
 
         break;
       }
     case MA_CONTROL_UMIN:
       {
-        if ((target_label->configuration & (1 << UMIN_BIT_CONFIGURATION)) !=0 )
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << UMIN_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_UMIN  - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << UMIN_BIT_CONFIGURATION;
+        if (target_label->configuration ! = output_conf)
         {
-          int output_value = 0;
-
-          output_value |= ((data >> (BIT_MA_CONTROL_UMIN1           - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN1;
-          output_value |= ((data >> (BIT_MA_CONTROL_UMIN2           - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN2;
-          output_value |= ((data >> (BIT_MA_CONTROL_PO_UMIN1_AND_OR - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_PO_UMIN1_OR_AND;
-          output_value |= ((data >> (BIT_MA_CONTROL_PO_UMIN2_AND_OR - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_PO_UMIN2_OR_AND;
-          output_value |= ((data >> (BIT_MA_CONTROL_BLK_UMIN1_BY_U  - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN1_UBLK;
-          output_value |= ((data >> (BIT_MA_CONTROL_BLK_UMIN2_BY_U  - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN2_UBLK;
-          output_value |= ((data >> (BIT_MA_CONTROL_BLK_UMIN1_BY_I  - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN1_IBLK;
-          output_value |= ((data >> (BIT_MA_CONTROL_BLK_UMIN2_BY_I  - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN2_IBLK;
-        
-          target_label->control_Umin = output_value;
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
         }
-        else
+        
+        if (error == 0) 
         {
-          if ((target_label->configuration & (1 << UMIN_BIT_CONFIGURATION)) == 0) error = ERROR_ILLEGAL_DATA_ADDRESS;
-          else  error = ERROR_ILLEGAL_DATA_VALUE;
+          if (
+              ((target_label->configuration & (1 << UMIN_BIT_CONFIGURATION)) !=0 ) ||
+              ((data & (
+                        (1 << (BIT_MA_CONTROL_UMIN1 - BIT_MA_CONTROL_UMIN_BASE)) |
+                        (1 << (BIT_MA_CONTROL_UMIN2 - BIT_MA_CONTROL_UMIN_BASE))
+                       )
+               ) == 0) 
+             )
+          {
+            int output_value = 0;
+
+            output_value |= ((data >> (BIT_MA_CONTROL_UMIN1           - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN1;
+            output_value |= ((data >> (BIT_MA_CONTROL_UMIN2           - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN2;
+            output_value |= ((data >> (BIT_MA_CONTROL_PO_UMIN1_AND_OR - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_PO_UMIN1_OR_AND;
+            output_value |= ((data >> (BIT_MA_CONTROL_PO_UMIN2_AND_OR - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_PO_UMIN2_OR_AND;
+            output_value |= ((data >> (BIT_MA_CONTROL_BLK_UMIN1_BY_U  - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN1_UBLK;
+            output_value |= ((data >> (BIT_MA_CONTROL_BLK_UMIN2_BY_U  - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN2_UBLK;
+            output_value |= ((data >> (BIT_MA_CONTROL_BLK_UMIN1_BY_I  - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN1_IBLK;
+            output_value |= ((data >> (BIT_MA_CONTROL_BLK_UMIN2_BY_I  - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN2_IBLK;
+        
+            target_label->control_Umin = output_value;
+          }
+          else
+            error = ERROR_ILLEGAL_DATA_VALUE;
         }
 
         break;
       }
     case MA_CONTROL_UMAX:
       {
-        if ((target_label->configuration & (1 << UMAX_BIT_CONFIGURATION)) !=0 )
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << UMAX_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_UMAX  - BIT_MA_CONTROL_UMAX_BASE)) & 0x1) << UMAX_BIT_CONFIGURATION;
+        if (target_label->configuration ! = output_conf)
         {
-          int output_value = 0;
-
-          output_value |= ((data >> (BIT_MA_CONTROL_UMAX1           - BIT_MA_CONTROL_UMAX_BASE)) & 0x1) << INDEX_CTR_UMAX1;
-          output_value |= ((data >> (BIT_MA_CONTROL_UMAX2           - BIT_MA_CONTROL_UMAX_BASE)) & 0x1) << INDEX_CTR_UMAX2;
-          output_value |= ((data >> (BIT_MA_CONTROL_PO_UMAX1_AND_OR - BIT_MA_CONTROL_UMAX_BASE)) & 0x1) << INDEX_CTR_PO_UMAX1_OR_AND;
-          output_value |= ((data >> (BIT_MA_CONTROL_PO_UMAX2_AND_OR - BIT_MA_CONTROL_UMAX_BASE)) & 0x1) << INDEX_CTR_PO_UMAX2_OR_AND;
-        
-          target_label->control_Umax = output_value;
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
         }
-        else
+        
+        if (error == 0) 
         {
-          if ((target_label->configuration & (1 << UMAX_BIT_CONFIGURATION)) == 0) error = ERROR_ILLEGAL_DATA_ADDRESS;
-          else  error = ERROR_ILLEGAL_DATA_VALUE;
+          if (
+              ((target_label->configuration & (1 << UMAX_BIT_CONFIGURATION)) !=0 ) ||
+              ((data & (
+                        (1 << (BIT_MA_CONTROL_UMAX1 - BIT_MA_CONTROL_UMIN_BASE)) |
+                        (1 << (BIT_MA_CONTROL_UMAX2 - BIT_MA_CONTROL_UMIN_BASE))
+                       )
+               ) == 0) 
+             )
+          {
+            int output_value = 0;
+
+            output_value |= ((data >> (BIT_MA_CONTROL_UMAX1           - BIT_MA_CONTROL_UMAX_BASE)) & 0x1) << INDEX_CTR_UMAX1;
+            output_value |= ((data >> (BIT_MA_CONTROL_UMAX2           - BIT_MA_CONTROL_UMAX_BASE)) & 0x1) << INDEX_CTR_UMAX2;
+            output_value |= ((data >> (BIT_MA_CONTROL_PO_UMAX1_AND_OR - BIT_MA_CONTROL_UMAX_BASE)) & 0x1) << INDEX_CTR_PO_UMAX1_OR_AND;
+            output_value |= ((data >> (BIT_MA_CONTROL_PO_UMAX2_AND_OR - BIT_MA_CONTROL_UMAX_BASE)) & 0x1) << INDEX_CTR_PO_UMAX2_OR_AND;
+        
+            target_label->control_Umax = output_value;
+          }
+          else
+            error = ERROR_ILLEGAL_DATA_VALUE;
         }
 
         break;
       }
-    case MA_CONTROL_558:
+    case MA_CONTROL_EXTRA_SETTINGS:
       {
         int output_value = target_label->control_extra_settings_1 & ((unsigned int)(~CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE));
         
-        output_value |= (((data >> (BIT_MA_CONTROL_PHASE_LINE - BIT_MA_CONTROL_558_BASE)) & 0x1) == 0) << INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_LINE_PHASE;
+        output_value |= (((data >> (BIT_MA_CONTROL_PHASE_LINE - BIT_MA_CONTROL_EXTRA_SETTINGS_BASE)) & 0x1) == 0) << INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_LINE_PHASE;
         
         target_label->control_extra_settings_1 = output_value;
 
@@ -7513,78 +7987,93 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
       }
     case MA_CONTROL_UROV_PART1:
       {
-        if (
-            ((target_label->configuration & (1 << UROV_BIT_CONFIGURATION)) != 0)
-            &&
-            (
-             ((target_label->configuration & (1 << MTZ_BIT_CONFIGURATION)) != 0)
-             ||
-             (
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) == 0) &&
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) == 0) &&
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) == 0) &&
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) == 0)
-             ) 
-            )
-            &&  
-            (
-             ((target_label->configuration & (1 << ZOP_BIT_CONFIGURATION)) != 0)
-             ||
-             (
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_ZOP1 - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) == 0)
-             )   
-            )
-            &&  
-            (
-             ((target_label->configuration & (1 << UMIN_BIT_CONFIGURATION)) != 0)
-             ||
-             (
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN1 - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) == 0) &&
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN2 - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) == 0)
-             )   
-            )
-            &&  
-            (
-             ((target_label->configuration & (1 << UMAX_BIT_CONFIGURATION)) != 0)
-             ||
-             (
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX1 - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) == 0) &&
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX2 - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) == 0)
-             )   
-            )
-           )   
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << UROV_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_UROV  - BIT_MA_CONTROL_UROV_BASE)) & 0x1) << UROV_BIT_CONFIGURATION;
+        if (target_label->configuration ! = output_conf)
         {
-          int output_value = target_label->control_urov & 
-                            (unsigned int)(~(
-                                             CTR_UROV_STATE                | 
-                                             CTR_UROV_STARTED_FROM_MTZ1    | 
-                                             CTR_UROV_STARTED_FROM_MTZ2    | 
-                                             CTR_UROV_STARTED_FROM_MTZ3    | 
-                                             CTR_UROV_STARTED_FROM_MTZ4    |
-                                             CTR_UROV_STARTED_FROM_UMAX1   | 
-                                             CTR_UROV_STARTED_FROM_UMAX2   | 
-                                             CTR_UROV_STARTED_FROM_UMIN1   | 
-                                             CTR_UROV_STARTED_FROM_UMIN2   |
-                                             CTR_UROV_STARTED_FROM_ZOP1     
-                                          ));
-
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STATE                - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STATE;
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ1    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ1;
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ2    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ2;
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ3    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ3;
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ4    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ4;
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX1   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMAX1;
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX2   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMAX2;
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN1   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMIN1;
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN2   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMIN2;
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_ZOP1    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_ZOP1;
-        
-          target_label->control_urov = output_value;
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
         }
-        else
+        
+        if (error == 0) 
         {
-          if ((target_label->configuration & (1 << UROV_BIT_CONFIGURATION)) == 0) error = ERROR_ILLEGAL_DATA_ADDRESS;
-          else  error = ERROR_ILLEGAL_DATA_VALUE;
+          if (
+              (
+               ((target_label->configuration & (1 << UROV_BIT_CONFIGURATION)) !=0 ) ||
+               ((data & (
+                         (1 << (BIT_MA_CONTROL_UROV - BIT_MA_CONTROL_UROV_BASE))
+                        )
+                ) == 0) 
+              )
+              &&
+              (
+               ((target_label->configuration & (1 << MTZ_BIT_CONFIGURATION)) != 0) ||
+               ((data & (
+                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_UROV_BASE_PART1))
+                        )
+               ) == 0) 
+              )
+              &&
+              (
+               ((target_label->configuration & (1 << ZOP_BIT_CONFIGURATION)) != 0) ||
+               ((data & (
+                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_ZOP1 - BIT_MA_CONTROL_UROV_BASE_PART1))
+                        )
+               ) == 0) 
+              )
+              &&
+              (
+               ((target_label->configuration & (1 << UMIN_BIT_CONFIGURATION)) != 0) ||
+               ((data & (
+                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN1 - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN2 - BIT_MA_CONTROL_UROV_BASE_PART1))
+                        )
+               ) == 0) 
+              )
+              &&
+              (
+               ((target_label->configuration & (1 << UMAX_BIT_CONFIGURATION)) != 0) ||
+               ((data & (
+                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX1 - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX2 - BIT_MA_CONTROL_UROV_BASE_PART1))
+                        )
+               ) == 0) 
+              )
+             )   
+          {
+            int output_value = target_label->control_urov & 
+                               (unsigned int)(~(
+                                                CTR_UROV_STATE                | 
+                                                CTR_UROV_STARTED_FROM_MTZ1    | 
+                                                CTR_UROV_STARTED_FROM_MTZ2    | 
+                                                CTR_UROV_STARTED_FROM_MTZ3    | 
+                                                CTR_UROV_STARTED_FROM_MTZ4    |
+                                                CTR_UROV_STARTED_FROM_UMAX1   | 
+                                                CTR_UROV_STARTED_FROM_UMAX2   | 
+                                                CTR_UROV_STARTED_FROM_UMIN1   | 
+                                                CTR_UROV_STARTED_FROM_UMIN2   |
+                                                CTR_UROV_STARTED_FROM_ZOP1     
+                                             ));
+
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STATE                - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STATE;
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ1    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ1;
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ2    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ2;
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ3    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ3;
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ4    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ4;
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX1   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMAX1;
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX2   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMAX2;
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN1   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMIN1;
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN2   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMIN2;
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_ZOP1    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_ZOP1;
+        
+            target_label->control_urov = output_value;
+          }
+          else
+            error = ERROR_ILLEGAL_DATA_VALUE;
         }
 
         break;
@@ -7593,13 +8082,13 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
       {
         if (
             ((target_label->configuration & (1 << UROV_BIT_CONFIGURATION)) != 0)
-            &&  
+            &&
             (
-             ((target_label->configuration & (1 << ZDZ_BIT_CONFIGURATION)) != 0)
-             ||
-             (
-              (((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_ZDZ - BIT_MA_CONTROL_UROV_BASE_PART2)) & 0x1) == 0)
-             ) 
+             ((target_label->configuration & (1 << ZDZ_BIT_CONFIGURATION)) != 0) ||
+             ((data & (
+                       (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_ZDZ - BIT_MA_CONTROL_UROV_BASE_PART2))
+                      )
+             ) == 0) 
             )
            )   
         {
@@ -7608,72 +8097,101 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
                                              CTR_UROV_STARTED_FROM_ZDZ
                                           ));
 
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_ZDZ   - BIT_MA_CONTROL_UROV_BASE_PART2)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_ZDZ;
+          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_ZDZ - BIT_MA_CONTROL_UROV_BASE_PART2)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_ZDZ;
         
           target_label->control_urov = output_value;
         }
         else
-        {
-          if ((target_label->configuration & (1 << UROV_BIT_CONFIGURATION)) == 0) error = ERROR_ILLEGAL_DATA_ADDRESS;
-          else  error = ERROR_ILLEGAL_DATA_VALUE;
-        }
+          error = ERROR_ILLEGAL_DATA_VALUE;
 
         break;
       }
     case MA_CONTROL_AVR:
       {
-        if ((target_label->configuration & (1 << AVR_BIT_CONFIGURATION)) !=0 )
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << AVR_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_AVR - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << AVR_BIT_CONFIGURATION;
+        if (target_label->configuration ! = output_conf)
         {
-          int output_value = 0;
-
-          output_value |= ((data >> (BIT_MA_CONTROL_AVR          - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR;
-          output_value |= ((data >> (BIT_MA_CONTROL_AVR_OTKL_BLK - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR_OTKL_BLK;
-        
-          target_label->control_avr = output_value;
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
         }
-        else
-          error = ERROR_ILLEGAL_DATA_ADDRESS;
+        
+        if (error == 0) 
+        {
+          if (
+              ((target_label->configuration & (1 << AVR_BIT_CONFIGURATION)) !=0 ) ||
+              ((data & (
+                        (1 << (BIT_MA_CONTROL_AVR - BIT_MA_CONTROL_AVR_BASE))
+                       )
+               ) == 0) 
+             )
+          {
+            int output_value = 0;
+
+            output_value |= ((data >> (BIT_MA_CONTROL_AVR          - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR;
+            output_value |= ((data >> (BIT_MA_CONTROL_AVR_OTKL_BLK - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR_OTKL_BLK;
+        
+            target_label->control_avr = output_value;
+          }
+          else
+            error = ERROR_ILLEGAL_DATA_VALUE;
+        }
 
         break;
       }
     case MA_CONTROL_APV:
       {
-        if (
-            ((target_label->configuration & (1 << APV_BIT_CONFIGURATION)) != 0)
-            &&
-            (
-             ((target_label->configuration & (1 << MTZ_BIT_CONFIGURATION)) != 0)
-             ||
-             (
-              ((target_label->configuration & (1 << MTZ_BIT_CONFIGURATION)) == 0)  
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << APV_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_APV  - BIT_MA_CONTROL_APV_BASE)) & 0x1) << APV_BIT_CONFIGURATION;
+        if (target_label->configuration ! = output_conf)
+        {
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
+        }
+        
+        if (error == 0) 
+        {
+          if (
+              (
+               ((target_label->configuration & (1 << APV_BIT_CONFIGURATION)) !=0 ) ||
+               ((data & (
+                         (1 << (BIT_MA_CONTROL_APV_CYCLE1 - BIT_MA_CONTROL_APV_BASE)) |
+                         (1 << (BIT_MA_CONTROL_APV_CYCLE2 - BIT_MA_CONTROL_APV_BASE)) |
+                         (1 << (BIT_MA_CONTROL_APV_CYCLE3 - BIT_MA_CONTROL_APV_BASE)) |
+                         (1 << (BIT_MA_CONTROL_APV_CYCLE4 - BIT_MA_CONTROL_APV_BASE))
+                        )
+                ) == 0) 
+              )
               &&
               (
-               (((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_APV_BASE)) & 0x1) == 0) &&
-               (((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_APV_BASE)) & 0x1) == 0) &&
-               (((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_APV_BASE)) & 0x1) == 0) &&
-               (((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_APV_BASE)) & 0x1) == 0)
-              ) 
-             ) 
-            )
-           )   
-        {
-          int output_value = 0;
+               ((target_label->configuration & (1 << MTZ_BIT_CONFIGURATION)) != 0) ||
+               ((data & (
+                         (1 << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_APV_BASE)) |
+                         (1 << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_APV_BASE)) |
+                         (1 << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_APV_BASE)) |
+                         (1 << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_APV_BASE))
+                        )
+               ) == 0) 
+              )
+             )   
+          {
+            int output_value = 0;
 
-          output_value |= ((data >> (BIT_MA_CONTROL_APV_CYCLE1            - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STAGE_1;
-          output_value |= ((data >> (BIT_MA_CONTROL_APV_CYCLE2            - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STAGE_2;
-          output_value |= ((data >> (BIT_MA_CONTROL_APV_CYCLE3            - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STAGE_3;
-          output_value |= ((data >> (BIT_MA_CONTROL_APV_CYCLE4            - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STAGE_4;
-          output_value |= ((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STARTED_FROM_MTZ1;
-          output_value |= ((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STARTED_FROM_MTZ2;
-          output_value |= ((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STARTED_FROM_MTZ3;
-          output_value |= ((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STARTED_FROM_MTZ4;
+            output_value |= ((data >> (BIT_MA_CONTROL_APV_CYCLE1            - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STAGE_1;
+            output_value |= ((data >> (BIT_MA_CONTROL_APV_CYCLE2            - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STAGE_2;
+            output_value |= ((data >> (BIT_MA_CONTROL_APV_CYCLE3            - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STAGE_3;
+            output_value |= ((data >> (BIT_MA_CONTROL_APV_CYCLE4            - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STAGE_4;
+            output_value |= ((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STARTED_FROM_MTZ1;
+            output_value |= ((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STARTED_FROM_MTZ2;
+            output_value |= ((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STARTED_FROM_MTZ3;
+            output_value |= ((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STARTED_FROM_MTZ4;
         
-          target_label->control_apv = output_value;
-        }
-        else
-        {
-          if ((target_label->configuration & (1 << APV_BIT_CONFIGURATION)) == 0) error = ERROR_ILLEGAL_DATA_ADDRESS;
-          else  error = ERROR_ILLEGAL_DATA_VALUE;
+            target_label->control_apv = output_value;
+          }
+          else
+            error = ERROR_ILLEGAL_DATA_VALUE;
         }
 
         break;
@@ -7701,47 +8219,57 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_CONFIGURATION_PART1:
+    case MA_CONTROL_CTRL_PHASE:
       {
-        int output_value = target_label->configuration & 
-                            (unsigned int)(~(
-                                             (1 << MTZ_BIT_CONFIGURATION       ) | 
-                                             (1 << ZDZ_BIT_CONFIGURATION       ) | 
-                                             (1 << ZOP_BIT_CONFIGURATION       ) | 
-                                             (1 << UMIN_BIT_CONFIGURATION      ) | 
-                                             (1 << UMAX_BIT_CONFIGURATION      ) | 
-                                             (1 << APV_BIT_CONFIGURATION       ) | 
-                                             (1 << UROV_BIT_CONFIGURATION      ) |
-                                             (1 << AVR_BIT_CONFIGURATION       )
-                                            ));
-
-        output_value |= ((data >> (BIT_MA_CONFIGURATION_MTZ        - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << MTZ_BIT_CONFIGURATION;
-        output_value |= ((data >> (BIT_MA_CONFIGURATION_ZDZ        - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << ZDZ_BIT_CONFIGURATION;
-        output_value |= ((data >> (BIT_MA_CONFIGURATION_ZOP        - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << ZOP_BIT_CONFIGURATION;
-        output_value |= ((data >> (BIT_MA_CONFIGURATION_UMIN       - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << UMIN_BIT_CONFIGURATION;
-        output_value |= ((data >> (BIT_MA_CONFIGURATION_UMAX       - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << UMAX_BIT_CONFIGURATION;
-        output_value |= ((data >> (BIT_MA_CONFIGURATION_APV        - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << APV_BIT_CONFIGURATION;
-        output_value |= ((data >> (BIT_MA_CONFIGURATION_UROV       - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << UROV_BIT_CONFIGURATION;
-        output_value |= ((data >> (BIT_MA_CONFIGURATION_AVR        - BIT_MA_CONFIGURATION_BASE_PART1)) & 0x1) << AVR_BIT_CONFIGURATION;
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << CTRL_PHASE_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_CTRL_PHASE  - BIT_MA_CONTROL_CTRL_PHASE_BASE)) & 0x1) << CTRL_PHASE_BIT_CONFIGURATION;
+        if (target_label->configuration ! = output_conf)
+        {
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
+        }
         
-        //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-        if(action_after_changing_of_configuration(output_value, target_label) != 0)
-          error = ERROR_SLAVE_DEVICE_BUSY;
+        if (error == 0) 
+        {
+          if (
+              ((target_label->configuration & (1 << CTRL_PHASE_BIT_CONFIGURATION)) !=0 ) ||
+              ((data & (
+                        (1 << (BIT_MA_CONTROL_CTRL_PHASE_U       - BIT_MA_CONTROL_CTRL_PHASE_BASE)) |
+                        (1 << (BIT_MA_CONTROL_CTRL_PHASE_PHI     - BIT_MA_CONTROL_CTRL_PHASE_BASE)) |
+                        (1 << (BIT_MA_CONTROL_CTRL_PHASE_F       - BIT_MA_CONTROL_CTRL_PHASE_BASE)) |
+                        (1 << (BIT_MA_CONTROL_CTRL_PHASE_SEQ_TN1 - BIT_MA_CONTROL_CTRL_PHASE_BASE)) |
+                        (1 << (BIT_MA_CONTROL_CTRL_PHASE_SEQ_TN2 - BIT_MA_CONTROL_CTRL_PHASE_BASE))
+                       )
+               ) == 0) 
+             )
+          {
+            int output_value = 0;
+
+            output_value |= ((data >> (BIT_MA_CONTROL_CTRL_PHASE_U       - BIT_MA_CONTROL_CTRL_PHASE_BASE)) & 0x1) << INDEX_CTR_CTRL_PHASE_U;
+            output_value |= ((data >> (BIT_MA_CONTROL_CTRL_PHASE_PHI     - BIT_MA_CONTROL_CTRL_PHASE_BASE)) & 0x1) << INDEX_CTR_CTRL_PHASE_PHI;
+            output_value |= ((data >> (BIT_MA_CONTROL_CTRL_PHASE_F       - BIT_MA_CONTROL_CTRL_PHASE_BASE)) & 0x1) << INDEX_CTR_CTRL_PHASE_F;
+            output_value |= ((data >> (BIT_MA_CONTROL_CTRL_PHASE_SEQ_TN1 - BIT_MA_CONTROL_CTRL_PHASE_BASE)) & 0x1) << INDEX_CTR_CTRL_PHASE_SEQ_TN1;
+            output_value |= ((data >> (BIT_MA_CONTROL_CTRL_PHASE_SEQ_TN2 - BIT_MA_CONTROL_CTRL_PHASE_BASE)) & 0x1) << INDEX_CTR_CTRL_PHASE_SEQ_TN2;
+        
+            target_label->control_Umax = output_value;
+          }
+          else
+            error = ERROR_ILLEGAL_DATA_VALUE;
+        }
 
         break;
       }
-    case MA_CONFIGURATION_PART2:
+    case MA_CONTROL_EL:
       {
-        int output_value = target_label->configuration & 
-                            (unsigned int)(~(
-                                             (1 << EL_BIT_CONFIGURATION )
-                                            ));
-
-        output_value |= ((data >> (BIT_MA_CONFIGURATION_EL  - BIT_MA_CONFIGURATION_BASE_PART2)) & 0x1) << EL_BIT_CONFIGURATION;
-        
-        //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-        if(action_after_changing_of_configuration(output_value, target_label) != 0)
-          error = ERROR_SLAVE_DEVICE_BUSY;
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << EL_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_EL  - BIT_MA_CONTROL_EL_BASE)) & 0x1) << EL_BIT_CONFIGURATION;
+        if (target_label->configuration ! = output_conf)
+        {
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
+        }
 
         break;
       }
@@ -12124,7 +12652,15 @@ void modbus_rountines(unsigned int type_interface)
                         ( add_data == BIT_MA_OTKL_VV                                     ) || /*Викл. виключателя*/
                         ( add_data == BIT_MA_RESET_LEDS                                  ) || /*Очищення індикації*/
                         ( add_data == BIT_MA_RESET_RELES                                 ) || /*Скидання реле*/
-                        ( add_data == BIT_MA_RESET_RESURS_VYMYKACHA                      )    /*Скидання ресурсу вимикача*/
+                        ( add_data == BIT_MA_RESET_RESURS_VYMYKACHA                      ) || /*Скидання ресурсу вимикача*/
+                        (
+                         (
+                          (add_data == BIT_MA_OTKL_AVR             ) || /*Відключення АВР*/
+                          (add_data == BIT_MA_SBROS_BLOCK_AVR      )    /*Скидання блокувння АВР*/
+                         )
+                         &&
+                         ((current_settings.configuration & (1 << AVR_BIT_CONFIGURATION)) !=0 ) /*АВР присутній у конфігурації*/  
+                        )
                        )   
                       )
                      )    
@@ -12151,6 +12687,14 @@ void modbus_rountines(unsigned int type_interface)
             {
               offset = add_data - BIT_MA_DT_BASE;
               first_address_of_word_for_function_3_or_4 = M_ADDRESS_DT;
+            }
+            else if(
+                    (add_data == BIT_MA_OTKL_AVR             ) || /*Відключення АВР*/
+                    (add_data == BIT_MA_SBROS_BLOCK_AVR      )    /*Скидання блокувння АВР*/
+                   )
+            {
+              offset = add_data - BIT_MA_AVR_BASE;
+              first_address_of_word_for_function_3_or_4 = M_ADDRESS_AVR;
             }
             else if(
                     (add_data == BIT_MA_VKL_VV                ) || /*Вкл.  виключателя*/
@@ -12232,6 +12776,8 @@ void modbus_rountines(unsigned int type_interface)
                       ) 
                      )
                      ||  
+                     (first_address_of_word_for_function_3_or_4 == M_ADDRESS_AVR)
+                     ||  
                      (
                       (first_address_of_word_for_function_3_or_4 == M_ADDRESS_COMMAND_BASE)
                       &&
@@ -12249,7 +12795,9 @@ void modbus_rountines(unsigned int type_interface)
               Тут ми використовуємо каонстанти активації функцій з допомогою ф-кнопок, бо механізм обробки однаковий що активацшя
               функції з ф-кнопкт, що активація функції з інтерейсу
               */
-                   if  (add_data == BIT_MA_INPUT_DF1                        ) activation_function_from_interface |= 1 << RANG_BUTTON_DF1_IN;                            /*ОФ1*/
+                   if  (add_data == BIT_MA_OTKL_AVR                         ) activation_function_from_interface |= 1 << RANG_BUTTON_OTKL_AVR;                          /*Відключення АВР*/
+              else if  (add_data == BIT_MA_SBROS_BLOCK_AVR                  ) activation_function_from_interface |= 1 << RANG_BUTTON_SBROS_BLOCK_AVR;                   /*Скидання блокувння АВР*/
+              else if  (add_data == BIT_MA_INPUT_DF1                        ) activation_function_from_interface |= 1 << RANG_BUTTON_DF1_IN;                            /*ОФ1*/
               else if  (add_data == BIT_MA_INPUT_DF2                        ) activation_function_from_interface |= 1 << RANG_BUTTON_DF2_IN;                            /*ОФ2*/
               else if  (add_data == BIT_MA_INPUT_DF3                        ) activation_function_from_interface |= 1 << RANG_BUTTON_DF3_IN;                            /*ОФ3*/
               else if  (add_data == BIT_MA_INPUT_DF4                        ) activation_function_from_interface |= 1 << RANG_BUTTON_DF4_IN;                            /*ОФ4*/
@@ -12332,7 +12880,15 @@ void modbus_rountines(unsigned int type_interface)
                       ( add_data == BIT_MA_OTKL_VV                                     ) || /*Викл. виключателя*/
                       ( add_data == BIT_MA_RESET_LEDS                                  ) || /*Очищення індикації*/
                       ( add_data == BIT_MA_RESET_RELES                                 ) || /*Скидання реле*/
-                      ( add_data == BIT_MA_RESET_RESURS_VYMYKACHA                      )    /*Скидання ресурсу вимикача*/
+                      ( add_data == BIT_MA_RESET_RESURS_VYMYKACHA                      ) || /*Скидання ресурсу вимикача*/
+                      (
+                       (
+                        (add_data == BIT_MA_OTKL_AVR             ) || /*Відключення АВР*/
+                        (add_data == BIT_MA_SBROS_BLOCK_AVR      )    /*Скидання блокувння АВР*/
+                       )
+                       &&
+                       ((current_settings.configuration & (1 << AVR_BIT_CONFIGURATION)) !=0 ) /*АВР присутній у конфігурації*/  
+                      )
                      )   
                     )
                    )
@@ -12710,6 +13266,7 @@ void modbus_rountines(unsigned int type_interface)
                       (_CHECK_SET_BIT(active_functions, RANG_READY_TU) != 0)
                       &&  
                       (
+                       ((add_data >= BIT_MA_OTKL_AVR           ) && ((add_data + number - 1) <= BIT_MA_SBROS_BLOCK_AVR       )) || 
                        ((add_data >= BIT_MA_INPUT_DF1          ) && ((add_data + number - 1) <= BIT_MA_INPUT_DF8             )) || 
                        ((add_data >= BIT_MA_DT1_SET            ) && ((add_data + number - 1) <= BIT_MA_DT4_RESET             )) ||
                        ((add_data >= BIT_MA_VKL_VV             ) && ((add_data + number - 1) <= BIT_MA_OTKL_VV               )) ||
@@ -12728,6 +13285,12 @@ void modbus_rountines(unsigned int type_interface)
               //Стан функцій захистів
               offset = add_data - BIT_MA_CONTROL_BASE;
               first_address_of_word_for_function_3_or_4 = MA_CONTROL_BASE;
+            }
+            else if((add_data >= BIT_MA_OTKL_AVR) && (add_data <= BIT_MA_SBROS_BLOCK_AVR))
+            {
+              //Команди АВР
+              offset = add_data - BIT_MA_AVR_BASE;
+              first_address_of_word_for_function_3_or_4 = M_ADDRESS_AVR;
             }
             else if((add_data >= BIT_MA_INPUT_DF1) && (add_data <= BIT_MA_INPUT_DF8)) /*Определяємі функції*/
             {
@@ -12863,6 +13426,8 @@ void modbus_rountines(unsigned int type_interface)
                       ) 
                      )
                      ||  
+                     (first_address_of_word_for_function_3_or_4 == M_ADDRESS_AVR)
+                     ||  
                      (
                       (first_address_of_word_for_function_3_or_4 == M_ADDRESS_COMMAND_BASE)
                       &&
@@ -12905,7 +13470,11 @@ void modbus_rountines(unsigned int type_interface)
                 number_activated_function = add_data + i;
                 if (value_of_bit != 0)
                 {
-                  if       (number_activated_function == BIT_MA_INPUT_DF1                        ) 
+                  if       (number_activated_function == BIT_MA_OTKL_AVR        ) 
+                    activation_function_from_interface_tmp |= 1 << RANG_BUTTON_OTKL_AVR;                      /*Відключення АВР*/
+                  else if  (number_activated_function == BIT_MA_SBROS_BLOCK_AVR ) 
+                    activation_function_from_interface_tmp |= 1 << RANG_BUTTON_SBROS_BLOCK_AVR;               /*Скидання блокувння АВР*/
+                  else if  (number_activated_function == BIT_MA_INPUT_DF1                        ) 
                     activation_function_from_interface_tmp |= 1 << RANG_BUTTON_DF1_IN;                        /*ОФ1*/
                   else if  (number_activated_function == BIT_MA_INPUT_DF2                        ) 
                     activation_function_from_interface_tmp |= 1 << RANG_BUTTON_DF2_IN;                        /*ОФ2*/
