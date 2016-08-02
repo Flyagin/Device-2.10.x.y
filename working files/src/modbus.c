@@ -807,6 +807,14 @@ unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int nu
   {
     for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_d_not[N_BIG*number + i];
   }
+  else if (source == SOURCE_ON_CB_RANG)
+  {
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_on_cb[i];
+  }
+  else if (source == SOURCE_OFF_CB_RANG)
+  {
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_off_cb[i];
+  }
   
   //Шукаємо потрібний індекс функції у полі бітових настройок
   unsigned int i = 0;
@@ -2407,6 +2415,16 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
     point_to_source = (unsigned int *)current_settings_interfaces.ranguvannja_d_not + N_BIG*number;
     point_to_target = (unsigned int *)target_label->ranguvannja_d_not + N_BIG*number;
   }
+  else if (source == SOURCE_ON_CB_RANG)
+  {
+    point_to_source = (unsigned int *)current_settings_interfaces.ranguvannja_on_cb;
+    point_to_target = (unsigned int *)target_label->ranguvannja_on_cb;
+  }
+  else if (source == SOURCE_OFF_CB_RANG)
+  {
+    point_to_source = (unsigned int *)current_settings_interfaces.ranguvannja_off_cb;
+    point_to_target = (unsigned int *)target_label->ranguvannja_off_cb;
+  }
 
   //Перевіряємо, чи треба попередні зміни (якщо такі були) ввести в цільовий масив
   if (point_to_edited_rang != NULL)
@@ -2477,6 +2495,14 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
           ||
           (
            (source == SOURCE_DR_RANG) & (data == BIT_MA_WORK_D_REJESTRATOR)
+          )
+          ||
+          (
+           (source == SOURCE_ON_CB_RANG) & (data == BIT_MA_WORK_BV)
+          )
+          ||
+          (
+           (source == SOURCE_OFF_CB_RANG) & (data == BIT_MA_WORK_BO)
           )
          ) 
       {
@@ -2639,7 +2665,7 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
             )
     {
       //Зараз є намагання зранжувати функцю Перевірки фазування і номер її є допустимим
-      if ((target_label->configuration & (1 << AVR_BIT_CONFIGURATION)) !=0 ) error = 0;
+      if ((target_label->configuration & (1 << CTRL_PHASE_BIT_CONFIGURATION)) !=0 ) error = 0;
       else error = ERROR_ILLEGAL_DATA_VALUE;
     }
     else if (
@@ -4187,890 +4213,20 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
   {
     temp_value = state_leds & ((1 << NUMBER_LEDS) - 1);
   }
-  else if ((address_data >= M_ADDRESS_FIRST_SETPOINTS_PART1) && (address_data <= M_ADDRESS_LAST_SETPOINTS_PART1))
-  {
-    switch (address_data)
-    {
-    case MA_GROUP_USTAVOK:
-      {
-        temp_value = current_settings_interfaces.grupa_ustavok;
-        break;
-      }
-    case MA_TYPE_MTZ1:
-      {
-        temp_value = current_settings_interfaces.type_mtz1;
-        break;
-      }
-    case MA_TYPE_MTZ2:
-      {
-        temp_value = current_settings_interfaces.type_mtz2;
-        break;
-      }
-    case MA_TYPE_MTZ3:
-      {
-        temp_value = current_settings_interfaces.type_mtz3;
-        break;
-      }
-    case MA_TYPE_MTZ4:
-      {
-        temp_value = current_settings_interfaces.type_mtz4;
-        break;
-      }
-    default:
-      {
-        temp_value = 0;
-        break;
-      }
-    }
-  }
-  else if (
-           ((address_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G1)) && (address_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G1))) ||
-           ((address_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G2)) && (address_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G2))) ||
-           ((address_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G3)) && (address_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G3))) ||
-           ((address_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G4)) && (address_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G4)))
-          )
-  {
-    //Уставки, витримки, які мають декілька груп уставок
-     unsigned int num_gr, address_data_tmp = address_data;
-     if ((address_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G1)) && (address_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G1)))
-     {
-       num_gr = 0;
-       address_data_tmp -= SHIFT_G1;
-     }
-     else if ((address_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G2)) && (address_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G2)))
-     {
-       num_gr = 1;
-       address_data_tmp -= SHIFT_G2;
-     }
-     else if ((address_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G3)) && (address_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G3)))
-     {
-       num_gr = 2;
-       address_data_tmp -= SHIFT_G3;
-     }
-     else
-     {
-       num_gr = 3;
-       address_data_tmp -= SHIFT_G4;
-     }
-        
-    switch (address_data_tmp)
-    {
-    case MA_STP_MTZ1:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_1[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ1_N_VPERED:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_1_n_vpered[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ1_N_NAZAD:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_1_n_nazad[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ1_PO_NAPRUZI:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_1_po_napruzi[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ1_U:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_1_U[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ1_ANGLE:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_1_angle[num_gr];
-        break;
-      }
-    case MA_TO_MTZ1:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_1[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ1_N_VPERED:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_1_n_vpered[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ1_N_NAZAD:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_1_n_nazad[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ1_PO_NAPRUZI:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_1_po_napruzi[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ2:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_2[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ2_N_VPERED:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_2_n_vpered[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ2_N_NAZAD:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_2_n_nazad[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ2_PO_NAPRUZI:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_2_po_napruzi[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ2_U:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_2_U[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ2_ANGLE:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_2_angle[num_gr];
-        break;
-      }
-    case MA_TO_MTZ2:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_2[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ2_N_VPERED:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_2_n_vpered[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ2_N_NAZAD:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_2_n_nazad[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ2_PO_NAPRUZI:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_2_po_napruzi[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ2_VVID_PR:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_2_vvid_pr[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ2_PR:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_2_pr[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ2_N_VPERED_PR:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_2_n_vpered_pr[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ2_N_NAZAD_PR:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_2_n_nazad_pr[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ2_PO_NAPRUZI_PR:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_2_po_napruzi_pr[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ3:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_3[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ3_N_VPERED:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_3_n_vpered[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ3_N_NAZAD:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_3_n_nazad[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ3_PO_NAPRUZI:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_3_po_napruzi[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ3_U:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_3_U[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ3_ANGLE:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_3_angle[num_gr];
-        break;
-      }
-    case MA_TO_MTZ3:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_3[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ3_N_VPERED:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_3_n_vpered[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ3_N_NAZAD:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_3_n_nazad[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ3_PO_NAPRUZI:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_3_po_napruzi[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ4:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_4[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ4_N_VPERED:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_4_n_vpered[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ4_N_NAZAD:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_4_n_nazad[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ4_PO_NAPRUZI:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_4_po_napruzi[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ4_U:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_4_U[num_gr]/10;
-        break;
-      }
-    case MA_STP_MTZ4_ANGLE:
-      {
-        temp_value = current_settings_interfaces.setpoint_mtz_4_angle[num_gr];
-        break;
-      }
-    case MA_TO_MTZ4:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_4[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ4_N_VPERED:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_4_n_vpered[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ4_N_NAZAD:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_4_n_nazad[num_gr]/10;
-        break;
-      }
-    case MA_TO_MTZ4_PO_NAPRUZI:
-      {
-        temp_value = current_settings_interfaces.timeout_mtz_4_po_napruzi[num_gr]/10;
-        break;
-      }
-    case MA_STP_ZOP1:
-      {
-        temp_value = current_settings_interfaces.setpoint_zop[num_gr];
-        break;
-      }
-    case MA_TO_ZOP1:
-      {
-        temp_value = current_settings_interfaces.timeout_zop[num_gr]/10;
-        break;
-      }
-    case MA_STP_UMIN1:
-      {
-        temp_value = current_settings_interfaces.setpoint_Umin1[num_gr]/100;
-        break;
-      }
-    case MA_TO_UMIN1:
-      {
-        temp_value = current_settings_interfaces.timeout_Umin1[num_gr]/10;
-        break;
-      }
-    case MA_STP_UMIN2:
-      {
-        temp_value = current_settings_interfaces.setpoint_Umin2[num_gr]/100;
-        break;
-      }
-    case MA_TO_UMIN2:
-      {
-        temp_value = current_settings_interfaces.timeout_Umin2[num_gr]/10;
-        break;
-      }
-    case MA_STP_BLK_UMIN1_BY_I:
-      {
-        temp_value = current_settings_interfaces.setpoint_Umin1_Iblk[num_gr]/10;
-        break;
-      }
-    case MA_STP_BLK_UMIN2_BY_I:
-      {
-        temp_value = current_settings_interfaces.setpoint_Umin2_Iblk[num_gr]/10;
-        break;
-      }
-    case MA_STP_UMAX1:
-      {
-        temp_value = current_settings_interfaces.setpoint_Umax1[num_gr]/100;
-        break;
-      }
-    case MA_TO_UMAX1:
-      {
-        temp_value = current_settings_interfaces.timeout_Umax1[num_gr]/10;
-        break;
-      }
-    case MA_STP_UMAX2:
-      {
-        temp_value = current_settings_interfaces.setpoint_Umax2[num_gr]/100;
-        break;
-      }
-    case MA_TO_UMAX2:
-      {
-        temp_value = current_settings_interfaces.timeout_Umax2[num_gr]/10;
-        break;
-      }
-    case MA_STP_UROV:
-      {
-        temp_value = current_settings_interfaces.setpoint_urov[num_gr]/10;
-        break;
-      }
-    case MA_TO_UROV1:
-      {
-        temp_value = current_settings_interfaces.timeout_urov_1[num_gr]/10;
-        break;
-      }
-    case MA_TO_UROV2:
-      {
-        temp_value = current_settings_interfaces.timeout_urov_2[num_gr]/10;
-        break;
-      }
-    case MA_STP_AVR_MIN1:
-      {
-        temp_value = current_settings_interfaces.setpoint_avr_min1[num_gr]/100;
-        break;
-      }
-    case MA_STP_AVR_MAX1:
-      {
-        temp_value = current_settings_interfaces.setpoint_avr_max1[num_gr]/100;
-        break;
-      }
-    case MA_STP_AVR_MIN2:
-      {
-        temp_value = current_settings_interfaces.setpoint_avr_min2[num_gr]/100;
-        break;
-      }
-    case MA_STP_AVR_MAX2:
-      {
-        temp_value = current_settings_interfaces.setpoint_avr_max2[num_gr]/100;
-        break;
-      }
-    case MA_TO_APV_CYCLE_2:
-      {
-        temp_value = current_settings_interfaces.timeout_apv_2[num_gr]/10;
-        break;
-      }
-    case MA_TO_APV_CYCLE_3:
-      {
-        temp_value = current_settings_interfaces.timeout_apv_3[num_gr]/10;
-        break;
-      }
-    case MA_TO_APV_CYCLE_4:
-      {
-        temp_value = current_settings_interfaces.timeout_apv_4[num_gr]/10;
-        break;
-      }
-    case MA_TO_APV_BLOCK_VID_APV1:
-      {
-        temp_value = current_settings_interfaces.timeout_apv_block_vid_apv1[num_gr]/10;
-        break;
-      }
-    case MA_TO_APV_BLOCK_VID_APV2:
-      {
-        temp_value = current_settings_interfaces.timeout_apv_block_vid_apv2[num_gr]/10;
-        break;
-      }
-    case MA_TO_APV_BLOCK_VID_APV3:
-      {
-        temp_value = current_settings_interfaces.timeout_apv_block_vid_apv3[num_gr]/10;
-        break;
-      }
-    case MA_TO_APV_BLOCK_VID_APV4:
-      {
-        temp_value = current_settings_interfaces.timeout_apv_block_vid_apv4[num_gr]/10;
-        break;
-      }
-    default:
-      {
-        temp_value = 0;
-        break;
-      }
-    }
-  }
-  else if ((address_data >= M_ADDRESS_FIRST_SETPOINTS_CONTINUE) && (address_data <= M_ADDRESS_LAST_SETPOINTS_CONTINUE))
-  {
-    //Уставки і витримки (ролдовження), настройки
-    switch (address_data)
-    {
-    case MA_TN1:
-      {
-        temp_value = current_settings_interfaces.TVoltage;
-        break;
-      }
-    case MA_TT:
-      {
-        temp_value = current_settings_interfaces.TCurrent;
-        break;
-      }
-    case MA_TO_SWCH_ON:
-      {
-        temp_value = current_settings_interfaces.timeout_swch_on/10;
-        break;
-      }
-    case MA_TO_SWCH_OFF:
-      {
-        temp_value = current_settings_interfaces.timeout_swch_off/10;
-        break;
-      }
-    case MA_TO_SWCH_UDL_BLK_ON:
-      {
-        temp_value = current_settings_interfaces.timeout_swch_udl_blk_on/10;
-        break;
-      }
-    case MA_TO_FAULT_CONTROL_CIRCUIT:
-      {
-        temp_value = current_settings_interfaces.timeout_pryvoda_VV/10;
-        break;
-      }
-    case MA_STP_Inom:
-      {
-        temp_value = current_settings_interfaces.setpoint_Inom;
-        break;
-      }
-    case MA_STP_RKS_Inom:
-      {
-        temp_value = current_settings_interfaces.setpoint_r_kom_st_Inom/10;
-        break;
-      }
-    case MA_STP_Inom_vymk:
-      {
-        temp_value = current_settings_interfaces.setpoint_Inom_vymk;
-        break;
-      }
-    case MA_STP_RKS_Inom_vymk:
-      {
-        temp_value = current_settings_interfaces.setpoint_r_kom_st_Inom_vymk;
-        break;
-      }
-    case MA_STP_POCHATKOVYJ_RESURS_LSW:
-      {
-        temp_value = current_settings_interfaces.setpoint_pochatkovyj_resurs & 0xffff;
-        break;
-      }
-    case MA_STP_POCHATKOVYJ_RESURS_MSW:
-      {
-        temp_value = (current_settings_interfaces.setpoint_pochatkovyj_resurs >> 16) & 0xffff;
-        break;
-      }
-    case MA_STP_KRYTYCHNYJ_RESURS:
-      {
-        temp_value = current_settings_interfaces.setpoint_krytychnyj_resurs;
-        break;
-      }
-    case MA_POCHATKOVA_K_VYMK_LSW:
-      {
-        temp_value = current_settings_interfaces.setpoint_pochatkova_k_vymk & 0xffff;
-        break;
-      }
-    case MA_POCHATKOVA_K_VYMK_MSW:
-      {
-        temp_value = (current_settings_interfaces.setpoint_pochatkova_k_vymk >> 16) & 0xffff;
-        break;
-      }
-    case MA_UVV_TYPE_SIGNAL_INPUT:
-      {
-        temp_value = current_settings_interfaces.type_of_input_signal & ((1 << NUMBER_INPUTS) - 1);
-        break;
-      }
-    case MA_UVV_TYPE_INPUT:
-      {
-        temp_value = ((unsigned int)(~current_settings_interfaces.type_of_input)) & ((1 << NUMBER_INPUTS) - 1);
-        break;
-      }
-    case MA_UVV_TYPE_OUTPUT:
-      {
-        temp_value = current_settings_interfaces.type_of_output & ((1 << NUMBER_OUTPUTS) - 1);
-        break;
-      }
-    case MA_UVV_TYPE_OUTPUT_MODIF:
-      {
-        temp_value = current_settings_interfaces.type_of_output_modif & ((1 << NUMBER_OUTPUTS) - 1);
-        break;
-      }
-    case MA_TYPE_DF:
-      {
-        temp_value = current_settings_interfaces.type_df & ((1 << NUMBER_DEFINED_FUNCTIONS) - 1);
-        break;
-      }
-    case MA_UVV_TYPE_LED:
-      {
-        temp_value = current_settings_interfaces.type_of_led & ((1 << NUMBER_LEDS) - 1);
-        break;
-      }
-    case MA_DOPUSK_DV_1:
-    case MA_DOPUSK_DV_2:
-    case MA_DOPUSK_DV_3:
-    case MA_DOPUSK_DV_4:
-    case MA_DOPUSK_DV_5:
-    case MA_DOPUSK_DV_6:
-    case MA_DOPUSK_DV_7:
-    case MA_DOPUSK_DV_8:
-    case MA_DOPUSK_DV_9:
-    case MA_DOPUSK_DV_10:
-      {
-        temp_value = current_settings_interfaces.dopusk_dv[address_data - MA_DOPUSK_DV_1];
-        break;
-      }
-    case MA_DF_PAUSE_1:
-    case MA_DF_PAUSE_2:
-    case MA_DF_PAUSE_3:
-    case MA_DF_PAUSE_4:
-    case MA_DF_PAUSE_5:
-    case MA_DF_PAUSE_6:
-    case MA_DF_PAUSE_7:
-    case MA_DF_PAUSE_8:
-      {
-        temp_value = current_settings_interfaces.timeout_pause_df[address_data - MA_DF_PAUSE_1]/10;
-        break;
-      }
-    case MA_DF_WORK_1:
-    case MA_DF_WORK_2:
-    case MA_DF_WORK_3:
-    case MA_DF_WORK_4:
-    case MA_DF_WORK_5:
-    case MA_DF_WORK_6:
-    case MA_DF_WORK_7:
-    case MA_DF_WORK_8:
-      {
-        temp_value = current_settings_interfaces.timeout_work_df[address_data - MA_DF_WORK_1]/10;
-        break;
-      }
-    case MA_CONTROL_MTZ:
-      {
-        int input_value = current_settings_interfaces.control_mtz;
-        int input_conf = current_settings_interfaces.configuration;
-        
-        temp_value = (((input_conf  >> MTZ_BIT_CONFIGURATION         ) & 0x1 ) << (BIT_MA_CONFIGURATION_MTZ          - BIT_MA_CONTROL_MTZ_BASE) ) |
-          
-                     (((input_value >> N_BIT_CTRMTZ_1                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ1               - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_2                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2               - BIT_MA_CONTROL_MTZ_BASE) ) | 
-                     (((input_value >> N_BIT_CTRMTZ_3                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ3               - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_4                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ4               - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_2_PRYSKORENNJA   ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2_PRYSKORENNJA  - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_2_PRYSKORENA     ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2_PRYSKORENA    - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_1_VPERED         ) & 0x1 ) << (BIT_MA_CONTROL_MTZ1_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_1_NAZAD          ) & 0x1 ) << (BIT_MA_CONTROL_MTZ1_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_2_VPERED         ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_2_NAZAD          ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_3_VPERED         ) & 0x1 ) << (BIT_MA_CONTROL_MTZ3_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_3_NAZAD          ) & 0x1 ) << (BIT_MA_CONTROL_MTZ3_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_4_VPERED         ) & 0x1 ) << (BIT_MA_CONTROL_MTZ4_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_4_NAZAD          ) & 0x1 ) << (BIT_MA_CONTROL_MTZ4_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_NESPR_KIL_NAPR   ) & 0x1 ) << (BIT_MA_CONTROL_MTZ_NESPR_KIL_NAPR - BIT_MA_CONTROL_MTZ_BASE) );
-        break;
-      }
-    case MA_CONTROL_ZDZ:
-      {
-        int input_value = current_settings_interfaces.control_zdz;
-        int input_conf = current_settings_interfaces.configuration;
-        
-        temp_value = (((input_conf  >> ZDZ_BIT_CONFIGURATION             ) & 0x1 ) << (BIT_MA_CONFIGURATION_ZDZ             - BIT_MA_CONTROL_ZDZ_BASE) ) |
-          
-                     (((input_value >> INDEX_ML_CTRZDZ_STATE             ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ                   - BIT_MA_CONTROL_ZDZ_BASE)) |
-                     (((input_value >> INDEX_ML_CTRZDZ_STARTED_FROM_MTZ1 ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_ZDZ_BASE)) |
-                     (((input_value >> INDEX_ML_CTRZDZ_STARTED_FROM_MTZ2 ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_ZDZ_BASE)) |
-                     (((input_value >> INDEX_ML_CTRZDZ_STARTED_FROM_MTZ3 ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_ZDZ_BASE)) |
-                     (((input_value >> INDEX_ML_CTRZDZ_STARTED_FROM_MTZ4 ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_ZDZ_BASE));
-        break;
-      }
-    case MA_CONTROL_ZOP:
-      {
-        int input_value = current_settings_interfaces.control_zop;
-        int input_conf = current_settings_interfaces.configuration;
-        
-        temp_value = (((input_conf  >> ZOP_BIT_CONFIGURATION) & 0x1 ) << (BIT_MA_CONFIGURATION_ZOP - BIT_MA_CONTROL_ZOP_BASE) ) |
-          
-                     (((input_value >> CTR_ZOP_STATE_BIT    ) & 0x1 ) << (BIT_MA_CONTROL_ZOP1      - BIT_MA_CONTROL_ZOP_BASE));
-        break;
-      }
-    case MA_CONTROL_UMIN:
-      {
-        int input_value = current_settings_interfaces.control_Umin;
-        int input_conf = current_settings_interfaces.configuration;
-        
-        temp_value = (((input_conf  >> UMIN_BIT_CONFIGURATION   ) & 0x1 ) << (BIT_MA_CONFIGURATION_UMIN      - BIT_MA_CONTROL_UMIN_BASE)) |
-          
-                     (((input_value >> INDEX_CTR_UMIN1          ) & 0x1 ) << (BIT_MA_CONTROL_UMIN1           - BIT_MA_CONTROL_UMIN_BASE)) |
-                     (((input_value >> INDEX_CTR_UMIN2          ) & 0x1 ) << (BIT_MA_CONTROL_UMIN2           - BIT_MA_CONTROL_UMIN_BASE)) |
-                     (((input_value >> INDEX_CTR_PO_UMIN1_OR_AND) & 0x1 ) << (BIT_MA_CONTROL_PO_UMIN1_AND_OR - BIT_MA_CONTROL_UMIN_BASE)) |
-                     (((input_value >> INDEX_CTR_PO_UMIN2_OR_AND) & 0x1 ) << (BIT_MA_CONTROL_PO_UMIN2_AND_OR - BIT_MA_CONTROL_UMIN_BASE)) |
-                     (((input_value >> INDEX_CTR_UMIN1_UBLK     ) & 0x1 ) << (BIT_MA_CONTROL_BLK_UMIN1_BY_U  - BIT_MA_CONTROL_UMIN_BASE)) |
-                     (((input_value >> INDEX_CTR_UMIN2_UBLK     ) & 0x1 ) << (BIT_MA_CONTROL_BLK_UMIN2_BY_U  - BIT_MA_CONTROL_UMIN_BASE)) |
-                     (((input_value >> INDEX_CTR_UMIN1_IBLK     ) & 0x1 ) << (BIT_MA_CONTROL_BLK_UMIN1_BY_I  - BIT_MA_CONTROL_UMIN_BASE)) |
-                     (((input_value >> INDEX_CTR_UMIN2_IBLK     ) & 0x1 ) << (BIT_MA_CONTROL_BLK_UMIN2_BY_I  - BIT_MA_CONTROL_UMIN_BASE));
-        break;
-      }
-    case MA_CONTROL_UMAX:
-      {
-        int input_value = current_settings_interfaces.control_Umax;
-        int input_conf = current_settings_interfaces.configuration;
-        
-        temp_value = (((input_conf  >> UMAX_BIT_CONFIGURATION   ) & 0x1 ) << (BIT_MA_CONFIGURATION_UMAX      - BIT_MA_CONTROL_UMAX_BASE)) |
-          
-                     (((input_value >> INDEX_CTR_UMAX1          ) & 0x1 ) << (BIT_MA_CONTROL_UMAX1           - BIT_MA_CONTROL_UMAX_BASE)) |
-                     (((input_value >> INDEX_CTR_UMAX2          ) & 0x1 ) << (BIT_MA_CONTROL_UMAX2           - BIT_MA_CONTROL_UMAX_BASE)) |
-                     (((input_value >> INDEX_CTR_PO_UMAX1_OR_AND) & 0x1 ) << (BIT_MA_CONTROL_PO_UMAX1_AND_OR - BIT_MA_CONTROL_UMAX_BASE)) |
-                     (((input_value >> INDEX_CTR_PO_UMAX2_OR_AND) & 0x1 ) << (BIT_MA_CONTROL_PO_UMAX2_AND_OR - BIT_MA_CONTROL_UMAX_BASE));
-        break;
-      }
-    case MA_CONTROL_EXTRA_SETTINGS:
-      {
-        int input_value1 = current_settings.control_extra_settings_1;
-        
-        temp_value = ((((input_value1 >> INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_LINE_PHASE ) & 0x1 ) == 0) << (BIT_MA_CONTROL_PHASE_LINE - BIT_MA_CONTROL_EXTRA_SETTINGS_BASE));
-        break;
-      }
-    case MA_CONTROL_UROV_PART1:
-      {
-        int input_value = current_settings_interfaces.control_urov;
-        int input_conf = current_settings_interfaces.configuration;
-        
-        temp_value = (((input_conf  >> UROV_BIT_CONFIGURATION               ) & 0x1 ) << (BIT_MA_CONFIGURATION_UROV                - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-          
-                     (((input_value >> INDEX_ML_CTRUROV_STATE               ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STATE                - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_MTZ1   ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ1    - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_MTZ2   ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ2    - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_MTZ3   ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ3    - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_MTZ4   ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ4    - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_UMAX1  ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX1   - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_UMAX2  ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX2   - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_UMIN1  ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN1   - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_UMIN2  ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN2   - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_ZOP1   ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_ZOP1    - BIT_MA_CONTROL_UROV_BASE_PART1));
-        break;
-      }
-    case MA_CONTROL_UROV_PART2:
-      {
-        int input_value = current_settings_interfaces.control_urov;
-        
-        temp_value = (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_ZDZ  ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_ZDZ   - BIT_MA_CONTROL_UROV_BASE_PART2));
-        break;
-      }
-    case MA_CONTROL_AVR:
-      {
-        int input_value = current_settings_interfaces.control_avr;
-        int input_conf = current_settings_interfaces.configuration;
-        
-        temp_value = (((input_conf  >> AVR_BIT_CONFIGURATION ) & 0x1 ) << (BIT_MA_CONFIGURATION_AVR    - BIT_MA_CONTROL_AVR_BASE)) |
-          
-                     (((input_value >> INDEX_CTR_AVR         ) & 0x1 ) << (BIT_MA_CONTROL_AVR          - BIT_MA_CONTROL_AVR_BASE)) |
-                     (((input_value >> INDEX_CTR_AVR_OTKL_BLK) & 0x1 ) << (BIT_MA_CONTROL_AVR_OTKL_BLK - BIT_MA_CONTROL_AVR_BASE));
-        break;
-      }
-    case MA_CONTROL_APV:
-      {
-        int input_value = current_settings_interfaces.control_apv;
-        int input_conf = current_settings_interfaces.configuration;
-        
-        temp_value = (((input_conf  >> APV_BIT_CONFIGURATION             ) & 0x1 ) << (BIT_MA_CONFIGURATION_APV             - BIT_MA_CONTROL_APV_BASE)) |
-          
-                     (((input_value >> INDEX_ML_CTRAPV_STAGE_1           ) & 0x1 ) << (BIT_MA_CONTROL_APV_CYCLE1            - BIT_MA_CONTROL_APV_BASE)) |
-                     (((input_value >> INDEX_ML_CTRAPV_STAGE_2           ) & 0x1 ) << (BIT_MA_CONTROL_APV_CYCLE2            - BIT_MA_CONTROL_APV_BASE)) |
-                     (((input_value >> INDEX_ML_CTRAPV_STAGE_3           ) & 0x1 ) << (BIT_MA_CONTROL_APV_CYCLE3            - BIT_MA_CONTROL_APV_BASE)) |
-                     (((input_value >> INDEX_ML_CTRAPV_STAGE_4           ) & 0x1 ) << (BIT_MA_CONTROL_APV_CYCLE4            - BIT_MA_CONTROL_APV_BASE)) |
-                     (((input_value >> INDEX_ML_CTRAPV_STARTED_FROM_MTZ1 ) & 0x1 ) << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_APV_BASE)) |
-                     (((input_value >> INDEX_ML_CTRAPV_STARTED_FROM_MTZ2 ) & 0x1 ) << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_APV_BASE)) |
-                     (((input_value >> INDEX_ML_CTRAPV_STARTED_FROM_MTZ3 ) & 0x1 ) << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_APV_BASE)) |
-                     (((input_value >> INDEX_ML_CTRAPV_STARTED_FROM_MTZ4 ) & 0x1 ) << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_APV_BASE));
-        break;
-      }
-    case MA_CONTROL_CTRL_VV:
-      {
-        int input_value1 = current_settings_interfaces.control_switch;
-        int input_value2 = current_settings_interfaces.control_extra_settings_1;
-        
-        temp_value = (((input_value1 >> INDEX_ML_CTRPRYVOD_VV                          ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_VV_STATE           - BIT_MA_CONTROL_CTRL_VV_BASE)) |
-                     (((input_value2 >> INDEX_ML_CTREXTRA_SETTINGS_1_BLK_ON_CB_MISCEVE ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_BLK_ON_CB_MISCEVE  - BIT_MA_CONTROL_CTRL_VV_BASE)) |
-                     (((input_value2 >> INDEX_ML_CTREXTRA_SETTINGS_1_BLK_OFF_CB_MISCEVE) & 0x1 ) << (BIT_MA_CONTROL_CTRL_BLK_OFF_CB_MISCEVE - BIT_MA_CONTROL_CTRL_VV_BASE)) |
-                     (((input_value2 >> INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_FB_ACTIVATION) & 0x1 ) << (BIT_MA_CONTROL_CTRL_FB_ACTIVATION      - BIT_MA_CONTROL_CTRL_VV_BASE)) |
-                     (((input_value1 >> INDEX_ML_CTRRESURS_VV                          ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_RESURS_VV          - BIT_MA_CONTROL_CTRL_VV_BASE)) |
-                     (((input_value2 >> INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_READY_TU     ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_READY_TU           - BIT_MA_CONTROL_CTRL_VV_BASE)) |
-                     (((input_value2 >> INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_WINDOW_OFF_CB) & 0x1 ) << (BIT_MA_CONTROL_CTRL_WINDOW_OFF_CB      - BIT_MA_CONTROL_CTRL_VV_BASE));
-        break;
-      }
-    case MA_CONTROL_CTRL_PHASE:
-      {
-        int input_value = current_settings_interfaces.control_ctrl_phase;
-        int input_conf = current_settings_interfaces.configuration;
-        
-        temp_value = (((input_conf  >> CTRL_PHASE_BIT_CONFIGURATION  ) & 0x1 ) << (BIT_MA_CONFIGURATION_CTRL_PHASE    - BIT_MA_CONTROL_CTRL_PHASE_BASE) ) |
-          
-                     (((input_value >> INDEX_CTR_CTRL_PHASE_U         ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_PHASE_U       - BIT_MA_CONTROL_CTRL_PHASE_BASE) ) |
-                     (((input_value >> INDEX_CTR_CTRL_PHASE_PHI       ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_PHASE_PHI     - BIT_MA_CONTROL_CTRL_PHASE_BASE) ) |
-                     (((input_value >> INDEX_CTR_CTRL_PHASE_F         ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_PHASE_F       - BIT_MA_CONTROL_CTRL_PHASE_BASE) ) |
-                     (((input_value >> INDEX_CTR_CTRL_PHASE_SEQ_TN1   ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_PHASE_SEQ_TN1 - BIT_MA_CONTROL_CTRL_PHASE_BASE) ) |
-                     (((input_value >> INDEX_CTR_CTRL_PHASE_SEQ_TN2   ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_PHASE_SEQ_TN2 - BIT_MA_CONTROL_CTRL_PHASE_BASE) );
-        break;
-      }
-    case MA_CONTROL_EL:
-      {
-        int input_conf = current_settings_interfaces.configuration;
-        
-        temp_value = (((input_conf >> EL_BIT_CONFIGURATION) & 0x1 ) << (BIT_MA_CONFIGURATION_EL - BIT_MA_CONTROL_EL_BASE));
-        break;
-      }
-    case MA_TO_DEACTIVATION_PASSWORD_INTERFACE:
-      {
-          if (type_interface == USB_RECUEST)
-          {
-            temp_value = current_settings_interfaces.timeout_deactivation_password_interface_USB;
-          }
-          else if (type_interface == RS485_RECUEST)
-          {
-            temp_value = current_settings_interfaces.timeout_deactivation_password_interface_RS485;
-          }
-          else error = ERROR_SLAVE_DEVICE_FAILURE;
-      
-          break;
-      }
-    case MA_TO_IDLE_NEW_SETTINGS:
-      {
-          temp_value = current_settings_interfaces.timeout_idle_new_settings;
-      
-          break;
-      }
-    case MA_LANGUAGE_MENU:
-      {
-        temp_value = current_settings_interfaces.language;
-        break;
-      }
-    case MA_SPEED_RS485:
-      {
-        temp_value = current_settings_interfaces.speed_RS485;
-        break;
-      }
-    case MA_STOP_BITS_RS485:
-      {
-        temp_value = current_settings_interfaces.number_stop_bit_RS485 + 1;
-        break;
-      }
-    case MA_PARE_RS485:
-      {
-        temp_value = current_settings_interfaces.pare_bit_RS485;
-        break;
-      }
-    case MA_TIMEOUT_RS485:
-      {
-        temp_value = current_settings_interfaces.time_out_1_RS485;
-        break;
-      }
-    case MA_LOGICAL_ADDRESS:
-      {
-        temp_value = current_settings_interfaces.address;
-        break;
-      }
-    case MA_NAME_OF_CELL_CHARS_01_02:
-    case MA_NAME_OF_CELL_CHARS_03_04:
-    case MA_NAME_OF_CELL_CHARS_05_06:
-    case MA_NAME_OF_CELL_CHARS_07_08:
-    case MA_NAME_OF_CELL_CHARS_09_10:
-    case MA_NAME_OF_CELL_CHARS_11_12:
-    case MA_NAME_OF_CELL_CHARS_13_14:
-    case MA_NAME_OF_CELL_CHARS_15_16:
-      {
-        unsigned int two_char_index = (address_data - MA_NAME_OF_CELL_CHARS_01_02) << 1;
-        temp_value = (current_settings_interfaces.name_of_cell[two_char_index] & 0xff) | ((current_settings_interfaces.name_of_cell[two_char_index + 1] & 0xff) << 8);
-        break;
-      }
-    default:
-      {
-        temp_value = 0;
-        break;
-      }
-    }
-  }
-  else if ((address_data >= M_ADDRESS_FIRST_TIME_AND_DATA) && (address_data <= M_ADDRESS_LAST_TIME_AND_DATA))
-  {
-    unsigned char *label_to_time_array;
-    
-    if (copying_time == 0) label_to_time_array = time;
-    else label_to_time_array = time_copy;
-    
-    switch (address_data)
-    {
-    case MA_YEAR:
-      {
-        temp_value = *(label_to_time_array + 6);
-        break;
-      }
-    case MA_MONTH:
-      {
-        temp_value = *(label_to_time_array + 5);
-        break;
-      }
-    case MA_DAY:
-      {
-        temp_value = *(label_to_time_array + 4);
-        break;
-      }
-    case MA_HOUR:
-      {
-        temp_value = *(label_to_time_array + 3);
-        break;
-      }
-    case MA_MINUTE:
-      {
-        temp_value = *(label_to_time_array + 2);
-        break;
-      }
-    case MA_SECOND:
-      {
-        temp_value = *(label_to_time_array + 1);
-        break;
-      }
-    case MA_MILISECOND:
-      {
-        temp_value = *(label_to_time_array + 0);
-        break;
-      }
-    default:
-      {
-        temp_value = 0;
-        break;
-      }
-    }
-  }
   else if (
            (address_data >= M_ADDRESS_FIRST_CURRENT_AF ) && (address_data <= M_ADDRESS_LAST_CURRENT_AF) ||
            (address_data >= M_ADDRESS_FIRST_GENERAL_AF ) && (address_data <= M_ADDRESS_LAST_GENERAL_AF)
           )
   {
+#define SIZE_OUTPUT_ARRAY       (M_ADDRESS_LAST_GENERAL_AF - M_ADDRESS_FIRST_GENERAL_AF + 1)
+    
     //Блок текучих активних функцій або загальних функцій
     unsigned int input_array[N_BIG], base_address;
-    unsigned short int output_array[26];
+    unsigned short int output_array[SIZE_OUTPUT_ARRAY];
     
     //Спочатку очищаємо весь вихідний масив
-    for (unsigned int i = 0; i< 26; i++ ) output_array[i] = 0;
+    for (unsigned int i = 0; i< SIZE_OUTPUT_ARRAY; i++ ) output_array[i] = 0;
+#undef SIZE_OUTPUT_ARRAY
 
     //Копіюємо вхідну інформацію
     if ((address_data >= M_ADDRESS_FIRST_CURRENT_AF ) && (address_data <= M_ADDRESS_LAST_CURRENT_AF))
@@ -5655,7 +4811,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
             temp_value = value >> 3;
             break;
           }
-        case DR_OFFSET_MEASUREMENT_UC _2:
+        case DR_OFFSET_MEASUREMENT_UC_2:
           {
             index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 10)*sizeof(unsigned int);
             value = *((unsigned int *)(point_to_buffer + index));
@@ -5748,17 +4904,6 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
   {
     temp_value = current_settings_interfaces.user_register[address_data - M_ADDRESS_FIRST_USER_REGISTER];
   }
-  else if ((address_data >= M_ADDRESS_FIRST_DI_RANG) && (address_data <= M_ADDRESS_LAST_DI_RANG))
-  {
-    //Взначаємо, який вхід зараз верхній рівень намагається прочитати
-    unsigned int number_input = (address_data - M_ADDRESS_FIRST_DI_RANG)>> VAGA_MAX_FUNCTIONS_IN_INPUT;
-    
-    if(number_input < NUMBER_INPUTS)
-    {
-      temp_value = convert_order_list_inputs_to_gmm(number_input, (((address_data - M_ADDRESS_FIRST_DI_RANG) & (MAX_FUNCTIONS_IN_INPUT - 1)) + 1));
-    }
-    else temp_value = 0;
-  }
   else if ((address_data >= M_ADDRESS_FIRST_DO_RANG) && (address_data <= M_ADDRESS_LAST_DO_RANG))
   {
     //Взначаємо, який вихід зараз верхній рівень намагається прочитати
@@ -5767,6 +4912,17 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     if(number_output < NUMBER_OUTPUTS)
     {
       temp_value = convert_order_list_oldr_to_gmm(number_output, (((address_data - M_ADDRESS_FIRST_DO_RANG) & (MAX_FUNCTIONS_IN_OUTPUT - 1)) + 1), SOURCE_OUTPUTS_RANG);
+    }
+    else temp_value = 0;
+  }
+  else if ((address_data >= M_ADDRESS_FIRST_DI_RANG) && (address_data <= M_ADDRESS_LAST_DI_RANG))
+  {
+    //Взначаємо, який вхід зараз верхній рівень намагається прочитати
+    unsigned int number_input = (address_data - M_ADDRESS_FIRST_DI_RANG)>> VAGA_MAX_FUNCTIONS_IN_INPUT;
+    
+    if(number_input < NUMBER_INPUTS)
+    {
+      temp_value = convert_order_list_inputs_to_gmm(number_input, (((address_data - M_ADDRESS_FIRST_DI_RANG) & (MAX_FUNCTIONS_IN_INPUT - 1)) + 1));
     }
     else temp_value = 0;
   }
@@ -5816,6 +4972,14 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     }
     else temp_value = 0;
   }
+  else if ((address_data >= M_ADDRESS_FIRST_ON_CB_RANG) && (address_data <= M_ADDRESS_LAST_ON_CB_RANG))
+  {
+    temp_value  = convert_order_list_oldr_to_gmm(0, (((address_data - M_ADDRESS_FIRST_ON_CB_RANG) & (MAX_FUNCTIONS_IN_ON_CB - 1)) + 1), SOURCE_ON_CB_RANG);
+  }
+  else if ((address_data >= M_ADDRESS_FIRST_OFF_CB_RANG) && (address_data <= M_ADDRESS_LAST_OFF_CB_RANG))
+  {
+    temp_value  = convert_order_list_oldr_to_gmm(0, (((address_data - M_ADDRESS_FIRST_OFF_CB_RANG) & (MAX_FUNCTIONS_IN_OFF_CB - 1)) + 1), SOURCE_OFF_CB_RANG);
+  }
   else if ((address_data >= M_ADDRESS_FIRST_D_AND_RANG) && (address_data <= M_ADDRESS_LAST_D_AND_RANG))
   {
     //Визначаємо, який В-"І" зараз верхній рівень намагається прочитати
@@ -5859,6 +5023,1005 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       temp_value = convert_order_list_oldr_to_gmm(number_defined_not, (((address_data -  M_ADDRESS_FIRST_D_NOT_RANG) % MAX_FUNCTIONS_IN_D_NOT) + 1), SOURCE_D_NOT_RANG);
     }
     else temp_value = 0;
+  }
+  else if ((address_data >= M_ADDRESS_CONTROL_BASE) && (address_data <= M_ADDRESS_CONTROL_LAST))
+  {
+    switch (address_data)
+    {
+    case M_ADDRESS_CONTROL_MTZ:
+      {
+        int input_value = current_settings_interfaces.control_mtz;
+        int input_conf = current_settings_interfaces.configuration;
+        
+        temp_value = (((input_conf  >> MTZ_BIT_CONFIGURATION         ) & 0x1 ) << (BIT_MA_CONFIGURATION_MTZ          - BIT_MA_CONTROL_MTZ_BASE) ) |
+          
+                     (((input_value >> N_BIT_CTRMTZ_1                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ1               - BIT_MA_CONTROL_MTZ_BASE) ) |
+                     (((input_value >> N_BIT_CTRMTZ_2                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2               - BIT_MA_CONTROL_MTZ_BASE) ) | 
+                     (((input_value >> N_BIT_CTRMTZ_3                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ3               - BIT_MA_CONTROL_MTZ_BASE) ) |
+                     (((input_value >> N_BIT_CTRMTZ_4                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ4               - BIT_MA_CONTROL_MTZ_BASE) ) |
+                     (((input_value >> N_BIT_CTRMTZ_2_PRYSKORENNJA   ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2_PRYSKORENNJA  - BIT_MA_CONTROL_MTZ_BASE) ) |
+                     (((input_value >> N_BIT_CTRMTZ_2_PRYSKORENA     ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2_PRYSKORENA    - BIT_MA_CONTROL_MTZ_BASE) ) |
+                     (((input_value >> N_BIT_CTRMTZ_1_VPERED         ) & 0x1 ) << (BIT_MA_CONTROL_MTZ1_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE) ) |
+                     (((input_value >> N_BIT_CTRMTZ_1_NAZAD          ) & 0x1 ) << (BIT_MA_CONTROL_MTZ1_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE) ) |
+                     (((input_value >> N_BIT_CTRMTZ_2_VPERED         ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE) ) |
+                     (((input_value >> N_BIT_CTRMTZ_2_NAZAD          ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE) ) |
+                     (((input_value >> N_BIT_CTRMTZ_3_VPERED         ) & 0x1 ) << (BIT_MA_CONTROL_MTZ3_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE) ) |
+                     (((input_value >> N_BIT_CTRMTZ_3_NAZAD          ) & 0x1 ) << (BIT_MA_CONTROL_MTZ3_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE) ) |
+                     (((input_value >> N_BIT_CTRMTZ_4_VPERED         ) & 0x1 ) << (BIT_MA_CONTROL_MTZ4_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE) ) |
+                     (((input_value >> N_BIT_CTRMTZ_4_NAZAD          ) & 0x1 ) << (BIT_MA_CONTROL_MTZ4_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE) ) |
+                     (((input_value >> N_BIT_CTRMTZ_NESPR_KIL_NAPR   ) & 0x1 ) << (BIT_MA_CONTROL_MTZ_NESPR_KIL_NAPR - BIT_MA_CONTROL_MTZ_BASE) );
+        break;
+      }
+    case M_ADDRESS_CONTROL_ZDZ:
+      {
+        int input_value = current_settings_interfaces.control_zdz;
+        int input_conf = current_settings_interfaces.configuration;
+        
+        temp_value = (((input_conf  >> ZDZ_BIT_CONFIGURATION             ) & 0x1 ) << (BIT_MA_CONFIGURATION_ZDZ             - BIT_MA_CONTROL_ZDZ_BASE) ) |
+          
+                     (((input_value >> INDEX_ML_CTRZDZ_STATE             ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ                   - BIT_MA_CONTROL_ZDZ_BASE)) |
+                     (((input_value >> INDEX_ML_CTRZDZ_STARTED_FROM_MTZ1 ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_ZDZ_BASE)) |
+                     (((input_value >> INDEX_ML_CTRZDZ_STARTED_FROM_MTZ2 ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_ZDZ_BASE)) |
+                     (((input_value >> INDEX_ML_CTRZDZ_STARTED_FROM_MTZ3 ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_ZDZ_BASE)) |
+                     (((input_value >> INDEX_ML_CTRZDZ_STARTED_FROM_MTZ4 ) & 0x1 ) << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_ZDZ_BASE));
+        break;
+      }
+    case M_ADDRESS_CONTROL_ZOP:
+      {
+        int input_value = current_settings_interfaces.control_zop;
+        int input_conf = current_settings_interfaces.configuration;
+        
+        temp_value = (((input_conf  >> ZOP_BIT_CONFIGURATION) & 0x1 ) << (BIT_MA_CONFIGURATION_ZOP - BIT_MA_CONTROL_ZOP_BASE) ) |
+          
+                     (((input_value >> CTR_ZOP_STATE_BIT    ) & 0x1 ) << (BIT_MA_CONTROL_ZOP1      - BIT_MA_CONTROL_ZOP_BASE));
+        break;
+      }
+    case M_ADDRESS_CONTROL_UMIN:
+      {
+        int input_value = current_settings_interfaces.control_Umin;
+        int input_conf = current_settings_interfaces.configuration;
+        
+        temp_value = (((input_conf  >> UMIN_BIT_CONFIGURATION   ) & 0x1 ) << (BIT_MA_CONFIGURATION_UMIN      - BIT_MA_CONTROL_UMIN_BASE)) |
+          
+                     (((input_value >> INDEX_CTR_UMIN1          ) & 0x1 ) << (BIT_MA_CONTROL_UMIN1           - BIT_MA_CONTROL_UMIN_BASE)) |
+                     (((input_value >> INDEX_CTR_UMIN2          ) & 0x1 ) << (BIT_MA_CONTROL_UMIN2           - BIT_MA_CONTROL_UMIN_BASE)) |
+                     (((input_value >> INDEX_CTR_PO_UMIN1_OR_AND) & 0x1 ) << (BIT_MA_CONTROL_PO_UMIN1_AND_OR - BIT_MA_CONTROL_UMIN_BASE)) |
+                     (((input_value >> INDEX_CTR_PO_UMIN2_OR_AND) & 0x1 ) << (BIT_MA_CONTROL_PO_UMIN2_AND_OR - BIT_MA_CONTROL_UMIN_BASE)) |
+                     (((input_value >> INDEX_CTR_UMIN1_UBLK     ) & 0x1 ) << (BIT_MA_CONTROL_BLK_UMIN1_BY_U  - BIT_MA_CONTROL_UMIN_BASE)) |
+                     (((input_value >> INDEX_CTR_UMIN2_UBLK     ) & 0x1 ) << (BIT_MA_CONTROL_BLK_UMIN2_BY_U  - BIT_MA_CONTROL_UMIN_BASE)) |
+                     (((input_value >> INDEX_CTR_UMIN1_IBLK     ) & 0x1 ) << (BIT_MA_CONTROL_BLK_UMIN1_BY_I  - BIT_MA_CONTROL_UMIN_BASE)) |
+                     (((input_value >> INDEX_CTR_UMIN2_IBLK     ) & 0x1 ) << (BIT_MA_CONTROL_BLK_UMIN2_BY_I  - BIT_MA_CONTROL_UMIN_BASE));
+        break;
+      }
+    case M_ADDRESS_CONTROL_UMAX:
+      {
+        int input_value = current_settings_interfaces.control_Umax;
+        int input_conf = current_settings_interfaces.configuration;
+        
+        temp_value = (((input_conf  >> UMAX_BIT_CONFIGURATION   ) & 0x1 ) << (BIT_MA_CONFIGURATION_UMAX      - BIT_MA_CONTROL_UMAX_BASE)) |
+          
+                     (((input_value >> INDEX_CTR_UMAX1          ) & 0x1 ) << (BIT_MA_CONTROL_UMAX1           - BIT_MA_CONTROL_UMAX_BASE)) |
+                     (((input_value >> INDEX_CTR_UMAX2          ) & 0x1 ) << (BIT_MA_CONTROL_UMAX2           - BIT_MA_CONTROL_UMAX_BASE)) |
+                     (((input_value >> INDEX_CTR_PO_UMAX1_OR_AND) & 0x1 ) << (BIT_MA_CONTROL_PO_UMAX1_AND_OR - BIT_MA_CONTROL_UMAX_BASE)) |
+                     (((input_value >> INDEX_CTR_PO_UMAX2_OR_AND) & 0x1 ) << (BIT_MA_CONTROL_PO_UMAX2_AND_OR - BIT_MA_CONTROL_UMAX_BASE));
+        break;
+      }
+    case M_ADDRESS_CONTROL_EXTRA_SETTINGS:
+      {
+        int input_value1 = current_settings.control_extra_settings_1;
+        
+        temp_value = ((((input_value1 >> INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_LINE_PHASE ) & 0x1 ) == 0) << (BIT_MA_CONTROL_PHASE_LINE - BIT_MA_CONTROL_EXTRA_SETTINGS_BASE));
+        break;
+      }
+    case M_ADDRESS_CONTROL_UROV_PART1:
+      {
+        int input_value = current_settings_interfaces.control_urov;
+        int input_conf = current_settings_interfaces.configuration;
+        
+        temp_value = (((input_conf  >> UROV_BIT_CONFIGURATION               ) & 0x1 ) << (BIT_MA_CONFIGURATION_UROV                - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+          
+                     (((input_value >> INDEX_ML_CTRUROV_STATE               ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STATE                - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_MTZ1   ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ1    - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_MTZ2   ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ2    - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_MTZ3   ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ3    - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_MTZ4   ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ4    - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_UMAX1  ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX1   - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_UMAX2  ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX2   - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_UMIN1  ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN1   - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_UMIN2  ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN2   - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+                     (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_ZOP1   ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_ZOP1    - BIT_MA_CONTROL_UROV_BASE_PART1));
+        break;
+      }
+    case M_ADDRESS_CONTROL_UROV_PART2:
+      {
+        int input_value = current_settings_interfaces.control_urov;
+        
+        temp_value = (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_ZDZ  ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_ZDZ   - BIT_MA_CONTROL_UROV_BASE_PART2));
+        break;
+      }
+    case M_ADDRESS_CONTROL_AVR:
+      {
+        int input_value = current_settings_interfaces.control_avr;
+        int input_conf = current_settings_interfaces.configuration;
+        
+        temp_value = (((input_conf  >> AVR_BIT_CONFIGURATION ) & 0x1 ) << (BIT_MA_CONFIGURATION_AVR    - BIT_MA_CONTROL_AVR_BASE)) |
+          
+                     (((input_value >> INDEX_CTR_AVR         ) & 0x1 ) << (BIT_MA_CONTROL_AVR          - BIT_MA_CONTROL_AVR_BASE)) |
+                     (((input_value >> INDEX_CTR_AVR_OTKL_BLK) & 0x1 ) << (BIT_MA_CONTROL_AVR_OTKL_BLK - BIT_MA_CONTROL_AVR_BASE));
+        break;
+      }
+    case M_ADDRESS_CONTROL_APV:
+      {
+        int input_value = current_settings_interfaces.control_apv;
+        int input_conf = current_settings_interfaces.configuration;
+        
+        temp_value = (((input_conf  >> APV_BIT_CONFIGURATION             ) & 0x1 ) << (BIT_MA_CONFIGURATION_APV             - BIT_MA_CONTROL_APV_BASE)) |
+          
+                     (((input_value >> INDEX_ML_CTRAPV_STAGE_1           ) & 0x1 ) << (BIT_MA_CONTROL_APV_CYCLE1            - BIT_MA_CONTROL_APV_BASE)) |
+                     (((input_value >> INDEX_ML_CTRAPV_STAGE_2           ) & 0x1 ) << (BIT_MA_CONTROL_APV_CYCLE2            - BIT_MA_CONTROL_APV_BASE)) |
+                     (((input_value >> INDEX_ML_CTRAPV_STAGE_3           ) & 0x1 ) << (BIT_MA_CONTROL_APV_CYCLE3            - BIT_MA_CONTROL_APV_BASE)) |
+                     (((input_value >> INDEX_ML_CTRAPV_STAGE_4           ) & 0x1 ) << (BIT_MA_CONTROL_APV_CYCLE4            - BIT_MA_CONTROL_APV_BASE)) |
+                     (((input_value >> INDEX_ML_CTRAPV_STARTED_FROM_MTZ1 ) & 0x1 ) << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_APV_BASE)) |
+                     (((input_value >> INDEX_ML_CTRAPV_STARTED_FROM_MTZ2 ) & 0x1 ) << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_APV_BASE)) |
+                     (((input_value >> INDEX_ML_CTRAPV_STARTED_FROM_MTZ3 ) & 0x1 ) << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_APV_BASE)) |
+                     (((input_value >> INDEX_ML_CTRAPV_STARTED_FROM_MTZ4 ) & 0x1 ) << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_APV_BASE));
+        break;
+      }
+    case M_ADDRESS_CONTROL_CTRL_VV:
+      {
+        int input_value1 = current_settings_interfaces.control_switch;
+        int input_value2 = current_settings_interfaces.control_extra_settings_1;
+        
+        temp_value = (((input_value1 >> INDEX_ML_CTRPRYVOD_VV                          ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_VV_STATE           - BIT_MA_CONTROL_CTRL_VV_BASE)) |
+                     (((input_value2 >> INDEX_ML_CTREXTRA_SETTINGS_1_BLK_ON_CB_MISCEVE ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_BLK_ON_CB_MISCEVE  - BIT_MA_CONTROL_CTRL_VV_BASE)) |
+                     (((input_value2 >> INDEX_ML_CTREXTRA_SETTINGS_1_BLK_OFF_CB_MISCEVE) & 0x1 ) << (BIT_MA_CONTROL_CTRL_BLK_OFF_CB_MISCEVE - BIT_MA_CONTROL_CTRL_VV_BASE)) |
+                     (((input_value2 >> INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_FB_ACTIVATION) & 0x1 ) << (BIT_MA_CONTROL_CTRL_FB_ACTIVATION      - BIT_MA_CONTROL_CTRL_VV_BASE)) |
+                     (((input_value1 >> INDEX_ML_CTRRESURS_VV                          ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_RESURS_VV          - BIT_MA_CONTROL_CTRL_VV_BASE)) |
+                     (((input_value2 >> INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_READY_TU     ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_READY_TU           - BIT_MA_CONTROL_CTRL_VV_BASE)) |
+                     (((input_value2 >> INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_WINDOW_OFF_CB) & 0x1 ) << (BIT_MA_CONTROL_CTRL_WINDOW_OFF_CB      - BIT_MA_CONTROL_CTRL_VV_BASE));
+        break;
+      }
+    case M_ADDRESS_CONTROL_CTRL_PHASE:
+      {
+        int input_value = current_settings_interfaces.control_ctrl_phase;
+        int input_conf = current_settings_interfaces.configuration;
+        
+        temp_value = (((input_conf  >> CTRL_PHASE_BIT_CONFIGURATION  ) & 0x1 ) << (BIT_MA_CONFIGURATION_CTRL_PHASE    - BIT_MA_CONTROL_CTRL_PHASE_BASE) ) |
+          
+                     (((input_value >> INDEX_CTR_CTRL_PHASE_U         ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_PHASE_U       - BIT_MA_CONTROL_CTRL_PHASE_BASE) ) |
+                     (((input_value >> INDEX_CTR_CTRL_PHASE_PHI       ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_PHASE_PHI     - BIT_MA_CONTROL_CTRL_PHASE_BASE) ) |
+                     (((input_value >> INDEX_CTR_CTRL_PHASE_F         ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_PHASE_F       - BIT_MA_CONTROL_CTRL_PHASE_BASE) ) |
+                     (((input_value >> INDEX_CTR_CTRL_PHASE_SEQ_TN1   ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_PHASE_SEQ_TN1 - BIT_MA_CONTROL_CTRL_PHASE_BASE) ) |
+                     (((input_value >> INDEX_CTR_CTRL_PHASE_SEQ_TN2   ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_PHASE_SEQ_TN2 - BIT_MA_CONTROL_CTRL_PHASE_BASE) );
+        break;
+      }
+    case M_ADDRESS_CONTROL_EL:
+      {
+        int input_conf = current_settings_interfaces.configuration;
+        
+        temp_value = (((input_conf >> EL_BIT_CONFIGURATION) & 0x1 ) << (BIT_MA_CONFIGURATION_EL - BIT_MA_CONTROL_EL_BASE));
+        break;
+      }
+    default:
+      {
+        temp_value = 0;
+        break;
+      }
+    }
+  }
+  else if ((address_data >= M_ADDRESS_FIRST_SETPOINTS_PART1) && (address_data <= M_ADDRESS_LAST_SETPOINTS_PART1))
+  {
+    switch (address_data)
+    {
+    case MA_GROUP_USTAVOK:
+      {
+        temp_value = current_settings_interfaces.grupa_ustavok;
+        break;
+      }
+    case MA_TYPE_MTZ1:
+      {
+        temp_value = current_settings_interfaces.type_mtz1;
+        break;
+      }
+    case MA_TYPE_MTZ2:
+      {
+        temp_value = current_settings_interfaces.type_mtz2;
+        break;
+      }
+    case MA_TYPE_MTZ3:
+      {
+        temp_value = current_settings_interfaces.type_mtz3;
+        break;
+      }
+    case MA_TYPE_MTZ4:
+      {
+        temp_value = current_settings_interfaces.type_mtz4;
+        break;
+      }
+    default:
+      {
+        temp_value = 0;
+        break;
+      }
+    }
+  }
+  else if (
+           ((address_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G1)) && (address_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G1))) ||
+           ((address_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G2)) && (address_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G2))) ||
+           ((address_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G3)) && (address_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G3))) ||
+           ((address_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G4)) && (address_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G4)))
+          )
+  {
+    //Уставки, витримки, які мають декілька груп уставок
+     unsigned int num_gr, address_data_tmp = address_data;
+     if ((address_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G1)) && (address_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G1)))
+     {
+       num_gr = 0;
+       address_data_tmp -= SHIFT_G1;
+     }
+     else if ((address_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G2)) && (address_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G2)))
+     {
+       num_gr = 1;
+       address_data_tmp -= SHIFT_G2;
+     }
+     else if ((address_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G3)) && (address_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G3)))
+     {
+       num_gr = 2;
+       address_data_tmp -= SHIFT_G3;
+     }
+     else
+     {
+       num_gr = 3;
+       address_data_tmp -= SHIFT_G4;
+     }
+        
+    switch (address_data_tmp)
+    {
+    case MA_STP_MTZ1:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_1[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ1_N_VPERED:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_1_n_vpered[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ1_N_NAZAD:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_1_n_nazad[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ1_PO_NAPRUZI:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_1_po_napruzi[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ1_U:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_1_U[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ1_ANGLE:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_1_angle[num_gr];
+        break;
+      }
+    case MA_TO_MTZ1:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_1[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ1_N_VPERED:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_1_n_vpered[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ1_N_NAZAD:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_1_n_nazad[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ1_PO_NAPRUZI:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_1_po_napruzi[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ2:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_2[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ2_N_VPERED:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_2_n_vpered[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ2_N_NAZAD:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_2_n_nazad[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ2_PO_NAPRUZI:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_2_po_napruzi[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ2_U:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_2_U[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ2_ANGLE:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_2_angle[num_gr];
+        break;
+      }
+    case MA_TO_MTZ2:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_2[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ2_N_VPERED:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_2_n_vpered[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ2_N_NAZAD:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_2_n_nazad[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ2_PO_NAPRUZI:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_2_po_napruzi[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ2_VVID_PR:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_2_vvid_pr[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ2_PR:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_2_pr[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ2_N_VPERED_PR:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_2_n_vpered_pr[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ2_N_NAZAD_PR:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_2_n_nazad_pr[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ2_PO_NAPRUZI_PR:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_2_po_napruzi_pr[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ3:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_3[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ3_N_VPERED:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_3_n_vpered[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ3_N_NAZAD:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_3_n_nazad[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ3_PO_NAPRUZI:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_3_po_napruzi[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ3_U:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_3_U[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ3_ANGLE:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_3_angle[num_gr];
+        break;
+      }
+    case MA_TO_MTZ3:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_3[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ3_N_VPERED:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_3_n_vpered[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ3_N_NAZAD:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_3_n_nazad[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ3_PO_NAPRUZI:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_3_po_napruzi[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ4:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_4[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ4_N_VPERED:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_4_n_vpered[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ4_N_NAZAD:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_4_n_nazad[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ4_PO_NAPRUZI:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_4_po_napruzi[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ4_U:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_4_U[num_gr]/10;
+        break;
+      }
+    case MA_STP_MTZ4_ANGLE:
+      {
+        temp_value = current_settings_interfaces.setpoint_mtz_4_angle[num_gr];
+        break;
+      }
+    case MA_TO_MTZ4:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_4[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ4_N_VPERED:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_4_n_vpered[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ4_N_NAZAD:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_4_n_nazad[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ4_PO_NAPRUZI:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_4_po_napruzi[num_gr]/10;
+        break;
+      }
+    case MA_STP_ZOP1:
+      {
+        temp_value = current_settings_interfaces.setpoint_zop[num_gr];
+        break;
+      }
+    case MA_TO_ZOP1:
+      {
+        temp_value = current_settings_interfaces.timeout_zop[num_gr]/10;
+        break;
+      }
+    case MA_STP_UMIN1:
+      {
+        temp_value = current_settings_interfaces.setpoint_Umin1[num_gr]/100;
+        break;
+      }
+    case MA_TO_UMIN1:
+      {
+        temp_value = current_settings_interfaces.timeout_Umin1[num_gr]/10;
+        break;
+      }
+    case MA_STP_UMIN2:
+      {
+        temp_value = current_settings_interfaces.setpoint_Umin2[num_gr]/100;
+        break;
+      }
+    case MA_TO_UMIN2:
+      {
+        temp_value = current_settings_interfaces.timeout_Umin2[num_gr]/10;
+        break;
+      }
+    case MA_STP_BLK_UMIN1_BY_I:
+      {
+        temp_value = current_settings_interfaces.setpoint_Umin1_Iblk[num_gr]/10;
+        break;
+      }
+    case MA_STP_BLK_UMIN2_BY_I:
+      {
+        temp_value = current_settings_interfaces.setpoint_Umin2_Iblk[num_gr]/10;
+        break;
+      }
+    case MA_STP_UMAX1:
+      {
+        temp_value = current_settings_interfaces.setpoint_Umax1[num_gr]/100;
+        break;
+      }
+    case MA_TO_UMAX1:
+      {
+        temp_value = current_settings_interfaces.timeout_Umax1[num_gr]/10;
+        break;
+      }
+    case MA_STP_UMAX2:
+      {
+        temp_value = current_settings_interfaces.setpoint_Umax2[num_gr]/100;
+        break;
+      }
+    case MA_TO_UMAX2:
+      {
+        temp_value = current_settings_interfaces.timeout_Umax2[num_gr]/10;
+        break;
+      }
+    case MA_STP_UROV:
+      {
+        temp_value = current_settings_interfaces.setpoint_urov[num_gr]/10;
+        break;
+      }
+    case MA_TO_UROV1:
+      {
+        temp_value = current_settings_interfaces.timeout_urov_1[num_gr]/10;
+        break;
+      }
+    case MA_TO_UROV2:
+      {
+        temp_value = current_settings_interfaces.timeout_urov_2[num_gr]/10;
+        break;
+      }
+    case MA_STP_AVR_MIN1:
+      {
+        temp_value = current_settings_interfaces.setpoint_avr_min1[num_gr]/100;
+        break;
+      }
+    case MA_STP_AVR_MAX1:
+      {
+        temp_value = current_settings_interfaces.setpoint_avr_max1[num_gr]/100;
+        break;
+      }
+    case MA_STP_AVR_MIN2:
+      {
+        temp_value = current_settings_interfaces.setpoint_avr_min2[num_gr]/100;
+        break;
+      }
+    case MA_STP_AVR_MAX2:
+      {
+        temp_value = current_settings_interfaces.setpoint_avr_max2[num_gr]/100;
+        break;
+      }
+    case MA_TO_AVR_BLK_K1:
+      {
+        temp_value = current_settings_interfaces.timeout_avr_blk_k1[num_gr]/10;
+        break;
+      }
+    case MA_TO_AVR_PUSK_K1:
+      {
+        temp_value = current_settings_interfaces.timeout_avr_pusk_k1[num_gr]/10;
+        break;
+      }
+    case MA_TO_AVR_D_DIJI_K1:
+      {
+        temp_value = current_settings_interfaces.timeout_avr_d_diji_k1[num_gr]/10;
+        break;
+      }
+    case MA_TO_AVR_VVIMK_REZ_K1:
+      {
+        temp_value = current_settings_interfaces.timeout_avr_vvimk_rez_k1[num_gr]/10;
+        break;
+      }
+    case MA_TO_AVR_VVIMK_K1:
+      {
+        temp_value = current_settings_interfaces.timeout_avr_vvimk_k1[num_gr]/10;
+        break;
+      }
+    case MA_TO_AVR_VYMK_ROB_K1:
+      {
+        temp_value = current_settings_interfaces.timeout_avr_vymk_rob_k1[num_gr]/10;
+        break;
+      }
+    case MA_TO_AVR_VYMK_K1:
+      {
+        temp_value = current_settings_interfaces.timeout_avr_vymk_k1[num_gr]/10;
+        break;
+      }
+    case MA_TO_AVR_BLK_K2:
+      {
+        temp_value = current_settings_interfaces.timeout_avr_blk_k2[num_gr]/10;
+        break;
+      }
+    case MA_TO_AVR_PUSK_K2:
+      {
+        temp_value = current_settings_interfaces.timeout_avr_pusk_k2[num_gr]/10;
+        break;
+      }
+    case MA_TO_AVR_D_DIJI_K2:
+      {
+        temp_value = current_settings_interfaces.timeout_avr_d_diji_k2[num_gr]/10;
+        break;
+      }
+    case MA_TO_AVR_VVIMK_REZ_K2:
+      {
+        temp_value = current_settings_interfaces.timeout_avr_vvimk_rez_k2[num_gr]/10;
+        break;
+      }
+    case MA_TO_AVR_VVIMK_K2:
+      {
+        temp_value = current_settings_interfaces.timeout_avr_vvimk_k2[num_gr]/10;
+        break;
+      }
+    case MA_TO_AVR_VYMK_ROB_K2:
+      {
+        temp_value = current_settings_interfaces.timeout_avr_vymk_rob_k2[num_gr]/10;
+        break;
+      }
+    case MA_TO_AVR_VYMK_K2:
+      {
+        temp_value = current_settings_interfaces.timeout_avr_vymk_k2[num_gr]/10;
+        break;
+      }
+    case MA_TO_APV_CYCLE_2:
+      {
+        temp_value = current_settings_interfaces.timeout_apv_2[num_gr]/10;
+        break;
+      }
+    case MA_TO_APV_CYCLE_3:
+      {
+        temp_value = current_settings_interfaces.timeout_apv_3[num_gr]/10;
+        break;
+      }
+    case MA_TO_APV_CYCLE_4:
+      {
+        temp_value = current_settings_interfaces.timeout_apv_4[num_gr]/10;
+        break;
+      }
+    case MA_TO_APV_BLOCK_VID_APV1:
+      {
+        temp_value = current_settings_interfaces.timeout_apv_block_vid_apv1[num_gr]/10;
+        break;
+      }
+    case MA_TO_APV_BLOCK_VID_APV2:
+      {
+        temp_value = current_settings_interfaces.timeout_apv_block_vid_apv2[num_gr]/10;
+        break;
+      }
+    case MA_TO_APV_BLOCK_VID_APV3:
+      {
+        temp_value = current_settings_interfaces.timeout_apv_block_vid_apv3[num_gr]/10;
+        break;
+      }
+    case MA_TO_APV_BLOCK_VID_APV4:
+      {
+        temp_value = current_settings_interfaces.timeout_apv_block_vid_apv4[num_gr]/10;
+        break;
+      }
+    case MA_STP_CTRL_PHASE_U:
+      {
+        temp_value = current_settings_interfaces.setpoint_ctrl_phase_U[num_gr]/100;
+        break;
+      }
+    case MA_STP_CTRL_PHASE_PHI:
+      {
+        temp_value = current_settings_interfaces.setpoint_ctrl_phase_phi[num_gr]/100;
+        break;
+      }
+    case MA_STP_CTRL_PHASE_F:
+      {
+        temp_value = current_settings_interfaces.setpoint_ctrl_phase_f[num_gr]/10;
+        break;
+      }
+    case MA_TO_CTRL_PHASE_U:
+      {
+        temp_value = current_settings_interfaces.timeout_ctrl_phase_U[num_gr]/100;
+        break;
+      }
+    case MA_TO_CTRL_PHASE_U_D:
+      {
+        temp_value = current_settings_interfaces.timeout_ctrl_phase_U_d[num_gr]/100;
+        break;
+      }
+    case MA_TO_CTRL_PHASE_PHI:
+      {
+        temp_value = current_settings_interfaces.timeout_ctrl_phase_phi[num_gr]/100;
+        break;
+      }
+    case MA_TO_CTRL_PHASE_PHI_D:
+      {
+        temp_value = current_settings_interfaces.timeout_ctrl_phase_phi_d[num_gr]/100;
+        break;
+      }
+    case MA_TO_CTRL_PHASE_F:
+      {
+        temp_value = current_settings_interfaces.timeout_ctrl_phase_f[num_gr]/100;
+        break;
+      }
+    case MA_TO_CTRL_PHASE_F_D:
+      {
+        temp_value = current_settings_interfaces.timeout_ctrl_phase_f_d[num_gr]/100;
+        break;
+      }
+    default:
+      {
+        temp_value = 0;
+        break;
+      }
+    }
+  }
+  else if ((address_data >= M_ADDRESS_FIRST_SETPOINTS_CONTINUE) && (address_data <= M_ADDRESS_LAST_SETPOINTS_CONTINUE))
+  {
+    //Уставки і витримки (ролдовження), настройки
+    switch (address_data)
+    {
+    case MA_TN1:
+      {
+        temp_value = current_settings_interfaces.TVoltage;
+        break;
+      }
+    case MA_TT:
+      {
+        temp_value = current_settings_interfaces.TCurrent;
+        break;
+      }
+    case MA_TO_SWCH_ON:
+      {
+        temp_value = current_settings_interfaces.timeout_swch_on/10;
+        break;
+      }
+    case MA_TO_SWCH_OFF:
+      {
+        temp_value = current_settings_interfaces.timeout_swch_off/10;
+        break;
+      }
+    case MA_TO_SWCH_UDL_BLK_ON:
+      {
+        temp_value = current_settings_interfaces.timeout_swch_udl_blk_on/10;
+        break;
+      }
+    case MA_TO_FAULT_CONTROL_CIRCUIT:
+      {
+        temp_value = current_settings_interfaces.timeout_pryvoda_VV/10;
+        break;
+      }
+    case MA_STP_Inom:
+      {
+        temp_value = current_settings_interfaces.setpoint_Inom;
+        break;
+      }
+    case MA_STP_RKS_Inom:
+      {
+        temp_value = current_settings_interfaces.setpoint_r_kom_st_Inom/10;
+        break;
+      }
+    case MA_STP_Inom_vymk:
+      {
+        temp_value = current_settings_interfaces.setpoint_Inom_vymk;
+        break;
+      }
+    case MA_STP_RKS_Inom_vymk:
+      {
+        temp_value = current_settings_interfaces.setpoint_r_kom_st_Inom_vymk;
+        break;
+      }
+    case MA_STP_POCHATKOVYJ_RESURS_LSW:
+      {
+        temp_value = current_settings_interfaces.setpoint_pochatkovyj_resurs & 0xffff;
+        break;
+      }
+    case MA_STP_POCHATKOVYJ_RESURS_MSW:
+      {
+        temp_value = (current_settings_interfaces.setpoint_pochatkovyj_resurs >> 16) & 0xffff;
+        break;
+      }
+    case MA_STP_KRYTYCHNYJ_RESURS:
+      {
+        temp_value = current_settings_interfaces.setpoint_krytychnyj_resurs;
+        break;
+      }
+    case MA_POCHATKOVA_K_VYMK_LSW:
+      {
+        temp_value = current_settings_interfaces.setpoint_pochatkova_k_vymk & 0xffff;
+        break;
+      }
+    case MA_POCHATKOVA_K_VYMK_MSW:
+      {
+        temp_value = (current_settings_interfaces.setpoint_pochatkova_k_vymk >> 16) & 0xffff;
+        break;
+      }
+    case MA_UVV_TYPE_SIGNAL_INPUT:
+      {
+        temp_value = current_settings_interfaces.type_of_input_signal & ((1 << NUMBER_INPUTS) - 1);
+        break;
+      }
+    case MA_UVV_TYPE_INPUT:
+      {
+        temp_value = ((unsigned int)(~current_settings_interfaces.type_of_input)) & ((1 << NUMBER_INPUTS) - 1);
+        break;
+      }
+    case MA_UVV_TYPE_OUTPUT:
+      {
+        temp_value = current_settings_interfaces.type_of_output & ((1 << NUMBER_OUTPUTS) - 1);
+        break;
+      }
+    case MA_UVV_TYPE_OUTPUT_MODIF:
+      {
+        temp_value = current_settings_interfaces.type_of_output_modif & ((1 << NUMBER_OUTPUTS) - 1);
+        break;
+      }
+    case MA_TYPE_DF:
+      {
+        temp_value = current_settings_interfaces.type_df & ((1 << NUMBER_DEFINED_FUNCTIONS) - 1);
+        break;
+      }
+    case MA_UVV_TYPE_LED:
+      {
+        temp_value = current_settings_interfaces.type_of_led & ((1 << NUMBER_LEDS) - 1);
+        break;
+      }
+    case MA_DOPUSK_DV_1:
+    case MA_DOPUSK_DV_2:
+    case MA_DOPUSK_DV_3:
+    case MA_DOPUSK_DV_4:
+    case MA_DOPUSK_DV_5:
+    case MA_DOPUSK_DV_6:
+    case MA_DOPUSK_DV_7:
+    case MA_DOPUSK_DV_8:
+    case MA_DOPUSK_DV_9:
+    case MA_DOPUSK_DV_10:
+      {
+        temp_value = current_settings_interfaces.dopusk_dv[address_data - MA_DOPUSK_DV_1];
+        break;
+      }
+    case MA_DF_PAUSE_1:
+    case MA_DF_PAUSE_2:
+    case MA_DF_PAUSE_3:
+    case MA_DF_PAUSE_4:
+    case MA_DF_PAUSE_5:
+    case MA_DF_PAUSE_6:
+    case MA_DF_PAUSE_7:
+    case MA_DF_PAUSE_8:
+      {
+        temp_value = current_settings_interfaces.timeout_pause_df[address_data - MA_DF_PAUSE_1]/10;
+        break;
+      }
+    case MA_DF_WORK_1:
+    case MA_DF_WORK_2:
+    case MA_DF_WORK_3:
+    case MA_DF_WORK_4:
+    case MA_DF_WORK_5:
+    case MA_DF_WORK_6:
+    case MA_DF_WORK_7:
+    case MA_DF_WORK_8:
+      {
+        temp_value = current_settings_interfaces.timeout_work_df[address_data - MA_DF_WORK_1]/10;
+        break;
+      }
+    case MA_TO_DEACTIVATION_PASSWORD_INTERFACE:
+      {
+          if (type_interface == USB_RECUEST)
+          {
+            temp_value = current_settings_interfaces.timeout_deactivation_password_interface_USB;
+          }
+          else if (type_interface == RS485_RECUEST)
+          {
+            temp_value = current_settings_interfaces.timeout_deactivation_password_interface_RS485;
+          }
+          else error = ERROR_SLAVE_DEVICE_FAILURE;
+      
+          break;
+      }
+    case MA_TO_IDLE_NEW_SETTINGS:
+      {
+          temp_value = current_settings_interfaces.timeout_idle_new_settings;
+      
+          break;
+      }
+    case MA_LANGUAGE_MENU:
+      {
+        temp_value = current_settings_interfaces.language;
+        break;
+      }
+    case MA_SPEED_RS485_1:
+      {
+        temp_value = current_settings_interfaces.speed_RS485;
+        break;
+      }
+    case MA_STOP_BITS_RS485_1:
+      {
+        temp_value = current_settings_interfaces.number_stop_bit_RS485 + 1;
+        break;
+      }
+    case MA_PARE_RS485_1:
+      {
+        temp_value = current_settings_interfaces.pare_bit_RS485;
+        break;
+      }
+    case MA_TIMEOUT_RS485_1:
+      {
+        temp_value = current_settings_interfaces.time_out_1_RS485;
+        break;
+      }
+    case MA_LOGICAL_ADDRESS:
+      {
+        temp_value = current_settings_interfaces.address;
+        break;
+      }
+    case MA_NAME_OF_CELL_CHARS_01_02:
+    case MA_NAME_OF_CELL_CHARS_03_04:
+    case MA_NAME_OF_CELL_CHARS_05_06:
+    case MA_NAME_OF_CELL_CHARS_07_08:
+    case MA_NAME_OF_CELL_CHARS_09_10:
+    case MA_NAME_OF_CELL_CHARS_11_12:
+    case MA_NAME_OF_CELL_CHARS_13_14:
+    case MA_NAME_OF_CELL_CHARS_15_16:
+      {
+        unsigned int two_char_index = (address_data - MA_NAME_OF_CELL_CHARS_01_02) << 1;
+        temp_value = (current_settings_interfaces.name_of_cell[two_char_index] & 0xff) | ((current_settings_interfaces.name_of_cell[two_char_index + 1] & 0xff) << 8);
+        break;
+      }
+    default:
+      {
+        temp_value = 0;
+        break;
+      }
+    }
+  }
+  else if ((address_data >= M_ADDRESS_FIRST_TIME_AND_DATA) && (address_data <= M_ADDRESS_LAST_TIME_AND_DATA))
+  {
+    unsigned char *label_to_time_array;
+    
+    if (copying_time == 0) label_to_time_array = time;
+    else label_to_time_array = time_copy;
+    
+    switch (address_data)
+    {
+    case MA_YEAR:
+      {
+        temp_value = *(label_to_time_array + 6);
+        break;
+      }
+    case MA_MONTH:
+      {
+        temp_value = *(label_to_time_array + 5);
+        break;
+      }
+    case MA_DAY:
+      {
+        temp_value = *(label_to_time_array + 4);
+        break;
+      }
+    case MA_HOUR:
+      {
+        temp_value = *(label_to_time_array + 3);
+        break;
+      }
+    case MA_MINUTE:
+      {
+        temp_value = *(label_to_time_array + 2);
+        break;
+      }
+    case MA_SECOND:
+      {
+        temp_value = *(label_to_time_array + 1);
+        break;
+      }
+    case MA_MILISECOND:
+      {
+        temp_value = *(label_to_time_array + 0);
+        break;
+      }
+    default:
+      {
+        temp_value = 0;
+        break;
+      }
+    }
   }
   else if ((address_data >= M_ADDRESS_FIRST_SETPOINTS_RANG_AR) && (address_data <= M_ADDRESS_LAST_SETPOINTS_RANG_AR))
   {
@@ -6225,6 +6388,156 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
     }
     else error = ERROR_SLAVE_DEVICE_FAILURE;
   }
+  else if ((address_data >= M_ADDRESS_FIRST_USER_REGISTER) && (address_data <= M_ADDRESS_LAST_USER_REGISTER))
+  {
+    //Ранжування регістрів користувача
+    
+    if ( !((data >= M_ADDRESS_FIRST_USER_REGISTER_DATA) && (data <= M_ADDRESS_LAST_USER_REGISTER_DATA)) )
+    {
+      //Записуємо ранжування регістрів користувача
+      target_label->user_register[address_data - M_ADDRESS_FIRST_USER_REGISTER] = data;
+    }
+    else error = ERROR_ILLEGAL_DATA_VALUE;
+  }
+  else if ((address_data >= M_ADDRESS_FIRST_DO_RANG) && (address_data <= M_ADDRESS_LAST_DO_RANG))
+  {
+    //Запис ранжування дискретних виходів
+    
+    //Взначаємо, який вихід зараз верхній рівень намагається записати
+    unsigned int number_output = (address_data - M_ADDRESS_FIRST_DO_RANG)>>VAGA_MAX_FUNCTIONS_IN_OUTPUT;
+    
+    if(number_output < NUMBER_OUTPUTS)
+    {
+      error = save_new_rang_oldr_from_gmm(number_output, (((address_data -  M_ADDRESS_FIRST_DO_RANG) & (MAX_FUNCTIONS_IN_OUTPUT - 1)) + 1), SOURCE_OUTPUTS_RANG, data, method_setting);
+    }
+  }
+  else if ((address_data >= M_ADDRESS_FIRST_DI_RANG) && (address_data <= M_ADDRESS_LAST_DI_RANG))
+  {
+    //Запис ранжування дискретних входів
+    
+    //Взначаємо, який вхід зараз верхній рівень намагається записати
+    unsigned int number_input = (address_data - M_ADDRESS_FIRST_DI_RANG)>>VAGA_MAX_FUNCTIONS_IN_INPUT;
+    
+    if(number_input < NUMBER_INPUTS)
+    {
+      error = save_new_rang_inputs_from_gmm(number_input, (((address_data -  M_ADDRESS_FIRST_DI_RANG) & (MAX_FUNCTIONS_IN_INPUT - 1)) + 1), data, method_setting);
+    }
+  }
+  else if ((address_data >= M_ADDRESS_FIRST_LED_RANG) && (address_data <= M_ADDRESS_LAST_LED_RANG))
+  {
+    //Запис ранжування світлоіндикаторів
+    
+    //Взначаємо, який світлоіндикатор зараз верхній рівень намагається записати
+    unsigned int number_led = (address_data - M_ADDRESS_FIRST_LED_RANG)>>VAGA_MAX_FUNCTIONS_IN_LED;
+    
+    if(number_led < NUMBER_LEDS)
+    {
+      error = save_new_rang_oldr_from_gmm(number_led, (((address_data -  M_ADDRESS_FIRST_LED_RANG) & (MAX_FUNCTIONS_IN_LED - 1)) + 1), SOURCE_LEDS_RANG, data, method_setting);
+    }
+  }
+  else if ((address_data >=  M_ADDRESS_FIRST_DF_RANG) && (address_data <= M_ADDRESS_LAST_DF_RANG))
+  {
+    //Запис ранжування 0-функції
+    
+    //Взначаємо, яку 0-функцію зараз верхній рівень намагається записати
+    unsigned int number_df_mul_3 = (address_data -  M_ADDRESS_FIRST_DF_RANG)>>VAGA_MAX_FUNCTIONS_IN_DF;
+    
+    if(number_df_mul_3 <  (NUMBER_DEFINED_FUNCTIONS/*target_label->number_defined_df*/*3))
+    {
+      error = save_new_rang_oldr_from_gmm((number_df_mul_3 / 3), (((address_data -  M_ADDRESS_FIRST_DF_RANG) & (MAX_FUNCTIONS_IN_DF - 1)) + 1), (SOURCE_DF_PLUS_RANG + (number_df_mul_3 % 3)), data, method_setting);
+    }
+  }
+  else if ((address_data >= M_ADDRESS_FIRST_DB_RANG) && (address_data <= M_ADDRESS_LAST_DB_RANG))
+  {
+    //Запис ранжування функціональних кнопок
+    
+    //Взначаємо, яку ф-кнопку зараз верхній рівень намагається записати
+    unsigned int number_button = (address_data - M_ADDRESS_FIRST_DB_RANG)>>VAGA_MAX_FUNCTIONS_IN_DB;
+    
+    if(number_button < NUMBER_DEFINED_BUTTONS)
+    {
+      error = save_new_rang_buttons_from_gmm(number_button, (((address_data -  M_ADDRESS_FIRST_DB_RANG) & (MAX_FUNCTIONS_IN_DB - 1)) + 1), data, method_setting);
+    }
+  }
+  else if ((address_data >= M_ADDRESS_FIRST_DT_RANG) && (address_data <= M_ADDRESS_LAST_DT_RANG))
+  {
+    //Запис ранжування триґера
+    
+    //Визначаємо, який триггер зараз верхній рівень намагається записати
+    unsigned int number_defined_triggers = (address_data - M_ADDRESS_FIRST_DT_RANG) / MAX_FUNCTIONS_IN_DT;
+    
+    if(number_defined_triggers < (NUMBER_DEFINED_TRIGGERS/*target_label->number_defined_dt*/ << 2))
+    {
+      
+      error = save_new_rang_oldr_from_gmm((number_defined_triggers >> 2),
+                     (((address_data -  M_ADDRESS_FIRST_DT_RANG) % MAX_FUNCTIONS_IN_DT) + 1),
+                     SOURCE_SET_DT_PLUS_RANG + (number_defined_triggers % 4), data, method_setting);
+    }
+  }
+  else if ((address_data >= M_ADDRESS_FIRST_ON_CB_RANG) && (address_data <= M_ADDRESS_LAST_ON_CB_RANG))
+  {
+    //Запис ранжування Блоку ввімкнення
+    
+    error = save_new_rang_oldr_from_gmm(0, (((address_data - M_ADDRESS_FIRST_ON_CB_RANG) & (MAX_FUNCTIONS_IN_ON_CB - 1)) + 1), SOURCE_ON_CB_RANG, data, method_setting);
+  }
+  else if ((address_data >= M_ADDRESS_FIRST_OFF_CB_RANG) && (address_data <= M_ADDRESS_LAST_OFF_CB_RANG))
+  {
+    //Запис ранжування Блоку вимкнення
+    
+    error = save_new_rang_oldr_from_gmm(0, (((address_data - M_ADDRESS_FIRST_OFF_CB_RANG) & (MAX_FUNCTIONS_IN_OFF_CB - 1)) + 1), SOURCE_OFF_CB_RANG, data, method_setting);
+  }
+  else if ((address_data >= M_ADDRESS_FIRST_D_AND_RANG) && (address_data <= M_ADDRESS_LAST_D_AND_RANG))
+  {
+    //Запис ранжування В-"І"
+    
+    //Визначаємо, який В-"І" зараз верхній рівень намагається записати
+    unsigned int number_defined_and = (address_data - M_ADDRESS_FIRST_D_AND_RANG) / MAX_FUNCTIONS_IN_D_AND;
+    
+    if(number_defined_and < NUMBER_DEFINED_AND/*target_label->number_defined_and*/)
+    {
+      
+      error = save_new_rang_oldr_from_gmm(number_defined_and, (((address_data -  M_ADDRESS_FIRST_D_AND_RANG) % MAX_FUNCTIONS_IN_D_AND) + 1), SOURCE_D_AND_RANG, data, method_setting);
+    }
+  }
+  else if ((address_data >= M_ADDRESS_FIRST_D_OR_RANG) && (address_data <= M_ADDRESS_LAST_D_OR_RANG))
+  {
+    //Запис ранжування В-"АБО"
+    
+    //Визначаємо, який В-"АБО" зараз верхній рівень намагається записати
+    unsigned int number_defined_or = (address_data - M_ADDRESS_FIRST_D_OR_RANG) / MAX_FUNCTIONS_IN_D_OR;
+    
+    if(number_defined_or < NUMBER_DEFINED_OR/*target_label->number_defined_or*/)
+    {
+      
+      error = save_new_rang_oldr_from_gmm(number_defined_or, (((address_data -  M_ADDRESS_FIRST_D_OR_RANG) % MAX_FUNCTIONS_IN_D_OR) + 1), SOURCE_D_OR_RANG, data, method_setting);
+    }
+  }
+  else if ((address_data >= M_ADDRESS_FIRST_D_XOR_RANG) && (address_data <= M_ADDRESS_LAST_D_XOR_RANG))
+  {
+    //Запис ранжування В-"Викл.АБО"
+    
+    //Визначаємо, який В-"Викл.АБО" зараз верхній рівень намагається записати
+    unsigned int number_defined_xor = (address_data - M_ADDRESS_FIRST_D_XOR_RANG) / MAX_FUNCTIONS_IN_D_XOR;
+    
+    if(number_defined_xor < NUMBER_DEFINED_XOR/*target_label->number_defined_xor*/)
+    {
+      
+      error = save_new_rang_oldr_from_gmm(number_defined_xor, (((address_data -  M_ADDRESS_FIRST_D_XOR_RANG) % MAX_FUNCTIONS_IN_D_XOR) + 1), SOURCE_D_XOR_RANG, data, method_setting);
+    }
+  }
+  else if ((address_data >= M_ADDRESS_FIRST_D_NOT_RANG) && (address_data <= M_ADDRESS_LAST_D_NOT_RANG))
+  {
+    //Запис ранжування В-"НЕ"
+    
+    //Визначаємо, який В-"НЕ" зараз верхній рівень намагається записати
+    unsigned int number_defined_not = (address_data - M_ADDRESS_FIRST_D_NOT_RANG) / MAX_FUNCTIONS_IN_D_NOT;
+    
+    if(number_defined_not < NUMBER_DEFINED_NOT/*target_label->number_defined_not*/)
+    {
+      
+      error = save_new_rang_oldr_from_gmm(number_defined_not, (((address_data -  M_ADDRESS_FIRST_D_NOT_RANG) % MAX_FUNCTIONS_IN_D_NOT) + 1), SOURCE_D_NOT_RANG, data, method_setting);
+    }
+  }
   else if ((address_data >= M_ADDRESS_FIRST_SETPOINTS_PART1) && (address_data <= M_ADDRESS_LAST_SETPOINTS_PART1))
   {
     switch (address_data)
@@ -6301,6 +6614,522 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
           target_label->type_mtz4 = temp_value;
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    default: break;
+    }
+  }
+  else if ((address_data >= M_ADDRESS_CONTROL_BASE) && (address_data <= M_ADDRESS_CONTROL_LAST))
+  {
+    switch (address_data)
+    {
+    case M_ADDRESS_CONTROL_MTZ:
+      {
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << MTZ_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_MTZ  - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << MTZ_BIT_CONFIGURATION;
+        if (target_label->configuration != output_conf)
+        {
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
+        }
+        
+        if (error == 0) 
+        {
+          if (
+              ((target_label->configuration & (1 << MTZ_BIT_CONFIGURATION)) !=0 ) ||
+              ((data & (
+                        (1 << (BIT_MA_CONTROL_MTZ1 - BIT_MA_CONTROL_MTZ_BASE)) |
+                        (1 << (BIT_MA_CONTROL_MTZ2 - BIT_MA_CONTROL_MTZ_BASE)) |
+                        (1 << (BIT_MA_CONTROL_MTZ3 - BIT_MA_CONTROL_MTZ_BASE)) |
+                        (1 << (BIT_MA_CONTROL_MTZ4 - BIT_MA_CONTROL_MTZ_BASE))
+                       )
+               ) == 0) 
+             )
+          {
+            int output_value = 0;
+
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ1               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_1;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ3               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_3;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ4               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_4;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_PRYSKORENNJA  - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_PRYSKORENNJA;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_PRYSKORENA    - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_PRYSKORENA;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ1_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_1_VPERED;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ1_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_1_NAZAD;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_VPERED;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_NAZAD;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ3_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_3_VPERED;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ3_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_3_NAZAD;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ4_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_4_VPERED;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ4_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_4_NAZAD;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ_NESPR_KIL_NAPR - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_NESPR_KIL_NAPR;
+        
+            target_label->control_mtz = output_value;
+          }
+          else
+            error = ERROR_ILLEGAL_DATA_VALUE;
+        }
+
+        break;
+      }
+    case M_ADDRESS_CONTROL_ZDZ:
+      {
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << ZDZ_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_ZDZ  - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << ZDZ_BIT_CONFIGURATION;
+        if (target_label->configuration != output_conf)
+        {
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
+        }
+        
+        if (error == 0) 
+        {
+          if (
+              (
+               ((target_label->configuration & (1 << ZDZ_BIT_CONFIGURATION)) !=0 ) ||
+               ((data & (
+                         (1 << (BIT_MA_CONTROL_ZDZ - BIT_MA_CONTROL_ZDZ_BASE))
+                        )
+                ) == 0) 
+              )
+              &&
+              (
+               ((target_label->configuration & (1 << MTZ_BIT_CONFIGURATION)) != 0) ||
+               ((data & (
+                         (1 << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_ZDZ_BASE)) |
+                         (1 << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_ZDZ_BASE)) |
+                         (1 << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_ZDZ_BASE)) |
+                         (1 << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_ZDZ_BASE))
+                        )
+               ) == 0) 
+              )
+             )   
+          {
+            int output_value = 0;
+
+            output_value |= ((data >> (BIT_MA_CONTROL_ZDZ                   - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STATE;
+            output_value |= ((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STARTED_FROM_MTZ1;
+            output_value |= ((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STARTED_FROM_MTZ2;
+            output_value |= ((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STARTED_FROM_MTZ3;
+            output_value |= ((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STARTED_FROM_MTZ4;
+        
+            target_label->control_zdz = output_value;
+          }
+          else
+            error = ERROR_ILLEGAL_DATA_VALUE;
+        }
+
+        break;
+      }
+    case M_ADDRESS_CONTROL_ZOP:
+      {
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << ZOP_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_ZOP  - BIT_MA_CONTROL_ZOP_BASE)) & 0x1) << ZOP_BIT_CONFIGURATION;
+        if (target_label->configuration != output_conf)
+        {
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
+        }
+        
+        if (error == 0) 
+        {
+          if (
+              ((target_label->configuration & (1 << ZOP_BIT_CONFIGURATION)) !=0 ) ||
+              ((data & (
+                        (1 << (BIT_MA_CONTROL_ZOP1 - BIT_MA_CONTROL_ZOP_BASE))
+                       )
+               ) == 0) 
+             )
+          {
+            int output_value = 0;
+
+            output_value |= ((data >> (BIT_MA_CONTROL_ZOP1 - BIT_MA_CONTROL_ZOP_BASE)) & 0x1) << CTR_ZOP_STATE_BIT;
+        
+            target_label->control_zop = output_value;
+          }
+          else
+            error = ERROR_ILLEGAL_DATA_VALUE;
+        }
+
+        break;
+      }
+    case M_ADDRESS_CONTROL_UMIN:
+      {
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << UMIN_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_UMIN  - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << UMIN_BIT_CONFIGURATION;
+        if (target_label->configuration != output_conf)
+        {
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
+        }
+        
+        if (error == 0) 
+        {
+          if (
+              ((target_label->configuration & (1 << UMIN_BIT_CONFIGURATION)) !=0 ) ||
+              ((data & (
+                        (1 << (BIT_MA_CONTROL_UMIN1 - BIT_MA_CONTROL_UMIN_BASE)) |
+                        (1 << (BIT_MA_CONTROL_UMIN2 - BIT_MA_CONTROL_UMIN_BASE))
+                       )
+               ) == 0) 
+             )
+          {
+            int output_value = 0;
+
+            output_value |= ((data >> (BIT_MA_CONTROL_UMIN1           - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN1;
+            output_value |= ((data >> (BIT_MA_CONTROL_UMIN2           - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN2;
+            output_value |= ((data >> (BIT_MA_CONTROL_PO_UMIN1_AND_OR - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_PO_UMIN1_OR_AND;
+            output_value |= ((data >> (BIT_MA_CONTROL_PO_UMIN2_AND_OR - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_PO_UMIN2_OR_AND;
+            output_value |= ((data >> (BIT_MA_CONTROL_BLK_UMIN1_BY_U  - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN1_UBLK;
+            output_value |= ((data >> (BIT_MA_CONTROL_BLK_UMIN2_BY_U  - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN2_UBLK;
+            output_value |= ((data >> (BIT_MA_CONTROL_BLK_UMIN1_BY_I  - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN1_IBLK;
+            output_value |= ((data >> (BIT_MA_CONTROL_BLK_UMIN2_BY_I  - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN2_IBLK;
+        
+            target_label->control_Umin = output_value;
+          }
+          else
+            error = ERROR_ILLEGAL_DATA_VALUE;
+        }
+
+        break;
+      }
+    case M_ADDRESS_CONTROL_UMAX:
+      {
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << UMAX_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_UMAX  - BIT_MA_CONTROL_UMAX_BASE)) & 0x1) << UMAX_BIT_CONFIGURATION;
+        if (target_label->configuration != output_conf)
+        {
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
+        }
+        
+        if (error == 0) 
+        {
+          if (
+              ((target_label->configuration & (1 << UMAX_BIT_CONFIGURATION)) !=0 ) ||
+              ((data & (
+                        (1 << (BIT_MA_CONTROL_UMAX1 - BIT_MA_CONTROL_UMIN_BASE)) |
+                        (1 << (BIT_MA_CONTROL_UMAX2 - BIT_MA_CONTROL_UMIN_BASE))
+                       )
+               ) == 0) 
+             )
+          {
+            int output_value = 0;
+
+            output_value |= ((data >> (BIT_MA_CONTROL_UMAX1           - BIT_MA_CONTROL_UMAX_BASE)) & 0x1) << INDEX_CTR_UMAX1;
+            output_value |= ((data >> (BIT_MA_CONTROL_UMAX2           - BIT_MA_CONTROL_UMAX_BASE)) & 0x1) << INDEX_CTR_UMAX2;
+            output_value |= ((data >> (BIT_MA_CONTROL_PO_UMAX1_AND_OR - BIT_MA_CONTROL_UMAX_BASE)) & 0x1) << INDEX_CTR_PO_UMAX1_OR_AND;
+            output_value |= ((data >> (BIT_MA_CONTROL_PO_UMAX2_AND_OR - BIT_MA_CONTROL_UMAX_BASE)) & 0x1) << INDEX_CTR_PO_UMAX2_OR_AND;
+        
+            target_label->control_Umax = output_value;
+          }
+          else
+            error = ERROR_ILLEGAL_DATA_VALUE;
+        }
+
+        break;
+      }
+    case M_ADDRESS_CONTROL_EXTRA_SETTINGS:
+      {
+        int output_value = target_label->control_extra_settings_1 & ((unsigned int)(~CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE));
+        
+        output_value |= (((data >> (BIT_MA_CONTROL_PHASE_LINE - BIT_MA_CONTROL_EXTRA_SETTINGS_BASE)) & 0x1) == 0) << INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_LINE_PHASE;
+        
+        target_label->control_extra_settings_1 = output_value;
+
+        break;
+      }
+    case M_ADDRESS_CONTROL_UROV_PART1:
+      {
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << UROV_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_UROV  - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << UROV_BIT_CONFIGURATION;
+        if (target_label->configuration != output_conf)
+        {
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
+        }
+        
+        if (error == 0) 
+        {
+          if (
+              (
+               ((target_label->configuration & (1 << UROV_BIT_CONFIGURATION)) !=0 ) ||
+               ((data & (
+                         (1 << (BIT_MA_CONTROL_UROV_STATE - BIT_MA_CONTROL_UROV_BASE_PART1))
+                        )
+                ) == 0) 
+              )
+              &&
+              (
+               ((target_label->configuration & (1 << MTZ_BIT_CONFIGURATION)) != 0) ||
+               ((data & (
+                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_UROV_BASE_PART1))
+                        )
+               ) == 0) 
+              )
+              &&
+              (
+               ((target_label->configuration & (1 << ZOP_BIT_CONFIGURATION)) != 0) ||
+               ((data & (
+                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_ZOP1 - BIT_MA_CONTROL_UROV_BASE_PART1))
+                        )
+               ) == 0) 
+              )
+              &&
+              (
+               ((target_label->configuration & (1 << UMIN_BIT_CONFIGURATION)) != 0) ||
+               ((data & (
+                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN1 - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN2 - BIT_MA_CONTROL_UROV_BASE_PART1))
+                        )
+               ) == 0) 
+              )
+              &&
+              (
+               ((target_label->configuration & (1 << UMAX_BIT_CONFIGURATION)) != 0) ||
+               ((data & (
+                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX1 - BIT_MA_CONTROL_UROV_BASE_PART1)) |
+                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX2 - BIT_MA_CONTROL_UROV_BASE_PART1))
+                        )
+               ) == 0) 
+              )
+             )   
+          {
+            int output_value = target_label->control_urov & 
+                               (unsigned int)(~(
+                                                CTR_UROV_STATE                | 
+                                                CTR_UROV_STARTED_FROM_MTZ1    | 
+                                                CTR_UROV_STARTED_FROM_MTZ2    | 
+                                                CTR_UROV_STARTED_FROM_MTZ3    | 
+                                                CTR_UROV_STARTED_FROM_MTZ4    |
+                                                CTR_UROV_STARTED_FROM_UMAX1   | 
+                                                CTR_UROV_STARTED_FROM_UMAX2   | 
+                                                CTR_UROV_STARTED_FROM_UMIN1   | 
+                                                CTR_UROV_STARTED_FROM_UMIN2   |
+                                                CTR_UROV_STARTED_FROM_ZOP1     
+                                             ));
+
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STATE                - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STATE;
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ1    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ1;
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ2    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ2;
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ3    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ3;
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ4    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ4;
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX1   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMAX1;
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX2   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMAX2;
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN1   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMIN1;
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN2   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMIN2;
+            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_ZOP1    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_ZOP1;
+        
+            target_label->control_urov = output_value;
+          }
+          else
+            error = ERROR_ILLEGAL_DATA_VALUE;
+        }
+
+        break;
+      }
+    case M_ADDRESS_CONTROL_UROV_PART2:
+      {
+        if (
+            ((target_label->configuration & (1 << UROV_BIT_CONFIGURATION)) != 0)
+            &&
+            (
+             ((target_label->configuration & (1 << ZDZ_BIT_CONFIGURATION)) != 0) ||
+             ((data & (
+                       (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_ZDZ - BIT_MA_CONTROL_UROV_BASE_PART2))
+                      )
+             ) == 0) 
+            )
+           )   
+        {
+          int output_value = target_label->control_urov & 
+                            (unsigned int)(~(
+                                             CTR_UROV_STARTED_FROM_ZDZ
+                                          ));
+
+          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_ZDZ - BIT_MA_CONTROL_UROV_BASE_PART2)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_ZDZ;
+        
+          target_label->control_urov = output_value;
+        }
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case M_ADDRESS_CONTROL_AVR:
+      {
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << AVR_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_AVR - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << AVR_BIT_CONFIGURATION;
+        if (target_label->configuration != output_conf)
+        {
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
+        }
+        
+        if (error == 0) 
+        {
+          if (
+              ((target_label->configuration & (1 << AVR_BIT_CONFIGURATION)) !=0 ) ||
+              ((data & (
+                        (1 << (BIT_MA_CONTROL_AVR - BIT_MA_CONTROL_AVR_BASE))
+                       )
+               ) == 0) 
+             )
+          {
+            int output_value = 0;
+
+            output_value |= ((data >> (BIT_MA_CONTROL_AVR          - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR;
+            output_value |= ((data >> (BIT_MA_CONTROL_AVR_OTKL_BLK - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR_OTKL_BLK;
+        
+            target_label->control_avr = output_value;
+          }
+          else
+            error = ERROR_ILLEGAL_DATA_VALUE;
+        }
+
+        break;
+      }
+    case M_ADDRESS_CONTROL_APV:
+      {
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << APV_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_APV  - BIT_MA_CONTROL_APV_BASE)) & 0x1) << APV_BIT_CONFIGURATION;
+        if (target_label->configuration != output_conf)
+        {
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
+        }
+        
+        if (error == 0) 
+        {
+          if (
+              (
+               ((target_label->configuration & (1 << APV_BIT_CONFIGURATION)) !=0 ) ||
+               ((data & (
+                         (1 << (BIT_MA_CONTROL_APV_CYCLE1 - BIT_MA_CONTROL_APV_BASE)) |
+                         (1 << (BIT_MA_CONTROL_APV_CYCLE2 - BIT_MA_CONTROL_APV_BASE)) |
+                         (1 << (BIT_MA_CONTROL_APV_CYCLE3 - BIT_MA_CONTROL_APV_BASE)) |
+                         (1 << (BIT_MA_CONTROL_APV_CYCLE4 - BIT_MA_CONTROL_APV_BASE))
+                        )
+                ) == 0) 
+              )
+              &&
+              (
+               ((target_label->configuration & (1 << MTZ_BIT_CONFIGURATION)) != 0) ||
+               ((data & (
+                         (1 << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_APV_BASE)) |
+                         (1 << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_APV_BASE)) |
+                         (1 << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_APV_BASE)) |
+                         (1 << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_APV_BASE))
+                        )
+               ) == 0) 
+              )
+             )   
+          {
+            int output_value = 0;
+
+            output_value |= ((data >> (BIT_MA_CONTROL_APV_CYCLE1            - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STAGE_1;
+            output_value |= ((data >> (BIT_MA_CONTROL_APV_CYCLE2            - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STAGE_2;
+            output_value |= ((data >> (BIT_MA_CONTROL_APV_CYCLE3            - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STAGE_3;
+            output_value |= ((data >> (BIT_MA_CONTROL_APV_CYCLE4            - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STAGE_4;
+            output_value |= ((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STARTED_FROM_MTZ1;
+            output_value |= ((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STARTED_FROM_MTZ2;
+            output_value |= ((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STARTED_FROM_MTZ3;
+            output_value |= ((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STARTED_FROM_MTZ4;
+        
+            target_label->control_apv = output_value;
+          }
+          else
+            error = ERROR_ILLEGAL_DATA_VALUE;
+        }
+
+        break;
+      }
+    case M_ADDRESS_CONTROL_CTRL_VV:
+      {
+        int output_value = 0;
+        output_value |= ((data >> (BIT_MA_CONTROL_CTRL_VV_STATE  - BIT_MA_CONTROL_CTRL_VV_BASE)) & 0x1) << INDEX_ML_CTRPRYVOD_VV;
+        output_value |= ((data >> (BIT_MA_CONTROL_CTRL_RESURS_VV - BIT_MA_CONTROL_CTRL_VV_BASE)) & 0x1) << INDEX_ML_CTRRESURS_VV;
+        target_label->control_switch = output_value;
+
+        output_value = target_label->control_extra_settings_1 & ((unsigned int)(~(
+                                                                                  CTR_EXTRA_SETTINGS_1_BLK_ON_CB_MISCEVE  |
+                                                                                  CTR_EXTRA_SETTINGS_1_BLK_OFF_CB_MISCEVE | 
+                                                                                  CTR_EXTRA_SETTINGS_1_CTRL_FB_ACTIVATION | 
+                                                                                  CTR_EXTRA_SETTINGS_1_CTRL_READY_TU      | 
+                                                                                  CTR_EXTRA_SETTINGS_1_CTRL_WINDOW_OFF_CB
+                                                                                 )));
+        output_value |= ((data >> (BIT_MA_CONTROL_CTRL_BLK_ON_CB_MISCEVE  - BIT_MA_CONTROL_CTRL_VV_BASE)) & 0x1) << INDEX_ML_CTREXTRA_SETTINGS_1_BLK_ON_CB_MISCEVE;
+        output_value |= ((data >> (BIT_MA_CONTROL_CTRL_BLK_OFF_CB_MISCEVE - BIT_MA_CONTROL_CTRL_VV_BASE)) & 0x1) << INDEX_ML_CTREXTRA_SETTINGS_1_BLK_OFF_CB_MISCEVE;
+        output_value |= ((data >> (BIT_MA_CONTROL_CTRL_FB_ACTIVATION      - BIT_MA_CONTROL_CTRL_VV_BASE)) & 0x1) << INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_FB_ACTIVATION;
+        output_value |= ((data >> (BIT_MA_CONTROL_CTRL_READY_TU           - BIT_MA_CONTROL_CTRL_VV_BASE)) & 0x1) << INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_READY_TU;
+        output_value |= ((data >> (BIT_MA_CONTROL_CTRL_WINDOW_OFF_CB      - BIT_MA_CONTROL_CTRL_VV_BASE)) & 0x1) << INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_WINDOW_OFF_CB;
+        target_label->control_extra_settings_1 = output_value;
+
+        break;
+      }
+    case M_ADDRESS_CONTROL_CTRL_PHASE:
+      {
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << CTRL_PHASE_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_CTRL_PHASE  - BIT_MA_CONTROL_CTRL_PHASE_BASE)) & 0x1) << CTRL_PHASE_BIT_CONFIGURATION;
+        if (target_label->configuration != output_conf)
+        {
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
+        }
+        
+        if (error == 0) 
+        {
+          if (
+              ((target_label->configuration & (1 << CTRL_PHASE_BIT_CONFIGURATION)) !=0 ) ||
+              ((data & (
+                        (1 << (BIT_MA_CONTROL_CTRL_PHASE_U       - BIT_MA_CONTROL_CTRL_PHASE_BASE)) |
+                        (1 << (BIT_MA_CONTROL_CTRL_PHASE_PHI     - BIT_MA_CONTROL_CTRL_PHASE_BASE)) |
+                        (1 << (BIT_MA_CONTROL_CTRL_PHASE_F       - BIT_MA_CONTROL_CTRL_PHASE_BASE)) |
+                        (1 << (BIT_MA_CONTROL_CTRL_PHASE_SEQ_TN1 - BIT_MA_CONTROL_CTRL_PHASE_BASE)) |
+                        (1 << (BIT_MA_CONTROL_CTRL_PHASE_SEQ_TN2 - BIT_MA_CONTROL_CTRL_PHASE_BASE))
+                       )
+               ) == 0) 
+             )
+          {
+            int output_value = 0;
+
+            output_value |= ((data >> (BIT_MA_CONTROL_CTRL_PHASE_U       - BIT_MA_CONTROL_CTRL_PHASE_BASE)) & 0x1) << INDEX_CTR_CTRL_PHASE_U;
+            output_value |= ((data >> (BIT_MA_CONTROL_CTRL_PHASE_PHI     - BIT_MA_CONTROL_CTRL_PHASE_BASE)) & 0x1) << INDEX_CTR_CTRL_PHASE_PHI;
+            output_value |= ((data >> (BIT_MA_CONTROL_CTRL_PHASE_F       - BIT_MA_CONTROL_CTRL_PHASE_BASE)) & 0x1) << INDEX_CTR_CTRL_PHASE_F;
+            output_value |= ((data >> (BIT_MA_CONTROL_CTRL_PHASE_SEQ_TN1 - BIT_MA_CONTROL_CTRL_PHASE_BASE)) & 0x1) << INDEX_CTR_CTRL_PHASE_SEQ_TN1;
+            output_value |= ((data >> (BIT_MA_CONTROL_CTRL_PHASE_SEQ_TN2 - BIT_MA_CONTROL_CTRL_PHASE_BASE)) & 0x1) << INDEX_CTR_CTRL_PHASE_SEQ_TN2;
+        
+            target_label->control_Umax = output_value;
+          }
+          else
+            error = ERROR_ILLEGAL_DATA_VALUE;
+        }
+
+        break;
+      }
+    case M_ADDRESS_CONTROL_EL:
+      {
+        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << EL_BIT_CONFIGURATION)));
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_EL  - BIT_MA_CONTROL_EL_BASE)) & 0x1) << EL_BIT_CONFIGURATION;
+        if (target_label->configuration != output_conf)
+        {
+          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
+          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+            error = ERROR_SLAVE_DEVICE_BUSY;
+        }
 
         break;
       }
@@ -7251,6 +8080,216 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
+    case MA_TO_AVR_BLK_K1:
+      {
+        temp_value = data*10;
+    
+#if (TIMEOUT_AVR_BLK_K1_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_BLK_K1_MIN) && (temp_value <= TIMEOUT_AVR_BLK_K1_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_BLK_K1_MAX)
+#endif            
+          target_label->timeout_avr_blk_k1[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_AVR_PUSK_K1:
+      {
+        temp_value = data*10;
+    
+#if (TIMEOUT_AVR_PUSK_K1_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_PUSK_K1_MIN) && (temp_value <= TIMEOUT_AVR_PUSK_K1_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_PUSK_K1_MAX)
+#endif            
+          target_label->timeout_avr_pusk_k1[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_AVR_D_DIJI_K1:
+      {
+        temp_value = data*10;
+    
+#if (TIMEOUT_AVR_D_DIJI_K1_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_D_DIJI_K1_MIN) && (temp_value <= TIMEOUT_AVR_D_DIJI_K1_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_D_DIJI_K1_MAX)
+#endif            
+          target_label->timeout_avr_d_diji_k1[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_AVR_VVIMK_REZ_K1:
+      {
+        temp_value = data*10;
+    
+#if (TIMEOUT_AVR_VVIMK_REZ_K1_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_VVIMK_REZ_K1_MIN) && (temp_value <= TIMEOUT_AVR_VVIMK_REZ_K1_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_VVIMK_REZ_K1_MAX)
+#endif            
+          target_label->timeout_avr_vvimk_rez_k1[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_AVR_VVIMK_K1:
+      {
+        temp_value = data*10;
+    
+#if (TIMEOUT_AVR_VVIMK_K1_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_VVIMK_K1_MIN) && (temp_value <= TIMEOUT_AVR_VVIMK_K1_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_VVIMK_K1_MAX)
+#endif            
+          target_label->timeout_avr_vvimk_k1[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_AVR_VYMK_ROB_K1:
+      {
+        temp_value = data*10;
+    
+#if (TIMEOUT_AVR_VYMK_ROB_K1_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_VYMK_ROB_K1_MIN) && (temp_value <= TIMEOUT_AVR_VYMK_ROB_K1_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_VYMK_ROB_K1_MAX)
+#endif            
+          target_label->timeout_avr_vymk_rob_k1[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_AVR_VYMK_K1:
+      {
+        temp_value = data*10;
+    
+#if (TIMEOUT_AVR_VYMK_K1_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_VYMK_K1_MIN) && (temp_value <= TIMEOUT_AVR_VYMK_K1_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_VYMK_K1_MAX)
+#endif            
+          target_label->timeout_avr_vymk_k1[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_AVR_BLK_K2:
+      {
+        temp_value = data*10;
+    
+#if (TIMEOUT_AVR_BLK_K2_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_BLK_K2_MIN) && (temp_value <= TIMEOUT_AVR_BLK_K2_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_BLK_K2_MAX)
+#endif            
+          target_label->timeout_avr_blk_k2[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_AVR_PUSK_K2:
+      {
+        temp_value = data*10;
+    
+#if (TIMEOUT_AVR_PUSK_K2_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_PUSK_K2_MIN) && (temp_value <= TIMEOUT_AVR_PUSK_K2_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_PUSK_K2_MAX)
+#endif            
+          target_label->timeout_avr_pusk_k2[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_AVR_D_DIJI_K2:
+      {
+        temp_value = data*10;
+    
+#if (TIMEOUT_AVR_D_DIJI_K2_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_D_DIJI_K2_MIN) && (temp_value <= TIMEOUT_AVR_D_DIJI_K2_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_D_DIJI_K2_MAX)
+#endif            
+          target_label->timeout_avr_d_diji_k2[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_AVR_VVIMK_REZ_K2:
+      {
+        temp_value = data*10;
+    
+#if (TIMEOUT_AVR_VVIMK_REZ_K2_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_VVIMK_REZ_K2_MIN) && (temp_value <= TIMEOUT_AVR_VVIMK_REZ_K2_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_VVIMK_REZ_K2_MAX)
+#endif            
+          target_label->timeout_avr_vvimk_rez_k2[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_AVR_VVIMK_K2:
+      {
+        temp_value = data*10;
+    
+#if (TIMEOUT_AVR_VVIMK_K2_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_VVIMK_K2_MIN) && (temp_value <= TIMEOUT_AVR_VVIMK_K2_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_VVIMK_K2_MAX)
+#endif            
+          target_label->timeout_avr_vvimk_k2[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_AVR_VYMK_ROB_K2:
+      {
+        temp_value = data*10;
+    
+#if (TIMEOUT_AVR_VYMK_ROB_K2_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_VYMK_ROB_K2_MIN) && (temp_value <= TIMEOUT_AVR_VYMK_ROB_K2_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_VYMK_ROB_K2_MAX)
+#endif            
+          target_label->timeout_avr_vymk_rob_k2[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_AVR_VYMK_K2:
+      {
+        temp_value = data*10;
+    
+#if (TIMEOUT_AVR_VYMK_K2_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_VYMK_K2_MIN) && (temp_value <= TIMEOUT_AVR_VYMK_K2_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_VYMK_K2_MAX)
+#endif            
+          target_label->timeout_avr_vymk_k2[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
     case MA_TO_APV_BLOCK_VID_VV:
       {
         temp_value = data*10;
@@ -7398,6 +8437,141 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 #endif            
         {
           target_label->timeout_apv_block_vid_apv4[num_gr] = temp_value;
+        }
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_STP_CTRL_PHASE_U:
+      {
+        temp_value = data*100;
+    
+        if ((temp_value >= SETPOINT_CTRL_PHASE_U_MIN) && (temp_value <= SETPOINT_CTRL_PHASE_U_MAX))
+          target_label->setpoint_ctrl_phase_U[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_STP_CTRL_PHASE_PHI:
+      {
+        temp_value = data*100;
+    
+        if ((temp_value >= SETPOINT_CTRL_PHASE_PHI_MIN) && (temp_value <= SETPOINT_CTRL_PHASE_PHI_MAX))
+          target_label->setpoint_ctrl_phase_phi[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_STP_CTRL_PHASE_F:
+      {
+        temp_value = data*10;
+    
+        if ((temp_value >= SETPOINT_CTRL_PHASE_F_MIN) && (temp_value <= SETPOINT_CTRL_PHASE_F_MAX))
+          target_label->setpoint_ctrl_phase_f[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_CTRL_PHASE_U:
+      {
+        temp_value = data*10;
+
+#if (TIMEOUT_CTRL_PHASE_U_MIN != 0)          
+        if ((temp_value >= TIMEOUT_CTRL_PHASE_U_MIN) && (temp_value <= TIMEOUT_CTRL_PHASE_U_MAX))
+#else
+        if (temp_value <= TIMEOUT_CTRL_PHASE_U_MAX)
+#endif            
+        {
+          target_label->timeout_ctrl_phase_U[num_gr] = temp_value;
+        }
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_CTRL_PHASE_U_D:
+      {
+        temp_value = data*10;
+
+#if (TIMEOUT_CTRL_PHASE_U_D_MIN != 0)          
+        if ((temp_value >= TIMEOUT_CTRL_PHASE_U_D_MIN) && (temp_value <= TIMEOUT_CTRL_PHASE_U_D_MAX))
+#else
+        if (temp_value <= TIMEOUT_CTRL_PHASE_U_D_MAX)
+#endif            
+        {
+          target_label->timeout_ctrl_phase_U_d[num_gr] = temp_value;
+        }
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_CTRL_PHASE_PHI:
+      {
+        temp_value = data*10;
+
+#if (TIMEOUT_CTRL_PHASE_PHI_MIN != 0)          
+        if ((temp_value >= TIMEOUT_CTRL_PHASE_PHI_MIN) && (temp_value <= TIMEOUT_CTRL_PHASE_PHI_MAX))
+#else
+        if (temp_value <= TIMEOUT_CTRL_PHASE_PHI_MAX)
+#endif            
+        {
+          target_label->timeout_ctrl_phase_phi[num_gr] = temp_value;
+        }
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_CTRL_PHASE_PHI_D:
+      {
+        temp_value = data*10;
+
+#if (TIMEOUT_CTRL_PHASE_PHI_D_MIN != 0)          
+        if ((temp_value >= TIMEOUT_CTRL_PHASE_PHI_D_MIN) && (temp_value <= TIMEOUT_CTRL_PHASE_PHI_D_MAX))
+#else
+        if (temp_value <= TIMEOUT_CTRL_PHASE_PHI_D_MAX)
+#endif            
+        {
+          target_label->timeout_ctrl_phase_phi_d[num_gr] = temp_value;
+        }
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_CTRL_PHASE_F:
+      {
+        temp_value = data*10;
+
+#if (TIMEOUT_CTRL_PHASE_F_MIN != 0)          
+        if ((temp_value >= TIMEOUT_CTRL_PHASE_F_MIN) && (temp_value <= TIMEOUT_CTRL_PHASE_F_MAX))
+#else
+        if (temp_value <= TIMEOUT_CTRL_PHASE_F_MAX)
+#endif            
+        {
+          target_label->timeout_ctrl_phase_f[num_gr] = temp_value;
+        }
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_CTRL_PHASE_F_D:
+      {
+        temp_value = data*10;
+
+#if (TIMEOUT_CTRL_PHASE_F_D_MIN != 0)          
+        if ((temp_value >= TIMEOUT_CTRL_PHASE_F_D_MIN) && (temp_value <= TIMEOUT_CTRL_PHASE_F_D_MAX))
+#else
+        if (temp_value <= TIMEOUT_CTRL_PHASE_F_D_MAX)
+#endif            
+        {
+          target_label->timeout_ctrl_phase_f_d[num_gr] = temp_value;
         }
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
@@ -7764,515 +8938,6 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_CONTROL_MTZ:
-      {
-        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << MTZ_BIT_CONFIGURATION)));
-        output_conf |= ((data >> (BIT_MA_CONFIGURATION_MTZ  - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << MTZ_BIT_CONFIGURATION;
-        if (target_label->configuration ! = output_conf)
-        {
-          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
-            error = ERROR_SLAVE_DEVICE_BUSY;
-        }
-        
-        if (error == 0) 
-        {
-          if (
-              ((target_label->configuration & (1 << MTZ_BIT_CONFIGURATION)) !=0 ) ||
-              ((data & (
-                        (1 << (BIT_MA_CONTROL_MTZ1 - BIT_MA_CONTROL_MTZ_BASE)) |
-                        (1 << (BIT_MA_CONTROL_MTZ2 - BIT_MA_CONTROL_MTZ_BASE)) |
-                        (1 << (BIT_MA_CONTROL_MTZ3 - BIT_MA_CONTROL_MTZ_BASE)) |
-                        (1 << (BIT_MA_CONTROL_MTZ4 - BIT_MA_CONTROL_MTZ_BASE))
-                       )
-               ) == 0) 
-             )
-          {
-            int output_value = 0;
-
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ1               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_1;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ3               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_3;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ4               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_4;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_PRYSKORENNJA  - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_PRYSKORENNJA;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_PRYSKORENA    - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_PRYSKORENA;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ1_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_1_VPERED;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ1_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_1_NAZAD;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_VPERED;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_NAZAD;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ3_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_3_VPERED;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ3_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_3_NAZAD;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ4_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_4_VPERED;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ4_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_4_NAZAD;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ_NESPR_KIL_NAPR - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_NESPR_KIL_NAPR;
-        
-            target_label->control_mtz = output_value;
-          }
-          else
-            error = ERROR_ILLEGAL_DATA_VALUE;
-        }
-
-        break;
-      }
-    case MA_CONTROL_ZDZ:
-      {
-        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << ZDZ_BIT_CONFIGURATION)));
-        output_conf |= ((data >> (BIT_MA_CONFIGURATION_ZDZ  - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << ZDZ_BIT_CONFIGURATION;
-        if (target_label->configuration ! = output_conf)
-        {
-          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
-            error = ERROR_SLAVE_DEVICE_BUSY;
-        }
-        
-        if (error == 0) 
-        {
-          if (
-              (
-               ((target_label->configuration & (1 << ZDZ_BIT_CONFIGURATION)) !=0 ) ||
-               ((data & (
-                         (1 << (BIT_MA_CONTROL_ZDZ - BIT_MA_CONTROL_ZDZ_BASE))
-                        )
-                ) == 0) 
-              )
-              &&
-              (
-               ((target_label->configuration & (1 << MTZ_BIT_CONFIGURATION)) != 0) ||
-               ((data & (
-                         (1 << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_ZDZ_BASE)) |
-                         (1 << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_ZDZ_BASE)) |
-                         (1 << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_ZDZ_BASE)) |
-                         (1 << (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_ZDZ_BASE))
-                        )
-               ) == 0) 
-              )
-             )   
-          {
-            int output_value = 0;
-
-            output_value |= ((data >> (BIT_MA_CONTROL_ZDZ                   - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STATE;
-            output_value |= ((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STARTED_FROM_MTZ1;
-            output_value |= ((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STARTED_FROM_MTZ2;
-            output_value |= ((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STARTED_FROM_MTZ3;
-            output_value |= ((data >> (BIT_MA_CONTROL_ZDZ_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_ZDZ_BASE)) & 0x1) << INDEX_ML_CTRZDZ_STARTED_FROM_MTZ4;
-        
-            target_label->control_zdz = output_value;
-          }
-          else
-            error = ERROR_ILLEGAL_DATA_VALUE;
-        }
-
-        break;
-      }
-    case MA_CONTROL_ZOP:
-      {
-        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << ZOP_BIT_CONFIGURATION)));
-        output_conf |= ((data >> (BIT_MA_CONFIGURATION_ZOP  - BIT_MA_CONTROL_ZOP_BASE)) & 0x1) << ZOP_BIT_CONFIGURATION;
-        if (target_label->configuration ! = output_conf)
-        {
-          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
-            error = ERROR_SLAVE_DEVICE_BUSY;
-        }
-        
-        if (error == 0) 
-        {
-          if (
-              ((target_label->configuration & (1 << ZOP_BIT_CONFIGURATION)) !=0 ) ||
-              ((data & (
-                        (1 << (BIT_MA_CONTROL_ZOP1 - BIT_MA_CONTROL_ZOP_BASE))
-                       )
-               ) == 0) 
-             )
-          {
-            int output_value = 0;
-
-            output_value |= ((data >> (BIT_MA_CONTROL_ZOP1 - BIT_MA_CONTROL_ZOP_BASE)) & 0x1) << CTR_ZOP_STATE_BIT;
-        
-            target_label->control_zop = output_value;
-          }
-          else
-            error = ERROR_ILLEGAL_DATA_VALUE;
-        }
-
-        break;
-      }
-    case MA_CONTROL_UMIN:
-      {
-        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << UMIN_BIT_CONFIGURATION)));
-        output_conf |= ((data >> (BIT_MA_CONFIGURATION_UMIN  - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << UMIN_BIT_CONFIGURATION;
-        if (target_label->configuration ! = output_conf)
-        {
-          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
-            error = ERROR_SLAVE_DEVICE_BUSY;
-        }
-        
-        if (error == 0) 
-        {
-          if (
-              ((target_label->configuration & (1 << UMIN_BIT_CONFIGURATION)) !=0 ) ||
-              ((data & (
-                        (1 << (BIT_MA_CONTROL_UMIN1 - BIT_MA_CONTROL_UMIN_BASE)) |
-                        (1 << (BIT_MA_CONTROL_UMIN2 - BIT_MA_CONTROL_UMIN_BASE))
-                       )
-               ) == 0) 
-             )
-          {
-            int output_value = 0;
-
-            output_value |= ((data >> (BIT_MA_CONTROL_UMIN1           - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN1;
-            output_value |= ((data >> (BIT_MA_CONTROL_UMIN2           - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN2;
-            output_value |= ((data >> (BIT_MA_CONTROL_PO_UMIN1_AND_OR - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_PO_UMIN1_OR_AND;
-            output_value |= ((data >> (BIT_MA_CONTROL_PO_UMIN2_AND_OR - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_PO_UMIN2_OR_AND;
-            output_value |= ((data >> (BIT_MA_CONTROL_BLK_UMIN1_BY_U  - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN1_UBLK;
-            output_value |= ((data >> (BIT_MA_CONTROL_BLK_UMIN2_BY_U  - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN2_UBLK;
-            output_value |= ((data >> (BIT_MA_CONTROL_BLK_UMIN1_BY_I  - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN1_IBLK;
-            output_value |= ((data >> (BIT_MA_CONTROL_BLK_UMIN2_BY_I  - BIT_MA_CONTROL_UMIN_BASE)) & 0x1) << INDEX_CTR_UMIN2_IBLK;
-        
-            target_label->control_Umin = output_value;
-          }
-          else
-            error = ERROR_ILLEGAL_DATA_VALUE;
-        }
-
-        break;
-      }
-    case MA_CONTROL_UMAX:
-      {
-        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << UMAX_BIT_CONFIGURATION)));
-        output_conf |= ((data >> (BIT_MA_CONFIGURATION_UMAX  - BIT_MA_CONTROL_UMAX_BASE)) & 0x1) << UMAX_BIT_CONFIGURATION;
-        if (target_label->configuration ! = output_conf)
-        {
-          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
-            error = ERROR_SLAVE_DEVICE_BUSY;
-        }
-        
-        if (error == 0) 
-        {
-          if (
-              ((target_label->configuration & (1 << UMAX_BIT_CONFIGURATION)) !=0 ) ||
-              ((data & (
-                        (1 << (BIT_MA_CONTROL_UMAX1 - BIT_MA_CONTROL_UMIN_BASE)) |
-                        (1 << (BIT_MA_CONTROL_UMAX2 - BIT_MA_CONTROL_UMIN_BASE))
-                       )
-               ) == 0) 
-             )
-          {
-            int output_value = 0;
-
-            output_value |= ((data >> (BIT_MA_CONTROL_UMAX1           - BIT_MA_CONTROL_UMAX_BASE)) & 0x1) << INDEX_CTR_UMAX1;
-            output_value |= ((data >> (BIT_MA_CONTROL_UMAX2           - BIT_MA_CONTROL_UMAX_BASE)) & 0x1) << INDEX_CTR_UMAX2;
-            output_value |= ((data >> (BIT_MA_CONTROL_PO_UMAX1_AND_OR - BIT_MA_CONTROL_UMAX_BASE)) & 0x1) << INDEX_CTR_PO_UMAX1_OR_AND;
-            output_value |= ((data >> (BIT_MA_CONTROL_PO_UMAX2_AND_OR - BIT_MA_CONTROL_UMAX_BASE)) & 0x1) << INDEX_CTR_PO_UMAX2_OR_AND;
-        
-            target_label->control_Umax = output_value;
-          }
-          else
-            error = ERROR_ILLEGAL_DATA_VALUE;
-        }
-
-        break;
-      }
-    case MA_CONTROL_EXTRA_SETTINGS:
-      {
-        int output_value = target_label->control_extra_settings_1 & ((unsigned int)(~CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE));
-        
-        output_value |= (((data >> (BIT_MA_CONTROL_PHASE_LINE - BIT_MA_CONTROL_EXTRA_SETTINGS_BASE)) & 0x1) == 0) << INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_LINE_PHASE;
-        
-        target_label->control_extra_settings_1 = output_value;
-
-        break;
-      }
-    case MA_CONTROL_UROV_PART1:
-      {
-        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << UROV_BIT_CONFIGURATION)));
-        output_conf |= ((data >> (BIT_MA_CONFIGURATION_UROV  - BIT_MA_CONTROL_UROV_BASE)) & 0x1) << UROV_BIT_CONFIGURATION;
-        if (target_label->configuration ! = output_conf)
-        {
-          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
-            error = ERROR_SLAVE_DEVICE_BUSY;
-        }
-        
-        if (error == 0) 
-        {
-          if (
-              (
-               ((target_label->configuration & (1 << UROV_BIT_CONFIGURATION)) !=0 ) ||
-               ((data & (
-                         (1 << (BIT_MA_CONTROL_UROV - BIT_MA_CONTROL_UROV_BASE))
-                        )
-                ) == 0) 
-              )
-              &&
-              (
-               ((target_label->configuration & (1 << MTZ_BIT_CONFIGURATION)) != 0) ||
-               ((data & (
-                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_UROV_BASE_PART1))
-                        )
-               ) == 0) 
-              )
-              &&
-              (
-               ((target_label->configuration & (1 << ZOP_BIT_CONFIGURATION)) != 0) ||
-               ((data & (
-                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_ZOP1 - BIT_MA_CONTROL_UROV_BASE_PART1))
-                        )
-               ) == 0) 
-              )
-              &&
-              (
-               ((target_label->configuration & (1 << UMIN_BIT_CONFIGURATION)) != 0) ||
-               ((data & (
-                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN1 - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN2 - BIT_MA_CONTROL_UROV_BASE_PART1))
-                        )
-               ) == 0) 
-              )
-              &&
-              (
-               ((target_label->configuration & (1 << UMAX_BIT_CONFIGURATION)) != 0) ||
-               ((data & (
-                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX1 - BIT_MA_CONTROL_UROV_BASE_PART1)) |
-                         (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX2 - BIT_MA_CONTROL_UROV_BASE_PART1))
-                        )
-               ) == 0) 
-              )
-             )   
-          {
-            int output_value = target_label->control_urov & 
-                               (unsigned int)(~(
-                                                CTR_UROV_STATE                | 
-                                                CTR_UROV_STARTED_FROM_MTZ1    | 
-                                                CTR_UROV_STARTED_FROM_MTZ2    | 
-                                                CTR_UROV_STARTED_FROM_MTZ3    | 
-                                                CTR_UROV_STARTED_FROM_MTZ4    |
-                                                CTR_UROV_STARTED_FROM_UMAX1   | 
-                                                CTR_UROV_STARTED_FROM_UMAX2   | 
-                                                CTR_UROV_STARTED_FROM_UMIN1   | 
-                                                CTR_UROV_STARTED_FROM_UMIN2   |
-                                                CTR_UROV_STARTED_FROM_ZOP1     
-                                             ));
-
-            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STATE                - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STATE;
-            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ1    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ1;
-            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ2    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ2;
-            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ3    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ3;
-            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_MTZ4    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_MTZ4;
-            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX1   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMAX1;
-            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMAX2   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMAX2;
-            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN1   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMIN1;
-            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_UMIN2   - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_UMIN2;
-            output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_ZOP1    - BIT_MA_CONTROL_UROV_BASE_PART1)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_ZOP1;
-        
-            target_label->control_urov = output_value;
-          }
-          else
-            error = ERROR_ILLEGAL_DATA_VALUE;
-        }
-
-        break;
-      }
-    case MA_CONTROL_UROV_PART2:
-      {
-        if (
-            ((target_label->configuration & (1 << UROV_BIT_CONFIGURATION)) != 0)
-            &&
-            (
-             ((target_label->configuration & (1 << ZDZ_BIT_CONFIGURATION)) != 0) ||
-             ((data & (
-                       (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_ZDZ - BIT_MA_CONTROL_UROV_BASE_PART2))
-                      )
-             ) == 0) 
-            )
-           )   
-        {
-          int output_value = target_label->control_urov & 
-                            (unsigned int)(~(
-                                             CTR_UROV_STARTED_FROM_ZDZ
-                                          ));
-
-          output_value |= ((data >> (BIT_MA_CONTROL_UROV_STARTED_FROM_ZDZ - BIT_MA_CONTROL_UROV_BASE_PART2)) & 0x1) << INDEX_ML_CTRUROV_STARTED_FROM_ZDZ;
-        
-          target_label->control_urov = output_value;
-        }
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_CONTROL_AVR:
-      {
-        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << AVR_BIT_CONFIGURATION)));
-        output_conf |= ((data >> (BIT_MA_CONFIGURATION_AVR - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << AVR_BIT_CONFIGURATION;
-        if (target_label->configuration ! = output_conf)
-        {
-          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
-            error = ERROR_SLAVE_DEVICE_BUSY;
-        }
-        
-        if (error == 0) 
-        {
-          if (
-              ((target_label->configuration & (1 << AVR_BIT_CONFIGURATION)) !=0 ) ||
-              ((data & (
-                        (1 << (BIT_MA_CONTROL_AVR - BIT_MA_CONTROL_AVR_BASE))
-                       )
-               ) == 0) 
-             )
-          {
-            int output_value = 0;
-
-            output_value |= ((data >> (BIT_MA_CONTROL_AVR          - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR;
-            output_value |= ((data >> (BIT_MA_CONTROL_AVR_OTKL_BLK - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR_OTKL_BLK;
-        
-            target_label->control_avr = output_value;
-          }
-          else
-            error = ERROR_ILLEGAL_DATA_VALUE;
-        }
-
-        break;
-      }
-    case MA_CONTROL_APV:
-      {
-        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << APV_BIT_CONFIGURATION)));
-        output_conf |= ((data >> (BIT_MA_CONFIGURATION_APV  - BIT_MA_CONTROL_APV_BASE)) & 0x1) << APV_BIT_CONFIGURATION;
-        if (target_label->configuration ! = output_conf)
-        {
-          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
-            error = ERROR_SLAVE_DEVICE_BUSY;
-        }
-        
-        if (error == 0) 
-        {
-          if (
-              (
-               ((target_label->configuration & (1 << APV_BIT_CONFIGURATION)) !=0 ) ||
-               ((data & (
-                         (1 << (BIT_MA_CONTROL_APV_CYCLE1 - BIT_MA_CONTROL_APV_BASE)) |
-                         (1 << (BIT_MA_CONTROL_APV_CYCLE2 - BIT_MA_CONTROL_APV_BASE)) |
-                         (1 << (BIT_MA_CONTROL_APV_CYCLE3 - BIT_MA_CONTROL_APV_BASE)) |
-                         (1 << (BIT_MA_CONTROL_APV_CYCLE4 - BIT_MA_CONTROL_APV_BASE))
-                        )
-                ) == 0) 
-              )
-              &&
-              (
-               ((target_label->configuration & (1 << MTZ_BIT_CONFIGURATION)) != 0) ||
-               ((data & (
-                         (1 << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_APV_BASE)) |
-                         (1 << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_APV_BASE)) |
-                         (1 << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_APV_BASE)) |
-                         (1 << (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_APV_BASE))
-                        )
-               ) == 0) 
-              )
-             )   
-          {
-            int output_value = 0;
-
-            output_value |= ((data >> (BIT_MA_CONTROL_APV_CYCLE1            - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STAGE_1;
-            output_value |= ((data >> (BIT_MA_CONTROL_APV_CYCLE2            - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STAGE_2;
-            output_value |= ((data >> (BIT_MA_CONTROL_APV_CYCLE3            - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STAGE_3;
-            output_value |= ((data >> (BIT_MA_CONTROL_APV_CYCLE4            - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STAGE_4;
-            output_value |= ((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ1 - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STARTED_FROM_MTZ1;
-            output_value |= ((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ2 - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STARTED_FROM_MTZ2;
-            output_value |= ((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ3 - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STARTED_FROM_MTZ3;
-            output_value |= ((data >> (BIT_MA_CONTROL_APV_STARTED_FROM_MTZ4 - BIT_MA_CONTROL_APV_BASE)) & 0x1) << INDEX_ML_CTRAPV_STARTED_FROM_MTZ4;
-        
-            target_label->control_apv = output_value;
-          }
-          else
-            error = ERROR_ILLEGAL_DATA_VALUE;
-        }
-
-        break;
-      }
-    case MA_CONTROL_CTRL_VV:
-      {
-        int output_value = 0;
-        output_value |= ((data >> (BIT_MA_CONTROL_CTRL_VV_STATE  - BIT_MA_CONTROL_CTRL_VV_BASE)) & 0x1) << INDEX_ML_CTRPRYVOD_VV;
-        output_value |= ((data >> (BIT_MA_CONTROL_CTRL_RESURS_VV - BIT_MA_CONTROL_CTRL_VV_BASE)) & 0x1) << INDEX_ML_CTRRESURS_VV;
-        target_label->control_switch = output_value;
-
-        output_value = target_label->control_extra_settings_1 & ((unsigned int)(~(
-                                                                                  CTR_EXTRA_SETTINGS_1_BLK_ON_CB_MISCEVE  |
-                                                                                  CTR_EXTRA_SETTINGS_1_BLK_OFF_CB_MISCEVE | 
-                                                                                  CTR_EXTRA_SETTINGS_1_CTRL_FB_ACTIVATION | 
-                                                                                  CTR_EXTRA_SETTINGS_1_CTRL_READY_TU      | 
-                                                                                  CTR_EXTRA_SETTINGS_1_CTRL_WINDOW_OFF_CB
-                                                                                 )));
-        output_value |= ((data >> (BIT_MA_CONTROL_CTRL_BLK_ON_CB_MISCEVE  - BIT_MA_CONTROL_CTRL_VV_BASE)) & 0x1) << INDEX_ML_CTREXTRA_SETTINGS_1_BLK_ON_CB_MISCEVE;
-        output_value |= ((data >> (BIT_MA_CONTROL_CTRL_BLK_OFF_CB_MISCEVE - BIT_MA_CONTROL_CTRL_VV_BASE)) & 0x1) << INDEX_ML_CTREXTRA_SETTINGS_1_BLK_OFF_CB_MISCEVE;
-        output_value |= ((data >> (BIT_MA_CONTROL_CTRL_FB_ACTIVATION      - BIT_MA_CONTROL_CTRL_VV_BASE)) & 0x1) << INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_FB_ACTIVATION;
-        output_value |= ((data >> (BIT_MA_CONTROL_CTRL_READY_TU           - BIT_MA_CONTROL_CTRL_VV_BASE)) & 0x1) << INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_READY_TU;
-        output_value |= ((data >> (BIT_MA_CONTROL_CTRL_WINDOW_OFF_CB      - BIT_MA_CONTROL_CTRL_VV_BASE)) & 0x1) << INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_WINDOW_OFF_CB;
-        target_label->control_extra_settings_1 = output_value;
-
-        break;
-      }
-    case MA_CONTROL_CTRL_PHASE:
-      {
-        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << CTRL_PHASE_BIT_CONFIGURATION)));
-        output_conf |= ((data >> (BIT_MA_CONFIGURATION_CTRL_PHASE  - BIT_MA_CONTROL_CTRL_PHASE_BASE)) & 0x1) << CTRL_PHASE_BIT_CONFIGURATION;
-        if (target_label->configuration ! = output_conf)
-        {
-          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
-            error = ERROR_SLAVE_DEVICE_BUSY;
-        }
-        
-        if (error == 0) 
-        {
-          if (
-              ((target_label->configuration & (1 << CTRL_PHASE_BIT_CONFIGURATION)) !=0 ) ||
-              ((data & (
-                        (1 << (BIT_MA_CONTROL_CTRL_PHASE_U       - BIT_MA_CONTROL_CTRL_PHASE_BASE)) |
-                        (1 << (BIT_MA_CONTROL_CTRL_PHASE_PHI     - BIT_MA_CONTROL_CTRL_PHASE_BASE)) |
-                        (1 << (BIT_MA_CONTROL_CTRL_PHASE_F       - BIT_MA_CONTROL_CTRL_PHASE_BASE)) |
-                        (1 << (BIT_MA_CONTROL_CTRL_PHASE_SEQ_TN1 - BIT_MA_CONTROL_CTRL_PHASE_BASE)) |
-                        (1 << (BIT_MA_CONTROL_CTRL_PHASE_SEQ_TN2 - BIT_MA_CONTROL_CTRL_PHASE_BASE))
-                       )
-               ) == 0) 
-             )
-          {
-            int output_value = 0;
-
-            output_value |= ((data >> (BIT_MA_CONTROL_CTRL_PHASE_U       - BIT_MA_CONTROL_CTRL_PHASE_BASE)) & 0x1) << INDEX_CTR_CTRL_PHASE_U;
-            output_value |= ((data >> (BIT_MA_CONTROL_CTRL_PHASE_PHI     - BIT_MA_CONTROL_CTRL_PHASE_BASE)) & 0x1) << INDEX_CTR_CTRL_PHASE_PHI;
-            output_value |= ((data >> (BIT_MA_CONTROL_CTRL_PHASE_F       - BIT_MA_CONTROL_CTRL_PHASE_BASE)) & 0x1) << INDEX_CTR_CTRL_PHASE_F;
-            output_value |= ((data >> (BIT_MA_CONTROL_CTRL_PHASE_SEQ_TN1 - BIT_MA_CONTROL_CTRL_PHASE_BASE)) & 0x1) << INDEX_CTR_CTRL_PHASE_SEQ_TN1;
-            output_value |= ((data >> (BIT_MA_CONTROL_CTRL_PHASE_SEQ_TN2 - BIT_MA_CONTROL_CTRL_PHASE_BASE)) & 0x1) << INDEX_CTR_CTRL_PHASE_SEQ_TN2;
-        
-            target_label->control_Umax = output_value;
-          }
-          else
-            error = ERROR_ILLEGAL_DATA_VALUE;
-        }
-
-        break;
-      }
-    case MA_CONTROL_EL:
-      {
-        unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << EL_BIT_CONFIGURATION)));
-        output_conf |= ((data >> (BIT_MA_CONFIGURATION_EL  - BIT_MA_CONTROL_EL_BASE)) & 0x1) << EL_BIT_CONFIGURATION;
-        if (target_label->configuration ! = output_conf)
-        {
-          //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
-            error = ERROR_SLAVE_DEVICE_BUSY;
-        }
-
-        break;
-      }
     case MA_TO_DEACTIVATION_PASSWORD_INTERFACE:
       {
         //Встановлення часу протягом якого, якщо немає звертання до інтерфейсу, то встановлюється пароль
@@ -8336,7 +9001,7 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_SPEED_RS485:
+    case MA_SPEED_RS485_1:
       {
         temp_value = data;
         
@@ -8351,7 +9016,7 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_STOP_BITS_RS485:
+    case MA_STOP_BITS_RS485_1:
       {
         temp_value = data - 1;
         
@@ -8366,7 +9031,7 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_PARE_RS485:
+    case MA_PARE_RS485_1:
       {
         temp_value = data;
         
@@ -8381,7 +9046,7 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_TIMEOUT_RS485:
+    case MA_TIMEOUT_RS485_1:
       {
         temp_value = data;
         
@@ -8519,144 +9184,6 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
     }
     else
       error = ERROR_ILLEGAL_DATA_VALUE;
-  }
-  else if ((address_data >= M_ADDRESS_FIRST_USER_REGISTER) && (address_data <= M_ADDRESS_LAST_USER_REGISTER))
-  {
-    //Ранжування регістрів користувача
-    
-    if ( !((data >= M_ADDRESS_FIRST_USER_REGISTER_DATA) && (data <= M_ADDRESS_LAST_USER_REGISTER_DATA)) )
-    {
-      //Записуємо ранжування регістрів користувача
-      target_label->user_register[address_data - M_ADDRESS_FIRST_USER_REGISTER] = data;
-    }
-    else error = ERROR_ILLEGAL_DATA_VALUE;
-  }
-  else if ((address_data >= M_ADDRESS_FIRST_DI_RANG) && (address_data <= M_ADDRESS_LAST_DI_RANG))
-  {
-    //Запис ранжування дискретних входів
-    
-    //Взначаємо, який вхід зараз верхній рівень намагається записати
-    unsigned int number_input = (address_data - M_ADDRESS_FIRST_DI_RANG)>>VAGA_MAX_FUNCTIONS_IN_INPUT;
-    
-    if(number_input < NUMBER_INPUTS)
-    {
-      error = save_new_rang_inputs_from_gmm(number_input, (((address_data -  M_ADDRESS_FIRST_DI_RANG) & (MAX_FUNCTIONS_IN_INPUT - 1)) + 1), data, method_setting);
-    }
-  }
-  else if ((address_data >= M_ADDRESS_FIRST_DO_RANG) && (address_data <= M_ADDRESS_LAST_DO_RANG))
-  {
-    //Запис ранжування дискретних виходів
-    
-    //Взначаємо, який вихід зараз верхній рівень намагається записати
-    unsigned int number_output = (address_data - M_ADDRESS_FIRST_DO_RANG)>>VAGA_MAX_FUNCTIONS_IN_OUTPUT;
-    
-    if(number_output < NUMBER_OUTPUTS)
-    {
-      error = save_new_rang_oldr_from_gmm(number_output, (((address_data -  M_ADDRESS_FIRST_DO_RANG) & (MAX_FUNCTIONS_IN_OUTPUT - 1)) + 1), SOURCE_OUTPUTS_RANG, data, method_setting);
-    }
-  }
-  else if ((address_data >= M_ADDRESS_FIRST_LED_RANG) && (address_data <= M_ADDRESS_LAST_LED_RANG))
-  {
-    //Запис ранжування світлоіндикаторів
-    
-    //Взначаємо, який світлоіндикатор зараз верхній рівень намагається записати
-    unsigned int number_led = (address_data - M_ADDRESS_FIRST_LED_RANG)>>VAGA_MAX_FUNCTIONS_IN_LED;
-    
-    if(number_led < NUMBER_LEDS)
-    {
-      error = save_new_rang_oldr_from_gmm(number_led, (((address_data -  M_ADDRESS_FIRST_LED_RANG) & (MAX_FUNCTIONS_IN_LED - 1)) + 1), SOURCE_LEDS_RANG, data, method_setting);
-    }
-  }
-  else if ((address_data >=  M_ADDRESS_FIRST_DF_RANG) && (address_data <= M_ADDRESS_LAST_DF_RANG))
-  {
-    //Запис ранжування 0-функції
-    
-    //Взначаємо, яку 0-функцію зараз верхній рівень намагається записати
-    unsigned int number_df_mul_3 = (address_data -  M_ADDRESS_FIRST_DF_RANG)>>VAGA_MAX_FUNCTIONS_IN_DF;
-    
-    if(number_df_mul_3 <  (NUMBER_DEFINED_FUNCTIONS/*target_label->number_defined_df*/*3))
-    {
-      error = save_new_rang_oldr_from_gmm((number_df_mul_3 / 3), (((address_data -  M_ADDRESS_FIRST_DF_RANG) & (MAX_FUNCTIONS_IN_DF - 1)) + 1), (SOURCE_DF_PLUS_RANG + (number_df_mul_3 % 3)), data, method_setting);
-    }
-  }
-  else if ((address_data >= M_ADDRESS_FIRST_DB_RANG) && (address_data <= M_ADDRESS_LAST_DB_RANG))
-  {
-    //Запис ранжування функціональних кнопок
-    
-    //Взначаємо, яку ф-кнопку зараз верхній рівень намагається записати
-    unsigned int number_button = (address_data - M_ADDRESS_FIRST_DB_RANG)>>VAGA_MAX_FUNCTIONS_IN_DB;
-    
-    if(number_button < NUMBER_DEFINED_BUTTONS)
-    {
-      error = save_new_rang_buttons_from_gmm(number_button, (((address_data -  M_ADDRESS_FIRST_DB_RANG) & (MAX_FUNCTIONS_IN_DB - 1)) + 1), data, method_setting);
-    }
-  }
-  else if ((address_data >= M_ADDRESS_FIRST_DT_RANG) && (address_data <= M_ADDRESS_LAST_DT_RANG))
-  {
-    //Запис ранжування триґера
-    
-    //Визначаємо, який триггер зараз верхній рівень намагається записати
-    unsigned int number_defined_triggers = (address_data - M_ADDRESS_FIRST_DT_RANG) / MAX_FUNCTIONS_IN_DT;
-    
-    if(number_defined_triggers < (NUMBER_DEFINED_TRIGGERS/*target_label->number_defined_dt*/ << 2))
-    {
-      
-      error = save_new_rang_oldr_from_gmm((number_defined_triggers >> 2),
-                     (((address_data -  M_ADDRESS_FIRST_DT_RANG) % MAX_FUNCTIONS_IN_DT) + 1),
-                     SOURCE_SET_DT_PLUS_RANG + (number_defined_triggers % 4), data, method_setting);
-    }
-  }
-  else if ((address_data >= M_ADDRESS_FIRST_D_AND_RANG) && (address_data <= M_ADDRESS_LAST_D_AND_RANG))
-  {
-    //Запис ранжування В-"І"
-    
-    //Визначаємо, який В-"І" зараз верхній рівень намагається записати
-    unsigned int number_defined_and = (address_data - M_ADDRESS_FIRST_D_AND_RANG) / MAX_FUNCTIONS_IN_D_AND;
-    
-    if(number_defined_and < NUMBER_DEFINED_AND/*target_label->number_defined_and*/)
-    {
-      
-      error = save_new_rang_oldr_from_gmm(number_defined_and, (((address_data -  M_ADDRESS_FIRST_D_AND_RANG) % MAX_FUNCTIONS_IN_D_AND) + 1), SOURCE_D_AND_RANG, data, method_setting);
-    }
-  }
-  else if ((address_data >= M_ADDRESS_FIRST_D_OR_RANG) && (address_data <= M_ADDRESS_LAST_D_OR_RANG))
-  {
-    //Запис ранжування В-"АБО"
-    
-    //Визначаємо, який В-"АБО" зараз верхній рівень намагається записати
-    unsigned int number_defined_or = (address_data - M_ADDRESS_FIRST_D_OR_RANG) / MAX_FUNCTIONS_IN_D_OR;
-    
-    if(number_defined_or < NUMBER_DEFINED_OR/*target_label->number_defined_or*/)
-    {
-      
-      error = save_new_rang_oldr_from_gmm(number_defined_or, (((address_data -  M_ADDRESS_FIRST_D_OR_RANG) % MAX_FUNCTIONS_IN_D_OR) + 1), SOURCE_D_OR_RANG, data, method_setting);
-    }
-  }
-  else if ((address_data >= M_ADDRESS_FIRST_D_XOR_RANG) && (address_data <= M_ADDRESS_LAST_D_XOR_RANG))
-  {
-    //Запис ранжування В-"Викл.АБО"
-    
-    //Визначаємо, який В-"Викл.АБО" зараз верхній рівень намагається записати
-    unsigned int number_defined_xor = (address_data - M_ADDRESS_FIRST_D_XOR_RANG) / MAX_FUNCTIONS_IN_D_XOR;
-    
-    if(number_defined_xor < NUMBER_DEFINED_XOR/*target_label->number_defined_xor*/)
-    {
-      
-      error = save_new_rang_oldr_from_gmm(number_defined_xor, (((address_data -  M_ADDRESS_FIRST_D_XOR_RANG) % MAX_FUNCTIONS_IN_D_XOR) + 1), SOURCE_D_XOR_RANG, data, method_setting);
-    }
-  }
-  else if ((address_data >= M_ADDRESS_FIRST_D_NOT_RANG) && (address_data <= M_ADDRESS_LAST_D_NOT_RANG))
-  {
-    //Запис ранжування В-"НЕ"
-    
-    //Визначаємо, який В-"НЕ" зараз верхній рівень намагається записати
-    unsigned int number_defined_not = (address_data - M_ADDRESS_FIRST_D_NOT_RANG) / MAX_FUNCTIONS_IN_D_NOT;
-    
-    if(number_defined_not < NUMBER_DEFINED_NOT/*target_label->number_defined_not*/)
-    {
-      
-      error = save_new_rang_oldr_from_gmm(number_defined_not, (((address_data -  M_ADDRESS_FIRST_D_NOT_RANG) % MAX_FUNCTIONS_IN_D_NOT) + 1), SOURCE_D_NOT_RANG, data, method_setting);
-    }
   }
   else if ((address_data >= M_ADDRESS_FIRST_SETPOINTS_RANG_AR) && (address_data <= M_ADDRESS_LAST_SETPOINTS_RANG_AR))
   {
@@ -12448,7 +12975,7 @@ void modbus_rountines(unsigned int type_interface)
             {
               //Стан функцій захистів
               offset = add_data - BIT_MA_CONTROL_BASE;
-              first_address_of_word_for_function_3_or_4 = MA_CONTROL_BASE;
+              first_address_of_word_for_function_3_or_4 = M_ADDRESS_CONTROL_BASE;
             }
 #if (BIT_MA_CURRENT_AF_LAST + 1) < BIT_MA_GENERAL_AF_BASE
             else if((add_data >= BIT_MA_CURRENT_AF_BASE) && ((add_data + number - 1) <= BIT_MA_CURRENT_AF_LAST))
@@ -12568,8 +13095,8 @@ void modbus_rountines(unsigned int type_interface)
             add_data = (*(received_buffer + 2))<<8 | (*(received_buffer + 3));
 
             if (
-                ((add_data >= M_ADDRESS_FIRST_MEASUREMENTS_1 ) && (add_data <= M_ADDRESS_LAST_MEASUREMENTS_1)) ||
-                ((add_data >= M_ADDRESS_FIRST_MEASUREMENTS_2 ) && (add_data <= M_ADDRESS_LAST_MEASUREMENTS_2)) ||
+                ((add_data >= M_ADDRESS_FIRST_MEASUREMENTS_1 ) && (add_data <= M_ADDRESS_LAST_MEASUREMENTS_1)) ||/*
+                ((add_data >= M_ADDRESS_FIRST_MEASUREMENTS_2 ) && (add_data <= M_ADDRESS_LAST_MEASUREMENTS_2)) ||*/
                 ((add_data >= M_ADDRESS_FIRST_TMP_MEASURMENTS) && (add_data <  M_ADDRESS_LAST_TMP_MEASURMENTS))  
                )
             {
@@ -12676,7 +13203,7 @@ void modbus_rountines(unsigned int type_interface)
             {
               //Стан функцій захистів
               offset = add_data - BIT_MA_CONTROL_BASE;
-              first_address_of_word_for_function_3_or_4 = MA_CONTROL_BASE;
+              first_address_of_word_for_function_3_or_4 = M_ADDRESS_CONTROL_BASE;
             }
             else if ((add_data >= BIT_MA_INPUT_DF1) && (add_data <= BIT_MA_INPUT_DF8))
             {
@@ -12712,7 +13239,7 @@ void modbus_rountines(unsigned int type_interface)
             }
             
             //Виконуємо дію
-            if (first_address_of_word_for_function_3_or_4 == MA_CONTROL_BASE)
+            if (first_address_of_word_for_function_3_or_4 == M_ADDRESS_CONTROL_BASE)
             {
               //Іде намагання змінити настройку захисту
               
@@ -12966,7 +13493,8 @@ void modbus_rountines(unsigned int type_interface)
                  ((add_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G2)) && (add_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G2))                                       ) || /*уставки і витримки другої групи*/
                  ((add_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G3)) && (add_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G3))                                       ) || /*уставки і витримки третьої групи*/
                  ((add_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G4)) && (add_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G4))                                       ) || /*уставки і витримки четвертої групи*/
-                 ((add_data >= M_ADDRESS_FIRST_SETPOINTS_CONTINUE              ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_CONTINUE              ) && (add_data != MA_PASSWORD_INTERFACE)) || /*уставки і витримки (продовження) і налаштування крім паролю доступу*/
+                 ((add_data >= M_ADDRESS_CONTROL_BASE                          ) && (add_data <= M_ADDRESS_CONTROL_LAST                         )                                       ) || /*налаштування захистів*/
+                 ((add_data >= M_ADDRESS_FIRST_SETPOINTS_CONTINUE              ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_CONTINUE              ) && (add_data != MA_PASSWORD_INTERFACE)) || /*уставки і витримки (продовження) крім паролю доступу*/
                  ((add_data >= M_ADDRESS_FIRST_TIME_AND_DATA                   ) && (add_data <= M_ADDRESS_LAST_TIME_AND_DATA                   )                                       ) || /*час*/
                  ((add_data >= M_ADDRESS_FIRST_SETPOINTS_RANG                  ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_RANG                  )                                       ) || /*ранжування*/
                  ((add_data >= M_ADDRESS_FIRST_SETPOINTS_RANG_AR               ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_RANG_AR               )                                       ) || /*ранжування аналогового реєстратора*/
@@ -13122,6 +13650,7 @@ void modbus_rountines(unsigned int type_interface)
                 ((add_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G2)) && (add_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G2))) ||
                 ((add_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G3)) && (add_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G3))) ||
                 ((add_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G4)) && (add_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G4))) ||
+                ((add_data >= M_ADDRESS_CONTROL_BASE                          ) && (add_data <= M_ADDRESS_CONTROL_LAST                         )) ||
                 ((add_data >= M_ADDRESS_FIRST_SETPOINTS_CONTINUE              ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_CONTINUE              )) ||
                 ((add_data >= M_ADDRESS_FIRST_SETPOINTS_RANG                  ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_RANG                  )) ||
                 ((add_data >= M_ADDRESS_FIRST_SETPOINTS_RANG_AR               ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_RANG_AR               )) ||
@@ -13284,7 +13813,7 @@ void modbus_rountines(unsigned int type_interface)
             {
               //Стан функцій захистів
               offset = add_data - BIT_MA_CONTROL_BASE;
-              first_address_of_word_for_function_3_or_4 = MA_CONTROL_BASE;
+              first_address_of_word_for_function_3_or_4 = M_ADDRESS_CONTROL_BASE;
             }
             else if((add_data >= BIT_MA_OTKL_AVR) && (add_data <= BIT_MA_SBROS_BLOCK_AVR))
             {
@@ -13315,8 +13844,8 @@ void modbus_rountines(unsigned int type_interface)
             }
 
             if (
-                (first_address_of_word_for_function_3_or_4 >= MA_CONTROL_BASE) &&
-                (first_address_of_word_for_function_3_or_4 <= MA_CONTROL_LAST)
+                (first_address_of_word_for_function_3_or_4 >= M_ADDRESS_CONTROL_BASE) &&
+                (first_address_of_word_for_function_3_or_4 <= M_ADDRESS_CONTROL_LAST)
                )
             {
               //Іде намагання запису інформації, яка відноситься до настройок
@@ -13681,7 +14210,8 @@ void modbus_rountines(unsigned int type_interface)
                   ((add_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G2)) && (add_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G2))) || /*уставки і витримки другої групи*/
                   ((add_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G3)) && (add_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G3))) || /*уставки і витримки третьої групи*/
                   ((add_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G4)) && (add_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G4))) || /*уставки і витримки четвертої групи*/
-                  ((add_data >= M_ADDRESS_FIRST_SETPOINTS_CONTINUE              ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_CONTINUE              )) || /*уставки і витримки (продовження) і налаштування крім паролю доступу*/
+                  ((add_data >= M_ADDRESS_CONTROL_BASE                          ) && (add_data <= M_ADDRESS_CONTROL_LAST                         )) || /*налаштування захистів*/
+                  ((add_data >= M_ADDRESS_FIRST_SETPOINTS_CONTINUE              ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_CONTINUE              )) || /*уставки і витримки (продовження) крім паролю доступу*/
                   ((add_data >= M_ADDRESS_FIRST_TIME_AND_DATA                   ) && (add_data <= M_ADDRESS_LAST_TIME_AND_DATA                   )) || /*час*/
                   ((add_data >= M_ADDRESS_FIRST_SETPOINTS_RANG                  ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_RANG                  )) || /*ранжування*/
                   ((add_data >= M_ADDRESS_FIRST_SETPOINTS_RANG_AR               ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_RANG_AR               )) || /*ранжування аналогового реєстратора*/
@@ -13837,6 +14367,7 @@ void modbus_rountines(unsigned int type_interface)
                   ((add_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G2)) && (add_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G2))) ||
                   ((add_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G3)) && (add_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G3))) ||
                   ((add_data >= (M_ADDRESS_FIRST_SETPOINTS_ZACHYSTIV + SHIFT_G4)) && (add_data <= (M_ADDRESS_LAST_SETPOINTS_ZACHYSTIV + SHIFT_G4))) ||
+                  ((add_data >= M_ADDRESS_CONTROL_BASE                          ) && (add_data <= M_ADDRESS_CONTROL_LAST                         )) ||  
                   ((add_data >= M_ADDRESS_FIRST_SETPOINTS_CONTINUE              ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_CONTINUE              )) ||
                   ((add_data >= M_ADDRESS_FIRST_SETPOINTS_RANG                  ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_RANG                  )) ||
                   ((add_data >= M_ADDRESS_FIRST_SETPOINTS_RANG_AR               ) && (add_data <= M_ADDRESS_LAST_SETPOINTS_RANG_AR               )) || 
