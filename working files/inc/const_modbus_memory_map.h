@@ -69,7 +69,7 @@
 #define M_ADDRESS_FIRST_CURRENT_AF            256
 #define BIT_MA_CURRENT_AF_BASE                  50000
 
-#define BIT_MA_1_GRUPA_USTAVOK                  60000
+#define BIT_MA_1_GRUPA_USTAVOK                  50000
 #define BIT_MA_2_GRUPA_USTAVOK                  50001
 #define BIT_MA_3_GRUPA_USTAVOK                  50002
 #define BIT_MA_4_GRUPA_USTAVOK                  50003
@@ -480,8 +480,6 @@
 //#define OFFSET_ANGLE_I04_1                      61
 //#define OFFSET_ANGLE_3I0                        62
 //#define OFFSET_ANGLE_3I0_r                      63
-
-//#define OFFSET_ANGLE_3I0_3U0                    60
 
 #define M_ADDRESS_LAST_MEASUREMENTS_1         388
 /*****************************************************/
