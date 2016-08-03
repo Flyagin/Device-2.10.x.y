@@ -6941,15 +6941,11 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
     case M_ADDRESS_CONTROL_UROV_PART2:
       {
         if (
-            ((target_label->configuration & (1 << UROV_BIT_CONFIGURATION)) != 0)
-            &&
-            (
-             ((target_label->configuration & (1 << ZDZ_BIT_CONFIGURATION)) != 0) ||
-             ((data & (
-                       (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_ZDZ - BIT_MA_CONTROL_UROV_BASE_PART2))
-                      )
-             ) == 0) 
-            )
+            ((target_label->configuration & (1 << ZDZ_BIT_CONFIGURATION)) != 0) ||
+            ((data & (
+                      (1 << (BIT_MA_CONTROL_UROV_STARTED_FROM_ZDZ - BIT_MA_CONTROL_UROV_BASE_PART2))
+                     )
+            ) == 0) 
            )   
         {
           int output_value = target_label->control_urov & 
