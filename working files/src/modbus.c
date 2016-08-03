@@ -6538,88 +6538,6 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
       error = save_new_rang_oldr_from_gmm(number_defined_not, (((address_data -  M_ADDRESS_FIRST_D_NOT_RANG) % MAX_FUNCTIONS_IN_D_NOT) + 1), SOURCE_D_NOT_RANG, data, method_setting);
     }
   }
-  else if ((address_data >= M_ADDRESS_FIRST_SETPOINTS_PART1) && (address_data <= M_ADDRESS_LAST_SETPOINTS_PART1))
-  {
-    switch (address_data)
-    {
-    case MA_GROUP_USTAVOK:
-      {
-        temp_value = data;
-        
-#if (SETPOINT_GRUPA_USTAVOK_MIN != 0)          
-        if ((temp_value >= SETPOINT_GRUPA_USTAVOK_MIN) && (temp_value <= SETPOINT_GRUPA_USTAVOK_MAX))
-#else
-        if (temp_value <= SETPOINT_GRUPA_USTAVOK_MAX)
-#endif            
-          target_label->grupa_ustavok = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TYPE_MTZ1:
-      {
-        temp_value = data;
-        
-#if (TYPE_MTZ_SIMPLE != 0)          
-        if ((temp_value >= TYPE_MTZ_SIMPLE) && (temp_value <= TYPE_MTZ_VOLTAGE))
-#else
-        if (temp_value <= TYPE_MTZ_VOLTAGE)
-#endif            
-          target_label->type_mtz1 = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TYPE_MTZ2:
-      {
-        temp_value = data;
-        
-#if (TYPE_MTZ_SIMPLE != 0)          
-        if ((temp_value >= TYPE_MTZ_SIMPLE) && (temp_value <= TYPE_MTZ_DEPENDENT_RTV_I))
-#else
-        if (temp_value <= TYPE_MTZ_DEPENDENT_RTV_I)
-#endif            
-          target_label->type_mtz2 = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TYPE_MTZ3:
-      {
-        temp_value = data;
-        
-#if (TYPE_MTZ_SIMPLE != 0)          
-        if ((temp_value >= TYPE_MTZ_SIMPLE) && (temp_value <= TYPE_MTZ_VOLTAGE))
-#else
-        if (temp_value <= TYPE_MTZ_VOLTAGE)
-#endif            
-          target_label->type_mtz3 = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    case MA_TYPE_MTZ4:
-      {
-        temp_value = data;
-        
-#if (TYPE_MTZ_SIMPLE != 0)          
-        if ((temp_value >= TYPE_MTZ_SIMPLE) && (temp_value <= TYPE_MTZ_VOLTAGE))
-#else
-        if (temp_value <= TYPE_MTZ_VOLTAGE)
-#endif            
-          target_label->type_mtz4 = temp_value;
-        else
-          error = ERROR_ILLEGAL_DATA_VALUE;
-
-        break;
-      }
-    default: break;
-    }
-  }
   else if ((address_data >= M_ADDRESS_CONTROL_BASE) && (address_data <= M_ADDRESS_CONTROL_LAST))
   {
     switch (address_data)
@@ -7126,6 +7044,88 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
           if(action_after_changing_of_configuration(output_conf, target_label) != 0)
             error = ERROR_SLAVE_DEVICE_BUSY;
         }
+
+        break;
+      }
+    default: break;
+    }
+  }
+  else if ((address_data >= M_ADDRESS_FIRST_SETPOINTS_PART1) && (address_data <= M_ADDRESS_LAST_SETPOINTS_PART1))
+  {
+    switch (address_data)
+    {
+    case MA_GROUP_USTAVOK:
+      {
+        temp_value = data;
+        
+#if (SETPOINT_GRUPA_USTAVOK_MIN != 0)          
+        if ((temp_value >= SETPOINT_GRUPA_USTAVOK_MIN) && (temp_value <= SETPOINT_GRUPA_USTAVOK_MAX))
+#else
+        if (temp_value <= SETPOINT_GRUPA_USTAVOK_MAX)
+#endif            
+          target_label->grupa_ustavok = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TYPE_MTZ1:
+      {
+        temp_value = data;
+        
+#if (TYPE_MTZ_SIMPLE != 0)          
+        if ((temp_value >= TYPE_MTZ_SIMPLE) && (temp_value <= TYPE_MTZ_VOLTAGE))
+#else
+        if (temp_value <= TYPE_MTZ_VOLTAGE)
+#endif            
+          target_label->type_mtz1 = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TYPE_MTZ2:
+      {
+        temp_value = data;
+        
+#if (TYPE_MTZ_SIMPLE != 0)          
+        if ((temp_value >= TYPE_MTZ_SIMPLE) && (temp_value <= TYPE_MTZ_DEPENDENT_RTV_I))
+#else
+        if (temp_value <= TYPE_MTZ_DEPENDENT_RTV_I)
+#endif            
+          target_label->type_mtz2 = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TYPE_MTZ3:
+      {
+        temp_value = data;
+        
+#if (TYPE_MTZ_SIMPLE != 0)          
+        if ((temp_value >= TYPE_MTZ_SIMPLE) && (temp_value <= TYPE_MTZ_VOLTAGE))
+#else
+        if (temp_value <= TYPE_MTZ_VOLTAGE)
+#endif            
+          target_label->type_mtz3 = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TYPE_MTZ4:
+      {
+        temp_value = data;
+        
+#if (TYPE_MTZ_SIMPLE != 0)          
+        if ((temp_value >= TYPE_MTZ_SIMPLE) && (temp_value <= TYPE_MTZ_VOLTAGE))
+#else
+        if (temp_value <= TYPE_MTZ_VOLTAGE)
+#endif            
+          target_label->type_mtz4 = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
 
         break;
       }
