@@ -84,6 +84,7 @@ void convert_order_list_function_to_gmm(unsigned int* input_array, unsigned shor
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_SECTOR_VPERED_MTZN3, (BIT_MA_SECTOR_VPERED_MTZN3 - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_SECTOR_NAZAD_MTZN3 , (BIT_MA_SECTOR_NAZAD_MTZN3  - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_U_MTZPN3        , (BIT_MA_PO_U_MTZPN3         - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_USK_MTZ3     , (BIT_MA_BLOCK_USK_MTZ3      - BIT_MA_CURRENT_AF_BASE));
 
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_MTZ4         , (BIT_MA_BLOCK_MTZ4          - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_MTZ4               , (BIT_MA_MTZ4                - BIT_MA_CURRENT_AF_BASE));
@@ -639,6 +640,11 @@ unsigned int convert_order_list_inputs_to_gmm(unsigned int number, unsigned int 
     case RANG_INPUT_BLOCK_MTZ3:
       {
         rezultat = BIT_MA_BLOCK_MTZ3;
+        break;
+      }
+    case RANG_INPUT_BLOCK_USK_MTZ3:
+      {
+        rezultat = BIT_MA_BLOCK_USK_MTZ3;
         break;
       }
     case RANG_INPUT_BLOCK_MTZ4:
@@ -1343,6 +1349,11 @@ unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int nu
         rezultat = BIT_MA_BLOCK_MTZ3;
         break;
       }
+    case RANG_BLOCK_USK_MTZ3:
+      {
+        rezultat = BIT_MA_BLOCK_USK_MTZ3;
+        break;
+      }
     case RANG_BLOCK_MTZ4:
       {
         rezultat = BIT_MA_BLOCK_MTZ4;
@@ -1920,6 +1931,7 @@ unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int num
              (data == BIT_MA_BLOCK_MTZ2      ) || 
              (data == BIT_MA_BLOCK_USK_MTZ2  ) ||
              (data == BIT_MA_BLOCK_MTZ3      ) || 
+             (data == BIT_MA_BLOCK_USK_MTZ3  ) ||
              (data == BIT_MA_BLOCK_MTZ4      ) 
             )
     {
@@ -2226,6 +2238,11 @@ unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int num
         _SET_BIT(set_array_rang, RANG_INPUT_BLOCK_MTZ3);
         break;
       }
+    case BIT_MA_BLOCK_USK_MTZ3:
+      {
+        _SET_BIT(set_array_rang, RANG_INPUT_BLOCK_USK_MTZ3);
+        break;
+      }
     case BIT_MA_BLOCK_MTZ4:
       {
         _SET_BIT(set_array_rang, RANG_INPUT_BLOCK_MTZ4);
@@ -2514,6 +2531,7 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
              (data == BIT_MA_BLOCK_MTZ2         ) || 
              (data == BIT_MA_BLOCK_USK_MTZ2     ) || 
              (data == BIT_MA_BLOCK_MTZ3         ) || 
+             (data == BIT_MA_BLOCK_USK_MTZ3     ) || 
              (data == BIT_MA_BLOCK_MTZ4         ) || 
              (data == BIT_MA_SECTOR_VPERED_MTZN1) || 
              (data == BIT_MA_SECTOR_NAZAD_MTZN1 ) || 
@@ -3347,6 +3365,11 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
     case BIT_MA_BLOCK_MTZ3:
       {
         _SET_BIT(set_array_rang, RANG_BLOCK_MTZ3);
+        break;
+      }
+    case BIT_MA_BLOCK_USK_MTZ3:
+      {
+        _SET_BIT(set_array_rang, RANG_BLOCK_USK_MTZ3);
         break;
       }
     case BIT_MA_BLOCK_MTZ4:
@@ -5028,28 +5051,36 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
   {
     switch (address_data)
     {
-    case M_ADDRESS_CONTROL_MTZ:
+    case M_ADDRESS_CONTROL_MTZ_PART1:
       {
         int input_value = current_settings_interfaces.control_mtz;
         int input_conf = current_settings_interfaces.configuration;
         
-        temp_value = (((input_conf  >> MTZ_BIT_CONFIGURATION         ) & 0x1 ) << (BIT_MA_CONFIGURATION_MTZ          - BIT_MA_CONTROL_MTZ_BASE) ) |
+        temp_value = (((input_conf  >> MTZ_BIT_CONFIGURATION         ) & 0x1 ) << (BIT_MA_CONFIGURATION_MTZ          - BIT_MA_CONTROL_MTZ_BASE_PART1) ) |
           
-                     (((input_value >> N_BIT_CTRMTZ_1                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ1               - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_2                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2               - BIT_MA_CONTROL_MTZ_BASE) ) | 
-                     (((input_value >> N_BIT_CTRMTZ_3                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ3               - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_4                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ4               - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_2_PRYSKORENNJA   ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2_PRYSKORENNJA  - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_2_PRYSKORENA     ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2_PRYSKORENA    - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_1_VPERED         ) & 0x1 ) << (BIT_MA_CONTROL_MTZ1_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_1_NAZAD          ) & 0x1 ) << (BIT_MA_CONTROL_MTZ1_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_2_VPERED         ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_2_NAZAD          ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_3_VPERED         ) & 0x1 ) << (BIT_MA_CONTROL_MTZ3_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_3_NAZAD          ) & 0x1 ) << (BIT_MA_CONTROL_MTZ3_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_4_VPERED         ) & 0x1 ) << (BIT_MA_CONTROL_MTZ4_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_4_NAZAD          ) & 0x1 ) << (BIT_MA_CONTROL_MTZ4_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE) ) |
-                     (((input_value >> N_BIT_CTRMTZ_NESPR_KIL_NAPR   ) & 0x1 ) << (BIT_MA_CONTROL_MTZ_NESPR_KIL_NAPR - BIT_MA_CONTROL_MTZ_BASE) );
+                     (((input_value >> N_BIT_CTRMTZ_1                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ1               - BIT_MA_CONTROL_MTZ_BASE_PART1) ) |
+                     (((input_value >> N_BIT_CTRMTZ_1_VPERED         ) & 0x1 ) << (BIT_MA_CONTROL_MTZ1_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE_PART1) ) |
+                     (((input_value >> N_BIT_CTRMTZ_1_NAZAD          ) & 0x1 ) << (BIT_MA_CONTROL_MTZ1_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE_PART1) ) |
+                     (((input_value >> N_BIT_CTRMTZ_2                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2               - BIT_MA_CONTROL_MTZ_BASE_PART1) ) | 
+                     (((input_value >> N_BIT_CTRMTZ_2_VPERED         ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE_PART1) ) |
+                     (((input_value >> N_BIT_CTRMTZ_2_NAZAD          ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE_PART1) ) |
+                     (((input_value >> N_BIT_CTRMTZ_2_PRYSKORENNJA   ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2_PRYSKORENNJA  - BIT_MA_CONTROL_MTZ_BASE_PART1) ) |
+                     (((input_value >> N_BIT_CTRMTZ_2_PRYSKORENA     ) & 0x1 ) << (BIT_MA_CONTROL_MTZ2_PRYSKORENA    - BIT_MA_CONTROL_MTZ_BASE_PART1) ) |
+                     (((input_value >> N_BIT_CTRMTZ_3                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ3               - BIT_MA_CONTROL_MTZ_BASE_PART1) ) |
+                     (((input_value >> N_BIT_CTRMTZ_3_VPERED         ) & 0x1 ) << (BIT_MA_CONTROL_MTZ3_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE_PART1) ) |
+                     (((input_value >> N_BIT_CTRMTZ_3_NAZAD          ) & 0x1 ) << (BIT_MA_CONTROL_MTZ3_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE_PART1) ) |
+                     (((input_value >> N_BIT_CTRMTZ_3_PRYSKORENNJA   ) & 0x1 ) << (BIT_MA_CONTROL_MTZ3_PRYSKORENNJA  - BIT_MA_CONTROL_MTZ_BASE_PART1) ) |
+                     (((input_value >> N_BIT_CTRMTZ_3_PRYSKORENA     ) & 0x1 ) << (BIT_MA_CONTROL_MTZ3_PRYSKORENA    - BIT_MA_CONTROL_MTZ_BASE_PART1) ) |
+                     (((input_value >> N_BIT_CTRMTZ_4                ) & 0x1 ) << (BIT_MA_CONTROL_MTZ4               - BIT_MA_CONTROL_MTZ_BASE_PART1) ) |
+                     (((input_value >> N_BIT_CTRMTZ_4_VPERED         ) & 0x1 ) << (BIT_MA_CONTROL_MTZ4_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE_PART1) );
+        break;
+      }
+    case M_ADDRESS_CONTROL_MTZ_PART2:
+      {
+        int input_value = current_settings_interfaces.control_mtz;
+        
+        temp_value = (((input_value >> N_BIT_CTRMTZ_4_NAZAD          ) & 0x1 ) << (BIT_MA_CONTROL_MTZ4_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE_PART2) ) |
+                     (((input_value >> N_BIT_CTRMTZ_NESPR_KIL_NAPR   ) & 0x1 ) << (BIT_MA_CONTROL_MTZ_NESPR_KIL_NAPR - BIT_MA_CONTROL_MTZ_BASE_PART2) );
         break;
       }
     case M_ADDRESS_CONTROL_ZDZ:
@@ -5450,6 +5481,31 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     case MA_TO_MTZ3_PO_NAPRUZI:
       {
         temp_value = current_settings_interfaces.timeout_mtz_3_po_napruzi[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ3_VVID_PR:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_3_vvid_pr[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ3_PR:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_3_pr[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ3_N_VPERED_PR:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_3_n_vpered_pr[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ3_N_NAZAD_PR:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_3_n_nazad_pr[num_gr]/10;
+        break;
+      }
+    case MA_TO_MTZ3_PO_NAPRUZI_PR:
+      {
+        temp_value = current_settings_interfaces.timeout_mtz_3_po_napruzi_pr[num_gr]/10;
         break;
       }
     case MA_STP_MTZ4:
@@ -6542,10 +6598,10 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
   {
     switch (address_data)
     {
-    case M_ADDRESS_CONTROL_MTZ:
+    case M_ADDRESS_CONTROL_MTZ_PART1:
       {
         unsigned int output_conf = target_label->configuration & ((unsigned int)(~(1 << MTZ_BIT_CONFIGURATION)));
-        output_conf |= ((data >> (BIT_MA_CONFIGURATION_MTZ  - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << MTZ_BIT_CONFIGURATION;
+        output_conf |= ((data >> (BIT_MA_CONFIGURATION_MTZ  - BIT_MA_CONTROL_MTZ_BASE_PART1)) & 0x1) << MTZ_BIT_CONFIGURATION;
         if (target_label->configuration != output_conf)
         {
           //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
@@ -6558,36 +6614,70 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
           if (
               ((target_label->configuration & (1 << MTZ_BIT_CONFIGURATION)) !=0 ) ||
               ((data & (
-                        (1 << (BIT_MA_CONTROL_MTZ1 - BIT_MA_CONTROL_MTZ_BASE)) |
-                        (1 << (BIT_MA_CONTROL_MTZ2 - BIT_MA_CONTROL_MTZ_BASE)) |
-                        (1 << (BIT_MA_CONTROL_MTZ3 - BIT_MA_CONTROL_MTZ_BASE)) |
-                        (1 << (BIT_MA_CONTROL_MTZ4 - BIT_MA_CONTROL_MTZ_BASE))
+                        (1 << (BIT_MA_CONTROL_MTZ1 - BIT_MA_CONTROL_MTZ_BASE_PART1)) |
+                        (1 << (BIT_MA_CONTROL_MTZ2 - BIT_MA_CONTROL_MTZ_BASE_PART1)) |
+                        (1 << (BIT_MA_CONTROL_MTZ3 - BIT_MA_CONTROL_MTZ_BASE_PART1)) |
+                        (1 << (BIT_MA_CONTROL_MTZ4 - BIT_MA_CONTROL_MTZ_BASE_PART1))
                        )
                ) == 0) 
              )
           {
-            int output_value = 0;
+            int output_value = target_label->control_mtz & 
+                               (unsigned int)(~(
+                                                BIT_MA_CONTROL_MTZ1              | 
+                                                BIT_MA_CONTROL_MTZ1_N_VPERED     | 
+                                                BIT_MA_CONTROL_MTZ1_N_NAZAD      | 
+                                                BIT_MA_CONTROL_MTZ2              | 
+                                                BIT_MA_CONTROL_MTZ2_N_VPERED     |
+                                                BIT_MA_CONTROL_MTZ2_N_NAZAD      | 
+                                                BIT_MA_CONTROL_MTZ2_PRYSKORENNJA | 
+                                                BIT_MA_CONTROL_MTZ2_PRYSKORENA   | 
+                                                BIT_MA_CONTROL_MTZ3              |
+                                                BIT_MA_CONTROL_MTZ3_N_VPERED     |     
+                                                BIT_MA_CONTROL_MTZ3_N_NAZAD      |     
+                                                BIT_MA_CONTROL_MTZ3_PRYSKORENNJA |     
+                                                BIT_MA_CONTROL_MTZ3_PRYSKORENA   |     
+                                                BIT_MA_CONTROL_MTZ4              |     
+                                                BIT_MA_CONTROL_MTZ4_N_VPERED    
+                                             ));
 
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ1               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_1;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ3               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_3;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ4               - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_4;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_PRYSKORENNJA  - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_PRYSKORENNJA;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_PRYSKORENA    - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_PRYSKORENA;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ1_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_1_VPERED;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ1_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_1_NAZAD;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_VPERED;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_2_NAZAD;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ3_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_3_VPERED;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ3_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_3_NAZAD;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ4_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_4_VPERED;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ4_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_4_NAZAD;
-            output_value |= ((data >> (BIT_MA_CONTROL_MTZ_NESPR_KIL_NAPR - BIT_MA_CONTROL_MTZ_BASE)) & 0x1) << N_BIT_CTRMTZ_NESPR_KIL_NAPR;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ1               - BIT_MA_CONTROL_MTZ_BASE_PART1)) & 0x1) << N_BIT_CTRMTZ_1;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ1_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE_PART1)) & 0x1) << N_BIT_CTRMTZ_1_VPERED;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ1_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE_PART1)) & 0x1) << N_BIT_CTRMTZ_1_NAZAD;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2               - BIT_MA_CONTROL_MTZ_BASE_PART1)) & 0x1) << N_BIT_CTRMTZ_2;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE_PART1)) & 0x1) << N_BIT_CTRMTZ_2_VPERED;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE_PART1)) & 0x1) << N_BIT_CTRMTZ_2_NAZAD;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_PRYSKORENNJA  - BIT_MA_CONTROL_MTZ_BASE_PART1)) & 0x1) << N_BIT_CTRMTZ_2_PRYSKORENNJA;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ2_PRYSKORENA    - BIT_MA_CONTROL_MTZ_BASE_PART1)) & 0x1) << N_BIT_CTRMTZ_2_PRYSKORENA;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ3               - BIT_MA_CONTROL_MTZ_BASE_PART1)) & 0x1) << N_BIT_CTRMTZ_3;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ3_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE_PART1)) & 0x1) << N_BIT_CTRMTZ_3_VPERED;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ3_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE_PART1)) & 0x1) << N_BIT_CTRMTZ_3_NAZAD;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ3_PRYSKORENNJA  - BIT_MA_CONTROL_MTZ_BASE_PART1)) & 0x1) << N_BIT_CTRMTZ_3_PRYSKORENNJA;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ3_PRYSKORENA    - BIT_MA_CONTROL_MTZ_BASE_PART1)) & 0x1) << N_BIT_CTRMTZ_3_PRYSKORENA;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ4               - BIT_MA_CONTROL_MTZ_BASE_PART1)) & 0x1) << N_BIT_CTRMTZ_4;
+            output_value |= ((data >> (BIT_MA_CONTROL_MTZ4_N_VPERED      - BIT_MA_CONTROL_MTZ_BASE_PART1)) & 0x1) << N_BIT_CTRMTZ_4_VPERED;
         
             target_label->control_mtz = output_value;
           }
           else
             error = ERROR_ILLEGAL_DATA_VALUE;
+        }
+
+        break;
+      }
+    case M_ADDRESS_CONTROL_MTZ_PART2:
+      {
+        {
+          int output_value = target_label->control_mtz & 
+                             (unsigned int)(~(
+                                               BIT_MA_CONTROL_MTZ4_N_NAZAD       |
+                                               BIT_MA_CONTROL_MTZ_NESPR_KIL_NAPR
+                                           ));
+
+          output_value |= ((data >> (BIT_MA_CONTROL_MTZ4_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE_PART2)) & 0x1) << N_BIT_CTRMTZ_4_NAZAD;
+          output_value |= ((data >> (BIT_MA_CONTROL_MTZ_NESPR_KIL_NAPR - BIT_MA_CONTROL_MTZ_BASE_PART2)) & 0x1) << N_BIT_CTRMTZ_NESPR_KIL_NAPR;
+        
+          target_label->control_mtz = output_value;
         }
 
         break;
@@ -7675,6 +7765,91 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 #endif            
         {
           target_label->timeout_mtz_3_po_napruzi[num_gr] = temp_value;
+        }
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_MTZ3_VVID_PR:
+      {
+        temp_value = data*10;
+        
+#if (TIMEOUT_MTZ3_VVID_PR_MIN != 0)          
+        if ((temp_value >= TIMEOUT_MTZ3_VVID_PR_MIN) && (temp_value <= TIMEOUT_MTZ3_VVID_PR_MAX))
+#else
+        if (temp_value <= TIMEOUT_MTZ3_VVID_PR_MAX)
+#endif            
+        {
+          target_label->timeout_mtz_3_vvid_pr[num_gr] = temp_value;
+        }
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_MTZ3_PR:
+      {
+        temp_value = data*10;
+        
+#if (TIMEOUT_MTZ3_PR_MIN != 0)          
+        if ((temp_value >= TIMEOUT_MTZ3_PR_MIN) && (temp_value <= TIMEOUT_MTZ3_PR_MAX))
+#else
+        if (temp_value <= TIMEOUT_MTZ3_PR_MAX)
+#endif            
+        {
+          target_label->timeout_mtz_3_pr[num_gr] = temp_value;
+        }
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_MTZ3_N_VPERED_PR:
+      {
+        temp_value = data*10;
+        
+#if (TIMEOUT_MTZ3_N_VPERED_PR_MIN != 0)          
+        if ((temp_value >= TIMEOUT_MTZ3_N_VPERED_PR_MIN) && (temp_value <= TIMEOUT_MTZ3_N_VPERED_PR_MAX))
+#else
+        if (temp_value <= TIMEOUT_MTZ3_N_VPERED_PR_MAX)
+#endif            
+        {
+          target_label->timeout_mtz_3_n_vpered_pr[num_gr] = temp_value;
+        }
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_MTZ3_N_NAZAD_PR:
+      {
+        temp_value = data*10;
+        
+#if (TIMEOUT_MTZ3_N_NAZAD_PR_MIN != 0)          
+        if ((temp_value >= TIMEOUT_MTZ3_N_NAZAD_PR_MIN) && (temp_value <= TIMEOUT_MTZ3_N_NAZAD_PR_MAX))
+#else
+        if (temp_value <= TIMEOUT_MTZ3_N_NAZAD_PR_MAX)
+#endif            
+        {
+          target_label->timeout_mtz_3_n_nazad_pr[num_gr] = temp_value;
+        }
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_MTZ3_PO_NAPRUZI_PR:
+      {
+        temp_value = data*10;
+        
+#if (TIMEOUT_MTZ3_PO_NAPRUZI_PR_MIN != 0)          
+        if ((temp_value >= TIMEOUT_MTZ3_PO_NAPRUZI_PR_MIN) && (temp_value <= TIMEOUT_MTZ3_PO_NAPRUZI_PR_MAX))
+#else
+        if (temp_value <= TIMEOUT_MTZ3_PO_NAPRUZI_PR_MAX)
+#endif            
+        {
+          target_label->timeout_mtz_3_po_napruzi_pr[num_gr] = temp_value;
         }
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
