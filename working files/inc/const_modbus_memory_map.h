@@ -400,7 +400,7 @@
 /*****************************************************/
 /* Митєві вимірювання розраховані фетодом перетворення Фур'є */
 /*****************************************************/
-#define M_ADDRESS_FIRST_MEASUREMENTS_1        652
+#define M_ADDRESS_FIRST_MEASUREMENTS_1        320
 
 #define OFFSET_MEASUREMENT_UA_1                 0
 #define OFFSET_MEASUREMENT_UB_1                 1
@@ -448,6 +448,7 @@
 
 #define OFFSET_BASE_CANAL_FOR_ANGLE             44
 
+#define BASE_CANAL_NONE                                 0
 #define BASE_CANAL_UA_TN1                               1
 #define BASE_CANAL_UB_TN1                               2
 #define BASE_CANAL_UC_TN1                               3
@@ -1239,7 +1240,7 @@
 #define M_ADDRESS_LAST_READ_DAMP_MEM          (M_ADDRESS_FIRST_READ_DAMP_MEM + NUMBER_REGISTER_IN_DUMP_MEMORY)
 
 #define M_ADDRESS_FIRST_TMP_MEASURMENTS       63256
-#define NUMBER_REGISTER_TMP_MEASURMENTS       ((NUMBER_ANALOG_CANALES + 3)<<1)
+#define NUMBER_REGISTER_TMP_MEASURMENTS       ((NUMBER_ANALOG_CANALES + 8)<<1)
 #define M_ADDRESS_LAST_TMP_MEASURMENTS        (M_ADDRESS_FIRST_TMP_MEASURMENTS + NUMBER_REGISTER_TMP_MEASURMENTS)
 
 #define MA_PART_RECEIVE_DIG_OSCILOGRAPH       63303

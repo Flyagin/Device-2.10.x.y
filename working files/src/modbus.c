@@ -4472,6 +4472,11 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       {
         switch (base_index_for_angle)
         {
+        case (-1):
+          {
+            temp_value = BASE_CANAL_NONE;
+            break;
+          }
         case FULL_ORT_Ua1:
           {
             temp_value = BASE_CANAL_UA_TN1;
