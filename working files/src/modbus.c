@@ -1890,22 +1890,6 @@ unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int num
     //Якщо data == 0, то це означає, що треба якусь функцію скинути
     
     if (
-        (data == BIT_MA_INPUT_DF1             ) ||
-        (data == BIT_MA_INPUT_DF2             ) || 
-        (data == BIT_MA_INPUT_DF3             ) || 
-        (data == BIT_MA_INPUT_DF4             ) ||
-        (data == BIT_MA_INPUT_DF5             ) || 
-        (data == BIT_MA_INPUT_DF6             ) || 
-        (data == BIT_MA_INPUT_DF7             ) || 
-        (data == BIT_MA_INPUT_DF8             ) || 
-        (data == BIT_MA_DT1_SET               ) ||
-        (data == BIT_MA_DT1_RESET             ) ||
-        (data == BIT_MA_DT2_SET               ) ||
-        (data == BIT_MA_DT2_RESET             ) ||
-        (data == BIT_MA_DT3_SET               ) ||
-        (data == BIT_MA_DT3_RESET             ) ||
-        (data == BIT_MA_DT4_SET               ) ||
-        (data == BIT_MA_DT4_RESET             ) ||
         (data == BIT_MA_BLOCK_VKL_VV          ) || 
         (data == BIT_MA_RESET_LEDS            ) || 
         (data == BIT_MA_RESET_RELES           ) ||
@@ -2003,6 +1987,23 @@ unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int num
       //Зараз є намагання зранжувати функцю АВР і номер її є допустимим
       if ((target_label->configuration & (1 << AVR_BIT_CONFIGURATION)) !=0 ) error = 0;
       else error = ERROR_ILLEGAL_DATA_VALUE;
+    }
+    else if (
+             (
+              (data >= BIT_MA_INPUT_DF1 ) && 
+              (data <= BIT_MA_INPUT_DF8 )
+             )
+             ||
+             (
+              (data >= BIT_MA_DT1_SET  ) && 
+              (data <= BIT_MA_DT4_RESET)
+             )
+            )
+    {
+      //Зараз є намагання зранжувати функцю розширеної логіки і номер її є допустимим
+
+      //Перевіряємо, чи розширена логіка зараз не знята з конфігурвації
+      if ((target_label->configuration & (1 << EL_BIT_CONFIGURATION)) == 0 ) error = ERROR_ILLEGAL_DATA_VALUE;  
     }
     else
     {
@@ -3888,22 +3889,6 @@ unsigned int save_new_rang_buttons_from_gmm(unsigned int number, unsigned int nu
     //Якщо data == 0, то це означає, що треба якусь функцію скинути
     
     if (
-        (data == BIT_MA_INPUT_DF1          ) || 
-        (data == BIT_MA_INPUT_DF2          ) || 
-        (data == BIT_MA_INPUT_DF3          ) || 
-        (data == BIT_MA_INPUT_DF4          ) ||
-        (data == BIT_MA_INPUT_DF5          ) || 
-        (data == BIT_MA_INPUT_DF6          ) || 
-        (data == BIT_MA_INPUT_DF7          ) || 
-        (data == BIT_MA_INPUT_DF8          ) || 
-        (data == BIT_MA_DT1_SET            ) ||
-        (data == BIT_MA_DT1_RESET          ) ||
-        (data == BIT_MA_DT2_SET            ) ||
-        (data == BIT_MA_DT2_RESET          ) ||
-        (data == BIT_MA_DT3_SET            ) ||
-        (data == BIT_MA_DT3_RESET          ) ||
-        (data == BIT_MA_DT4_SET            ) ||
-        (data == BIT_MA_DT4_RESET          ) ||
         (data == BIT_MA_RESET_LEDS         ) || 
         (data == BIT_MA_RESET_RELES        ) || 
         (data == BIT_MA_MISCEVE_DYSTANCIJNE) || 
@@ -3923,6 +3908,23 @@ unsigned int save_new_rang_buttons_from_gmm(unsigned int number, unsigned int nu
       //Зараз є намагання зранжувати функцю АВР і номер її є допустимим
       if ((target_label->configuration & (1 << AVR_BIT_CONFIGURATION)) !=0 ) error = 0;
       else error = ERROR_ILLEGAL_DATA_VALUE;
+    }
+    else if (
+             (
+              (data >= BIT_MA_INPUT_DF1 ) && 
+              (data <= BIT_MA_INPUT_DF8 )
+             )
+             ||
+             (
+              (data >= BIT_MA_DT1_SET  ) && 
+              (data <= BIT_MA_DT4_RESET)
+             )
+            )
+    {
+      //Зараз є намагання зранжувати функцю розширеної логіки і номер її є допустимим
+
+      //Перевіряємо, чи розширена логіка зараз не знята з конфігурвації
+      if ((target_label->configuration & (1 << EL_BIT_CONFIGURATION)) == 0 ) error = ERROR_ILLEGAL_DATA_VALUE;  
     }
     else
     {
