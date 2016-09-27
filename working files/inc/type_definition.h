@@ -222,6 +222,10 @@ typedef struct
   unsigned int setpoint_avr_max1[NUMBER_GROUP_USTAVOK];       //уставка АВР max1
   unsigned int setpoint_avr_min2[NUMBER_GROUP_USTAVOK];       //уставка АВР min2
   unsigned int setpoint_avr_max2[NUMBER_GROUP_USTAVOK];       //уставка АВР max2
+  unsigned int setpoint_avr_max3[NUMBER_GROUP_USTAVOK];       //уставка АВР max3
+  unsigned int setpoint_avr_max4[NUMBER_GROUP_USTAVOK];       //уставка АВР max4
+  unsigned int setpoint_avr_max5[NUMBER_GROUP_USTAVOK];       //уставка АВР max5
+  unsigned int setpoint_avr_max6[NUMBER_GROUP_USTAVOK];       //уставка АВР max6
   int timeout_avr_blk_k1[NUMBER_GROUP_USTAVOK];               //Витримка "T блок. АВР кан.1"
   int timeout_avr_pusk_k1[NUMBER_GROUP_USTAVOK];              //Витримка "T пуска кан.1"
   int timeout_avr_d_diji_k1[NUMBER_GROUP_USTAVOK];            //Витримка "T разр.деств.кан.1"

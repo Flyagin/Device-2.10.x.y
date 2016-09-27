@@ -11,25 +11,41 @@ void make_ekran_setpoint_avr(unsigned int group)
       " Уст.U АВР мин.1",
       "Уст.U АВР макс.1",
       " Уст.U АВР мин.2",
-      "Уст.U АВР макс.2"
+      "Уст.U АВР макс.2",
+      "Уст.U АВР макс.3",
+      "Уст.U АВР макс.4",
+      "Уст.U АВР макс.5",
+      "Уст.U АВР макс.6"
     },
     {
       " Уст.U АВР мін.1",
       "Уст.U АВР макс.1",
       " Уст.U АВР мін.2",
-      "Уст.U АВР макс.2"
+      "Уст.U АВР макс.2",
+      "Уст.U АВР макс.3",
+      "Уст.U АВР макс.4",
+      "Уст.U АВР макс.5",
+      "Уст.U АВР макс.6"
     },
     {
       " Уст.U АВР мин.1",
       "Уст.U АВР макс.1",
       " Уст.U АВР мин.2",
-      "Уст.U АВР макс.2"
+      "Уст.U АВР макс.2",
+      "Уст.U АВР макс.3",
+      "Уст.U АВР макс.4",
+      "Уст.U АВР макс.5",
+      "Уст.U АВР макс.6"
     },
     {
       " Уст.U АВР мин.1",
       "Уст.U АВР макс.1",
       " Уст.U АВР мин.2",
-      "Уст.U АВР макс.2"
+      "Уст.U АВР макс.2",
+      "Уст.U АВР макс.3",
+      "Уст.U АВР макс.4",
+      "Уст.U АВР макс.5",
+      "Уст.U АВР макс.6"
     }
   };
   int index_language = index_language_in_array(current_settings.language);
@@ -75,6 +91,34 @@ void make_ekran_setpoint_avr(unsigned int group)
           vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
           if (current_ekran.edition == 0) value = current_settings.setpoint_avr_max2[group]; //у змінну value поміщаємо значення уставки
           else value = edition_settings.setpoint_avr_max2[group];
+          first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
+        }
+        else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_MAX3)
+        {
+          vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
+          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_max3[group]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.setpoint_avr_max3[group];
+          first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
+        }
+        else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_MAX4)
+        {
+          vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
+          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_max4[group]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.setpoint_avr_max4[group];
+          first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
+        }
+        else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_MAX5)
+        {
+          vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
+          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_max5[group]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.setpoint_avr_max5[group];
+          first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
+        }
+        else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_MAX6)
+        {
+          vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
+          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_max6[group]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.setpoint_avr_max6[group];
           first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
         }
       }
@@ -127,6 +171,50 @@ void make_ekran_setpoint_avr(unsigned int group)
             else
               calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_AVR_MAX2_COMMA, 0);
           }
+          else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_MAX3)
+          {
+            if (
+                ((j < COL_SETPOINT_AVR_MAX3_BEGIN) ||  (j > COL_SETPOINT_AVR_MAX3_END ))  &&
+                (j != (COL_SETPOINT_AVR_MAX3_END + 2))  
+               )working_ekran[i][j] = ' ';
+            else if (j == COL_SETPOINT_AVR_MAX3_COMMA )working_ekran[i][j] = ',';
+            else if (j == (COL_SETPOINT_AVR_MAX3_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_V];
+            else
+              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_AVR_MAX3_COMMA, 0);
+          }
+          else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_MAX4)
+          {
+            if (
+                ((j < COL_SETPOINT_AVR_MAX4_BEGIN) ||  (j > COL_SETPOINT_AVR_MAX4_END ))  &&
+                (j != (COL_SETPOINT_AVR_MAX4_END + 2))  
+               )working_ekran[i][j] = ' ';
+            else if (j == COL_SETPOINT_AVR_MAX4_COMMA )working_ekran[i][j] = ',';
+            else if (j == (COL_SETPOINT_AVR_MAX4_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_V];
+            else
+              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_AVR_MAX4_COMMA, 0);
+          }
+          else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_MAX5)
+          {
+            if (
+                ((j < COL_SETPOINT_AVR_MAX5_BEGIN) ||  (j > COL_SETPOINT_AVR_MAX5_END ))  &&
+                (j != (COL_SETPOINT_AVR_MAX5_END + 2))  
+               )working_ekran[i][j] = ' ';
+            else if (j == COL_SETPOINT_AVR_MAX5_COMMA )working_ekran[i][j] = ',';
+            else if (j == (COL_SETPOINT_AVR_MAX5_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_V];
+            else
+              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_AVR_MAX5_COMMA, 0);
+          }
+          else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_MAX6)
+          {
+            if (
+                ((j < COL_SETPOINT_AVR_MAX6_BEGIN) ||  (j > COL_SETPOINT_AVR_MAX6_END ))  &&
+                (j != (COL_SETPOINT_AVR_MAX6_END + 2))  
+               )working_ekran[i][j] = ' ';
+            else if (j == COL_SETPOINT_AVR_MAX6_COMMA )working_ekran[i][j] = ',';
+            else if (j == (COL_SETPOINT_AVR_MAX6_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_V];
+            else
+              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_AVR_MAX6_COMMA, 0);
+          }
         }
       }
         
@@ -162,6 +250,26 @@ void make_ekran_setpoint_avr(unsigned int group)
     {
       current_ekran.position_cursor_x = COL_SETPOINT_AVR_MAX2_BEGIN;
       last_position_cursor_x = COL_SETPOINT_AVR_MAX2_END;
+    }
+    else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX3)
+    {
+      current_ekran.position_cursor_x = COL_SETPOINT_AVR_MAX3_BEGIN;
+      last_position_cursor_x = COL_SETPOINT_AVR_MAX3_END;
+    }
+    else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX4)
+    {
+      current_ekran.position_cursor_x = COL_SETPOINT_AVR_MAX4_BEGIN;
+      last_position_cursor_x = COL_SETPOINT_AVR_MAX4_END;
+    }
+    else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX5)
+    {
+      current_ekran.position_cursor_x = COL_SETPOINT_AVR_MAX5_BEGIN;
+      last_position_cursor_x = COL_SETPOINT_AVR_MAX5_END;
+    }
+    else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX6)
+    {
+      current_ekran.position_cursor_x = COL_SETPOINT_AVR_MAX6_BEGIN;
+      last_position_cursor_x = COL_SETPOINT_AVR_MAX6_END;
     }
     
     //Підтягуємо курсор до першого символу
@@ -643,18 +751,26 @@ void make_ekran_control_avr()
   {
     {
       "      АВР       ",
+      " АВР от Umax к.1",
+      " АВР от Umax к.2",
       "  Откл.Бл.АВР   "
     },
     {
       "      АВР       ",
+      "АВР від Umax к.1",
+      "АВР від Umax к.2",
       "  Вимк.Бл.АВР   "
     },
     {
       "      АВР       ",
+      " АВР от Umax к.1",
+      " АВР от Umax к.2",
       "  Откл.Бл.АВР   "
     },
     {
       "      АВР       ",
+      " АВР от Umax к.1",
+      " АВР от Umax к.2",
       "  Откл.Бл.АВР   "
     }
   };

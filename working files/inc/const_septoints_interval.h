@@ -247,6 +247,18 @@
 #define SETPOINT_AVR2_MIN             10000
 #define SETPOINT_AVR2_MAX             150000
 
+#define SETPOINT_AVR3_MIN             10000
+#define SETPOINT_AVR3_MAX             150000
+
+#define SETPOINT_AVR4_MIN             10000
+#define SETPOINT_AVR4_MAX             150000
+
+#define SETPOINT_AVR5_MIN             10000
+#define SETPOINT_AVR5_MAX             150000
+
+#define SETPOINT_AVR6_MIN             10000
+#define SETPOINT_AVR6_MAX             150000
+
 #define TIMEOUT_AVR_BLK_K1_MIN        200
 #define TIMEOUT_AVR_BLK_K1_MAX        32000
 

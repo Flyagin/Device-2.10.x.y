@@ -11,14 +11,18 @@
 #define EKRAN_TIMEOUT_AVR_GROUP4    (EKRAN_TIMEOUT_AVR_GROUP3   + 1)
 #define EKRAN_CONTROL_AVR           (EKRAN_CONTROL_UMAX  + 1)
 
-#define MAX_ROW_FOR_SETPOINT_AVR        4
+#define MAX_ROW_FOR_SETPOINT_AVR        8
 #define MAX_ROW_FOR_TIMEOUT_AVR         14
-#define MAX_ROW_FOR_CONTROL_AVR         2
+#define MAX_ROW_FOR_CONTROL_AVR         4
 
 #define INDEX_ML_STPAVR_MIN1            0
 #define INDEX_ML_STPAVR_MAX1            1
 #define INDEX_ML_STPAVR_MIN2            2
 #define INDEX_ML_STPAVR_MAX2            3
+#define INDEX_ML_STPAVR_MAX3            4
+#define INDEX_ML_STPAVR_MAX4            5
+#define INDEX_ML_STPAVR_MAX5            6
+#define INDEX_ML_STPAVR_MAX6            7
 
 #define INDEX_ML_TMOAVR_BLK_K1          0
 #define INDEX_ML_TMOAVR_PUSK_K1         1
@@ -50,6 +54,22 @@
 #define COL_SETPOINT_AVR_MAX2_BEGIN     5
 #define COL_SETPOINT_AVR_MAX2_COMMA     8
 #define COL_SETPOINT_AVR_MAX2_END       9
+
+#define COL_SETPOINT_AVR_MAX3_BEGIN     5
+#define COL_SETPOINT_AVR_MAX3_COMMA     8
+#define COL_SETPOINT_AVR_MAX3_END       9
+
+#define COL_SETPOINT_AVR_MAX4_BEGIN     5
+#define COL_SETPOINT_AVR_MAX4_COMMA     8
+#define COL_SETPOINT_AVR_MAX4_END       9
+
+#define COL_SETPOINT_AVR_MAX5_BEGIN     5
+#define COL_SETPOINT_AVR_MAX5_COMMA     8
+#define COL_SETPOINT_AVR_MAX5_END       9
+
+#define COL_SETPOINT_AVR_MAX6_BEGIN     5
+#define COL_SETPOINT_AVR_MAX6_COMMA     8
+#define COL_SETPOINT_AVR_MAX6_END       9
 
 #define COL_TMO_AVR_BLK_K1_BEGIN        4
 #define COL_TMO_AVR_BLK_K1_COMMA        6
@@ -109,10 +129,16 @@
 
 #define INDEX_CTR_AVR                           0
 #define CTR_AVR                                 (1 << INDEX_CTR_AVR)
-#define INDEX_CTR_AVR_OTKL_BLK                  1
-#define CTR_AVR_OTKL_BLK                       (1 << INDEX_CTR_AVR_OTKL_BLK)
+#define INDEX_CTR_AVR_UMAX_K1                   1
+#define CTR_AVR_UMAX_K1                         (1 << INDEX_CTR_AVR_UMAX_K1)
+#define INDEX_CTR_AVR_UMAX_K2                   2
+#define CTR_AVR_UMAX_K2                         (1 << INDEX_CTR_AVR_UMAX_K2)
+#define INDEX_CTR_AVR_OTKL_BLK                  3
+#define CTR_AVR_OTKL_BLK                        (1 << INDEX_CTR_AVR_OTKL_BLK)
 
 #define CTR_AVR_MASKA                           (CTR_AVR                       |\
+                                                 CTR_AVR_UMAX_K1               |\
+                                                 CTR_AVR_UMAX_K2               |\
                                                  CTR_AVR_OTKL_BLK)
 
 #endif

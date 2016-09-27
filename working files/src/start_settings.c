@@ -1882,6 +1882,10 @@ void min_settings(__SETTINGS *target_label)
     target_label->setpoint_avr_min2[i] = SETPOINT_AVR2_MIN;
     target_label->setpoint_avr_max1[i] = SETPOINT_AVR1_MAX;
     target_label->setpoint_avr_max2[i] = SETPOINT_AVR2_MAX;
+    target_label->setpoint_avr_max3[i] = SETPOINT_AVR3_MIN;
+    target_label->setpoint_avr_max4[i] = SETPOINT_AVR4_MAX;
+    target_label->setpoint_avr_max5[i] = SETPOINT_AVR5_MIN;
+    target_label->setpoint_avr_max6[i] = SETPOINT_AVR6_MAX;
     target_label->timeout_avr_blk_k1[i] = TIMEOUT_AVR_BLK_K1_MIN;
     target_label->timeout_avr_pusk_k1[i] = TIMEOUT_AVR_PUSK_K1_MIN;
     target_label->timeout_avr_d_diji_k1[i] = TIMEOUT_AVR_D_DIJI_K1_MIN;
