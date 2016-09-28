@@ -2965,7 +2965,39 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   //"ÏÎ UÀÂÐmax 2"
   if (_GET_OUTPUT_STATE(logic_AVR_1, 1)) _SET_BIT(p_active_functions, RANG_PO_UAVR_MAX2);
   else  _CLEAR_BIT(p_active_functions, RANG_PO_UAVR_MAX2);
-    
+
+  unsigned int setpoint_U_AVR_max3 = (_CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MAX3) == 0) ?
+    current_settings_prt.setpoint_avr_max3[number_group_stp] :
+    (current_settings_prt.setpoint_avr_max3[number_group_stp]*U_UP/100);
+  logic_AVR_1 |= (
+                  (measurement[IM_UAB1] >= setpoint_U_AVR_max3) &&
+                  (measurement[IM_UBC1] >= setpoint_U_AVR_max3) &&
+                  (measurement[IM_UCA1] >= setpoint_U_AVR_max3)
+                 ) << 21;   
+
+  //"ÏÎ UÀÂÐmax 3"
+  if (_GET_OUTPUT_STATE(logic_AVR_1, 21)) _SET_BIT(p_active_functions, RANG_PO_UAVR_MAX3);
+  else  _CLEAR_BIT(p_active_functions, RANG_PO_UAVR_MAX3);
+
+  unsigned int setpoint_U_AVR_max4 = (_CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MAX4) == 0) ?
+    current_settings_prt.setpoint_avr_max4[number_group_stp] :
+    (current_settings_prt.setpoint_avr_max4[number_group_stp]*U_DOWN/100);
+  logic_AVR_1 |= (
+                  (measurement[IM_UAB2] <= setpoint_U_AVR_max4) &&
+                  (measurement[IM_UBC2] <= setpoint_U_AVR_max4) &&
+                  (measurement[IM_UCA2] <= setpoint_U_AVR_max4)
+                 ) << 22;   
+  //"ÏÎ UÀÂÐmax 4"
+  if (_GET_OUTPUT_STATE(logic_AVR_1, 22)) _SET_BIT(p_active_functions, RANG_PO_UAVR_MAX4);
+  else  _CLEAR_BIT(p_active_functions, RANG_PO_UAVR_MAX4);
+  
+  _AND2(logic_AVR_1, 21, logic_AVR_1, 23, logic_AVR_1, 24);
+  _INVERTOR(logic_AVR_1, 23, logic_AVR_1, 25);
+  _OR2(logic_AVR_1, 0, logic_AVR_1, 24, logic_AVR_1, 26);
+  _OR2(logic_AVR_1, 22, logic_AVR_1, 25, logic_AVR_1, 27);
+
+  logic_AVR_1 |= ((current_settings_prt.control_avr & CTR_AVR_UMAX_K1) != 0) << 23;
+  
   logic_AVR_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV_K1) == 0) << 2;
   _TIMER_IMPULSE(INDEX_TIMER_AVR_PUSK_K1, current_settings_prt.timeout_avr_d_diji_k1[number_group_stp], previous_states_AVR_0, 1, logic_AVR_1, 2, logic_AVR_1, 3);
   
