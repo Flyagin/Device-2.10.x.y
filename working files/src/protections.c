@@ -2990,13 +2990,13 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   //"ÏÎ UÀÂÐmax 4"
   if (_GET_OUTPUT_STATE(logic_AVR_1, 22)) _SET_BIT(p_active_functions, RANG_PO_UAVR_MAX4);
   else  _CLEAR_BIT(p_active_functions, RANG_PO_UAVR_MAX4);
+
+  logic_AVR_1 |= ((current_settings_prt.control_avr & CTR_AVR_UMAX_K1) != 0) << 23;
   
   _AND2(logic_AVR_1, 21, logic_AVR_1, 23, logic_AVR_1, 24);
   _INVERTOR(logic_AVR_1, 23, logic_AVR_1, 25);
   _OR2(logic_AVR_1, 0, logic_AVR_1, 24, logic_AVR_1, 26);
   _OR2(logic_AVR_1, 22, logic_AVR_1, 25, logic_AVR_1, 27);
-
-  logic_AVR_1 |= ((current_settings_prt.control_avr & CTR_AVR_UMAX_K1) != 0) << 23;
   
   logic_AVR_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV_K1) == 0) << 2;
   _TIMER_IMPULSE(INDEX_TIMER_AVR_PUSK_K1, current_settings_prt.timeout_avr_d_diji_k1[number_group_stp], previous_states_AVR_0, 1, logic_AVR_1, 2, logic_AVR_1, 3);
@@ -3016,7 +3016,7 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
     _TIMER_0_T(INDEX_TIMER_AVR_BLK_K1, current_settings_prt.timeout_avr_blk_k1[number_group_stp], logic_AVR_1, 6, logic_AVR_1, 7);
     _INVERTOR(logic_AVR_1, 7, logic_AVR_1, 8);
     
-    _AND5(logic_AVR_0, 13, logic_AVR_1, 8, /*logic_AVR_1, 0,*/ logic_AVR_1, 1, logic_AVR_1, 9);
+    _AND5(logic_AVR_0, 13, logic_AVR_1, 8, logic_AVR_1, 26, logic_AVR_1, 1, logic_AVR_1, 27, logic_AVR_1, 9);
     //"ÏÎ ÀÂÐ ê.1"
     if (_GET_OUTPUT_STATE(logic_AVR_1, 9)) _SET_BIT(p_active_functions, RANG_PO_AVR_K1);
     else  _CLEAR_BIT(p_active_functions, RANG_PO_AVR_K1);
@@ -3070,7 +3070,39 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   //"ÏÎ UÀÂÐmax 1"
   if (_GET_OUTPUT_STATE(logic_AVR_2, 1)) _SET_BIT(p_active_functions, RANG_PO_UAVR_MAX1);
   else  _CLEAR_BIT(p_active_functions, RANG_PO_UAVR_MAX1);
-    
+
+  unsigned int setpoint_U_AVR_max5 = (_CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MAX5) == 0) ?
+    current_settings_prt.setpoint_avr_max5[number_group_stp] :
+    (current_settings_prt.setpoint_avr_max5[number_group_stp]*U_UP/100);
+  logic_AVR_2 |= (
+                  (measurement[IM_UAB2] >= setpoint_U_AVR_max5) &&
+                  (measurement[IM_UBC2] >= setpoint_U_AVR_max5) &&
+                  (measurement[IM_UCA2] >= setpoint_U_AVR_max5)
+                 ) << 21;   
+
+  //"ÏÎ UÀÂÐmax 5"
+  if (_GET_OUTPUT_STATE(logic_AVR_2, 21)) _SET_BIT(p_active_functions, RANG_PO_UAVR_MAX5);
+  else  _CLEAR_BIT(p_active_functions, RANG_PO_UAVR_MAX5);
+
+  unsigned int setpoint_U_AVR_max6 = (_CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MAX6) == 0) ?
+    current_settings_prt.setpoint_avr_max6[number_group_stp] :
+    (current_settings_prt.setpoint_avr_max6[number_group_stp]*U_DOWN/100);
+  logic_AVR_2 |= (
+                  (measurement[IM_UAB1] <= setpoint_U_AVR_max6) &&
+                  (measurement[IM_UBC1] <= setpoint_U_AVR_max6) &&
+                  (measurement[IM_UCA1] <= setpoint_U_AVR_max6)
+                 ) << 22;   
+  //"ÏÎ UÀÂÐmax 6"
+  if (_GET_OUTPUT_STATE(logic_AVR_2, 22)) _SET_BIT(p_active_functions, RANG_PO_UAVR_MAX6);
+  else  _CLEAR_BIT(p_active_functions, RANG_PO_UAVR_MAX6);
+
+  logic_AVR_2 |= ((current_settings_prt.control_avr & CTR_AVR_UMAX_K2) != 0) << 23;
+  
+  _AND2(logic_AVR_2, 21, logic_AVR_2, 23, logic_AVR_2, 24);
+  _INVERTOR(logic_AVR_2, 23, logic_AVR_2, 25);
+  _OR2(logic_AVR_2, 0, logic_AVR_2, 24, logic_AVR_2, 26);
+  _OR2(logic_AVR_2, 22, logic_AVR_2, 25, logic_AVR_2, 27);
+  
   logic_AVR_2 |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV_K2) == 0) << 2;
   _TIMER_IMPULSE(INDEX_TIMER_AVR_PUSK_K2, current_settings_prt.timeout_avr_d_diji_k2[number_group_stp], previous_states_AVR_0, 2, logic_AVR_2, 2, logic_AVR_2, 3);
   
@@ -3089,7 +3121,7 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
     _TIMER_0_T(INDEX_TIMER_AVR_BLK_K2, current_settings_prt.timeout_avr_blk_k2[number_group_stp], logic_AVR_2, 6, logic_AVR_2, 7);
     _INVERTOR(logic_AVR_2, 7, logic_AVR_2, 8);
     
-    _AND5(logic_AVR_0, 13, logic_AVR_2, 8, logic_AVR_2, 1, /*logic_AVR_2, 0,*/ logic_AVR_2, 9);
+    _AND5(logic_AVR_0, 13, logic_AVR_2, 8, logic_AVR_2, 26, logic_AVR_2, 1, logic_AVR_2, 27, logic_AVR_2, 9);
     //"ÏÎ ÀÂÐ ê.2"
     if (_GET_OUTPUT_STATE(logic_AVR_2, 9)) _SET_BIT(p_active_functions, RANG_PO_AVR_K2);
     else  _CLEAR_BIT(p_active_functions, RANG_PO_AVR_K2);
