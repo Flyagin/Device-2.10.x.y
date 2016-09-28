@@ -8,17 +8,17 @@ void make_ekran_setpoint_avr(unsigned int group)
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_SETPOINT_AVR][MAX_COL_LCD] = 
   {
     {
-      " Уст.U АВР мин.1",
-      "Уст.U АВР макс.1",
-      " Уст.U АВР мин.2",
-      "Уст.U АВР макс.2",
-      "Уст.U АВР макс.3",
-      "Уст.U АВР макс.4",
-      "Уст.U АВР макс.5",
-      "Уст.U АВР макс.6"
+      "  U1min < U1x   ",
+      "  U2min > U2x   ",
+      "  U2min < U2x   ",
+      "  U1min > U1x   ",
+      "  U1max > U1x   ",
+      "  U2max < U2x   ",
+      "  U2max > U2x   ",
+      "  U1max < U1x   "
     },
     {
-      " Уст.U АВР мін.1",
+      "  U1min < U1x   ",
       "Уст.U АВР макс.1",
       " Уст.U АВР мін.2",
       "Уст.U АВР макс.2",
@@ -28,7 +28,7 @@ void make_ekran_setpoint_avr(unsigned int group)
       "Уст.U АВР макс.6"
     },
     {
-      " Уст.U АВР мин.1",
+      "  U1min < U1x   ",
       "Уст.U АВР макс.1",
       " Уст.U АВР мин.2",
       "Уст.U АВР макс.2",
@@ -38,7 +38,7 @@ void make_ekran_setpoint_avr(unsigned int group)
       "Уст.U АВР макс.6"
     },
     {
-      " Уст.U АВР мин.1",
+      "  U1min < U1x   ",
       "Уст.U АВР макс.1",
       " Уст.U АВР мин.2",
       "Уст.U АВР макс.2",
