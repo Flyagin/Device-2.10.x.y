@@ -19,33 +19,33 @@ void make_ekran_setpoint_avr(unsigned int group)
     },
     {
       "  U1min < U1x   ",
-      "Уст.U АВР макс.1",
-      " Уст.U АВР мін.2",
-      "Уст.U АВР макс.2",
-      "Уст.U АВР макс.3",
-      "Уст.U АВР макс.4",
-      "Уст.U АВР макс.5",
-      "Уст.U АВР макс.6"
+      "  U2min > U2x   ",
+      "  U2min < U2x   ",
+      "  U1min > U1x   ",
+      "  U1max > U1x   ",
+      "  U2max < U2x   ",
+      "  U2max > U2x   ",
+      "  U1max < U1x   "
     },
     {
       "  U1min < U1x   ",
-      "Уст.U АВР макс.1",
-      " Уст.U АВР мин.2",
-      "Уст.U АВР макс.2",
-      "Уст.U АВР макс.3",
-      "Уст.U АВР макс.4",
-      "Уст.U АВР макс.5",
-      "Уст.U АВР макс.6"
+      "  U2min > U2x   ",
+      "  U2min < U2x   ",
+      "  U1min > U1x   ",
+      "  U1max > U1x   ",
+      "  U2max < U2x   ",
+      "  U2max > U2x   ",
+      "  U1max < U1x   "
     },
     {
       "  U1min < U1x   ",
-      "Уст.U АВР макс.1",
-      " Уст.U АВР мин.2",
-      "Уст.U АВР макс.2",
-      "Уст.U АВР макс.3",
-      "Уст.U АВР макс.4",
-      "Уст.U АВР макс.5",
-      "Уст.U АВР макс.6"
+      "  U2min > U2x   ",
+      "  U2min < U2x   ",
+      "  U1min > U1x   ",
+      "  U1max > U1x   ",
+      "  U2max < U2x   ",
+      "  U2max > U2x   ",
+      "  U1max < U1x   "
     }
   };
   int index_language = index_language_in_array(current_settings.language);
@@ -68,57 +68,57 @@ void make_ekran_setpoint_avr(unsigned int group)
         if ((index_of_ekran>>1) == INDEX_ML_STPAVR_MIN1)
         {
           vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
-          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_min1[group]; //у змінну value поміщаємо значення уставки
-          else value = edition_settings.setpoint_avr_min1[group];
+          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_tn1_U1min[group]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.setpoint_avr_tn1_U1min[group];
           first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
         }
         else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_MAX1)
         {
           vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
-          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_max1[group]; //у змінну value поміщаємо значення уставки
-          else value = edition_settings.setpoint_avr_max1[group];
+          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_tn1_U2_low_work[group]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.setpoint_avr_tn1_U2_low_work[group];
           first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
         }
         else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_MIN2)
         {
           vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
-          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_min2[group]; //у змінну value поміщаємо значення уставки
-          else value = edition_settings.setpoint_avr_min2[group];
+          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_tn2_U2min[group]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.setpoint_avr_tn2_U2min[group];
           first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
         }
         else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_MAX2)
         {
           vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
-          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_max2[group]; //у змінну value поміщаємо значення уставки
-          else value = edition_settings.setpoint_avr_max2[group];
+          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_tn2_U1_low_work[group]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.setpoint_avr_tn2_U1_low_work[group];
           first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
         }
         else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_MAX3)
         {
           vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
-          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_max3[group]; //у змінну value поміщаємо значення уставки
-          else value = edition_settings.setpoint_avr_max3[group];
+          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_tn1_U1max[group]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.setpoint_avr_tn1_U1max[group];
           first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
         }
         else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_MAX4)
         {
           vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
-          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_max4[group]; //у змінну value поміщаємо значення уставки
-          else value = edition_settings.setpoint_avr_max4[group];
+          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_tn1_U2_high_work[group]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.setpoint_avr_tn1_U2_high_work[group];
           first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
         }
         else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_MAX5)
         {
           vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
-          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_max5[group]; //у змінну value поміщаємо значення уставки
-          else value = edition_settings.setpoint_avr_max5[group];
+          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_tn2_U2max[group]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.setpoint_avr_tn2_U2max[group];
           first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
         }
         else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_MAX6)
         {
           vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
-          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_max6[group]; //у змінну value поміщаємо значення уставки
-          else value = edition_settings.setpoint_avr_max6[group];
+          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_tn2_U1_high_work[group]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.setpoint_avr_tn2_U1_high_work[group];
           first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
         }
       }

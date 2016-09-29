@@ -5411,42 +5411,42 @@ void main_manu_function(void)
                   
                   if (current_ekran.index_position == INDEX_ML_STPAVR_MIN1)
                   {
-                    edition_settings.setpoint_avr_min1[group] = current_settings.setpoint_avr_min1[group];
+                    edition_settings.setpoint_avr_tn1_U1min[group] = current_settings.setpoint_avr_tn1_U1min[group];
                     current_ekran.position_cursor_x = COL_SETPOINT_AVR_MIN1_BEGIN;
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX1)
                   {
-                    edition_settings.setpoint_avr_max1[group] = current_settings.setpoint_avr_max1[group];
+                    edition_settings.setpoint_avr_tn1_U2_low_work[group] = current_settings.setpoint_avr_tn1_U2_low_work[group];
                     current_ekran.position_cursor_x = COL_SETPOINT_AVR_MAX1_BEGIN;
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MIN2)
                   {
-                    edition_settings.setpoint_avr_min2[group] = current_settings.setpoint_avr_min2[group];
+                    edition_settings.setpoint_avr_tn2_U2min[group] = current_settings.setpoint_avr_tn2_U2min[group];
                     current_ekran.position_cursor_x = COL_SETPOINT_AVR_MIN2_BEGIN;
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX2)
                   {
-                    edition_settings.setpoint_avr_max2[group] = current_settings.setpoint_avr_max2[group];
+                    edition_settings.setpoint_avr_tn2_U1_low_work[group] = current_settings.setpoint_avr_tn2_U1_low_work[group];
                     current_ekran.position_cursor_x = COL_SETPOINT_AVR_MAX2_BEGIN;
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX3)
                   {
-                    edition_settings.setpoint_avr_max3[group] = current_settings.setpoint_avr_max3[group];
+                    edition_settings.setpoint_avr_tn1_U1max[group] = current_settings.setpoint_avr_tn1_U1max[group];
                     current_ekran.position_cursor_x = COL_SETPOINT_AVR_MAX3_BEGIN;
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX4)
                   {
-                    edition_settings.setpoint_avr_max4[group] = current_settings.setpoint_avr_max4[group];
+                    edition_settings.setpoint_avr_tn1_U2_high_work[group] = current_settings.setpoint_avr_tn1_U2_high_work[group];
                     current_ekran.position_cursor_x = COL_SETPOINT_AVR_MAX4_BEGIN;
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX5)
                   {
-                    edition_settings.setpoint_avr_max5[group] = current_settings.setpoint_avr_max5[group];
+                    edition_settings.setpoint_avr_tn2_U2max[group] = current_settings.setpoint_avr_tn2_U2max[group];
                     current_ekran.position_cursor_x = COL_SETPOINT_AVR_MAX5_BEGIN;
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX6)
                   {
-                    edition_settings.setpoint_avr_max6[group] = current_settings.setpoint_avr_max6[group];
+                    edition_settings.setpoint_avr_tn2_U1_high_work[group] = current_settings.setpoint_avr_tn2_U1_high_work[group];
                     current_ekran.position_cursor_x = COL_SETPOINT_AVR_MAX6_BEGIN;
                   }
                 }
@@ -6242,35 +6242,35 @@ void main_manu_function(void)
                  
                   if (current_ekran.index_position == INDEX_ML_STPAVR_MIN1)
                   {
-                    if (edition_settings.setpoint_avr_min1[group] != current_settings.setpoint_avr_min1[group]) found_changes = 1;
+                    if (edition_settings.setpoint_avr_tn1_U1min[group] != current_settings.setpoint_avr_tn1_U1min[group]) found_changes = 1;
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX1)
                   {
-                    if (edition_settings.setpoint_avr_max1[group] != current_settings.setpoint_avr_max1[group]) found_changes = 1;
+                    if (edition_settings.setpoint_avr_tn1_U2_low_work[group] != current_settings.setpoint_avr_tn1_U2_low_work[group]) found_changes = 1;
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MIN2)
                   {
-                    if (edition_settings.setpoint_avr_min2[group] != current_settings.setpoint_avr_min2[group]) found_changes = 1;
+                    if (edition_settings.setpoint_avr_tn2_U2min[group] != current_settings.setpoint_avr_tn2_U2min[group]) found_changes = 1;
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX2)
                   {
-                    if (edition_settings.setpoint_avr_max2[group] != current_settings.setpoint_avr_max2[group]) found_changes = 1;
+                    if (edition_settings.setpoint_avr_tn2_U1_low_work[group] != current_settings.setpoint_avr_tn2_U1_low_work[group]) found_changes = 1;
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX3)
                   {
-                    if (edition_settings.setpoint_avr_max3[group] != current_settings.setpoint_avr_max3[group]) found_changes = 1;
+                    if (edition_settings.setpoint_avr_tn1_U1max[group] != current_settings.setpoint_avr_tn1_U1max[group]) found_changes = 1;
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX4)
                   {
-                    if (edition_settings.setpoint_avr_max4[group] != current_settings.setpoint_avr_max4[group]) found_changes = 1;
+                    if (edition_settings.setpoint_avr_tn1_U2_high_work[group] != current_settings.setpoint_avr_tn1_U2_high_work[group]) found_changes = 1;
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX5)
                   {
-                    if (edition_settings.setpoint_avr_max5[group] != current_settings.setpoint_avr_max5[group]) found_changes = 1;
+                    if (edition_settings.setpoint_avr_tn2_U2max[group] != current_settings.setpoint_avr_tn2_U2max[group]) found_changes = 1;
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX6)
                   {
-                    if (edition_settings.setpoint_avr_max6[group] != current_settings.setpoint_avr_max6[group]) found_changes = 1;
+                    if (edition_settings.setpoint_avr_tn2_U1_high_work[group] != current_settings.setpoint_avr_tn2_U1_high_work[group]) found_changes = 1;
                   }
                 }
                 else if(
@@ -8090,14 +8090,14 @@ void main_manu_function(void)
                   
                   if (current_ekran.index_position == INDEX_ML_STPAVR_MIN1)
                   {
-                    if (check_data_setpoint(edition_settings.setpoint_avr_min1[group], SETPOINT_AVR1_MIN, SETPOINT_AVR1_MAX) == 1)
+                    if (check_data_setpoint(edition_settings.setpoint_avr_tn1_U1min[group], SETPOINT_AVR1_MIN, SETPOINT_AVR1_MAX) == 1)
                     {
-                      if (edition_settings.setpoint_avr_min1[group] != current_settings.setpoint_avr_min1[group])
+                      if (edition_settings.setpoint_avr_tn1_U1min[group] != current_settings.setpoint_avr_tn1_U1min[group])
                       {
                         //Помічаємо, що поле структури зараз буде змінене
                         changed_settings = CHANGED_ETAP_EXECUTION;
                         
-                        current_settings.setpoint_avr_min1[group] = edition_settings.setpoint_avr_min1[group];
+                        current_settings.setpoint_avr_tn1_U1min[group] = edition_settings.setpoint_avr_tn1_U1min[group];
                         //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                         fix_change_settings(0, 1);
                       }
@@ -8107,14 +8107,14 @@ void main_manu_function(void)
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX1)
                   {
-                    if (check_data_setpoint(edition_settings.setpoint_avr_max1[group], SETPOINT_AVR1_MIN, SETPOINT_AVR1_MAX) == 1)
+                    if (check_data_setpoint(edition_settings.setpoint_avr_tn1_U2_low_work[group], SETPOINT_AVR1_MIN, SETPOINT_AVR1_MAX) == 1)
                     {
-                      if (edition_settings.setpoint_avr_max1[group] != current_settings.setpoint_avr_max1[group])
+                      if (edition_settings.setpoint_avr_tn1_U2_low_work[group] != current_settings.setpoint_avr_tn1_U2_low_work[group])
                       {
                         //Помічаємо, що поле структури зараз буде змінене
                         changed_settings = CHANGED_ETAP_EXECUTION;
                         
-                        current_settings.setpoint_avr_max1[group] = edition_settings.setpoint_avr_max1[group];
+                        current_settings.setpoint_avr_tn1_U2_low_work[group] = edition_settings.setpoint_avr_tn1_U2_low_work[group];
                         //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                         fix_change_settings(0, 1);
                       }
@@ -8124,14 +8124,14 @@ void main_manu_function(void)
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MIN2)
                   {
-                    if (check_data_setpoint(edition_settings.setpoint_avr_min2[group], SETPOINT_AVR2_MIN, SETPOINT_AVR2_MAX) == 1)
+                    if (check_data_setpoint(edition_settings.setpoint_avr_tn2_U2min[group], SETPOINT_AVR2_MIN, SETPOINT_AVR2_MAX) == 1)
                     {
-                      if (edition_settings.setpoint_avr_min2[group] != current_settings.setpoint_avr_min2[group])
+                      if (edition_settings.setpoint_avr_tn2_U2min[group] != current_settings.setpoint_avr_tn2_U2min[group])
                       {
                         //Помічаємо, що поле структури зараз буде змінене
                         changed_settings = CHANGED_ETAP_EXECUTION;
                         
-                        current_settings.setpoint_avr_min2[group] = edition_settings.setpoint_avr_min2[group];
+                        current_settings.setpoint_avr_tn2_U2min[group] = edition_settings.setpoint_avr_tn2_U2min[group];
                         //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                         fix_change_settings(0, 1);
                       }
@@ -8141,14 +8141,14 @@ void main_manu_function(void)
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX2)
                   {
-                    if (check_data_setpoint(edition_settings.setpoint_avr_max2[group], SETPOINT_AVR2_MIN, SETPOINT_AVR2_MAX) == 1)
+                    if (check_data_setpoint(edition_settings.setpoint_avr_tn2_U1_low_work[group], SETPOINT_AVR2_MIN, SETPOINT_AVR2_MAX) == 1)
                     {
-                      if (edition_settings.setpoint_avr_max2[group] != current_settings.setpoint_avr_max2[group])
+                      if (edition_settings.setpoint_avr_tn2_U1_low_work[group] != current_settings.setpoint_avr_tn2_U1_low_work[group])
                       {
                         //Помічаємо, що поле структури зараз буде змінене
                         changed_settings = CHANGED_ETAP_EXECUTION;
                         
-                        current_settings.setpoint_avr_max2[group] = edition_settings.setpoint_avr_max2[group];
+                        current_settings.setpoint_avr_tn2_U1_low_work[group] = edition_settings.setpoint_avr_tn2_U1_low_work[group];
                         //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                         fix_change_settings(0, 1);
                       }
@@ -8158,14 +8158,14 @@ void main_manu_function(void)
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX3)
                   {
-                    if (check_data_setpoint(edition_settings.setpoint_avr_max3[group], SETPOINT_AVR3_MIN, SETPOINT_AVR3_MAX) == 1)
+                    if (check_data_setpoint(edition_settings.setpoint_avr_tn1_U1max[group], SETPOINT_AVR3_MIN, SETPOINT_AVR3_MAX) == 1)
                     {
-                      if (edition_settings.setpoint_avr_max3[group] != current_settings.setpoint_avr_max3[group])
+                      if (edition_settings.setpoint_avr_tn1_U1max[group] != current_settings.setpoint_avr_tn1_U1max[group])
                       {
                         //Помічаємо, що поле структури зараз буде змінене
                         changed_settings = CHANGED_ETAP_EXECUTION;
                         
-                        current_settings.setpoint_avr_max3[group] = edition_settings.setpoint_avr_max3[group];
+                        current_settings.setpoint_avr_tn1_U1max[group] = edition_settings.setpoint_avr_tn1_U1max[group];
                         //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                         fix_change_settings(0, 1);
                       }
@@ -8175,14 +8175,14 @@ void main_manu_function(void)
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX4)
                   {
-                    if (check_data_setpoint(edition_settings.setpoint_avr_max4[group], SETPOINT_AVR4_MIN, SETPOINT_AVR4_MAX) == 1)
+                    if (check_data_setpoint(edition_settings.setpoint_avr_tn1_U2_high_work[group], SETPOINT_AVR4_MIN, SETPOINT_AVR4_MAX) == 1)
                     {
-                      if (edition_settings.setpoint_avr_max4[group] != current_settings.setpoint_avr_max4[group])
+                      if (edition_settings.setpoint_avr_tn1_U2_high_work[group] != current_settings.setpoint_avr_tn1_U2_high_work[group])
                       {
                         //Помічаємо, що поле структури зараз буде змінене
                         changed_settings = CHANGED_ETAP_EXECUTION;
                         
-                        current_settings.setpoint_avr_max4[group] = edition_settings.setpoint_avr_max4[group];
+                        current_settings.setpoint_avr_tn1_U2_high_work[group] = edition_settings.setpoint_avr_tn1_U2_high_work[group];
                         //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                         fix_change_settings(0, 1);
                       }
@@ -8192,14 +8192,14 @@ void main_manu_function(void)
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX5)
                   {
-                    if (check_data_setpoint(edition_settings.setpoint_avr_max5[group], SETPOINT_AVR5_MIN, SETPOINT_AVR5_MAX) == 1)
+                    if (check_data_setpoint(edition_settings.setpoint_avr_tn2_U2max[group], SETPOINT_AVR5_MIN, SETPOINT_AVR5_MAX) == 1)
                     {
-                      if (edition_settings.setpoint_avr_max5[group] != current_settings.setpoint_avr_max5[group])
+                      if (edition_settings.setpoint_avr_tn2_U2max[group] != current_settings.setpoint_avr_tn2_U2max[group])
                       {
                         //Помічаємо, що поле структури зараз буде змінене
                         changed_settings = CHANGED_ETAP_EXECUTION;
                         
-                        current_settings.setpoint_avr_max5[group] = edition_settings.setpoint_avr_max5[group];
+                        current_settings.setpoint_avr_tn2_U2max[group] = edition_settings.setpoint_avr_tn2_U2max[group];
                         //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                         fix_change_settings(0, 1);
                       }
@@ -8209,14 +8209,14 @@ void main_manu_function(void)
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX6)
                   {
-                    if (check_data_setpoint(edition_settings.setpoint_avr_max6[group], SETPOINT_AVR6_MIN, SETPOINT_AVR6_MAX) == 1)
+                    if (check_data_setpoint(edition_settings.setpoint_avr_tn2_U1_high_work[group], SETPOINT_AVR6_MIN, SETPOINT_AVR6_MAX) == 1)
                     {
-                      if (edition_settings.setpoint_avr_max6[group] != current_settings.setpoint_avr_max6[group])
+                      if (edition_settings.setpoint_avr_tn2_U1_high_work[group] != current_settings.setpoint_avr_tn2_U1_high_work[group])
                       {
                         //Помічаємо, що поле структури зараз буде змінене
                         changed_settings = CHANGED_ETAP_EXECUTION;
                         
-                        current_settings.setpoint_avr_max6[group] = edition_settings.setpoint_avr_max6[group];
+                        current_settings.setpoint_avr_tn2_U1_high_work[group] = edition_settings.setpoint_avr_tn2_U1_high_work[group];
                         //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                         fix_change_settings(0, 1);
                       }
@@ -10019,21 +10019,21 @@ void main_manu_function(void)
                 {
                   //Редагування числа
                   if (current_ekran.index_position == INDEX_ML_STPAVR_MIN1)
-                    edition_settings.setpoint_avr_min1[group] = edit_setpoint(1, edition_settings.setpoint_avr_min1[group], 1, COL_SETPOINT_AVR_MIN1_COMMA, COL_SETPOINT_AVR_MIN1_END, 100);
+                    edition_settings.setpoint_avr_tn1_U1min[group] = edit_setpoint(1, edition_settings.setpoint_avr_tn1_U1min[group], 1, COL_SETPOINT_AVR_MIN1_COMMA, COL_SETPOINT_AVR_MIN1_END, 100);
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX1)
-                    edition_settings.setpoint_avr_max1[group] = edit_setpoint(1, edition_settings.setpoint_avr_max1[group], 1, COL_SETPOINT_AVR_MAX1_COMMA, COL_SETPOINT_AVR_MAX1_END, 100);
+                    edition_settings.setpoint_avr_tn1_U2_low_work[group] = edit_setpoint(1, edition_settings.setpoint_avr_tn1_U2_low_work[group], 1, COL_SETPOINT_AVR_MAX1_COMMA, COL_SETPOINT_AVR_MAX1_END, 100);
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MIN2)
-                    edition_settings.setpoint_avr_min2[group] = edit_setpoint(1, edition_settings.setpoint_avr_min2[group], 1, COL_SETPOINT_AVR_MIN2_COMMA, COL_SETPOINT_AVR_MIN2_END, 100);
+                    edition_settings.setpoint_avr_tn2_U2min[group] = edit_setpoint(1, edition_settings.setpoint_avr_tn2_U2min[group], 1, COL_SETPOINT_AVR_MIN2_COMMA, COL_SETPOINT_AVR_MIN2_END, 100);
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX2)
-                    edition_settings.setpoint_avr_max2[group] = edit_setpoint(1, edition_settings.setpoint_avr_max2[group], 1, COL_SETPOINT_AVR_MAX2_COMMA, COL_SETPOINT_AVR_MAX2_END, 100);
+                    edition_settings.setpoint_avr_tn2_U1_low_work[group] = edit_setpoint(1, edition_settings.setpoint_avr_tn2_U1_low_work[group], 1, COL_SETPOINT_AVR_MAX2_COMMA, COL_SETPOINT_AVR_MAX2_END, 100);
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX3)
-                    edition_settings.setpoint_avr_max3[group] = edit_setpoint(1, edition_settings.setpoint_avr_max3[group], 1, COL_SETPOINT_AVR_MAX3_COMMA, COL_SETPOINT_AVR_MAX3_END, 100);
+                    edition_settings.setpoint_avr_tn1_U1max[group] = edit_setpoint(1, edition_settings.setpoint_avr_tn1_U1max[group], 1, COL_SETPOINT_AVR_MAX3_COMMA, COL_SETPOINT_AVR_MAX3_END, 100);
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX4)
-                    edition_settings.setpoint_avr_max4[group] = edit_setpoint(1, edition_settings.setpoint_avr_max4[group], 1, COL_SETPOINT_AVR_MAX4_COMMA, COL_SETPOINT_AVR_MAX4_END, 100);
+                    edition_settings.setpoint_avr_tn1_U2_high_work[group] = edit_setpoint(1, edition_settings.setpoint_avr_tn1_U2_high_work[group], 1, COL_SETPOINT_AVR_MAX4_COMMA, COL_SETPOINT_AVR_MAX4_END, 100);
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX5)
-                    edition_settings.setpoint_avr_max5[group] = edit_setpoint(1, edition_settings.setpoint_avr_max5[group], 1, COL_SETPOINT_AVR_MAX5_COMMA, COL_SETPOINT_AVR_MAX5_END, 100);
+                    edition_settings.setpoint_avr_tn2_U2max[group] = edit_setpoint(1, edition_settings.setpoint_avr_tn2_U2max[group], 1, COL_SETPOINT_AVR_MAX5_COMMA, COL_SETPOINT_AVR_MAX5_END, 100);
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX6)
-                    edition_settings.setpoint_avr_max6[group] = edit_setpoint(1, edition_settings.setpoint_avr_max6[group], 1, COL_SETPOINT_AVR_MAX6_COMMA, COL_SETPOINT_AVR_MAX6_END, 100);
+                    edition_settings.setpoint_avr_tn2_U1_high_work[group] = edit_setpoint(1, edition_settings.setpoint_avr_tn2_U1_high_work[group], 1, COL_SETPOINT_AVR_MAX6_COMMA, COL_SETPOINT_AVR_MAX6_END, 100);
                 }
                 //Формуємо екран уставок АВР
                 make_ekran_setpoint_avr(group);
@@ -11012,21 +11012,21 @@ void main_manu_function(void)
                 {
                   //Редагування числа
                   if (current_ekran.index_position == INDEX_ML_STPAVR_MIN1)
-                    edition_settings.setpoint_avr_min1[group] = edit_setpoint(0, edition_settings.setpoint_avr_min1[group], 1, COL_SETPOINT_AVR_MIN1_COMMA, COL_SETPOINT_AVR_MIN1_END, 100);
+                    edition_settings.setpoint_avr_tn1_U1min[group] = edit_setpoint(0, edition_settings.setpoint_avr_tn1_U1min[group], 1, COL_SETPOINT_AVR_MIN1_COMMA, COL_SETPOINT_AVR_MIN1_END, 100);
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX1)
-                    edition_settings.setpoint_avr_max1[group] = edit_setpoint(0, edition_settings.setpoint_avr_max1[group], 1, COL_SETPOINT_AVR_MAX1_COMMA, COL_SETPOINT_AVR_MAX1_END, 100);
+                    edition_settings.setpoint_avr_tn1_U2_low_work[group] = edit_setpoint(0, edition_settings.setpoint_avr_tn1_U2_low_work[group], 1, COL_SETPOINT_AVR_MAX1_COMMA, COL_SETPOINT_AVR_MAX1_END, 100);
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MIN2)
-                    edition_settings.setpoint_avr_min2[group] = edit_setpoint(0, edition_settings.setpoint_avr_min2[group], 1, COL_SETPOINT_AVR_MIN2_COMMA, COL_SETPOINT_AVR_MIN2_END, 100);
+                    edition_settings.setpoint_avr_tn2_U2min[group] = edit_setpoint(0, edition_settings.setpoint_avr_tn2_U2min[group], 1, COL_SETPOINT_AVR_MIN2_COMMA, COL_SETPOINT_AVR_MIN2_END, 100);
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX2)
-                    edition_settings.setpoint_avr_max2[group] = edit_setpoint(0, edition_settings.setpoint_avr_max2[group], 1, COL_SETPOINT_AVR_MAX2_COMMA, COL_SETPOINT_AVR_MAX2_END, 100);
+                    edition_settings.setpoint_avr_tn2_U1_low_work[group] = edit_setpoint(0, edition_settings.setpoint_avr_tn2_U1_low_work[group], 1, COL_SETPOINT_AVR_MAX2_COMMA, COL_SETPOINT_AVR_MAX2_END, 100);
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX3)
-                    edition_settings.setpoint_avr_max3[group] = edit_setpoint(0, edition_settings.setpoint_avr_max3[group], 1, COL_SETPOINT_AVR_MAX3_COMMA, COL_SETPOINT_AVR_MAX3_END, 100);
+                    edition_settings.setpoint_avr_tn1_U1max[group] = edit_setpoint(0, edition_settings.setpoint_avr_tn1_U1max[group], 1, COL_SETPOINT_AVR_MAX3_COMMA, COL_SETPOINT_AVR_MAX3_END, 100);
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX4)
-                    edition_settings.setpoint_avr_max4[group] = edit_setpoint(0, edition_settings.setpoint_avr_max4[group], 1, COL_SETPOINT_AVR_MAX4_COMMA, COL_SETPOINT_AVR_MAX4_END, 100);
+                    edition_settings.setpoint_avr_tn1_U2_high_work[group] = edit_setpoint(0, edition_settings.setpoint_avr_tn1_U2_high_work[group], 1, COL_SETPOINT_AVR_MAX4_COMMA, COL_SETPOINT_AVR_MAX4_END, 100);
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX5)
-                    edition_settings.setpoint_avr_max5[group] = edit_setpoint(0, edition_settings.setpoint_avr_max5[group], 1, COL_SETPOINT_AVR_MAX5_COMMA, COL_SETPOINT_AVR_MAX5_END, 100);
+                    edition_settings.setpoint_avr_tn2_U2max[group] = edit_setpoint(0, edition_settings.setpoint_avr_tn2_U2max[group], 1, COL_SETPOINT_AVR_MAX5_COMMA, COL_SETPOINT_AVR_MAX5_END, 100);
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_MAX6)
-                    edition_settings.setpoint_avr_max6[group] = edit_setpoint(0, edition_settings.setpoint_avr_max6[group], 1, COL_SETPOINT_AVR_MAX6_COMMA, COL_SETPOINT_AVR_MAX6_END, 100);
+                    edition_settings.setpoint_avr_tn2_U1_high_work[group] = edit_setpoint(0, edition_settings.setpoint_avr_tn2_U1_high_work[group], 1, COL_SETPOINT_AVR_MAX6_COMMA, COL_SETPOINT_AVR_MAX6_END, 100);
                 }
                 //Формуємо екран уставок АВР
                 make_ekran_setpoint_avr(group);

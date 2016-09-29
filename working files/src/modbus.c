@@ -5642,22 +5642,22 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case MA_STP_AVR_MIN1:
       {
-        temp_value = current_settings_interfaces.setpoint_avr_min1[num_gr]/100;
+        temp_value = current_settings_interfaces.setpoint_avr_tn1_U1min[num_gr]/100;
         break;
       }
     case MA_STP_AVR_MAX1:
       {
-        temp_value = current_settings_interfaces.setpoint_avr_max1[num_gr]/100;
+        temp_value = current_settings_interfaces.setpoint_avr_tn1_U2_low_work[num_gr]/100;
         break;
       }
     case MA_STP_AVR_MIN2:
       {
-        temp_value = current_settings_interfaces.setpoint_avr_min2[num_gr]/100;
+        temp_value = current_settings_interfaces.setpoint_avr_tn2_U2min[num_gr]/100;
         break;
       }
     case MA_STP_AVR_MAX2:
       {
-        temp_value = current_settings_interfaces.setpoint_avr_max2[num_gr]/100;
+        temp_value = current_settings_interfaces.setpoint_avr_tn2_U1_low_work[num_gr]/100;
         break;
       }
     case MA_TO_AVR_BLK_K1:
@@ -8234,7 +8234,7 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
         temp_value = data*100;
     
         if ((temp_value >= SETPOINT_AVR1_MIN) && (temp_value <= SETPOINT_AVR1_MAX))
-          target_label->setpoint_avr_min1[num_gr] = temp_value;
+          target_label->setpoint_avr_tn1_U1min[num_gr] = temp_value;
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
 
@@ -8245,7 +8245,7 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
         temp_value = data*100;
     
         if ((temp_value >= SETPOINT_AVR1_MIN) && (temp_value <= SETPOINT_AVR1_MAX))
-          target_label->setpoint_avr_max1[num_gr] = temp_value;
+          target_label->setpoint_avr_tn1_U2_low_work[num_gr] = temp_value;
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
 
@@ -8256,7 +8256,7 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
         temp_value = data*100;
     
         if ((temp_value >= SETPOINT_AVR2_MIN) && (temp_value <= SETPOINT_AVR2_MAX))
-          target_label->setpoint_avr_min2[num_gr] = temp_value;
+          target_label->setpoint_avr_tn2_U2min[num_gr] = temp_value;
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
 
@@ -8267,7 +8267,7 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
         temp_value = data*100;
     
         if ((temp_value >= SETPOINT_AVR2_MIN) && (temp_value <= SETPOINT_AVR2_MAX))
-          target_label->setpoint_avr_max2[num_gr] = temp_value;
+          target_label->setpoint_avr_tn2_U1_low_work[num_gr] = temp_value;
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
 

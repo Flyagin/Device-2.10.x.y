@@ -2943,8 +2943,8 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   _AND3(logic_AVR_0, 10, logic_AVR_0, 11, logic_AVR_0, 12, logic_AVR_0, 13);
   
   unsigned int setpoint_U_AVR_min1 = (_CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MIN1) == 0) ?
-    current_settings_prt.setpoint_avr_min1[number_group_stp] :
-    (current_settings_prt.setpoint_avr_min1[number_group_stp]*U_DOWN/100);
+    current_settings_prt.setpoint_avr_tn1_U1min[number_group_stp] :
+    (current_settings_prt.setpoint_avr_tn1_U1min[number_group_stp]*U_DOWN/100);
   logic_AVR_1 |= (
                   (measurement[IM_UAB1] <= setpoint_U_AVR_min1) &&
                   (measurement[IM_UBC1] <= setpoint_U_AVR_min1) &&
@@ -2955,8 +2955,8 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   else  _CLEAR_BIT(p_active_functions, RANG_PO_UAVR_MIN1);
     
   unsigned int setpoint_U_AVR_max2 = (_CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MAX2) == 0) ?
-    current_settings_prt.setpoint_avr_max2[number_group_stp] :
-    (current_settings_prt.setpoint_avr_max2[number_group_stp]*U_UP/100);
+    current_settings_prt.setpoint_avr_tn2_U1_low_work[number_group_stp] :
+    (current_settings_prt.setpoint_avr_tn2_U1_low_work[number_group_stp]*U_UP/100);
   logic_AVR_1 |= (
                   (measurement[IM_UAB2] >= setpoint_U_AVR_max2) &&
                   (measurement[IM_UBC2] >= setpoint_U_AVR_max2) &&
@@ -2967,8 +2967,8 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   else  _CLEAR_BIT(p_active_functions, RANG_PO_UAVR_MAX2);
 
   unsigned int setpoint_U_AVR_max3 = (_CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MAX3) == 0) ?
-    current_settings_prt.setpoint_avr_max3[number_group_stp] :
-    (current_settings_prt.setpoint_avr_max3[number_group_stp]*U_UP/100);
+    current_settings_prt.setpoint_avr_tn1_U1max[number_group_stp] :
+    (current_settings_prt.setpoint_avr_tn1_U1max[number_group_stp]*U_UP/100);
   logic_AVR_1 |= (
                   (measurement[IM_UAB1] >= setpoint_U_AVR_max3) &&
                   (measurement[IM_UBC1] >= setpoint_U_AVR_max3) &&
@@ -2980,8 +2980,8 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   else  _CLEAR_BIT(p_active_functions, RANG_PO_UAVR_MAX3);
 
   unsigned int setpoint_U_AVR_max4 = (_CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MAX4) == 0) ?
-    current_settings_prt.setpoint_avr_max4[number_group_stp] :
-    (current_settings_prt.setpoint_avr_max4[number_group_stp]*U_DOWN/100);
+    current_settings_prt.setpoint_avr_tn1_U2_high_work[number_group_stp] :
+    (current_settings_prt.setpoint_avr_tn1_U2_high_work[number_group_stp]*U_DOWN/100);
   logic_AVR_1 |= (
                   (measurement[IM_UAB2] <= setpoint_U_AVR_max4) &&
                   (measurement[IM_UBC2] <= setpoint_U_AVR_max4) &&
@@ -3048,8 +3048,8 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   /*Якщо ми вийшли з цього циклу, то гарантовано біт logic_AVR_1.5 рівний стану команди "Ком.3 Вкл.АВР"*/
  
   unsigned int setpoint_U_AVR_min2 = (_CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MIN2) == 0) ?
-    current_settings_prt.setpoint_avr_min2[number_group_stp] :
-    (current_settings_prt.setpoint_avr_min2[number_group_stp]*U_DOWN/100);
+    current_settings_prt.setpoint_avr_tn2_U2min[number_group_stp] :
+    (current_settings_prt.setpoint_avr_tn2_U2min[number_group_stp]*U_DOWN/100);
   logic_AVR_2 |= (
                   (measurement[IM_UAB2] <= setpoint_U_AVR_min2) &&
                   (measurement[IM_UBC2] <= setpoint_U_AVR_min2) &&
@@ -3060,8 +3060,8 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   else  _CLEAR_BIT(p_active_functions, RANG_PO_UAVR_MIN2);
     
   unsigned int setpoint_U_AVR_max1 = (_CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MAX1) == 0) ?
-    current_settings_prt.setpoint_avr_max1[number_group_stp] :
-    (current_settings_prt.setpoint_avr_max1[number_group_stp]*U_UP/100);
+    current_settings_prt.setpoint_avr_tn1_U2_low_work[number_group_stp] :
+    (current_settings_prt.setpoint_avr_tn1_U2_low_work[number_group_stp]*U_UP/100);
   logic_AVR_2 |= (
                   (measurement[IM_UAB1] >= setpoint_U_AVR_max1) &&
                   (measurement[IM_UBC1] >= setpoint_U_AVR_max1) &&
@@ -3072,8 +3072,8 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   else  _CLEAR_BIT(p_active_functions, RANG_PO_UAVR_MAX1);
 
   unsigned int setpoint_U_AVR_max5 = (_CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MAX5) == 0) ?
-    current_settings_prt.setpoint_avr_max5[number_group_stp] :
-    (current_settings_prt.setpoint_avr_max5[number_group_stp]*U_UP/100);
+    current_settings_prt.setpoint_avr_tn2_U2max[number_group_stp] :
+    (current_settings_prt.setpoint_avr_tn2_U2max[number_group_stp]*U_UP/100);
   logic_AVR_2 |= (
                   (measurement[IM_UAB2] >= setpoint_U_AVR_max5) &&
                   (measurement[IM_UBC2] >= setpoint_U_AVR_max5) &&
@@ -3085,8 +3085,8 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   else  _CLEAR_BIT(p_active_functions, RANG_PO_UAVR_MAX5);
 
   unsigned int setpoint_U_AVR_max6 = (_CHECK_SET_BIT(p_active_functions, RANG_PO_UAVR_MAX6) == 0) ?
-    current_settings_prt.setpoint_avr_max6[number_group_stp] :
-    (current_settings_prt.setpoint_avr_max6[number_group_stp]*U_DOWN/100);
+    current_settings_prt.setpoint_avr_tn2_U1_high_work[number_group_stp] :
+    (current_settings_prt.setpoint_avr_tn2_U1_high_work[number_group_stp]*U_DOWN/100);
   logic_AVR_2 |= (
                   (measurement[IM_UAB1] <= setpoint_U_AVR_max6) &&
                   (measurement[IM_UBC1] <= setpoint_U_AVR_max6) &&
