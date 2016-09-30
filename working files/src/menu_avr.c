@@ -1,51 +1,35 @@
 #include "header.h"
 
 /*****************************************************/
-//Формуємо екран відображення уставок АВР
+//Формуємо екран відображення уставок АВР Umin
 /*****************************************************/
-void make_ekran_setpoint_avr(unsigned int group)
+void make_ekran_setpoint_avr_Umin(unsigned int group)
 {
-  const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_SETPOINT_AVR][MAX_COL_LCD] = 
+  const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_SETPOINT_AVR_UMIN][MAX_COL_LCD] = 
   {
     {
       "  U1min < U1x   ",
       "  U2min > U2x   ",
       "  U2min < U2x   ",
-      "  U1min > U1x   ",
-      "  U1max > U1x   ",
-      "  U2max < U2x   ",
-      "  U2max > U2x   ",
-      "  U1max < U1x   "
+      "  U1min > U1x   "
     },
     {
       "  U1min < U1x   ",
       "  U2min > U2x   ",
       "  U2min < U2x   ",
-      "  U1min > U1x   ",
-      "  U1max > U1x   ",
-      "  U2max < U2x   ",
-      "  U2max > U2x   ",
-      "  U1max < U1x   "
+      "  U1min > U1x   "
     },
     {
       "  U1min < U1x   ",
       "  U2min > U2x   ",
       "  U2min < U2x   ",
-      "  U1min > U1x   ",
-      "  U1max > U1x   ",
-      "  U2max < U2x   ",
-      "  U2max > U2x   ",
-      "  U1max < U1x   "
+      "  U1min > U1x   "
     },
     {
       "  U1min < U1x   ",
       "  U2min > U2x   ",
       "  U2min < U2x   ",
-      "  U1min > U1x   ",
-      "  U1max > U1x   ",
-      "  U2max < U2x   ",
-      "  U2max > U2x   ",
-      "  U1max < U1x   "
+      "  U1min > U1x   "
     }
   };
   int index_language = index_language_in_array(current_settings.language);
@@ -59,7 +43,7 @@ void make_ekran_setpoint_avr(unsigned int group)
   
   for (unsigned int i=0; i< MAX_ROW_LCD; i++)
   {
-    if (index_of_ekran < (MAX_ROW_FOR_SETPOINT_AVR<<1))//Множення на два константи MAX_ROW_FOR_SETPOINT_AVR потрібне для того, бо наодн позицію ми використовуємо два рядки (назва + значення)
+    if (index_of_ekran < (MAX_ROW_FOR_SETPOINT_AVR_UMIN<<1))//Множення на два константи MAX_ROW_FOR_SETPOINT_AVR_UMIN потрібне для того, бо наодн позицію ми використовуємо два рядки (назва + значення)
     {
       if ((i & 0x1) == 0)
       {
@@ -91,34 +75,6 @@ void make_ekran_setpoint_avr(unsigned int group)
           vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
           if (current_ekran.edition == 0) value = current_settings.setpoint_avr_tn2_U1_low_work[group]; //у змінну value поміщаємо значення уставки
           else value = edition_settings.setpoint_avr_tn2_U1_low_work[group];
-          first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
-        }
-        else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_TN1_U1_MAX)
-        {
-          vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
-          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_tn1_U1_max[group]; //у змінну value поміщаємо значення уставки
-          else value = edition_settings.setpoint_avr_tn1_U1_max[group];
-          first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
-        }
-        else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_TN1_U2_HIGH_WORK)
-        {
-          vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
-          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_tn1_U2_high_work[group]; //у змінну value поміщаємо значення уставки
-          else value = edition_settings.setpoint_avr_tn1_U2_high_work[group];
-          first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
-        }
-        else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_TN2_U2_MAX)
-        {
-          vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
-          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_tn2_U2_max[group]; //у змінну value поміщаємо значення уставки
-          else value = edition_settings.setpoint_avr_tn2_U2_max[group];
-          first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
-        }
-        else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_TN2_U1_HIGH_WORK)
-        {
-          vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
-          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_tn2_U1_high_work[group]; //у змінну value поміщаємо значення уставки
-          else value = edition_settings.setpoint_avr_tn2_U1_high_work[group];
           first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
         }
       }
@@ -171,7 +127,145 @@ void make_ekran_setpoint_avr(unsigned int group)
             else
               calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_AVR_TN2_U1_LOW_WORK_COMMA, 0);
           }
-          else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_TN1_U1_MAX)
+        }
+      }
+        
+    }
+    else
+      for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = ' ';
+
+    index_of_ekran++;
+  }
+
+  //Відображення курору по вертикалі і курсор завжди має бути у полі із значенням устаки
+  current_ekran.position_cursor_y = ((position_temp<<1) + 1) & (MAX_ROW_LCD - 1);
+  //Курсор по горизонталі відображається на першому символі у випадку, коли ми не в режимі редагування, інакше позиція буде визначена у функцї main_manu_function
+  if (current_ekran.edition == 0)
+  {
+    int last_position_cursor_x = MAX_COL_LCD;
+    if (current_ekran.index_position == INDEX_ML_STPAVR_TN1_U1_MIN)
+    {
+      current_ekran.position_cursor_x = COL_SETPOINT_AVR_TN1_U1_MIN_BEGIN;
+      last_position_cursor_x = COL_SETPOINT_AVR_TN1_U1_MIN_END;
+    }
+    else if (current_ekran.index_position == INDEX_ML_STPAVR_TN1_U2_LOW_WORK)
+    {
+      current_ekran.position_cursor_x = COL_SETPOINT_AVR_TN1_U2_LOW_WORK_BEGIN;
+      last_position_cursor_x = COL_SETPOINT_AVR_TN1_U2_LOW_WORK_END;
+    }
+    else if (current_ekran.index_position == INDEX_ML_STPAVR_TN2_U2_MIN) 
+    {
+      current_ekran.position_cursor_x = COL_SETPOINT_AVR_TN2_U2_MIN_BEGIN;
+      last_position_cursor_x = COL_SETPOINT_AVR_TN2_U2_MIN_END;
+    }
+    else if (current_ekran.index_position == INDEX_ML_STPAVR_TN2_U1_LOW_WORK)
+    {
+      current_ekran.position_cursor_x = COL_SETPOINT_AVR_TN2_U1_LOW_WORK_BEGIN;
+      last_position_cursor_x = COL_SETPOINT_AVR_TN2_U1_LOW_WORK_END;
+    }
+    
+    //Підтягуємо курсор до першого символу
+    while (((working_ekran[current_ekran.position_cursor_y][current_ekran.position_cursor_x + 1]) == ' ') && 
+           (current_ekran.position_cursor_x < (last_position_cursor_x -1))) current_ekran.position_cursor_x++;
+    
+    //Курсор ставимо так, щоб він був перед числом
+    if (((working_ekran[current_ekran.position_cursor_y][current_ekran.position_cursor_x]) != ' ') && 
+        (current_ekran.position_cursor_x > 0)) current_ekran.position_cursor_x--;
+  }
+  //Курсор видимий
+  current_ekran.cursor_on = 1;
+  //Курсор не мигає
+  if(current_ekran.edition == 0)current_ekran.cursor_blinking_on = 0;
+  else current_ekran.cursor_blinking_on = 1;
+  //Обновити повністю весь екран
+  current_ekran.current_action = ACTION_WITH_CARRENT_EKRANE_FULL_UPDATE;
+}
+/*****************************************************/
+
+/*****************************************************/
+//Формуємо екран відображення уставок АВР Umin
+/*****************************************************/
+void make_ekran_setpoint_avr_Umax(unsigned int group)
+{
+  const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_SETPOINT_AVR_UMAX][MAX_COL_LCD] = 
+  {
+    {
+      "  U1max > U1x   ",
+      "  U2max < U2x   ",
+      "  U2max > U2x   ",
+      "  U1max < U1x   "
+    },
+    {
+      "  U1max > U1x   ",
+      "  U2max < U2x   ",
+      "  U2max > U2x   ",
+      "  U1max < U1x   "
+    },
+    {
+      "  U1max > U1x   ",
+      "  U2max < U2x   ",
+      "  U2max > U2x   ",
+      "  U1max < U1x   "
+    },
+    {
+      "  U1max > U1x   ",
+      "  U2max < U2x   ",
+      "  U2max > U2x   ",
+      "  U1max < U1x   "
+    }
+  };
+  int index_language = index_language_in_array(current_settings.language);
+  
+  unsigned int position_temp = current_ekran.index_position;
+  unsigned int index_of_ekran;
+  unsigned int vaga, value, first_symbol;
+  
+  //Множення на два величини position_temp потрібне для того, бо наодн позицію ми використовуємо два рядки (назва + значення)
+  index_of_ekran = ((position_temp<<1) >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
+  
+  for (unsigned int i=0; i< MAX_ROW_LCD; i++)
+  {
+    if (index_of_ekran < (MAX_ROW_FOR_SETPOINT_AVR_UMAX<<1))//Множення на два константи MAX_ROW_FOR_SETPOINT_AVR_UMAX потрібне для того, бо наодн позицію ми використовуємо два рядки (назва + значення)
+    {
+      if ((i & 0x1) == 0)
+      {
+        //У непарному номері рядку виводимо заголовок
+        for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language][index_of_ekran>>1][j];
+        if ((index_of_ekran>>1) == INDEX_ML_STPAVR_TN1_U1_MAX)
+        {
+          vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
+          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_tn1_U1_max[group]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.setpoint_avr_tn1_U1_max[group];
+          first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
+        }
+        else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_TN1_U2_HIGH_WORK)
+        {
+          vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
+          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_tn1_U2_high_work[group]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.setpoint_avr_tn1_U2_high_work[group];
+          first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
+        }
+        else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_TN2_U2_MAX)
+        {
+          vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
+          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_tn2_U2_max[group]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.setpoint_avr_tn2_U2_max[group];
+          first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
+        }
+        else if ((index_of_ekran>>1) == INDEX_ML_STPAVR_TN2_U1_HIGH_WORK)
+        {
+          vaga = 100000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки
+          if (current_ekran.edition == 0) value = current_settings.setpoint_avr_tn2_U1_high_work[group]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.setpoint_avr_tn2_U1_high_work[group];
+          first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
+        }
+      }
+      else
+      {
+        //У парному номері рядку виводимо значення уставки
+        for (unsigned int j = 0; j<MAX_COL_LCD; j++)
+        {
+          if ((index_of_ekran>>1) == INDEX_ML_STPAVR_TN1_U1_MAX)
           {
             if (
                 ((j < COL_SETPOINT_AVR_TN1_U1_MAX_BEGIN) ||  (j > COL_SETPOINT_AVR_TN1_U1_MAX_END ))  &&
@@ -231,27 +325,7 @@ void make_ekran_setpoint_avr(unsigned int group)
   if (current_ekran.edition == 0)
   {
     int last_position_cursor_x = MAX_COL_LCD;
-    if (current_ekran.index_position == INDEX_ML_STPAVR_TN1_U1_MIN)
-    {
-      current_ekran.position_cursor_x = COL_SETPOINT_AVR_TN1_U1_MIN_BEGIN;
-      last_position_cursor_x = COL_SETPOINT_AVR_TN1_U1_MIN_END;
-    }
-    else if (current_ekran.index_position == INDEX_ML_STPAVR_TN1_U2_LOW_WORK)
-    {
-      current_ekran.position_cursor_x = COL_SETPOINT_AVR_TN1_U2_LOW_WORK_BEGIN;
-      last_position_cursor_x = COL_SETPOINT_AVR_TN1_U2_LOW_WORK_END;
-    }
-    else if (current_ekran.index_position == INDEX_ML_STPAVR_TN2_U2_MIN) 
-    {
-      current_ekran.position_cursor_x = COL_SETPOINT_AVR_TN2_U2_MIN_BEGIN;
-      last_position_cursor_x = COL_SETPOINT_AVR_TN2_U2_MIN_END;
-    }
-    else if (current_ekran.index_position == INDEX_ML_STPAVR_TN2_U1_LOW_WORK)
-    {
-      current_ekran.position_cursor_x = COL_SETPOINT_AVR_TN2_U1_LOW_WORK_BEGIN;
-      last_position_cursor_x = COL_SETPOINT_AVR_TN2_U1_LOW_WORK_END;
-    }
-    else if (current_ekran.index_position == INDEX_ML_STPAVR_TN1_U1_MAX)
+    if (current_ekran.index_position == INDEX_ML_STPAVR_TN1_U1_MAX)
     {
       current_ekran.position_cursor_x = COL_SETPOINT_AVR_TN1_U1_MAX_BEGIN;
       last_position_cursor_x = COL_SETPOINT_AVR_TN1_U1_MAX_END;

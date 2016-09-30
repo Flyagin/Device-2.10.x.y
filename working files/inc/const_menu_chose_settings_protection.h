@@ -46,6 +46,7 @@
 #define MAX_ROW_FOR_CHOSE_SETTINGS_ANY_PROTECTION                    3
 #define MAX_ROW_FOR_CHOSE_SETTINGS_PROTECTION_WITH_TWO_GROUP         (NUMBER_GROUP_USTAVOK + 1)
 #define MAX_ROW_FOR_CHOSE_SETPOINTS_TIMEOUTS                         2
+#define MAX_ROW_FOR_CHOSE_SETPOINTS_TIMEOUTS_AVR                     3
 #define MAX_ROW_FOR_CHOSE_SETTINGS_PROTECTION_WITH_CONTROL           1
 #define MAX_ROW_FOR_CHOSE_SETTINGS_PROTECTION_WITH_TIMEOUT           1
 #define MAX_ROW_FOR_CHOSE_SETTINGS_PROTECTION_WITH_TIMEOUT_CONTROL   2
@@ -60,6 +61,10 @@
 #define INDEX_ML_SETPOINT                                 0
 #define INDEX_ML_TIMEOUT                                  1
 #define INDEX_ML_CONTROL                                  2
+
+#define INDEX_ML_SETPOINT_AVR_UMIN                        0
+#define INDEX_ML_SETPOINT_AVR_UMAX                        1
+#define INDEX_ML_TIMEOUT_AVR                              2
 
 //Це є додаткові позиції, якщо вони не співпадають з основними
 #define INDEX_ML_WITH_CONTROL_CONTROL                     0

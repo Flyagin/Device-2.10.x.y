@@ -176,8 +176,8 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
        )  
        ||
        (
-        (current_ekran.current_level >= EKRAN_SETPOINT_AVR_GROUP1) &&
-        (current_ekran.current_level <= EKRAN_SETPOINT_AVR_GROUP4)
+        (current_ekran.current_level >= EKRAN_SETPOINT_AVR_UMIN_GROUP1) &&
+        (current_ekran.current_level <= EKRAN_SETPOINT_AVR_UMAX_GROUP4)
        )
        ||  
        (
