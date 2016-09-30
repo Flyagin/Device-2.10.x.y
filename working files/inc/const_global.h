@@ -347,14 +347,14 @@ RANG_STAT_BLOCK_AVR_2,
 RANG_OZT_AVR_1,
 RANG_OZT_AVR_2,
 RANG_BLOCK_AVR_VID_ZAKHYSTIV,
-RANG_PO_UAVR_MIN1,
-RANG_PO_UAVR_MAX1,
-RANG_PO_UAVR_MIN2,
-RANG_PO_UAVR_MAX2,
-RANG_PO_UAVR_MAX3,
-RANG_PO_UAVR_MAX4,
-RANG_PO_UAVR_MAX5,
-RANG_PO_UAVR_MAX6,
+RANG_PO_AVR_TN1_U1_MIN,
+RANG_PO_AVR_TN1_U2_LOW_WORK,
+RANG_PO_AVR_TN2_U2_MIN,
+RANG_PO_AVR_TN2_U1_LOW_WORK,
+RANG_PO_AVR_TN1_U1_MAX,
+RANG_PO_AVR_TN1_U2_HIGH_WORK,
+RANG_PO_AVR_TN2_U2_MAX,
+RANG_PO_AVR_TN2_U1_HIGH_WORK,
 RANG_PO_AVR_K1,
 RANG_KOM1_ON_AVR,
 RANG_KOM1_OFF_AVR,
@@ -776,14 +776,14 @@ enum __mtz_abc_direction_const {
    | (1 << (RANG_OZT_AVR_1 - 96))                           /*109*/\
    | (1 << (RANG_OZT_AVR_2 - 96))                           /*110*/\
    | (1 << (RANG_BLOCK_AVR_VID_ZAKHYSTIV - 96))             /*111*/\
-   | (1 << (RANG_PO_UAVR_MIN1 - 96))                        /*112*/\
-   | (1 << (RANG_PO_UAVR_MAX1 - 96))                        /*113*/\
-   | (1 << (RANG_PO_UAVR_MIN2 - 96))                        /*114*/\
-   | (1 << (RANG_PO_UAVR_MAX2 - 96))                        /*115*/\
-   | (1 << (RANG_PO_UAVR_MAX3 - 96))                        /*116*/\
-   | (1 << (RANG_PO_UAVR_MAX4 - 96))                        /*117*/\
-   | (1 << (RANG_PO_UAVR_MAX5 - 96))                        /*118*/\
-   | (1 << (RANG_PO_UAVR_MAX6 - 96))                        /*119*/\
+   | (1 << (RANG_PO_AVR_TN1_U1_MIN - 96))                   /*112*/\
+   | (1 << (RANG_PO_AVR_TN1_U2_LOW_WORK - 96))              /*113*/\
+   | (1 << (RANG_PO_AVR_TN2_U2_MIN - 96))                   /*114*/\
+   | (1 << (RANG_PO_AVR_TN2_U1_LOW_WORK - 96))              /*115*/\
+   | (1 << (RANG_PO_AVR_TN1_U1_MAX - 96))                   /*116*/\
+   | (1 << (RANG_PO_AVR_TN1_U2_HIGH_WORK - 96))             /*117*/\
+   | (1 << (RANG_PO_AVR_TN2_U2_MAX - 96))                   /*118*/\
+   | (1 << (RANG_PO_AVR_TN2_U1_HIGH_WORK - 96))             /*119*/\
    | (1 << (RANG_PO_AVR_K1 - 96))                           /*120*/\
    | (1 << (RANG_KOM1_ON_AVR - 96))                         /*121*/\
    | (1 << (RANG_KOM1_OFF_AVR - 96))                        /*122*/\

@@ -229,10 +229,10 @@
 #define BIT_MA_SBROS_BLOCK_AVR                  50305
 #define BIT_MA_STAT_BLOCK_AVR_1                 50306
 #define BIT_MA_STAT_BLOCK_AVR_2                 50307
-#define BIT_MA_PO_UAVR_MIN1                     50308
-#define BIT_MA_PO_UAVR_MAX1                     50309
-#define BIT_MA_PO_UAVR_MIN2                     50310
-#define BIT_MA_PO_UAVR_MAX2                     50311
+#define BIT_MA_PO_AVR_TN1_U1_MIN                50308
+#define BIT_MA_PO_AVR_TN1_U2_LOW_WORK           50309
+#define BIT_MA_PO_AVR_TN2_U2_MIN                50310
+#define BIT_MA_PO_AVR_TN2_U1_LOW_WORK           50311
 #define BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV          50312
 //#define BIT_MA_BLOCK_KRATN_AVR                  50313
 //#define BIT_MA_PUSK_AVR                         50314
@@ -930,10 +930,10 @@
 #define MA_TO_UROV1                       10424
 #define MA_TO_UROV2                       10425
 
-#define MA_STP_AVR_MIN1                   10426
-#define MA_STP_AVR_MAX1                   10427
-#define MA_STP_AVR_MIN2                   10428
-#define MA_STP_AVR_MAX2                   10429
+#define MA_STP_AVR_TN1_U1_MIN             10426
+#define MA_STP_AVR_TN1_U2_LOW_WORK        10427
+#define MA_STP_AVR_TN2_U2_MIN             10428
+#define MA_STP_AVR_TN2_U1_LOW_WORK        10429
 //#define MA_TO_AVR_RL                      10430
 //#define MA_TO_AVR_OL                      10431
 //#define MA_STP_KRATN_AVR                  10432

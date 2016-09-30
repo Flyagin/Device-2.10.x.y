@@ -146,10 +146,10 @@ void convert_order_list_function_to_gmm(unsigned int* input_array, unsigned shor
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_STAT_BLOCK_AVR_1       , (BIT_MA_STAT_BLOCK_AVR_1        - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_STAT_BLOCK_AVR_2       , (BIT_MA_STAT_BLOCK_AVR_2        - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_AVR_VID_ZAKHYSTIV, (BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_UAVR_MIN1           , (BIT_MA_PO_UAVR_MIN1            - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_UAVR_MAX1           , (BIT_MA_PO_UAVR_MAX1            - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_UAVR_MIN2           , (BIT_MA_PO_UAVR_MIN2            - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_UAVR_MAX2           , (BIT_MA_PO_UAVR_MAX2            - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_AVR_TN1_U1_MIN      , (BIT_MA_PO_AVR_TN1_U1_MIN       - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_AVR_TN1_U2_LOW_WORK , (BIT_MA_PO_AVR_TN1_U2_LOW_WORK  - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_AVR_TN2_U2_MIN      , (BIT_MA_PO_AVR_TN2_U2_MIN       - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_AVR_TN2_U1_LOW_WORK , (BIT_MA_PO_AVR_TN2_U1_LOW_WORK  - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OZT_AVR_1              , (BIT_MA_OZT_AVR_1               - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OZT_AVR_2              , (BIT_MA_OZT_AVR_2               - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_AVR_K1              , (BIT_MA_PO_AVR_K1               - BIT_MA_CURRENT_AF_BASE));
@@ -1729,24 +1729,24 @@ unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int nu
         rezultat = BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV;
         break;
       }
-    case RANG_PO_UAVR_MIN1:
+    case RANG_PO_AVR_TN1_U1_MIN:
       {
-        rezultat = BIT_MA_PO_UAVR_MIN1;
+        rezultat = BIT_MA_PO_AVR_TN1_U1_MIN;
         break;
       }
-    case RANG_PO_UAVR_MAX1:
+    case RANG_PO_AVR_TN1_U2_LOW_WORK:
       {
-        rezultat = BIT_MA_PO_UAVR_MAX1;
+        rezultat = BIT_MA_PO_AVR_TN1_U2_LOW_WORK;
         break;
       }
-    case RANG_PO_UAVR_MIN2:
+    case RANG_PO_AVR_TN2_U2_MIN:
       {
-        rezultat = BIT_MA_PO_UAVR_MIN2;
+        rezultat = BIT_MA_PO_AVR_TN2_U2_MIN;
         break;
       }
-    case RANG_PO_UAVR_MAX2:
+    case RANG_PO_AVR_TN2_U1_LOW_WORK:
       {
-        rezultat = BIT_MA_PO_UAVR_MAX2;
+        rezultat = BIT_MA_PO_AVR_TN2_U1_LOW_WORK;
         break;
       }
     case RANG_PO_AVR_K1:
@@ -2654,10 +2654,10 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
              (data == BIT_MA_SBROS_BLOCK_AVR        ) || 
              (data == BIT_MA_STAT_BLOCK_AVR_1       ) || 
              (data == BIT_MA_STAT_BLOCK_AVR_2       ) || 
-             (data == BIT_MA_PO_UAVR_MIN1           ) || 
-             (data == BIT_MA_PO_UAVR_MAX1           ) || 
-             (data == BIT_MA_PO_UAVR_MIN2           ) || 
-             (data == BIT_MA_PO_UAVR_MAX2           ) || 
+             (data == BIT_MA_PO_AVR_TN1_U1_MIN      ) || 
+             (data == BIT_MA_PO_AVR_TN1_U2_LOW_WORK ) || 
+             (data == BIT_MA_PO_AVR_TN2_U2_MIN      ) || 
+             (data == BIT_MA_PO_AVR_TN2_U1_LOW_WORK ) || 
              (data == BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV) ||
              (data == BIT_MA_OZT_AVR_1              ) ||
              (data == BIT_MA_OZT_AVR_2              ) ||
@@ -3733,24 +3733,24 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
         _SET_BIT(set_array_rang, RANG_STAT_BLOCK_AVR_2);
         break;
       }
-    case BIT_MA_PO_UAVR_MIN1:
+    case BIT_MA_PO_AVR_TN1_U1_MIN:
       {
-        _SET_BIT(set_array_rang, RANG_PO_UAVR_MIN1);
+        _SET_BIT(set_array_rang, RANG_PO_AVR_TN1_U1_MIN);
         break;
       }
-    case BIT_MA_PO_UAVR_MAX1:
+    case BIT_MA_PO_AVR_TN1_U2_LOW_WORK:
       {
-        _SET_BIT(set_array_rang, RANG_PO_UAVR_MAX1);
+        _SET_BIT(set_array_rang, RANG_PO_AVR_TN1_U2_LOW_WORK);
         break;
       }
-    case BIT_MA_PO_UAVR_MIN2:
+    case BIT_MA_PO_AVR_TN2_U2_MIN:
       {
-        _SET_BIT(set_array_rang, RANG_PO_UAVR_MIN2);
+        _SET_BIT(set_array_rang, RANG_PO_AVR_TN2_U2_MIN);
         break;
       }
-    case BIT_MA_PO_UAVR_MAX2:
+    case BIT_MA_PO_AVR_TN2_U1_LOW_WORK:
       {
-        _SET_BIT(set_array_rang, RANG_PO_UAVR_MAX2);
+        _SET_BIT(set_array_rang, RANG_PO_AVR_TN2_U1_LOW_WORK);
         break;
       }
     case BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV:
@@ -5640,22 +5640,22 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         temp_value = current_settings_interfaces.timeout_urov_2[num_gr]/10;
         break;
       }
-    case MA_STP_AVR_MIN1:
+    case MA_STP_AVR_TN1_U1_MIN:
       {
-        temp_value = current_settings_interfaces.setpoint_avr_tn1_U1min[num_gr]/100;
+        temp_value = current_settings_interfaces.setpoint_avr_tn1_U1_min[num_gr]/100;
         break;
       }
-    case MA_STP_AVR_MAX1:
+    case MA_STP_AVR_TN1_U2_LOW_WORK:
       {
         temp_value = current_settings_interfaces.setpoint_avr_tn1_U2_low_work[num_gr]/100;
         break;
       }
-    case MA_STP_AVR_MIN2:
+    case MA_STP_AVR_TN2_U2_MIN:
       {
-        temp_value = current_settings_interfaces.setpoint_avr_tn2_U2min[num_gr]/100;
+        temp_value = current_settings_interfaces.setpoint_avr_tn2_U2_min[num_gr]/100;
         break;
       }
-    case MA_STP_AVR_MAX2:
+    case MA_STP_AVR_TN2_U1_LOW_WORK:
       {
         temp_value = current_settings_interfaces.setpoint_avr_tn2_U1_low_work[num_gr]/100;
         break;
@@ -8229,44 +8229,44 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_STP_AVR_MIN1:
+    case MA_STP_AVR_TN1_U1_MIN:
       {
         temp_value = data*100;
     
-        if ((temp_value >= SETPOINT_AVR1_MIN) && (temp_value <= SETPOINT_AVR1_MAX))
-          target_label->setpoint_avr_tn1_U1min[num_gr] = temp_value;
+        if ((temp_value >= SETPOINT_AVR_TN1_U1_MIN_MIN) && (temp_value <= SETPOINT_AVR_TN1_U1_MIN_MAX))
+          target_label->setpoint_avr_tn1_U1_min[num_gr] = temp_value;
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
 
         break;
       }
-    case MA_STP_AVR_MAX1:
+    case MA_STP_AVR_TN1_U2_LOW_WORK:
       {
         temp_value = data*100;
     
-        if ((temp_value >= SETPOINT_AVR1_MIN) && (temp_value <= SETPOINT_AVR1_MAX))
+        if ((temp_value >= SETPOINT_AVR_TN1_U2_LOW_WORK_MIN) && (temp_value <= SETPOINT_AVR_TN1_U2_LOW_WORK_MAX))
           target_label->setpoint_avr_tn1_U2_low_work[num_gr] = temp_value;
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
 
         break;
       }
-    case MA_STP_AVR_MIN2:
+    case MA_STP_AVR_TN2_U2_MIN:
       {
         temp_value = data*100;
     
-        if ((temp_value >= SETPOINT_AVR2_MIN) && (temp_value <= SETPOINT_AVR2_MAX))
-          target_label->setpoint_avr_tn2_U2min[num_gr] = temp_value;
+        if ((temp_value >= SETPOINT_AVR_TN2_U2_MIN_MIN) && (temp_value <= SETPOINT_AVR_TN2_U2_MIN_MAX))
+          target_label->setpoint_avr_tn2_U2_min[num_gr] = temp_value;
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
 
         break;
       }
-    case MA_STP_AVR_MAX2:
+    case MA_STP_AVR_TN2_U1_LOW_WORK:
       {
         temp_value = data*100;
     
-        if ((temp_value >= SETPOINT_AVR2_MIN) && (temp_value <= SETPOINT_AVR2_MAX))
+        if ((temp_value >= SETPOINT_AVR1_TN2_U1_LOW_WORK_MIN) && (temp_value <= SETPOINT_AVR1_TN2_U1_LOW_WORK_MAX))
           target_label->setpoint_avr_tn2_U1_low_work[num_gr] = temp_value;
         else
           error = ERROR_ILLEGAL_DATA_VALUE;

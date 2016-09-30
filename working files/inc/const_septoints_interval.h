@@ -241,23 +241,29 @@
 #define TIMEOUT_UMAX2_MIN             0
 #define TIMEOUT_UMAX2_MAX             300000
 
-#define SETPOINT_AVR1_MIN             10000
-#define SETPOINT_AVR1_MAX             150000
+#define SETPOINT_AVR_TN1_U1_MIN_MIN             10000
+#define SETPOINT_AVR_TN1_U1_MIN_MAX             100000
 
-#define SETPOINT_AVR2_MIN             10000
-#define SETPOINT_AVR2_MAX             150000
+#define SETPOINT_AVR_TN1_U2_LOW_WORK_MIN        10000
+#define SETPOINT_AVR_TN1_U2_LOW_WORK_MAX        100000
 
-#define SETPOINT_AVR3_MIN             10000
-#define SETPOINT_AVR3_MAX             150000
+#define SETPOINT_AVR_TN2_U2_MIN_MIN             10000
+#define SETPOINT_AVR_TN2_U2_MIN_MAX             100000
 
-#define SETPOINT_AVR4_MIN             10000
-#define SETPOINT_AVR4_MAX             150000
+#define SETPOINT_AVR1_TN2_U1_LOW_WORK_MIN       10000
+#define SETPOINT_AVR1_TN2_U1_LOW_WORK_MAX       100000
 
-#define SETPOINT_AVR5_MIN             10000
-#define SETPOINT_AVR5_MAX             150000
+#define SETPOINT_AVR_TN1_U1_MAX_MIN             100000
+#define SETPOINT_AVR_TN1_U1_MAX_MAX             150000
 
-#define SETPOINT_AVR6_MIN             10000
-#define SETPOINT_AVR6_MAX             150000
+#define SETPOINT_AVR1_TN1_U2_HIGH_WORK_MIN      100000
+#define SETPOINT_AVR1_TN1_U2_HIGH_WORK_MAX      150000
+
+#define SETPOINT_AVR_TN2_U2_MAX_MIN             100000
+#define SETPOINT_AVR_TN2_U2_MAX_MAX             150000
+
+#define SETPOINT_AVR1_TN2_U1_HIGH_WORK_MIN      100000
+#define SETPOINT_AVR1_TN2_U1_HIGH_WORK_MAX      150000
 
 #define TIMEOUT_AVR_BLK_K1_MIN        200
 #define TIMEOUT_AVR_BLK_K1_MAX        32000
