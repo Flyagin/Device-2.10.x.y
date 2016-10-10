@@ -5146,9 +5146,9 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case M_ADDRESS_CONTROL_EXTRA_SETTINGS:
       {
-        int input_value1 = current_settings.control_extra_settings_1;
+        int input_value1 = current_settings_interfaces.control_transformator;
         
-        temp_value = ((((input_value1 >> INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_LINE_PHASE ) & 0x1 ) == 0) << (BIT_MA_CONTROL_PHASE_LINE - BIT_MA_CONTROL_EXTRA_SETTINGS_BASE));
+        temp_value = ((((input_value1 >> INDEX_ML_CTR_TRANSFORMATOR_LINE_PHASE ) & 0x1 ) == 0) << (BIT_MA_CONTROL_PHASE_LINE - BIT_MA_CONTROL_EXTRA_SETTINGS_BASE));
         break;
       }
     case M_ADDRESS_CONTROL_UROV_PART1:
@@ -6867,11 +6867,11 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
       }
     case M_ADDRESS_CONTROL_EXTRA_SETTINGS:
       {
-        int output_value = target_label->control_extra_settings_1 & ((unsigned int)(~CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE));
+        int output_value = target_label->control_transformator & ((unsigned int)(~CTR_TRANSFORMATOR_LINE_PHASE));
         
-        output_value |= (((data >> (BIT_MA_CONTROL_PHASE_LINE - BIT_MA_CONTROL_EXTRA_SETTINGS_BASE)) & 0x1) == 0) << INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_LINE_PHASE;
+        output_value |= (((data >> (BIT_MA_CONTROL_PHASE_LINE - BIT_MA_CONTROL_EXTRA_SETTINGS_BASE)) & 0x1) == 0) << INDEX_ML_CTR_TRANSFORMATOR_LINE_PHASE;
         
-        target_label->control_extra_settings_1 = output_value;
+        target_label->control_transformator = output_value;
 
         break;
       }

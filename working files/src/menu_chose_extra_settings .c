@@ -8,7 +8,6 @@ void make_ekran_chose_extra_settings(void)
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_CHOSE_EXTRA_SETTINGS][MAX_COL_LCD] = 
   {
     {
-      " Выб.U для защит",
       "Бл.Гот.к ТУ от з",
       " Инф.об отключ. ",
       " Контр.акт.ФК   ",
@@ -16,7 +15,6 @@ void make_ekran_chose_extra_settings(void)
       "Бл.Откл.ВВ от ДВ"
     },
     {
-      " Виб.U для зах. ",
       "Бл.Гот.до ТУ в.з",
       "Інф.про вимкнен.",
       " Контр.акт.ФК   ",
@@ -24,7 +22,6 @@ void make_ekran_chose_extra_settings(void)
       " Бл.Вимк.від ДВ "
     },
     {
-      " Выб.U для защит",
       "Бл.Гот.к ТУ от з",
       " Инф.об отключ. ",
       " FK activ.Ctrl  ",
@@ -32,7 +29,6 @@ void make_ekran_chose_extra_settings(void)
       "Blc.Off CB fr.DI"
     },
     {
-      " Выб.U для защит",
       "Бл.Гот.к ТУ от з",
       " Инф.об отключ. ",
       " Контр.акт.ФК   ",
@@ -60,83 +56,19 @@ void make_ekran_chose_extra_settings(void)
       else
       {
         //У парному номері рядку виводимо стан
-        const unsigned char information[MAX_ROW_FOR_CHOSE_EXTRA_SETTINGS][MAX_NAMBER_LANGUAGE][2][MAX_COL_LCD] = 
+        const unsigned char information[MAX_NAMBER_LANGUAGE][2][MAX_COL_LCD] = 
         {
-          {
-            {"    Линейные    ", "     Фазные     "},
-            {"    Лінійні     ", "     Фазні      "},
-            {"    Линейные    ", "     Фазные     "},
-            {"    Линейные    ", "     Фазные     "}
-          },
-          {
-            {"     Откл.      ", "      Вкл.      "},
-            {"     Вимк.      ", "     Ввімк.     "},
-            {"      Off       ", "       On       "},
-            {"     Сљнд.      ", "     Косу.      "}
-          },
-          {
-            {"     Откл.      ", "      Вкл.      "},
-            {"     Вимк.      ", "     Ввімк.     "},
-            {"      Off       ", "       On       "},
-            {"     Сљнд.      ", "     Косу.      "}
-          },
-          {
-            {"     Откл.      ", "      Вкл.      "},
-            {"     Вимк.      ", "     Ввімк.     "},
-            {"      Off       ", "       On       "},
-            {"     Сљнд.      ", "     Косу.      "}
-          },
-          {
-            {"     Откл.      ", "      Вкл.      "},
-            {"     Вимк.      ", "     Ввімк.     "},
-            {"      Off       ", "       On       "},
-            {"     Сљнд.      ", "     Косу.      "}
-          },
-          {
-            {"     Откл.      ", "      Вкл.      "},
-            {"     Вимк.      ", "     Ввімк.     "},
-            {"      Off       ", "       On       "},
-            {"     Сљнд.      ", "     Косу.      "}
-          }
+          {"     Откл.      ", "      Вкл.      "},
+          {"     Вимк.      ", "     Ввімк.     "},
+          {"      Off       ", "       On       "},
+          {"     Сљнд.      ", "     Косу.      "}
         };
-        const unsigned int cursor_x[MAX_ROW_FOR_CHOSE_EXTRA_SETTINGS][MAX_NAMBER_LANGUAGE][2] = 
+        const unsigned int cursor_x[MAX_NAMBER_LANGUAGE][2] = 
         {
-          {
-            {3, 4},
-            {3, 4},
-            {3, 4},
-            {3, 4}
-          },
-          {
-            {4, 5},
-            {4, 4},
-            {5, 6},
-            {4, 4}
-          },
-          {
-            {4, 5},
-            {4, 4},
-            {5, 6},
-            {4, 4}
-          },
-          {
-            {4, 5},
-            {4, 4},
-            {5, 6},
-            {4, 4}
-          },
-          {
-            {4, 5},
-            {4, 4},
-            {5, 6},
-            {4, 4}
-          },
-          {
-            {4, 5},
-            {4, 4},
-            {5, 6},
-            {4, 4}
-          }
+          {4, 5},
+          {4, 4},
+          {5, 6},
+          {4, 4}
         };
       
         
@@ -146,8 +78,8 @@ void make_ekran_chose_extra_settings(void)
         if(current_ekran.edition == 0) temp_data = current_settings.control_extra_settings_1;
         else temp_data = edition_settings.control_extra_settings_1;
           
-        for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = information[index_ctr][index_language][(temp_data >> index_ctr) & 0x1][j];
-        current_ekran.position_cursor_x = cursor_x[index_ctr][index_language][(temp_data >> index_ctr) & 0x1];
+        for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = information[index_language][(temp_data >> index_ctr) & 0x1][j];
+        current_ekran.position_cursor_x = cursor_x[index_language][(temp_data >> index_ctr) & 0x1];
       }
     }
     else

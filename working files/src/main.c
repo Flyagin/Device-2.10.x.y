@@ -97,7 +97,7 @@ inline void periodical_operations(void)
   //Робота з Watchdog
   watchdog_routine();
 
-  //Робота з таймеро очікування нових змін налаштувань
+  //Робота з таймером очікування нових змін налаштувань
   if ((timeout_idle_new_settings >= current_settings.timeout_idle_new_settings) && (restart_timeout_idle_new_settings == 0))
   {
     if (_CHECK_SET_BIT(active_functions, RANG_SETTINGS_CHANGED) != 0) 

@@ -257,7 +257,8 @@ typedef struct
 
   unsigned int TCurrent;                //Коефіцієнт трансформації для трансформатора струмів
   unsigned int TVoltage;                //Коефіцієнт трансформації для трансформатора напруг
-  
+  unsigned int control_transformator;   //налаштування для меню "Трансформатор"
+
   unsigned int password1;                                       //Пароль для редагування з меню
   unsigned int password2;                                       //Пароль для очистки лічилчників енегії і ресурсу вимикача
   unsigned int timeout_deactivation_password_interface_USB;     //Час деактивації паролю для редагування з інтерфейсу USB

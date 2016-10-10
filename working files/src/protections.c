@@ -2540,7 +2540,7 @@ void umin1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
                                        (measurement[IM_IB] >= setpoint3) || 
                                        (measurement[IM_IC] >= setpoint3);
   //М
-  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) != 0)         << 0;
+  unsigned int tmp_value = ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_LINE_PHASE) != 0)                    << 0;
   tmp_value |= ((current_settings_prt.control_Umin & CTR_UMIN1) != 0)                                                            << 2;
   tmp_value |= ((current_settings_prt.control_Umin & CTR_PO_UMIN1_OR_AND) != 0)                                                  << 3;
   tmp_value |= ((current_settings_prt.control_Umin & CTR_UMIN1_UBLK) != 0)                                                       << 4;
@@ -2671,7 +2671,7 @@ void umin2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
                                        (measurement[IM_IB] >= setpoint3) || 
                                        (measurement[IM_IC] >= setpoint3);
   //М
-  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) != 0)         << 0;
+  unsigned int tmp_value = ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_LINE_PHASE) != 0)                    << 0;
   tmp_value |= ((current_settings_prt.control_Umin & CTR_UMIN2) != 0)                                                            << 2;
   tmp_value |= ((current_settings_prt.control_Umin & CTR_PO_UMIN2_OR_AND) != 0)                                                  << 3;
   tmp_value |= ((current_settings_prt.control_Umin & CTR_UMIN2_UBLK) != 0)                                                       << 4;
@@ -2788,7 +2788,7 @@ void umax1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
   _Bool Uc_is_larger_than_Umax1 = measurement[index_IM_UC] >= setpoint1;
   
   //М
-  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) != 0)         << 0;
+  unsigned int tmp_value = ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_LINE_PHASE) != 0)                    << 0;
   tmp_value |= ((current_settings_prt.control_Umax & CTR_PO_UMAX1_OR_AND) != 0)                                                  << 2;
   tmp_value |= ((current_settings_prt.control_Umax & CTR_UMAX1) != 0)                                                            << 3;
   
@@ -2871,7 +2871,7 @@ void umax2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
   _Bool Uc_is_larger_than_Umax2 = measurement[index_IM_UC] >= setpoint1;
   
   //М
-  unsigned int tmp_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) != 0)         << 0;
+  unsigned int tmp_value = ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_LINE_PHASE) != 0)                    << 0;
   tmp_value |= ((current_settings_prt.control_Umax & CTR_PO_UMAX2_OR_AND) != 0)                                                  << 2;
   tmp_value |= ((current_settings_prt.control_Umax & CTR_UMAX2) != 0)                                                            << 3;
   
@@ -4365,7 +4365,7 @@ inline void start_monitoring_min_U(unsigned int time_tmp)
   measurements_U_min_dr[17] = (unsigned int)frequency_val_1_int;
   measurements_U_min_dr[18] = (unsigned int)frequency_val_2_int;
   
-  if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) == 0)
+  if ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_LINE_PHASE) == 0)
   {
     //Визначаємо мінімальної лінійну напругу між трьома фазами
     min_voltage_dr = measurement[index_IM_UAB];
@@ -4419,7 +4419,7 @@ inline void continue_monitoring_min_U(unsigned int time_tmp)
   //Перевірка, чи не є зарза досліджувана напуга менша, ніж та що помічена мінімальною
   if (
       (
-       ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) == 0) &&
+       ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_LINE_PHASE) == 0) &&
        (  
         (min_voltage_dr > measurement[index_IM_UAB]) ||
         (min_voltage_dr > measurement[index_IM_UBC]) ||
@@ -4428,7 +4428,7 @@ inline void continue_monitoring_min_U(unsigned int time_tmp)
       )   
       || 
       (
-       ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) != 0) &&
+       ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_LINE_PHASE) != 0) &&
        (  
         (min_voltage_dr > measurement[index_IM_UA]) ||
         (min_voltage_dr > measurement[index_IM_UB]) ||
@@ -4464,7 +4464,7 @@ inline void continue_monitoring_min_U(unsigned int time_tmp)
     measurements_U_min_dr[17] = (unsigned int)frequency_val_1_int;
     measurements_U_min_dr[18] = (unsigned int)frequency_val_2_int;
 
-    if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) == 0)
+    if ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_LINE_PHASE) == 0)
     {
       //Визначаємо мінімальної лінійну напругу між трьома фазами
       min_voltage_dr = measurement[index_IM_UAB];
@@ -4543,7 +4543,7 @@ inline void start_monitoring_max_U(unsigned int time_tmp)
   measurements_U_max_dr[17] = (unsigned int)frequency_val_1_int;
   measurements_U_max_dr[18] = (unsigned int)frequency_val_2_int;
   
-  if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) == 0)
+  if ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_LINE_PHASE) == 0)
   {
     //Визначаємо макисальну лінійну напругу між трьома фазами
     max_voltage_dr = measurement[index_IM_UAB];
@@ -4597,7 +4597,7 @@ inline void continue_monitoring_max_U(unsigned int time_tmp)
   //Перевірка, чи не є зарза досліджувана напуга більша, ніж та що помічена максимальною
   if (
       (
-       ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) == 0) &&
+       ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_LINE_PHASE) == 0) &&
        (  
         (max_voltage_dr < measurement[index_IM_UAB]) ||
         (max_voltage_dr < measurement[index_IM_UBC]) ||
@@ -4606,7 +4606,7 @@ inline void continue_monitoring_max_U(unsigned int time_tmp)
       )   
       || 
       (
-       ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) != 0) &&
+       ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_LINE_PHASE) != 0) &&
        (  
         (max_voltage_dr < measurement[index_IM_UA]) ||
         (max_voltage_dr < measurement[index_IM_UB]) ||
@@ -4642,7 +4642,7 @@ inline void continue_monitoring_max_U(unsigned int time_tmp)
     measurements_U_max_dr[17] = (unsigned int)frequency_val_1_int;
     measurements_U_max_dr[18] = (unsigned int)frequency_val_2_int;
 
-    if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_LINE_PHASE) == 0)
+    if ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_LINE_PHASE) == 0)
     {
       //Визначаємо макисальну лінійну напругу між трьома фазами
       max_voltage_dr = measurement[index_IM_UAB];
