@@ -218,13 +218,13 @@ typedef struct
   unsigned int control_Umax;                                //Поле для управління Umax
 
   //АВР
-  unsigned int setpoint_avr_tn1_U1_min[NUMBER_GROUP_USTAVOK];            //уставка АВР "U1min < U1x"
+  unsigned int setpoint_avr_tn1_U1_Umin[NUMBER_GROUP_USTAVOK];          //уставка АВР "U1min < U1x"
   unsigned int setpoint_avr_tn1_U2_low_work[NUMBER_GROUP_USTAVOK];      //уставка АВР "U2min > U2x"
-  unsigned int setpoint_avr_tn2_U2_min[NUMBER_GROUP_USTAVOK];            //уставка АВР "U2min < U2x"
+  unsigned int setpoint_avr_tn2_U2_Umin[NUMBER_GROUP_USTAVOK];          //уставка АВР "U2min < U2x"
   unsigned int setpoint_avr_tn2_U1_low_work[NUMBER_GROUP_USTAVOK];      //уставка АВР "U1min > U1x"
-  unsigned int setpoint_avr_tn1_U1_max[NUMBER_GROUP_USTAVOK];            //уставка АВР "U1max > U1x"
+  unsigned int setpoint_avr_tn1_U1_Umax[NUMBER_GROUP_USTAVOK];          //уставка АВР "U1max > U1x"
   unsigned int setpoint_avr_tn1_U2_high_work[NUMBER_GROUP_USTAVOK];     //уставка АВР "U2max < U2x"
-  unsigned int setpoint_avr_tn2_U2_max[NUMBER_GROUP_USTAVOK];            //уставка АВР "U2max > U2x"
+  unsigned int setpoint_avr_tn2_U2_Umax[NUMBER_GROUP_USTAVOK];          //уставка АВР "U2max > U2x"
   unsigned int setpoint_avr_tn2_U1_high_work[NUMBER_GROUP_USTAVOK];     //уставка АВР "U1max < U1x"
   int timeout_avr_blk_k1[NUMBER_GROUP_USTAVOK];               //Витримка "T блок. АВР кан.1"
   int timeout_avr_pusk_k1[NUMBER_GROUP_USTAVOK];              //Витримка "T пуска кан.1"

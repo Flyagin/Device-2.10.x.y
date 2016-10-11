@@ -181,8 +181,8 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
        )
        ||  
        (
-        (current_ekran.current_level >= EKRAN_TIMEOUT_AVR_GROUP1) &&
-        (current_ekran.current_level <= EKRAN_TIMEOUT_AVR_GROUP4)
+        (current_ekran.current_level >= EKRAN_TIMEOUT_AVR_GENERAL_GROUP1) &&
+        (current_ekran.current_level <= EKRAN_TIMEOUT_AVR_UMAX_GROUP4   )
        )
        ||  
        (current_ekran.current_level == EKRAN_CONTROL_AVR        )

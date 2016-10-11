@@ -200,22 +200,30 @@ void make_ekran_chose_setpoint_and_timeout_avr(void)
     {
      " Уставки Umin   ",
      " Уставки Umax   ",
-     " Выдержки       "
+     " Выдержки общ.  ",
+     " Выдержки Umin  ",
+     " Выдержки Umax  "
     },
     {
      " Уставки Umin   ",
      " Уставки Umax   ",
-     " Витримки       "
+     " Витримки заг.  ",
+     " Витримки Umin  ",
+     " Витримки Umax  "
     },
     {
      " Pickups Umin   ",
      " Pickups Umax   ",
-     " Delay          "
+     " General Delay  ",
+     " Delay Umin     ",
+     " Delay Umax     "
     },
     {
      " Кyрулар Umin   ",
      " Кyрулар Umax   ",
-     " Беріктік       "
+     " Беріктік       ",
+     " Выдержки Umin  ",
+     " Выдержки Umax  "
     }
   };
   int index_language = index_language_in_array(current_settings.language);

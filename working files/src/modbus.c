@@ -5640,9 +5640,9 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         temp_value = current_settings_interfaces.timeout_urov_2[num_gr]/10;
         break;
       }
-    case MA_STP_AVR_TN1_U1_MIN:
+    case MA_STP_AVR_TN1_U1_UMIN:
       {
-        temp_value = current_settings_interfaces.setpoint_avr_tn1_U1_min[num_gr]/100;
+        temp_value = current_settings_interfaces.setpoint_avr_tn1_U1_Umin[num_gr]/100;
         break;
       }
     case MA_STP_AVR_TN1_U2_LOW_WORK:
@@ -5650,9 +5650,9 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         temp_value = current_settings_interfaces.setpoint_avr_tn1_U2_low_work[num_gr]/100;
         break;
       }
-    case MA_STP_AVR_TN2_U2_MIN:
+    case MA_STP_AVR_TN2_U2_UMIN:
       {
-        temp_value = current_settings_interfaces.setpoint_avr_tn2_U2_min[num_gr]/100;
+        temp_value = current_settings_interfaces.setpoint_avr_tn2_U2_Umin[num_gr]/100;
         break;
       }
     case MA_STP_AVR_TN2_U1_LOW_WORK:
@@ -5660,72 +5660,72 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         temp_value = current_settings_interfaces.setpoint_avr_tn2_U1_low_work[num_gr]/100;
         break;
       }
-    case MA_TO_AVR_BLK_K1:
+    case MA_TO_AVR_GENERAL_BLK_K1:
       {
         temp_value = current_settings_interfaces.timeout_avr_blk_k1[num_gr]/10;
         break;
       }
-    case MA_TO_AVR_PUSK_K1:
+    case MA_TO_AVR_GENERAL_PUSK_K1:
       {
         temp_value = current_settings_interfaces.timeout_avr_pusk_k1[num_gr]/10;
         break;
       }
-    case MA_TO_AVR_D_DIJI_K1:
+    case MA_TO_AVR_GENERAL_D_DIJI_K1:
       {
         temp_value = current_settings_interfaces.timeout_avr_d_diji_k1[num_gr]/10;
         break;
       }
-    case MA_TO_AVR_VVIMK_REZ_K1:
+    case MA_TO_AVR_GENERAL_VVIMK_REZ_K1:
       {
         temp_value = current_settings_interfaces.timeout_avr_vvimk_rez_k1[num_gr]/10;
         break;
       }
-    case MA_TO_AVR_VVIMK_K1:
+    case MA_TO_AVR_GENERAL_VVIMK_K1:
       {
         temp_value = current_settings_interfaces.timeout_avr_vvimk_k1[num_gr]/10;
         break;
       }
-    case MA_TO_AVR_VYMK_ROB_K1:
+    case MA_TO_AVR_GENERAL_VYMK_ROB_K1:
       {
         temp_value = current_settings_interfaces.timeout_avr_vymk_rob_k1[num_gr]/10;
         break;
       }
-    case MA_TO_AVR_VYMK_K1:
+    case MA_TO_AVR_GENERAL_VYMK_K1:
       {
         temp_value = current_settings_interfaces.timeout_avr_vymk_k1[num_gr]/10;
         break;
       }
-    case MA_TO_AVR_BLK_K2:
+    case MA_TO_AVR_GENERAL_BLK_K2:
       {
         temp_value = current_settings_interfaces.timeout_avr_blk_k2[num_gr]/10;
         break;
       }
-    case MA_TO_AVR_PUSK_K2:
+    case MA_TO_AVR_GENERAL_PUSK_K2:
       {
         temp_value = current_settings_interfaces.timeout_avr_pusk_k2[num_gr]/10;
         break;
       }
-    case MA_TO_AVR_D_DIJI_K2:
+    case MA_TO_AVR_GENERAL_D_DIJI_K2:
       {
         temp_value = current_settings_interfaces.timeout_avr_d_diji_k2[num_gr]/10;
         break;
       }
-    case MA_TO_AVR_VVIMK_REZ_K2:
+    case MA_TO_AVR_GENERAL_VVIMK_REZ_K2:
       {
         temp_value = current_settings_interfaces.timeout_avr_vvimk_rez_k2[num_gr]/10;
         break;
       }
-    case MA_TO_AVR_VVIMK_K2:
+    case MA_TO_AVR_GENERAL_VVIMK_K2:
       {
         temp_value = current_settings_interfaces.timeout_avr_vvimk_k2[num_gr]/10;
         break;
       }
-    case MA_TO_AVR_VYMK_ROB_K2:
+    case MA_TO_AVR_GENERAL_VYMK_ROB_K2:
       {
         temp_value = current_settings_interfaces.timeout_avr_vymk_rob_k2[num_gr]/10;
         break;
       }
-    case MA_TO_AVR_VYMK_K2:
+    case MA_TO_AVR_GENERAL_VYMK_K2:
       {
         temp_value = current_settings_interfaces.timeout_avr_vymk_k2[num_gr]/10;
         break;
@@ -8229,12 +8229,12 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_STP_AVR_TN1_U1_MIN:
+    case MA_STP_AVR_TN1_U1_UMIN:
       {
         temp_value = data*100;
     
-        if ((temp_value >= SETPOINT_AVR_TN1_U1_MIN_MIN) && (temp_value <= SETPOINT_AVR_TN1_U1_MIN_MAX))
-          target_label->setpoint_avr_tn1_U1_min[num_gr] = temp_value;
+        if ((temp_value >= SETPOINT_AVR_TN1_U1_UMIN_MIN) && (temp_value <= SETPOINT_AVR_TN1_U1_UMIN_MAX))
+          target_label->setpoint_avr_tn1_U1_Umin[num_gr] = temp_value;
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
 
@@ -8251,12 +8251,12 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_STP_AVR_TN2_U2_MIN:
+    case MA_STP_AVR_TN2_U2_UMIN:
       {
         temp_value = data*100;
     
-        if ((temp_value >= SETPOINT_AVR_TN2_U2_MIN_MIN) && (temp_value <= SETPOINT_AVR_TN2_U2_MIN_MAX))
-          target_label->setpoint_avr_tn2_U2_min[num_gr] = temp_value;
+        if ((temp_value >= SETPOINT_AVR_TN2_U2_UMIN_MIN) && (temp_value <= SETPOINT_AVR_TN2_U2_UMIN_MAX))
+          target_label->setpoint_avr_tn2_U2_Umin[num_gr] = temp_value;
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
 
@@ -8273,14 +8273,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_TO_AVR_BLK_K1:
+    case MA_TO_AVR_GENERAL_BLK_K1:
       {
         temp_value = data*10;
     
-#if (TIMEOUT_AVR_BLK_K1_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_BLK_K1_MIN) && (temp_value <= TIMEOUT_AVR_BLK_K1_MAX))
+#if (TIMEOUT_AVR_GENERAL_BLK_K1_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_GENERAL_BLK_K1_MIN) && (temp_value <= TIMEOUT_AVR_GENERAL_BLK_K1_MAX))
 #else
-        if (temp_value <= TIMEOUT_AVR_BLK_K1_MAX)
+        if (temp_value <= TIMEOUT_AVR_GENERAL_BLK_K1_MAX)
 #endif            
           target_label->timeout_avr_blk_k1[num_gr] = temp_value;
         else
@@ -8288,14 +8288,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_TO_AVR_PUSK_K1:
+    case MA_TO_AVR_GENERAL_PUSK_K1:
       {
         temp_value = data*10;
     
-#if (TIMEOUT_AVR_PUSK_K1_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_PUSK_K1_MIN) && (temp_value <= TIMEOUT_AVR_PUSK_K1_MAX))
+#if (TIMEOUT_AVR_GENERAL_PUSK_K1_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_GENERAL_PUSK_K1_MIN) && (temp_value <= TIMEOUT_AVR_GENERAL_PUSK_K1_MAX))
 #else
-        if (temp_value <= TIMEOUT_AVR_PUSK_K1_MAX)
+        if (temp_value <= TIMEOUT_AVR_GENERAL_PUSK_K1_MAX)
 #endif            
           target_label->timeout_avr_pusk_k1[num_gr] = temp_value;
         else
@@ -8303,14 +8303,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_TO_AVR_D_DIJI_K1:
+    case MA_TO_AVR_GENERAL_D_DIJI_K1:
       {
         temp_value = data*10;
     
-#if (TIMEOUT_AVR_D_DIJI_K1_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_D_DIJI_K1_MIN) && (temp_value <= TIMEOUT_AVR_D_DIJI_K1_MAX))
+#if (TIMEOUT_AVR_GENERAL_D_DIJI_K1_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_GENERAL_D_DIJI_K1_MIN) && (temp_value <= TIMEOUT_AVR_GENERAL_D_DIJI_K1_MAX))
 #else
-        if (temp_value <= TIMEOUT_AVR_D_DIJI_K1_MAX)
+        if (temp_value <= TIMEOUT_AVR_GENERAL_D_DIJI_K1_MAX)
 #endif            
           target_label->timeout_avr_d_diji_k1[num_gr] = temp_value;
         else
@@ -8318,14 +8318,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_TO_AVR_VVIMK_REZ_K1:
+    case MA_TO_AVR_GENERAL_VVIMK_REZ_K1:
       {
         temp_value = data*10;
     
-#if (TIMEOUT_AVR_VVIMK_REZ_K1_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_VVIMK_REZ_K1_MIN) && (temp_value <= TIMEOUT_AVR_VVIMK_REZ_K1_MAX))
+#if (TIMEOUT_AVR_GENERAL_VVIMK_REZ_K1_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_GENERAL_VVIMK_REZ_K1_MIN) && (temp_value <= TIMEOUT_AVR_GENERAL_VVIMK_REZ_K1_MAX))
 #else
-        if (temp_value <= TIMEOUT_AVR_VVIMK_REZ_K1_MAX)
+        if (temp_value <= TIMEOUT_AVR_GENERAL_VVIMK_REZ_K1_MAX)
 #endif            
           target_label->timeout_avr_vvimk_rez_k1[num_gr] = temp_value;
         else
@@ -8333,14 +8333,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_TO_AVR_VVIMK_K1:
+    case MA_TO_AVR_GENERAL_VVIMK_K1:
       {
         temp_value = data*10;
     
-#if (TIMEOUT_AVR_VVIMK_K1_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_VVIMK_K1_MIN) && (temp_value <= TIMEOUT_AVR_VVIMK_K1_MAX))
+#if (TIMEOUT_AVR_GENERAL_VVIMK_K1_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_GENERAL_VVIMK_K1_MIN) && (temp_value <= TIMEOUT_AVR_GENERAL_VVIMK_K1_MAX))
 #else
-        if (temp_value <= TIMEOUT_AVR_VVIMK_K1_MAX)
+        if (temp_value <= TIMEOUT_AVR_GENERAL_VVIMK_K1_MAX)
 #endif            
           target_label->timeout_avr_vvimk_k1[num_gr] = temp_value;
         else
@@ -8348,14 +8348,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_TO_AVR_VYMK_ROB_K1:
+    case MA_TO_AVR_GENERAL_VYMK_ROB_K1:
       {
         temp_value = data*10;
     
-#if (TIMEOUT_AVR_VYMK_ROB_K1_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_VYMK_ROB_K1_MIN) && (temp_value <= TIMEOUT_AVR_VYMK_ROB_K1_MAX))
+#if (TIMEOUT_AVR_GENERAL_VYMK_ROB_K1_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_GENERAL_VYMK_ROB_K1_MIN) && (temp_value <= TIMEOUT_AVR_GENERAL_VYMK_ROB_K1_MAX))
 #else
-        if (temp_value <= TIMEOUT_AVR_VYMK_ROB_K1_MAX)
+        if (temp_value <= TIMEOUT_AVR_GENERAL_VYMK_ROB_K1_MAX)
 #endif            
           target_label->timeout_avr_vymk_rob_k1[num_gr] = temp_value;
         else
@@ -8363,14 +8363,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_TO_AVR_VYMK_K1:
+    case MA_TO_AVR_GENERAL_VYMK_K1:
       {
         temp_value = data*10;
     
-#if (TIMEOUT_AVR_VYMK_K1_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_VYMK_K1_MIN) && (temp_value <= TIMEOUT_AVR_VYMK_K1_MAX))
+#if (TIMEOUT_AVR_GENERAL_VYMK_K1_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_GENERAL_VYMK_K1_MIN) && (temp_value <= TIMEOUT_AVR_GENERAL_VYMK_K1_MAX))
 #else
-        if (temp_value <= TIMEOUT_AVR_VYMK_K1_MAX)
+        if (temp_value <= TIMEOUT_AVR_GENERAL_VYMK_K1_MAX)
 #endif            
           target_label->timeout_avr_vymk_k1[num_gr] = temp_value;
         else
@@ -8378,14 +8378,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_TO_AVR_BLK_K2:
+    case MA_TO_AVR_GENERAL_BLK_K2:
       {
         temp_value = data*10;
     
-#if (TIMEOUT_AVR_BLK_K2_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_BLK_K2_MIN) && (temp_value <= TIMEOUT_AVR_BLK_K2_MAX))
+#if (TIMEOUT_AVR_GENERAL_BLK_K2_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_GENERAL_BLK_K2_MIN) && (temp_value <= TIMEOUT_AVR_GENERAL_BLK_K2_MAX))
 #else
-        if (temp_value <= TIMEOUT_AVR_BLK_K2_MAX)
+        if (temp_value <= TIMEOUT_AVR_GENERAL_BLK_K2_MAX)
 #endif            
           target_label->timeout_avr_blk_k2[num_gr] = temp_value;
         else
@@ -8393,14 +8393,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_TO_AVR_PUSK_K2:
+    case MA_TO_AVR_GENERAL_PUSK_K2:
       {
         temp_value = data*10;
     
-#if (TIMEOUT_AVR_PUSK_K2_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_PUSK_K2_MIN) && (temp_value <= TIMEOUT_AVR_PUSK_K2_MAX))
+#if (TIMEOUT_AVR_GENERAL_PUSK_K2_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_GENERAL_PUSK_K2_MIN) && (temp_value <= TIMEOUT_AVR_GENERAL_PUSK_K2_MAX))
 #else
-        if (temp_value <= TIMEOUT_AVR_PUSK_K2_MAX)
+        if (temp_value <= TIMEOUT_AVR_GENERAL_PUSK_K2_MAX)
 #endif            
           target_label->timeout_avr_pusk_k2[num_gr] = temp_value;
         else
@@ -8408,14 +8408,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_TO_AVR_D_DIJI_K2:
+    case MA_TO_AVR_GENERAL_D_DIJI_K2:
       {
         temp_value = data*10;
     
-#if (TIMEOUT_AVR_D_DIJI_K2_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_D_DIJI_K2_MIN) && (temp_value <= TIMEOUT_AVR_D_DIJI_K2_MAX))
+#if (TIMEOUT_AVR_GENERAL_D_DIJI_K2_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_GENERAL_D_DIJI_K2_MIN) && (temp_value <= TIMEOUT_AVR_GENERAL_D_DIJI_K2_MAX))
 #else
-        if (temp_value <= TIMEOUT_AVR_D_DIJI_K2_MAX)
+        if (temp_value <= TIMEOUT_AVR_GENERAL_D_DIJI_K2_MAX)
 #endif            
           target_label->timeout_avr_d_diji_k2[num_gr] = temp_value;
         else
@@ -8423,14 +8423,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_TO_AVR_VVIMK_REZ_K2:
+    case MA_TO_AVR_GENERAL_VVIMK_REZ_K2:
       {
         temp_value = data*10;
     
-#if (TIMEOUT_AVR_VVIMK_REZ_K2_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_VVIMK_REZ_K2_MIN) && (temp_value <= TIMEOUT_AVR_VVIMK_REZ_K2_MAX))
+#if (TIMEOUT_AVR_GENERAL_VVIMK_REZ_K2_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_GENERAL_VVIMK_REZ_K2_MIN) && (temp_value <= TIMEOUT_AVR_GENERAL_VVIMK_REZ_K2_MAX))
 #else
-        if (temp_value <= TIMEOUT_AVR_VVIMK_REZ_K2_MAX)
+        if (temp_value <= TIMEOUT_AVR_GENERAL_VVIMK_REZ_K2_MAX)
 #endif            
           target_label->timeout_avr_vvimk_rez_k2[num_gr] = temp_value;
         else
@@ -8438,14 +8438,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_TO_AVR_VVIMK_K2:
+    case MA_TO_AVR_GENERAL_VVIMK_K2:
       {
         temp_value = data*10;
     
-#if (TIMEOUT_AVR_VVIMK_K2_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_VVIMK_K2_MIN) && (temp_value <= TIMEOUT_AVR_VVIMK_K2_MAX))
+#if (TIMEOUT_AVR_GENERAL_VVIMK_K2_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_GENERAL_VVIMK_K2_MIN) && (temp_value <= TIMEOUT_AVR_GENERAL_VVIMK_K2_MAX))
 #else
-        if (temp_value <= TIMEOUT_AVR_VVIMK_K2_MAX)
+        if (temp_value <= TIMEOUT_AVR_GENERAL_VVIMK_K2_MAX)
 #endif            
           target_label->timeout_avr_vvimk_k2[num_gr] = temp_value;
         else
@@ -8453,14 +8453,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_TO_AVR_VYMK_ROB_K2:
+    case MA_TO_AVR_GENERAL_VYMK_ROB_K2:
       {
         temp_value = data*10;
     
-#if (TIMEOUT_AVR_VYMK_ROB_K2_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_VYMK_ROB_K2_MIN) && (temp_value <= TIMEOUT_AVR_VYMK_ROB_K2_MAX))
+#if (TIMEOUT_AVR_GENERAL_VYMK_ROB_K2_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_GENERAL_VYMK_ROB_K2_MIN) && (temp_value <= TIMEOUT_AVR_GENERAL_VYMK_ROB_K2_MAX))
 #else
-        if (temp_value <= TIMEOUT_AVR_VYMK_ROB_K2_MAX)
+        if (temp_value <= TIMEOUT_AVR_GENERAL_VYMK_ROB_K2_MAX)
 #endif            
           target_label->timeout_avr_vymk_rob_k2[num_gr] = temp_value;
         else
@@ -8468,14 +8468,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_TO_AVR_VYMK_K2:
+    case MA_TO_AVR_GENERAL_VYMK_K2:
       {
         temp_value = data*10;
     
-#if (TIMEOUT_AVR_VYMK_K2_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_VYMK_K2_MIN) && (temp_value <= TIMEOUT_AVR_VYMK_K2_MAX))
+#if (TIMEOUT_AVR_GENERAL_VYMK_K2_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_GENERAL_VYMK_K2_MIN) && (temp_value <= TIMEOUT_AVR_GENERAL_VYMK_K2_MAX))
 #else
-        if (temp_value <= TIMEOUT_AVR_VYMK_K2_MAX)
+        if (temp_value <= TIMEOUT_AVR_GENERAL_VYMK_K2_MAX)
 #endif            
           target_label->timeout_avr_vymk_k2[num_gr] = temp_value;
         else
