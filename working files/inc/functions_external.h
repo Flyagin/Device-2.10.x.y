@@ -190,6 +190,7 @@ extern void umin1_handler(volatile unsigned int*, unsigned int);
 extern void umin2_handler(volatile unsigned int*, unsigned int);
 extern void umax1_handler(volatile unsigned int*, unsigned int);
 extern void umax2_handler(volatile unsigned int*, unsigned int);
+extern uint32_t choose_tn1_tn2(void);
 extern void avr_handler(volatile unsigned int*, unsigned int);
 extern void ctrl_phase_handler(volatile unsigned int*, unsigned int);
 extern void ready_tu(volatile unsigned int*);

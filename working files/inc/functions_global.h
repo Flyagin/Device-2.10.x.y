@@ -191,6 +191,7 @@ void umin1_handler(volatile unsigned int*, unsigned int);
 void umin2_handler(volatile unsigned int*, unsigned int);
 void umax1_handler(volatile unsigned int*, unsigned int);
 void umax2_handler(volatile unsigned int*, unsigned int);
+uint32_t choose_tn1_tn2(void);
 void avr_handler(volatile unsigned int*, unsigned int);
 void ctrl_phase_handler(volatile unsigned int*, unsigned int);
 void ready_tu(volatile unsigned int*);

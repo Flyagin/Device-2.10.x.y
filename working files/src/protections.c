@@ -2912,6 +2912,29 @@ void umax2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
 /*****************************************************/
 
 /*****************************************************/
+// Вибір ТН1/ТН2
+/*****************************************************/
+uint32_t choose_tn1_tn2(void)
+{
+
+//  if (
+//      (( _CHECK_SET_BIT(active_functions, RANG_STATE_VV_K1) ) == 0 ) &&
+//      (( _CHECK_SET_BIT(active_functions, RANG_STATE_VV_K2) ) != 0 )
+//     )
+//  {
+//    TN1_TN2 = 1;
+//  }
+//  else
+//  {
+//    TN1_TN2 = 0;
+//  }
+  uint32_t tn1_tn2 = 0;
+  
+  return tn1_tn2;
+}
+/*****************************************************/
+
+/*****************************************************/
 // АВР
 /*****************************************************/
 void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_group_stp)
@@ -6542,17 +6565,7 @@ inline void main_protection(void)
   /**************************/
   //Вибір звідки брати напругу (ТН1 чи ТН2)
   /**************************/
-  if (
-      (( _CHECK_SET_BIT(active_functions, RANG_STATE_VV_K1) ) == 0 ) &&
-      (( _CHECK_SET_BIT(active_functions, RANG_STATE_VV_K2) ) != 0 )
-     )
-  {
-    TN1_TN2 = 1;
-  }
-  else
-  {
-    TN1_TN2 = 0;
-  }
+  TN1_TN2 = choose_tn1_tn2();
   /**************************/
 
   /***********************************************************/
