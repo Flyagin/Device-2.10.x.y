@@ -804,6 +804,12 @@ inline void calc_measurement(unsigned int number_group_stp)
   /***/
 
   /***/
+  //Вибір звідки брати напругу (ТН1 чи ТН2)
+  /***/
+  TN1_TN2 = choose_tn1_tn2(active_functions);
+  /***/
+
+  /***/
   //Фазочутливий елемент для МТЗ (всіх ступенів)
   /***/
   directional_mtz(ortogonal_calc, number_group_stp);
@@ -2914,7 +2920,7 @@ void umax2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
 /*****************************************************/
 // Вибір ТН1/ТН2
 /*****************************************************/
-uint32_t choose_tn1_tn2(void)
+uint32_t choose_tn1_tn2(volatile unsigned int *p_active_functions)
 {
 
 //  if (
@@ -2929,6 +2935,134 @@ uint32_t choose_tn1_tn2(void)
 //    TN1_TN2 = 0;
 //  }
   uint32_t tn1_tn2 = 0;
+  
+  uint32_t logic_tn1_tn2_0 = 0;
+  static uint32_t static_logic_tn1_tn2_0; 
+  
+  logic_tn1_tn2_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV_K1) != 0) << 0;
+  logic_tn1_tn2_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV_K2) != 0) << 1;
+  logic_tn1_tn2_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV) != 0) << 2;
+  
+  _INVERTOR(logic_tn1_tn2_0, 0, logic_tn1_tn2_0, 3);
+  _INVERTOR(logic_tn1_tn2_0, 1, logic_tn1_tn2_0, 4);
+  _INVERTOR(logic_tn1_tn2_0, 2, logic_tn1_tn2_0, 5);
+  
+  _AND2(logic_tn1_tn2_0, 3, logic_tn1_tn2_0, 4, logic_tn1_tn2_0, 6); /*1к- 2к-*/
+  _AND2(logic_tn1_tn2_0, 0, logic_tn1_tn2_0, 5, logic_tn1_tn2_0, 7);
+  _AND2(logic_tn1_tn2_0, 3, logic_tn1_tn2_0, 1, logic_tn1_tn2_0, 8); /*1к- 2к+*/
+  _AND2(logic_tn1_tn2_0, 5, logic_tn1_tn2_0, 8, logic_tn1_tn2_0, 9);
+  
+  uint32_t stp_0 = _GET_OUTPUT_STATE(static_logic_tn1_tn2_0, 0) ?  KOEF_MIN_UMIN * U_DOWN / 100 : KOEF_MIN_UMIN;
+  uint32_t stp_1 = _GET_OUTPUT_STATE(static_logic_tn1_tn2_0, 1) ?  KOEF_MIN_UMIN * U_DOWN / 100 : KOEF_MIN_UMIN;
+          
+  if ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_LINE_PHASE) == 0)
+  {
+    //Лінійні
+    if (
+        (measurement[IM_UAB1] >= stp_0) &&
+        (measurement[IM_UBC1] >= stp_0) &&
+        (measurement[IM_UCA1] >= stp_0)
+       )
+    {
+      static_logic_tn1_tn2_0 |= (1 << 0);
+    }
+    else
+    {
+      static_logic_tn1_tn2_0 &= (uint32_t)(~(1 << 0));
+    }
+
+    if (
+        (measurement[IM_UAB2] >= stp_1) &&
+        (measurement[IM_UBC2] >= stp_1) &&
+        (measurement[IM_UCA2] >= stp_1)
+       )
+    {
+      static_logic_tn1_tn2_0 |= (1 << 1);
+    }
+    else
+    {
+      static_logic_tn1_tn2_0 &= (uint32_t)(~(1 << 1));
+    }
+  }
+  else
+  {
+    //Фазні
+    if (
+        (measurement[IM_UA1] >= stp_0) &&
+        (measurement[IM_UB1] >= stp_0) &&
+        (measurement[IM_UC1] >= stp_0)
+       )
+    {
+      static_logic_tn1_tn2_0 |= (1 << 0);
+    }
+    else
+    {
+      static_logic_tn1_tn2_0 &= (uint32_t)(~(1 << 0));
+    }
+
+    if (
+        (measurement[IM_UA2] >= stp_1) &&
+        (measurement[IM_UB2] >= stp_1) &&
+        (measurement[IM_UC2] >= stp_1)
+       )
+    {
+      static_logic_tn1_tn2_0 |= (1 << 1);
+    }
+    else
+    {
+      static_logic_tn1_tn2_0 &= (uint32_t)(~(1 << 1));
+    }
+  }
+
+  /*Неисправність кіл напруг*/
+  //ПО Iнцн
+  uint32_t stp_2 = _GET_OUTPUT_STATE(static_logic_tn1_tn2_0, 2) ?  i_nom_const * KOEF_POVERNENNJA_MTZ_I_DOWN / 100 : i_nom_const;
+  if(
+     (measurement[IM_IA] <= stp_2) &&
+     (measurement[IM_IB] <= stp_2) &&
+     (measurement[IM_IC] <= stp_2)
+    )
+  {
+    static_logic_tn1_tn2_0 |= (1 << 2);
+  }
+  else
+  {
+    static_logic_tn1_tn2_0 &= (uint32_t)(~(1 << 2));
+  }
+  
+  //ПО U1нцн
+  uint32_t stp_tmp = _GET_OUTPUT_STATE(static_logic_tn1_tn2_0, 3) ?  u_linear_nom_const * U_DOWN / 100 : u_linear_nom_const;
+  if(
+     (measurement[IM_UAB1] <= stp_tmp) &&
+     (measurement[IM_UBC1] <= stp_tmp) &&
+     (measurement[IM_UCA1] <= stp_tmp)
+    )
+  {
+    static_logic_tn1_tn2_0 |= (1 << 3);
+  }
+  else
+  {
+    static_logic_tn1_tn2_0 &= (uint32_t)(~(1 << 3));
+  }
+  
+  //ПО U2нцн
+  stp_tmp = _GET_OUTPUT_STATE(static_logic_tn1_tn2_0, 4) ?  u_linear_nom_const * U_DOWN / 100 : u_linear_nom_const;
+  if(
+     (measurement[IM_UAB2] <= stp_tmp) &&
+     (measurement[IM_UBC2] <= stp_tmp) &&
+     (measurement[IM_UCA2] <= stp_tmp)
+    )
+  {
+    static_logic_tn1_tn2_0 |= (1 << 4);
+  }
+  else
+  {
+    static_logic_tn1_tn2_0 &= (uint32_t)(~(1 << 4));
+  }
+
+  _AND2(static_logic_tn1_tn2_0, 2, static_logic_tn1_tn2_0, 3, logic_tn1_tn2_0, 10); /*НЦН1к*/
+  _AND2(static_logic_tn1_tn2_0, 2, static_logic_tn1_tn2_0, 4, logic_tn1_tn2_0, 11); /*НЦН2к*/
+  /*Несправність кіл напруг*/
   
   return tn1_tn2;
 }
@@ -6560,12 +6694,6 @@ inline void main_protection(void)
     //Теоретично цього ніколи не мало б бути
     total_error_sw_fixed(51);
   }
-  /**************************/
-
-  /**************************/
-  //Вибір звідки брати напругу (ТН1 чи ТН2)
-  /**************************/
-  TN1_TN2 = choose_tn1_tn2();
   /**************************/
 
   /***********************************************************/
