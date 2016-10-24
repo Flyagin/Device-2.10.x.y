@@ -2026,7 +2026,7 @@ inline void mtz_handler(volatile unsigned int *p_active_functions, unsigned int 
             i_nom_const * KOEF_POVERNENNJA_MTZ_I_DOWN / 100 :
             i_nom_const;
   
-  previous_state_mtz_po_incn = ((measurement[IM_IA] <= po_i_ncn_setpoint)   &&
+  previous_state_mtz_po_incn = ((measurement[IM_IA] <= po_i_ncn_setpoint) &&
                                 (measurement[IM_IB] <= po_i_ncn_setpoint) &&
                                 (measurement[IM_IC] <= po_i_ncn_setpoint));
   
@@ -2035,8 +2035,8 @@ inline void mtz_handler(volatile unsigned int *p_active_functions, unsigned int 
             u_linear_nom_const * U_DOWN / 100 :
             u_linear_nom_const;
   
-  previous_state_mtz_po_uncn = ((measurement[index_IM_UAB] <= po_u_ncn_setpoint) &&
-                                (measurement[index_IM_UBC] <= po_u_ncn_setpoint) &&
+  previous_state_mtz_po_uncn = ((measurement[index_IM_UAB] <= po_u_ncn_setpoint) ||
+                                (measurement[index_IM_UBC] <= po_u_ncn_setpoint) ||
                                 (measurement[index_IM_UCA] <= po_u_ncn_setpoint));
   
   ctr_mtz_nespr_kil_napr = ctr_mtz_nespr_kil_napr && previous_state_mtz_po_incn && previous_state_mtz_po_uncn; //Неисправность цепей напряжения (_AND3)
@@ -2922,25 +2922,11 @@ void umax2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
 /*****************************************************/
 uint32_t choose_tn1_tn2(volatile unsigned int *p_active_functions)
 {
-
-//  if (
-//      (( _CHECK_SET_BIT(active_functions, RANG_STATE_VV_K1) ) == 0 ) &&
-//      (( _CHECK_SET_BIT(active_functions, RANG_STATE_VV_K2) ) != 0 )
-//     )
-//  {
-//    TN1_TN2 = 1;
-//  }
-//  else
-//  {
-//    TN1_TN2 = 0;
-//  }
-  uint32_t tn1_tn2 = 0;
-  
   uint32_t logic_tn1_tn2_0 = 0;
   static uint32_t static_logic_tn1_tn2_0; 
   
-  logic_tn1_tn2_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV_K1) != 0) << 0;
-  logic_tn1_tn2_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV_K2) != 0) << 1;
+  logic_tn1_tn2_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_PUSK_K1_AVR) != 0) << 0;
+  logic_tn1_tn2_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_PUSK_K2_AVR) != 0) << 1;
   logic_tn1_tn2_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV) != 0) << 2;
   
   _INVERTOR(logic_tn1_tn2_0, 0, logic_tn1_tn2_0, 3);
@@ -3016,11 +3002,11 @@ uint32_t choose_tn1_tn2(volatile unsigned int *p_active_functions)
 
   /*Неисправність кіл напруг*/
   //ПО Iнцн
-  uint32_t stp_2 = _GET_OUTPUT_STATE(static_logic_tn1_tn2_0, 2) ?  i_nom_const * KOEF_POVERNENNJA_MTZ_I_DOWN / 100 : i_nom_const;
+  uint32_t stp_tmp = _GET_OUTPUT_STATE(static_logic_tn1_tn2_0, 2) ?  i_nom_const * KOEF_POVERNENNJA_MTZ_I_DOWN / 100 : i_nom_const;
   if(
-     (measurement[IM_IA] <= stp_2) &&
-     (measurement[IM_IB] <= stp_2) &&
-     (measurement[IM_IC] <= stp_2)
+     (measurement[IM_IA] <= stp_tmp) &&
+     (measurement[IM_IB] <= stp_tmp) &&
+     (measurement[IM_IC] <= stp_tmp)
     )
   {
     static_logic_tn1_tn2_0 |= (1 << 2);
@@ -3031,10 +3017,10 @@ uint32_t choose_tn1_tn2(volatile unsigned int *p_active_functions)
   }
   
   //ПО U1нцн
-  uint32_t stp_tmp = _GET_OUTPUT_STATE(static_logic_tn1_tn2_0, 3) ?  u_linear_nom_const * U_DOWN / 100 : u_linear_nom_const;
+  stp_tmp = _GET_OUTPUT_STATE(static_logic_tn1_tn2_0, 3) ?  u_linear_nom_const * U_DOWN / 100 : u_linear_nom_const;
   if(
-     (measurement[IM_UAB1] <= stp_tmp) &&
-     (measurement[IM_UBC1] <= stp_tmp) &&
+     (measurement[IM_UAB1] <= stp_tmp) ||
+     (measurement[IM_UBC1] <= stp_tmp) ||
      (measurement[IM_UCA1] <= stp_tmp)
     )
   {
@@ -3048,8 +3034,8 @@ uint32_t choose_tn1_tn2(volatile unsigned int *p_active_functions)
   //ПО U2нцн
   stp_tmp = _GET_OUTPUT_STATE(static_logic_tn1_tn2_0, 4) ?  u_linear_nom_const * U_DOWN / 100 : u_linear_nom_const;
   if(
-     (measurement[IM_UAB2] <= stp_tmp) &&
-     (measurement[IM_UBC2] <= stp_tmp) &&
+     (measurement[IM_UAB2] <= stp_tmp) ||
+     (measurement[IM_UBC2] <= stp_tmp) ||
      (measurement[IM_UCA2] <= stp_tmp)
     )
   {
@@ -3064,6 +3050,52 @@ uint32_t choose_tn1_tn2(volatile unsigned int *p_active_functions)
   _AND2(static_logic_tn1_tn2_0, 2, static_logic_tn1_tn2_0, 4, logic_tn1_tn2_0, 11); /*НЦН2к*/
   /*Несправність кіл напруг*/
   
+  _INVERTOR(logic_tn1_tn2_0, 10, logic_tn1_tn2_0, 12);
+  _INVERTOR(logic_tn1_tn2_0, 11, logic_tn1_tn2_0, 13);
+  
+  _INVERTOR(static_logic_tn1_tn2_0, 1, logic_tn1_tn2_0, 14);
+  _INVERTOR(static_logic_tn1_tn2_0, 0, logic_tn1_tn2_0, 15);
+  
+  _OR2(logic_tn1_tn2_0, 14, logic_tn1_tn2_0, 11, logic_tn1_tn2_0, 16);
+  _OR2(logic_tn1_tn2_0, 15, logic_tn1_tn2_0, 10, logic_tn1_tn2_0, 17);
+  
+  _AND2(static_logic_tn1_tn2_0, 0, logic_tn1_tn2_0, 12, logic_tn1_tn2_0, 18);
+  _AND2(static_logic_tn1_tn2_0, 1, logic_tn1_tn2_0, 13, logic_tn1_tn2_0, 19);
+  
+  _AND3(logic_tn1_tn2_0, 0, logic_tn1_tn2_0, 18, logic_tn1_tn2_0, 2, logic_tn1_tn2_0, 20);
+  _AND3(logic_tn1_tn2_0, 8, logic_tn1_tn2_0, 19, logic_tn1_tn2_0, 2, logic_tn1_tn2_0, 21);
+  
+  _AND4(logic_tn1_tn2_0, 18, logic_tn1_tn2_0, 2, logic_tn1_tn2_0,  8, logic_tn1_tn2_0, 16, logic_tn1_tn2_0, 22);
+  _AND4(logic_tn1_tn2_0, 19, logic_tn1_tn2_0, 2, logic_tn1_tn2_0, 17, logic_tn1_tn2_0,  0, logic_tn1_tn2_0, 23);
+  
+  _AND3(logic_tn1_tn2_0, 18, logic_tn1_tn2_0,  2, logic_tn1_tn2_0, 16, logic_tn1_tn2_0, 24);
+  _AND3(logic_tn1_tn2_0,  8, logic_tn1_tn2_0, 17, logic_tn1_tn2_0,  2, logic_tn1_tn2_0, 25);
+  
+  _OR3(logic_tn1_tn2_0, 20, logic_tn1_tn2_0, 22, logic_tn1_tn2_0, 24, logic_tn1_tn2_0, 26);
+  _OR3(logic_tn1_tn2_0, 21, logic_tn1_tn2_0, 23, logic_tn1_tn2_0, 25, logic_tn1_tn2_0, 27);
+  
+  _OR3(logic_tn1_tn2_0, 26, logic_tn1_tn2_0, 6, logic_tn1_tn2_0, 7, logic_tn1_tn2_0, 28);
+  _OR2(logic_tn1_tn2_0, 27, logic_tn1_tn2_0, 9, logic_tn1_tn2_0, 29);
+
+  uint32_t tn1_tn2 = 0;
+  if (_GET_OUTPUT_STATE(logic_tn1_tn2_0, 28)) tn1_tn2 = 0;
+  else if (_GET_OUTPUT_STATE(logic_tn1_tn2_0, 29))  tn1_tn2 = 1;
+  else
+  {
+    //у всіх інших випадках беремо tn1_tn2 = 0
+  }
+  
+  if (tn1_tn2 == 0) 
+  {
+    _SET_BIT(p_active_functions, RANG_TN1);
+    _CLEAR_BIT(p_active_functions, RANG_TN2);
+  }
+  else
+  {
+    _SET_BIT(p_active_functions, RANG_TN2);
+    _CLEAR_BIT(p_active_functions, RANG_TN1);
+  }
+
   return tn1_tn2;
 }
 /*****************************************************/
@@ -3155,7 +3187,7 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   _OR2(logic_AVR_1, 0, logic_AVR_1, 24, logic_AVR_1, 26);
   _OR2(logic_AVR_1, 22, logic_AVR_1, 25, logic_AVR_1, 27);
   
-  logic_AVR_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV_K1) == 0) << 2;
+  logic_AVR_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_PUSK_K1_AVR) == 0) << 2;
   _TIMER_IMPULSE(INDEX_TIMER_AVR_PUSK_K1, current_settings_prt.timeout_avr_d_diji_k1[number_group_stp], previous_states_AVR_0, 1, logic_AVR_1, 2, logic_AVR_1, 3);
   
   logic_AVR_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_STAT_BLOCK_AVR_1) != 0) << 4;
@@ -3260,7 +3292,7 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   _OR2(logic_AVR_2, 0, logic_AVR_2, 24, logic_AVR_2, 26);
   _OR2(logic_AVR_2, 22, logic_AVR_2, 25, logic_AVR_2, 27);
   
-  logic_AVR_2 |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV_K2) == 0) << 2;
+  logic_AVR_2 |= (_CHECK_SET_BIT(p_active_functions, RANG_PUSK_K2_AVR) == 0) << 2;
   _TIMER_IMPULSE(INDEX_TIMER_AVR_PUSK_K2, current_settings_prt.timeout_avr_d_diji_k2[number_group_stp], previous_states_AVR_0, 2, logic_AVR_2, 2, logic_AVR_2, 3);
   
   logic_AVR_2 |= (_CHECK_SET_BIT(p_active_functions, RANG_STAT_BLOCK_AVR_2) != 0) << 4;
@@ -6507,8 +6539,8 @@ inline void main_protection(void)
       active_functions[RANG_RESET_RELES                       >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_RESET_RELES                      ) != 0) << (RANG_RESET_RELES                       & 0x1f);
       active_functions[RANG_MISCEVE_DYSTANCIJNE               >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_MISCEVE_DYSTANCIJNE              ) != 0) << (RANG_MISCEVE_DYSTANCIJNE               & 0x1f);
       active_functions[RANG_STATE_VV                          >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_STATE_VV                         ) != 0) << (RANG_STATE_VV                          & 0x1f);
-      active_functions[RANG_STATE_VV_K1                       >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_STATE_VV_K1                      ) != 0) << (RANG_STATE_VV_K1                       & 0x1f);
-      active_functions[RANG_STATE_VV_K2                       >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_STATE_VV_K2                      ) != 0) << (RANG_STATE_VV_K2                       & 0x1f);
+      active_functions[RANG_PUSK_K1_AVR                       >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_PUSK_K1_AVR                      ) != 0) << (RANG_PUSK_K1_AVR                       & 0x1f);
+      active_functions[RANG_PUSK_K2_AVR                       >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_PUSK_K2_AVR                      ) != 0) << (RANG_PUSK_K2_AVR                       & 0x1f);
       active_functions[RANG_CTRL_VKL                          >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_CTRL_VKL                         ) != 0) << (RANG_CTRL_VKL                          & 0x1f);
       active_functions[RANG_CTRL_OTKL                         >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_CTRL_OTKL                        ) != 0) << (RANG_CTRL_OTKL                         & 0x1f);
       active_functions[RANG_RESET_BLOCK_READY_TU_VID_ZAHYSTIV >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function_2, RANG_INPUT_RESET_BLOCK_READY_TU_VID_ZAHYSTIV) != 0) << (RANG_RESET_BLOCK_READY_TU_VID_ZAHYSTIV & 0x1f);

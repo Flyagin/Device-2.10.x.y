@@ -2302,7 +2302,7 @@ void calc_angle(void)
    default:
       {
         //Теоретично цього ніколи не мало б бути
-        total_error_sw_fixed(84);
+        total_error_sw_fixed(85);
       }
     }
         
