@@ -3214,7 +3214,7 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
     _INVERTOR(logic_AVR_1, 17, logic_AVR_1, 18);
     _AND2(logic_AVR_1, 9, logic_AVR_1, 18, logic_AVR_1, 19);
 
-    _TIMER_T_0(INDEX_TIMER_AVR_VYMK_ROB_K1, current_settings_prt.timeout_avr_vymk_rob_k1[number_group_stp], logic_AVR_1, 19, logic_AVR_1, 10);
+    _TIMER_T_0(INDEX_TIMER_AVR_VYMK_ROB_K1_UMIN, current_settings_prt.timeout_avr_vymk_rob_k1_Umin[number_group_stp], logic_AVR_1, 19, logic_AVR_1, 10);
     _OR2(logic_AVR_1, 10, logic_AVR_1, 17, logic_AVR_1, 20);
     
     _TIMER_0_T(INDEX_TIMER_AVR_VYMK_K1, current_settings_prt.timeout_avr_vymk_k1[number_group_stp], logic_AVR_1, 20, logic_AVR_1, 11);
@@ -3319,7 +3319,7 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
     _INVERTOR(logic_AVR_2, 17, logic_AVR_2, 18);
     _AND2(logic_AVR_2, 9, logic_AVR_2, 18, logic_AVR_2, 19);
 
-    _TIMER_T_0(INDEX_TIMER_AVR_VYMK_ROB_K2, current_settings_prt.timeout_avr_vymk_rob_k2[number_group_stp], logic_AVR_2, 19, logic_AVR_2, 10);
+    _TIMER_T_0(INDEX_TIMER_AVR_VYMK_ROB_K2_UMIN, current_settings_prt.timeout_avr_vymk_rob_k2_Umin[number_group_stp], logic_AVR_2, 19, logic_AVR_2, 10);
     _OR2(logic_AVR_2, 10, logic_AVR_2, 17, logic_AVR_2, 20);
     
     _TIMER_0_T(INDEX_TIMER_AVR_VYMK_K2, current_settings_prt.timeout_avr_vymk_k2[number_group_stp], logic_AVR_2, 20, logic_AVR_2, 11);
@@ -7095,7 +7095,7 @@ inline void main_protection(void)
       global_timers[INDEX_TIMER_AVR_D_DIJI_K1] = -1;
       global_timers[INDEX_TIMER_AVR_VVIMK_REZ_K1] = -1;
       global_timers[INDEX_TIMER_AVR_VVIMK_K1] = -1;
-      global_timers[INDEX_TIMER_AVR_VYMK_ROB_K1] = -1;
+      global_timers[INDEX_TIMER_AVR_VYMK_ROB_K1_UMIN] = -1;
       global_timers[INDEX_TIMER_AVR_VYMK_K1] = -1;
       global_timers[INDEX_TIMER_AVR_TMP_1MS_K1] = -1;
       global_timers[INDEX_TIMER_AVR_BLK_K2] = -1;
@@ -7103,7 +7103,7 @@ inline void main_protection(void)
       global_timers[INDEX_TIMER_AVR_D_DIJI_K2] = -1;
       global_timers[INDEX_TIMER_AVR_VVIMK_REZ_K2] = -1;
       global_timers[INDEX_TIMER_AVR_VVIMK_K2] = -1;
-      global_timers[INDEX_TIMER_AVR_VYMK_ROB_K2] = -1;
+      global_timers[INDEX_TIMER_AVR_VYMK_ROB_K2_UMIN] = -1;
       global_timers[INDEX_TIMER_AVR_VYMK_K2] = -1;
       global_timers[INDEX_TIMER_AVR_TMP_1MS_K2] = -1;
 

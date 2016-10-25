@@ -5687,7 +5687,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case MA_TO_AVR_GENERAL_VYMK_ROB_K1:
       {
-        temp_value = current_settings_interfaces.timeout_avr_vymk_rob_k1[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_avr_vymk_rob_k1_Umin[num_gr]/10;
         break;
       }
     case MA_TO_AVR_GENERAL_VYMK_K1:
@@ -5722,7 +5722,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case MA_TO_AVR_GENERAL_VYMK_ROB_K2:
       {
-        temp_value = current_settings_interfaces.timeout_avr_vymk_rob_k2[num_gr]/10;
+        temp_value = current_settings_interfaces.timeout_avr_vymk_rob_k2_Umin[num_gr]/10;
         break;
       }
     case MA_TO_AVR_GENERAL_VYMK_K2:
@@ -8352,12 +8352,12 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
       {
         temp_value = data*10;
     
-#if (TIMEOUT_AVR_GENERAL_VYMK_ROB_K1_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_GENERAL_VYMK_ROB_K1_MIN) && (temp_value <= TIMEOUT_AVR_GENERAL_VYMK_ROB_K1_MAX))
+#if (TIMEOUT_AVR_UMIN_VYMK_ROB_K1_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_UMIN_VYMK_ROB_K1_MIN) && (temp_value <= TIMEOUT_AVR_UMIN_VYMK_ROB_K1_MAX))
 #else
-        if (temp_value <= TIMEOUT_AVR_GENERAL_VYMK_ROB_K1_MAX)
+        if (temp_value <= TIMEOUT_AVR_UMIN_VYMK_ROB_K1_MAX)
 #endif            
-          target_label->timeout_avr_vymk_rob_k1[num_gr] = temp_value;
+          target_label->timeout_avr_vymk_rob_k1_Umin[num_gr] = temp_value;
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
 
@@ -8457,12 +8457,12 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
       {
         temp_value = data*10;
     
-#if (TIMEOUT_AVR_GENERAL_VYMK_ROB_K2_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_GENERAL_VYMK_ROB_K2_MIN) && (temp_value <= TIMEOUT_AVR_GENERAL_VYMK_ROB_K2_MAX))
+#if (TIMEOUT_AVR_UMIN_VYMK_ROB_K2_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_UMIN_VYMK_ROB_K2_MIN) && (temp_value <= TIMEOUT_AVR_UMAX_VYMK_ROB_K2_MAX))
 #else
-        if (temp_value <= TIMEOUT_AVR_GENERAL_VYMK_ROB_K2_MAX)
+        if (temp_value <= TIMEOUT_AVR_UMIN_VYMK_ROB_K2_MAX)
 #endif            
-          target_label->timeout_avr_vymk_rob_k2[num_gr] = temp_value;
+          target_label->timeout_avr_vymk_rob_k2_Umin[num_gr] = temp_value;
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
 

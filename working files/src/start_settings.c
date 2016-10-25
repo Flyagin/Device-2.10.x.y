@@ -1891,14 +1891,16 @@ void min_settings(__SETTINGS *target_label)
     target_label->timeout_avr_d_diji_k1[i] = TIMEOUT_AVR_GENERAL_D_DIJI_K1_MIN;
     target_label->timeout_avr_vvimk_rez_k1[i] = TIMEOUT_AVR_GENERAL_VVIMK_REZ_K1_MIN;
     target_label->timeout_avr_vvimk_k1[i] = TIMEOUT_AVR_GENERAL_VVIMK_K1_MIN;
-    target_label->timeout_avr_vymk_rob_k1[i] = TIMEOUT_AVR_GENERAL_VYMK_ROB_K1_MIN;
+    target_label->timeout_avr_vymk_rob_k1_Umin[i] = TIMEOUT_AVR_UMIN_VYMK_ROB_K1_MIN;
+    target_label->timeout_avr_vymk_rob_k1_Umax[i] = TIMEOUT_AVR_UMAX_VYMK_ROB_K1_MIN;
     target_label->timeout_avr_vymk_k1[i] = TIMEOUT_AVR_GENERAL_VYMK_K1_MIN;
     target_label->timeout_avr_blk_k2[i] = TIMEOUT_AVR_GENERAL_BLK_K2_MIN;
     target_label->timeout_avr_pusk_k2[i] = TIMEOUT_AVR_GENERAL_PUSK_K2_MIN;
     target_label->timeout_avr_d_diji_k2[i] = TIMEOUT_AVR_GENERAL_D_DIJI_K2_MIN;
     target_label->timeout_avr_vvimk_rez_k2[i] = TIMEOUT_AVR_GENERAL_VVIMK_REZ_K2_MIN;
     target_label->timeout_avr_vvimk_k2[i] = TIMEOUT_AVR_GENERAL_VVIMK_K2_MIN;
-    target_label->timeout_avr_vymk_rob_k2[i] = TIMEOUT_AVR_GENERAL_VYMK_ROB_K2_MIN;
+    target_label->timeout_avr_vymk_rob_k2_Umin[i] = TIMEOUT_AVR_UMIN_VYMK_ROB_K2_MIN;
+    target_label->timeout_avr_vymk_rob_k2_Umax[i] = TIMEOUT_AVR_UMAX_VYMK_ROB_K2_MIN;
     target_label->timeout_avr_vymk_k2[i] = TIMEOUT_AVR_GENERAL_VYMK_K2_MIN;
 
     target_label->setpoint_ctrl_phase_U[i] = SETPOINT_CTRL_PHASE_U_MIN;
