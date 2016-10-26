@@ -233,7 +233,7 @@
 #define BIT_MA_PO_AVR_TN1_U2_LOW_WORK           50309
 #define BIT_MA_PO_AVR_TN2_U2_MIN                50310
 #define BIT_MA_PO_AVR_TN2_U1_LOW_WORK           50311
-#define BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV          50312
+#define BIT_MA_BLOCK_AVR                        50312
 //#define BIT_MA_BLOCK_KRATN_AVR                  50313
 //#define BIT_MA_PUSK_AVR                         50314
 #define BIT_MA_OZT_AVR_1                        50315
@@ -761,7 +761,7 @@
 #define BIT_MA_CONTROL_AVR_BASE               55288
 #define BIT_MA_CONFIGURATION_AVR              55288  
 #define BIT_MA_CONTROL_AVR                    55289
-#define BIT_MA_CONTROL_AVR_OTKL_BLK           55290
+#define BIT_MA_CONTROL_AVR_BLK                55290
 
 #define M_ADDRESS_CONTROL_CTRL_VV         10019
 #define BIT_MA_CONTROL_CTRL_VV_BASE            55304

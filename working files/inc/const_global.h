@@ -348,7 +348,7 @@ RANG_STAT_BLOCK_AVR_1,
 RANG_STAT_BLOCK_AVR_2,
 RANG_OZT_AVR_1,
 RANG_OZT_AVR_2,
-RANG_BLOCK_AVR_VID_ZAKHYSTIV,
+RANG_BLOCK_AVR,
 RANG_PO_AVR_TN1_U1_MIN,
 RANG_PO_AVR_TN1_U2_LOW_WORK,
 RANG_PO_AVR_TN2_U2_MIN,
@@ -779,7 +779,7 @@ enum __mtz_abc_direction_const {
    | (1 << (RANG_STAT_BLOCK_AVR_2 - 96))                    /*110*/\
    | (1 << (RANG_OZT_AVR_1 - 96))                           /*111*/\
    | (1 << (RANG_OZT_AVR_2 - 96))                           /*112*/\
-   | (1 << (RANG_BLOCK_AVR_VID_ZAKHYSTIV - 96))             /*113*/\
+   | (1 << (RANG_BLOCK_AVR - 96))                           /*113*/\
    | (1 << (RANG_PO_AVR_TN1_U1_MIN - 96))                   /*114*/\
    | (1 << (RANG_PO_AVR_TN1_U2_LOW_WORK - 96))              /*115*/\
    | (1 << (RANG_PO_AVR_TN2_U2_MIN - 96))                   /*116*/\
@@ -921,7 +921,7 @@ enum __mtz_abc_direction_const {
 #define MASKA_TRIGGER_SIGNALES_2                  0
 
 #define MASKA_TRIGGER_SIGNALES_3               (unsigned int)(         \
-     (1 << (RANG_BLOCK_AVR_VID_ZAKHYSTIV - 96))                 /*113*/\
+     (1 << (RANG_BLOCK_AVR - 96))                               /*113*/\
 )     
 
 #define MASKA_TRIGGER_SIGNALES_4               (unsigned int)(       \

@@ -2044,9 +2044,9 @@ void restore_trigger_functions(unsigned int *active_functions_point)
 
   unsigned int tmp_state;
 
-  tmp_state = _CHECK_SET_BIT(active_functions_point, RANG_BLOCK_AVR_VID_ZAKHYSTIV);
+  tmp_state = _CHECK_SET_BIT(active_functions_point, RANG_BLOCK_AVR);
   trigger_AVR_0 |= ((tmp_state != 0) << 0);
-  active_functions[RANG_BLOCK_AVR_VID_ZAKHYSTIV >> 5] |= tmp_state;
+  active_functions[RANG_BLOCK_AVR >> 5] |= tmp_state;
 }
 /*****************************************************/
 

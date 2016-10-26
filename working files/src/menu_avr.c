@@ -1029,25 +1029,25 @@ void make_ekran_control_avr()
       "      АВР       ",
       " АВР от Umax к.1",
       " АВР от Umax к.2",
-      "  Откл.Бл.АВР   "
+      "     Бл.АВР     "
     },
     {
       "      АВР       ",
       "АВР від Umax к.1",
       "АВР від Umax к.2",
-      "  Вимк.Бл.АВР   "
+      "     Бл.АВР     "
     },
     {
       "      АВР       ",
       " АВР от Umax к.1",
       " АВР от Umax к.2",
-      "  Откл.Бл.АВР   "
+      "     Бл.АВР     "
     },
     {
       "      АВР       ",
       " АВР от Umax к.1",
       " АВР от Umax к.2",
-      "  Откл.Бл.АВР   "
+      "     Бл.АВР     "
     }
   };
   int index_language = index_language_in_array(current_settings.language);

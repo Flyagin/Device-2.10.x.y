@@ -145,7 +145,7 @@ void convert_order_list_function_to_gmm(unsigned int* input_array, unsigned shor
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_SBROS_BLOCK_AVR        , (BIT_MA_SBROS_BLOCK_AVR         - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_STAT_BLOCK_AVR_1       , (BIT_MA_STAT_BLOCK_AVR_1        - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_STAT_BLOCK_AVR_2       , (BIT_MA_STAT_BLOCK_AVR_2        - BIT_MA_CURRENT_AF_BASE));
-  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_AVR_VID_ZAKHYSTIV, (BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_AVR              , (BIT_MA_BLOCK_AVR               - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_AVR_TN1_U1_MIN      , (BIT_MA_PO_AVR_TN1_U1_MIN       - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_AVR_TN1_U2_LOW_WORK , (BIT_MA_PO_AVR_TN1_U2_LOW_WORK  - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_AVR_TN2_U2_MIN      , (BIT_MA_PO_AVR_TN2_U2_MIN       - BIT_MA_CURRENT_AF_BASE));
@@ -1724,9 +1724,9 @@ unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int nu
         rezultat = BIT_MA_OZT_AVR_2;
         break;
       }
-    case RANG_BLOCK_AVR_VID_ZAKHYSTIV:
+    case RANG_BLOCK_AVR:
       {
-        rezultat = BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV;
+        rezultat = BIT_MA_BLOCK_AVR;
         break;
       }
     case RANG_PO_AVR_TN1_U1_MIN:
@@ -2658,7 +2658,7 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
              (data == BIT_MA_PO_AVR_TN1_U2_LOW_WORK ) || 
              (data == BIT_MA_PO_AVR_TN2_U2_MIN      ) || 
              (data == BIT_MA_PO_AVR_TN2_U1_LOW_WORK ) || 
-             (data == BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV) ||
+             (data == BIT_MA_BLOCK_AVR              ) ||
              (data == BIT_MA_OZT_AVR_1              ) ||
              (data == BIT_MA_OZT_AVR_2              ) ||
              (data == BIT_MA_PO_AVR_K1              ) ||
@@ -3753,9 +3753,9 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
         _SET_BIT(set_array_rang, RANG_PO_AVR_TN2_U1_LOW_WORK);
         break;
       }
-    case BIT_MA_BLOCK_AVR_VID_ZAKHYSTIV:
+    case BIT_MA_BLOCK_AVR:
       {
-        _SET_BIT(set_array_rang, RANG_BLOCK_AVR_VID_ZAKHYSTIV);
+        _SET_BIT(set_array_rang, RANG_BLOCK_AVR);
         break;
       }
     case BIT_MA_OZT_AVR_1:
@@ -5185,7 +5185,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         temp_value = (((input_conf  >> AVR_BIT_CONFIGURATION ) & 0x1 ) << (BIT_MA_CONFIGURATION_AVR    - BIT_MA_CONTROL_AVR_BASE)) |
           
                      (((input_value >> INDEX_CTR_AVR         ) & 0x1 ) << (BIT_MA_CONTROL_AVR          - BIT_MA_CONTROL_AVR_BASE)) |
-                     (((input_value >> INDEX_CTR_AVR_OTKL_BLK) & 0x1 ) << (BIT_MA_CONTROL_AVR_OTKL_BLK - BIT_MA_CONTROL_AVR_BASE));
+                     (((input_value >> INDEX_CTR_AVR_BLK     ) & 0x1 ) << (BIT_MA_CONTROL_AVR_BLK      - BIT_MA_CONTROL_AVR_BASE));
         break;
       }
     case M_ADDRESS_CONTROL_APV:
@@ -7016,7 +7016,7 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
             int output_value = 0;
 
             output_value |= ((data >> (BIT_MA_CONTROL_AVR          - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR;
-            output_value |= ((data >> (BIT_MA_CONTROL_AVR_OTKL_BLK - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR_OTKL_BLK;
+            output_value |= ((data >> (BIT_MA_CONTROL_AVR_BLK      - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR_BLK;
         
             target_label->control_avr = output_value;
           }

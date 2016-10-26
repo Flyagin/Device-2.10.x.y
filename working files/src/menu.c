@@ -12892,7 +12892,7 @@ void main_manu_function(void)
                 if      (current_ekran.index_position == INDEX_CTR_AVR         ) maska = CTR_AVR;
                 else if (current_ekran.index_position == INDEX_CTR_AVR_UMAX_K1 ) maska = CTR_AVR_UMAX_K1;
                 else if (current_ekran.index_position == INDEX_CTR_AVR_UMAX_K2 ) maska = CTR_AVR_UMAX_K2;
-                else if (current_ekran.index_position == INDEX_CTR_AVR_OTKL_BLK) maska = CTR_AVR_OTKL_BLK;
+                else if (current_ekran.index_position == INDEX_CTR_AVR_BLK     ) maska = CTR_AVR_BLK;
                 
                 //Міняємо на протилежний відповідний біт для вибраної позиції
                 edition_settings.control_avr ^= maska;
@@ -14275,7 +14275,7 @@ void main_manu_function(void)
                 if      (current_ekran.index_position == INDEX_CTR_AVR         ) maska = CTR_AVR;
                 else if (current_ekran.index_position == INDEX_CTR_AVR_UMAX_K1 ) maska = CTR_AVR_UMAX_K1;
                 else if (current_ekran.index_position == INDEX_CTR_AVR_UMAX_K2 ) maska = CTR_AVR_UMAX_K2;
-                else if (current_ekran.index_position == INDEX_CTR_AVR_OTKL_BLK) maska = CTR_AVR_OTKL_BLK;
+                else if (current_ekran.index_position == INDEX_CTR_AVR_BLK     ) maska = CTR_AVR_BLK;
                 
                 //Міняємо на протилежний відповідний біт для вибраної позиції
                 edition_settings.control_avr ^= maska;

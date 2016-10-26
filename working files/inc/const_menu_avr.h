@@ -161,12 +161,12 @@
 #define CTR_AVR_UMAX_K1                         (1 << INDEX_CTR_AVR_UMAX_K1)
 #define INDEX_CTR_AVR_UMAX_K2                   2
 #define CTR_AVR_UMAX_K2                         (1 << INDEX_CTR_AVR_UMAX_K2)
-#define INDEX_CTR_AVR_OTKL_BLK                  3
-#define CTR_AVR_OTKL_BLK                        (1 << INDEX_CTR_AVR_OTKL_BLK)
+#define INDEX_CTR_AVR_BLK                       3
+#define CTR_AVR_BLK                             (1 << INDEX_CTR_AVR_BLK)
 
 #define CTR_AVR_MASKA                           (CTR_AVR                       |\
                                                  CTR_AVR_UMAX_K1               |\
                                                  CTR_AVR_UMAX_K2               |\
-                                                 CTR_AVR_OTKL_BLK)
+                                                 CTR_AVR_BLK)
 
 #endif
