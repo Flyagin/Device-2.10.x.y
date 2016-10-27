@@ -3134,7 +3134,7 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
                   (measurement[IM_UBC1] <= setpoint_avr_tn1_U1_min) &&
                   (measurement[IM_UCA1] <= setpoint_avr_tn1_U1_min)
                  ) << 0;   
-  //"U1min < U1x"
+  //"он U1min < U1x"
   if (_GET_OUTPUT_STATE(logic_AVR_1, 0)) _SET_BIT(p_active_functions, RANG_PO_AVR_TN1_U1_MIN);
   else  _CLEAR_BIT(p_active_functions, RANG_PO_AVR_TN1_U1_MIN);
     
@@ -3146,7 +3146,7 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
                   (measurement[IM_UBC2] >= setpoint_avr_tn2_U1_low_work) &&
                   (measurement[IM_UCA2] >= setpoint_avr_tn2_U1_low_work)
                  ) << 1;   
-  //"U2min > U2x"
+  //"он U2min > U2x"
   if (_GET_OUTPUT_STATE(logic_AVR_1, 1)) _SET_BIT(p_active_functions, RANG_PO_AVR_TN2_U1_LOW_WORK);
   else  _CLEAR_BIT(p_active_functions, RANG_PO_AVR_TN2_U1_LOW_WORK);
 
@@ -3159,7 +3159,7 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
                   (measurement[IM_UCA1] >= setpoint_avr_tn1_U1_max)
                  ) << 21;   
 
-  //"U1max > U1x"
+  //"он U1max > U1x"
   if (_GET_OUTPUT_STATE(logic_AVR_1, 21)) _SET_BIT(p_active_functions, RANG_PO_AVR_TN1_U1_MAX);
   else  _CLEAR_BIT(p_active_functions, RANG_PO_AVR_TN1_U1_MAX);
 
@@ -3171,7 +3171,7 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
                   (measurement[IM_UBC2] <= setpoint_avr_tn1_U2_high_work) &&
                   (measurement[IM_UCA2] <= setpoint_avr_tn1_U2_high_work)
                  ) << 22;   
-  //"U2max < U2x"
+  //"он U2max < U2x"
   if (_GET_OUTPUT_STATE(logic_AVR_1, 22)) _SET_BIT(p_active_functions, RANG_PO_AVR_TN1_U2_HIGH_WORK);
   else  _CLEAR_BIT(p_active_functions, RANG_PO_AVR_TN1_U2_HIGH_WORK);
 
@@ -3198,7 +3198,7 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
                   (measurement[IM_UBC2] <= setpoint_avr_tn2_U2_min) &&
                   (measurement[IM_UCA2] <= setpoint_avr_tn2_U2_min)
                  ) << 0;   
-  //"U2min < U2x"
+  //"он U2min < U2x"
   if (_GET_OUTPUT_STATE(logic_AVR_3, 0)) _SET_BIT(p_active_functions, RANG_PO_AVR_TN2_U2_MIN);
   else  _CLEAR_BIT(p_active_functions, RANG_PO_AVR_TN2_U2_MIN);
     
@@ -3210,7 +3210,7 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
                   (measurement[IM_UBC1] >= setpoint_avr_tn1_U2_low_work) &&
                   (measurement[IM_UCA1] >= setpoint_avr_tn1_U2_low_work)
                  ) << 1;   
-  //"U1min > U1x"
+  //"он U1min > U1x"
   if (_GET_OUTPUT_STATE(logic_AVR_3, 1)) _SET_BIT(p_active_functions, RANG_PO_AVR_TN1_U2_LOW_WORK);
   else  _CLEAR_BIT(p_active_functions, RANG_PO_AVR_TN1_U2_LOW_WORK);
 
@@ -3223,7 +3223,7 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
                   (measurement[IM_UCA2] >= setpoint_avr_tn2_U2_max)
                  ) << 21;   
 
-  //"U2max > U2x"
+  //"он U2max > U2x"
   if (_GET_OUTPUT_STATE(logic_AVR_3, 21)) _SET_BIT(p_active_functions, RANG_PO_AVR_TN2_U2_MAX);
   else  _CLEAR_BIT(p_active_functions, RANG_PO_AVR_TN2_U2_MAX);
 
@@ -3235,7 +3235,7 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
                   (measurement[IM_UBC1] <= setpoint_avr_tn2_U1_high_work) &&
                   (measurement[IM_UCA1] <= setpoint_avr_tn2_U1_high_work)
                  ) << 22;   
-  //"U1max < U1x"
+  //"он U1max < U1x"
   if (_GET_OUTPUT_STATE(logic_AVR_3, 22)) _SET_BIT(p_active_functions, RANG_PO_AVR_TN2_U1_HIGH_WORK);
   else  _CLEAR_BIT(p_active_functions, RANG_PO_AVR_TN2_U1_HIGH_WORK);
 
