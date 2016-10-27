@@ -259,7 +259,7 @@ void fapch_val_1(void);
 void fapch_val_2(void);
 void delta_phi_routine(void);
 void current_delta_phi(void);
-unsigned int sequence_phases(unsigned int [][2], unsigned int*, unsigned int*, EXTENDED_SAMPLE [], unsigned int, unsigned int);
+unsigned int sequence_phases(unsigned int [][2], unsigned int*, unsigned int*, /*EXTENDED_SAMPLE*/int [], unsigned int, unsigned int);
 void calc_measurement(unsigned int);
 unsigned int norma_value(unsigned long long);
 unsigned int sqrt_32(unsigned int);

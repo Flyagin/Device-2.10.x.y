@@ -1435,7 +1435,7 @@ void SPI_ADC_IRQHandler(void)
       static unsigned int current_vector[2][2];
       static unsigned int index_of_currnet_vector;
       static unsigned int ready_vectors; 
-      sequence_TN1 = sequence_phases(current_vector, &index_of_currnet_vector, &ready_vectors, ADCs_data_raw, I_Ua1, IM_UA1);
+      sequence_TN1 = sequence_phases(current_vector, &index_of_currnet_vector, &ready_vectors, /*ADCs_data_raw*/ADCs_data, I_Ua1, IM_UA1);
       
       /*
       Необхідно опрацювати оцифровані дані для перетворення Фур'є
@@ -1522,7 +1522,7 @@ void SPI_ADC_IRQHandler(void)
       static unsigned int current_vector[2][2];
       static unsigned int index_of_currnet_vector;
       static unsigned int ready_vectors; 
-      sequence_TN2 = sequence_phases(current_vector, &index_of_currnet_vector, &ready_vectors, ADCs_data_raw, I_Ua2, IM_UA2);
+      sequence_TN2 = sequence_phases(current_vector, &index_of_currnet_vector, &ready_vectors, /*ADCs_data_raw*/ADCs_data, I_Ua2, IM_UA2);
       /*
       Необхідно опрацювати оцифровані дані для перетворення Фур'є для
       аналогових величин групи 2
@@ -2586,7 +2586,7 @@ void current_delta_phi(void)
 /*****************************************************/
 //Контроль правильної послідовності фаз
 /*****************************************************/
-unsigned int sequence_phases(unsigned int p_current_vector[][2], unsigned int *p_index_of_currnet_vector, unsigned int *p_ready_vectors, EXTENDED_SAMPLE p_data[], unsigned int index_first_c_data, unsigned int index_first_i_data)
+unsigned int sequence_phases(unsigned int p_current_vector[][2], unsigned int *p_index_of_currnet_vector, unsigned int *p_ready_vectors, /*EXTENDED_SAMPLE*/int p_data[], unsigned int index_first_c_data, unsigned int index_first_i_data)
 {
   unsigned int result = CONST_SEQ_UNDEF; //Результат у випадку, якщо хоча б одна напруга нижче порогу
   
@@ -2598,8 +2598,8 @@ unsigned int sequence_phases(unsigned int p_current_vector[][2], unsigned int *p
      )  
   {
    
-    int a = p_data[index_first_c_data + 0].value*ea[0] + p_data[index_first_c_data + 1].value*eb[0] + p_data[index_first_c_data + 2].value*ec[0];
-    int b = p_data[index_first_c_data + 0].value*ea[1] + p_data[index_first_c_data + 1].value*eb[1] + p_data[index_first_c_data + 2].value*ec[1];
+    int a = p_data[index_first_c_data + 0]/*.value*/*ea[0] + p_data[index_first_c_data + 1]/*.value*/*eb[0] + p_data[index_first_c_data + 2]/*.value*/*ec[0];
+    int b = p_data[index_first_c_data + 0]/*.value*/*ea[1] + p_data[index_first_c_data + 1]/*.value*/*eb[1] + p_data[index_first_c_data + 2]/*.value*/*ec[1];
     
     p_current_vector[*p_index_of_currnet_vector][0] = a;
     p_current_vector[*p_index_of_currnet_vector][1] = b;
