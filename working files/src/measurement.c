@@ -1432,7 +1432,7 @@ void SPI_ADC_IRQHandler(void)
     if ((status_adc_read_work & DATA_VAL_1_READ) != 0)
     {
       //Перевірка на правильну послідовність фаз
-      static unsigned int current_vector[2][2];
+      static int current_vector[2][2];
       static unsigned int index_of_currnet_vector;
       static unsigned int ready_vectors; 
       sequence_TN1 = sequence_phases(current_vector, &index_of_currnet_vector, &ready_vectors, /*ADCs_data_raw*/ADCs_data, I_Ua1, IM_UA1);
@@ -1519,7 +1519,7 @@ void SPI_ADC_IRQHandler(void)
     if ((status_adc_read_work & DATA_VAL_2_READ) != 0)
     {
       //Перевірка на правильну послідовність фаз
-      static unsigned int current_vector[2][2];
+      static int current_vector[2][2];
       static unsigned int index_of_currnet_vector;
       static unsigned int ready_vectors; 
       sequence_TN2 = sequence_phases(current_vector, &index_of_currnet_vector, &ready_vectors, /*ADCs_data_raw*/ADCs_data, I_Ua2, IM_UA2);
@@ -2586,7 +2586,7 @@ void current_delta_phi(void)
 /*****************************************************/
 //Контроль правильної послідовності фаз
 /*****************************************************/
-unsigned int sequence_phases(unsigned int p_current_vector[][2], unsigned int *p_index_of_currnet_vector, unsigned int *p_ready_vectors, /*EXTENDED_SAMPLE*/int p_data[], unsigned int index_first_c_data, unsigned int index_first_i_data)
+unsigned int sequence_phases(int p_current_vector[][2], unsigned int *p_index_of_currnet_vector, unsigned int *p_ready_vectors, /*EXTENDED_SAMPLE*/int p_data[], unsigned int index_first_c_data, unsigned int index_first_i_data)
 {
   unsigned int result = CONST_SEQ_UNDEF; //Результат у випадку, якщо хоча б одна напруга нижче порогу
   

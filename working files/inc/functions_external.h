@@ -258,7 +258,7 @@ extern void fapch_val_1(void);
 extern void fapch_val_2(void);
 extern void delta_phi_routine(void);
 extern void current_delta_phi(void);
-extern unsigned int sequence_phases(unsigned int [][2], unsigned int*, unsigned int*, /*EXTENDED_SAMPLE*/int [], unsigned int, unsigned int);
+extern unsigned int sequence_phases(int [][2], unsigned int*, unsigned int*, /*EXTENDED_SAMPLE*/int [], unsigned int, unsigned int);
 extern void calc_measurement(unsigned int);
 extern unsigned int norma_value(unsigned long long);
 extern unsigned int sqrt_32(unsigned int);
