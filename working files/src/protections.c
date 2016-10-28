@@ -3107,9 +3107,9 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
 {
   unsigned int logic_AVR_0 = 0;
   unsigned int logic_AVR_1 = 0;
-  unsigned int logic_AVR_2 = 0;
+//  unsigned int logic_AVR_2 = 0;
   unsigned int logic_AVR_3 = 0;
-  unsigned int logic_AVR_4 = 0;
+//  unsigned int logic_AVR_4 = 0;
 
   logic_AVR_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_VIDKL_VID_ZAKHYSTIV) != 0) << 0;
   logic_AVR_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_APV_WORK) != 0) << 1;
@@ -3126,6 +3126,9 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   logic_AVR_0 |= ((current_settings_prt.control_avr & CTR_AVR) != 0) << 11;
   logic_AVR_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV) == 0) << 12;
 
+  logic_AVR_0 |= ((current_settings_prt.control_avr & CTR_AVR_UMAX) != 0) << 16;
+  _INVERTOR(logic_AVR_0, 16, logic_AVR_0, 17);
+  
   unsigned int setpoint_avr_tn1_U1_min = (_CHECK_SET_BIT(p_active_functions, RANG_PO_AVR_TN1_U1_MIN) == 0) ?
     current_settings_prt.setpoint_avr_tn1_U1_Umin[number_group_stp] :
     (current_settings_prt.setpoint_avr_tn1_U1_Umin[number_group_stp]*U_DOWN/100);
@@ -3175,12 +3178,10 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   if (_GET_OUTPUT_STATE(logic_AVR_1, 22)) _SET_BIT(p_active_functions, RANG_PO_AVR_TN1_U2_HIGH_WORK);
   else  _CLEAR_BIT(p_active_functions, RANG_PO_AVR_TN1_U2_HIGH_WORK);
 
-  logic_AVR_1 |= ((current_settings_prt.control_avr & CTR_AVR_UMAX_K1) != 0) << 23;
   
-  _AND2(logic_AVR_1, 21, logic_AVR_1, 23, logic_AVR_1, 24);
-  _INVERTOR(logic_AVR_1, 23, logic_AVR_1, 25);
+  _AND2(logic_AVR_1, 21, logic_AVR_0, 16, logic_AVR_1, 24);
   _OR2(logic_AVR_1, 0, logic_AVR_1, 24, logic_AVR_1, 26);
-  _OR2(logic_AVR_1, 22, logic_AVR_1, 25, logic_AVR_1, 27);
+  _OR2(logic_AVR_1, 22, logic_AVR_0, 17, logic_AVR_1, 27);
   
   logic_AVR_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_PUSK_K1_AVR) == 0) << 2;
   _TIMER_IMPULSE(INDEX_TIMER_AVR_PUSK_K1, current_settings_prt.timeout_avr_d_diji_k1[number_group_stp], previous_states_AVR_0, 1, logic_AVR_1, 2, logic_AVR_1, 3);
@@ -3239,12 +3240,9 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   if (_GET_OUTPUT_STATE(logic_AVR_3, 22)) _SET_BIT(p_active_functions, RANG_PO_AVR_TN2_U1_HIGH_WORK);
   else  _CLEAR_BIT(p_active_functions, RANG_PO_AVR_TN2_U1_HIGH_WORK);
 
-  logic_AVR_3 |= ((current_settings_prt.control_avr & CTR_AVR_UMAX_K2) != 0) << 23;
-  
-  _AND2(logic_AVR_3, 21, logic_AVR_3, 23, logic_AVR_3, 24);
-  _INVERTOR(logic_AVR_3, 23, logic_AVR_3, 25);
+  _AND2(logic_AVR_3, 21, logic_AVR_0, 16, logic_AVR_3, 24);
   _OR2(logic_AVR_3, 0, logic_AVR_3, 24, logic_AVR_3, 26);
-  _OR2(logic_AVR_3, 22, logic_AVR_3, 25, logic_AVR_3, 27);
+  _OR2(logic_AVR_3, 22, logic_AVR_0, 17, logic_AVR_3, 27);
   
   logic_AVR_3 |= (_CHECK_SET_BIT(p_active_functions, RANG_PUSK_K2_AVR) == 0) << 2;
   _TIMER_IMPULSE(INDEX_TIMER_AVR_PUSK_K2, current_settings_prt.timeout_avr_d_diji_k2[number_group_stp], previous_states_AVR_0, 2, logic_AVR_3, 2, logic_AVR_3, 3);
@@ -3307,22 +3305,22 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
     _AND2(logic_AVR_3, 9, logic_AVR_3, 18, logic_AVR_3, 19);
     
     _AND2(logic_AVR_1, 0, logic_AVR_1, 19, logic_AVR_1, 30);
-    _AND3(logic_AVR_1, 19, logic_AVR_1, 23, logic_AVR_1, 21, logic_AVR_1, 31);
+    _AND3(logic_AVR_1, 19, logic_AVR_0, 16, logic_AVR_1, 21, logic_AVR_1, 25);
     
     _AND2(logic_AVR_3, 0, logic_AVR_3, 19, logic_AVR_3, 30);
-    _AND3(logic_AVR_3, 19, logic_AVR_3, 23, logic_AVR_3, 21, logic_AVR_3, 31);
+    _AND3(logic_AVR_3, 19, logic_AVR_0, 16, logic_AVR_3, 21, logic_AVR_3, 25);
 
     _TIMER_T_0(INDEX_TIMER_AVR_VYMK_ROB_K1_UMIN, current_settings_prt.timeout_avr_vymk_rob_k1_Umin[number_group_stp], logic_AVR_1, 30, logic_AVR_1, 10);
-    _TIMER_T_0(INDEX_TIMER_AVR_VYMK_ROB_K1_UMAX, current_settings_prt.timeout_avr_vymk_rob_k1_Umax[number_group_stp], logic_AVR_1, 31, logic_AVR_2,  0);
-    _OR3(logic_AVR_1, 10, logic_AVR_2, 0, logic_AVR_1, 17, logic_AVR_1, 20);
+    _TIMER_T_0(INDEX_TIMER_AVR_VYMK_ROB_K1_UMAX, current_settings_prt.timeout_avr_vymk_rob_k1_Umax[number_group_stp], logic_AVR_1, 25, logic_AVR_1, 23);
+    _OR3(logic_AVR_1, 10, logic_AVR_1, 23, logic_AVR_1, 17, logic_AVR_1, 20);
     _TIMER_0_T(INDEX_TIMER_AVR_VYMK_K1, current_settings_prt.timeout_avr_vymk_k1[number_group_stp], logic_AVR_1, 20, logic_AVR_1, 11);
     //"Ком.1 Откл.АВР"
     if (_GET_OUTPUT_STATE(logic_AVR_1, 11)) _SET_BIT(p_active_functions, RANG_KOM1_OFF_AVR);
     else  _CLEAR_BIT(p_active_functions, RANG_KOM1_OFF_AVR);
     
     _TIMER_T_0(INDEX_TIMER_AVR_VYMK_ROB_K2_UMIN, current_settings_prt.timeout_avr_vymk_rob_k2_Umin[number_group_stp], logic_AVR_3, 30, logic_AVR_3, 10);
-    _TIMER_T_0(INDEX_TIMER_AVR_VYMK_ROB_K2_UMAX, current_settings_prt.timeout_avr_vymk_rob_k2_Umax[number_group_stp], logic_AVR_3, 31, logic_AVR_4,  0);
-    _OR3(logic_AVR_3, 10, logic_AVR_4, 0, logic_AVR_3, 17, logic_AVR_3, 20);
+    _TIMER_T_0(INDEX_TIMER_AVR_VYMK_ROB_K2_UMAX, current_settings_prt.timeout_avr_vymk_rob_k2_Umax[number_group_stp], logic_AVR_3, 25, logic_AVR_3, 23);
+    _OR3(logic_AVR_3, 10, logic_AVR_3, 23, logic_AVR_3, 17, logic_AVR_3, 20);
     _TIMER_0_T(INDEX_TIMER_AVR_VYMK_K2, current_settings_prt.timeout_avr_vymk_k2[number_group_stp], logic_AVR_3, 20, logic_AVR_3, 11);
     //"Ком.2 Откл.АВР"
     if (_GET_OUTPUT_STATE(logic_AVR_3, 11)) _SET_BIT(p_active_functions, RANG_KOM2_OFF_AVR);

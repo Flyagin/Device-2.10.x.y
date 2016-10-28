@@ -28,7 +28,7 @@
 #define MAX_ROW_FOR_TIMEOUT_AVR_GENERAL 12
 #define MAX_ROW_FOR_TIMEOUT_AVR_UMIN    2
 #define MAX_ROW_FOR_TIMEOUT_AVR_UMAX    2
-#define MAX_ROW_FOR_CONTROL_AVR         4
+#define MAX_ROW_FOR_CONTROL_AVR         3
 
 #define INDEX_ML_STPAVR_TN1_U1_UMIN             0
 #define INDEX_ML_STPAVR_TN1_U2_LOW_WORK         1
@@ -157,16 +157,13 @@
 
 #define INDEX_CTR_AVR                           0
 #define CTR_AVR                                 (1 << INDEX_CTR_AVR)
-#define INDEX_CTR_AVR_UMAX_K1                   1
-#define CTR_AVR_UMAX_K1                         (1 << INDEX_CTR_AVR_UMAX_K1)
-#define INDEX_CTR_AVR_UMAX_K2                   2
-#define CTR_AVR_UMAX_K2                         (1 << INDEX_CTR_AVR_UMAX_K2)
-#define INDEX_CTR_AVR_BLK                       3
+#define INDEX_CTR_AVR_UMAX                      1
+#define CTR_AVR_UMAX                            (1 << INDEX_CTR_AVR_UMAX)
+#define INDEX_CTR_AVR_BLK                       2
 #define CTR_AVR_BLK                             (1 << INDEX_CTR_AVR_BLK)
 
 #define CTR_AVR_MASKA                           (CTR_AVR                       |\
-                                                 CTR_AVR_UMAX_K1               |\
-                                                 CTR_AVR_UMAX_K2               |\
+                                                 CTR_AVR_UMAX                  |\
                                                  CTR_AVR_BLK)
 
 #endif
