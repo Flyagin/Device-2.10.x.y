@@ -2925,7 +2925,7 @@ uint32_t choose_tn1_tn2(volatile unsigned int *p_active_functions)
   uint32_t logic_tn1_tn2_0 = 0;
   static uint32_t static_logic_tn1_tn2_0; 
   
-  logic_tn1_tn2_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_PUSK_K1_AVR) != 0) << 0;
+  logic_tn1_tn2_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_PUSK_K1_AVR) != 0) << 0; /* 1ê+ */
   logic_tn1_tn2_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_PUSK_K2_AVR) != 0) << 1;
   logic_tn1_tn2_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV) != 0) << 2;
   
@@ -2933,9 +2933,9 @@ uint32_t choose_tn1_tn2(volatile unsigned int *p_active_functions)
   _INVERTOR(logic_tn1_tn2_0, 1, logic_tn1_tn2_0, 4);
   _INVERTOR(logic_tn1_tn2_0, 2, logic_tn1_tn2_0, 5);
   
-  _AND2(logic_tn1_tn2_0, 3, logic_tn1_tn2_0, 4, logic_tn1_tn2_0, 6); /*1ê- 2ê-*/
-  _AND2(logic_tn1_tn2_0, 0, logic_tn1_tn2_0, 5, logic_tn1_tn2_0, 7);
-  _AND2(logic_tn1_tn2_0, 3, logic_tn1_tn2_0, 1, logic_tn1_tn2_0, 8); /*1ê- 2ê+*/
+  _AND2(logic_tn1_tn2_0, 0, logic_tn1_tn2_0, 1, logic_tn1_tn2_0, 6); /*1ê- 2ê-*/
+  _AND2(logic_tn1_tn2_0, 3, logic_tn1_tn2_0, 5, logic_tn1_tn2_0, 7);
+  _AND2(logic_tn1_tn2_0, 0, logic_tn1_tn2_0, 4, logic_tn1_tn2_0, 8); /*1ê- 2ê+*/
   _AND2(logic_tn1_tn2_0, 5, logic_tn1_tn2_0, 8, logic_tn1_tn2_0, 9);
   
   uint32_t stp_0 = _GET_OUTPUT_STATE(static_logic_tn1_tn2_0, 0) ?  KOEF_MIN_UMIN * U_DOWN / 100 : KOEF_MIN_UMIN;
@@ -3062,11 +3062,11 @@ uint32_t choose_tn1_tn2(volatile unsigned int *p_active_functions)
   _AND2(static_logic_tn1_tn2_0, 0, logic_tn1_tn2_0, 12, logic_tn1_tn2_0, 18);
   _AND2(static_logic_tn1_tn2_0, 1, logic_tn1_tn2_0, 13, logic_tn1_tn2_0, 19);
   
-  _AND3(logic_tn1_tn2_0, 0, logic_tn1_tn2_0, 18, logic_tn1_tn2_0, 2, logic_tn1_tn2_0, 20);
+  _AND3(logic_tn1_tn2_0, 3, logic_tn1_tn2_0, 18, logic_tn1_tn2_0, 2, logic_tn1_tn2_0, 20);
   _AND3(logic_tn1_tn2_0, 8, logic_tn1_tn2_0, 19, logic_tn1_tn2_0, 2, logic_tn1_tn2_0, 21);
   
   _AND4(logic_tn1_tn2_0, 18, logic_tn1_tn2_0, 2, logic_tn1_tn2_0,  8, logic_tn1_tn2_0, 16, logic_tn1_tn2_0, 22);
-  _AND4(logic_tn1_tn2_0, 19, logic_tn1_tn2_0, 2, logic_tn1_tn2_0, 17, logic_tn1_tn2_0,  0, logic_tn1_tn2_0, 23);
+  _AND4(logic_tn1_tn2_0, 19, logic_tn1_tn2_0, 2, logic_tn1_tn2_0, 17, logic_tn1_tn2_0,  3, logic_tn1_tn2_0, 23);
   
   _AND3(logic_tn1_tn2_0, 18, logic_tn1_tn2_0,  2, logic_tn1_tn2_0, 16, logic_tn1_tn2_0, 24);
   _AND3(logic_tn1_tn2_0,  8, logic_tn1_tn2_0, 17, logic_tn1_tn2_0,  2, logic_tn1_tn2_0, 25);
@@ -3183,7 +3183,7 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   _OR2(logic_AVR_1, 0, logic_AVR_1, 24, logic_AVR_1, 26);
   _OR2(logic_AVR_1, 22, logic_AVR_0, 17, logic_AVR_1, 27);
   
-  logic_AVR_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_PUSK_K1_AVR) == 0) << 2;
+  logic_AVR_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_PUSK_K1_AVR) != 0) << 2;
   _TIMER_IMPULSE(INDEX_TIMER_AVR_PUSK_K1, current_settings_prt.timeout_avr_pusk_k1[number_group_stp], previous_states_AVR_0, 1, logic_AVR_1, 2, logic_AVR_1, 3);
   
   logic_AVR_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_STAT_BLOCK_AVR_1) != 0) << 4;
@@ -3244,7 +3244,7 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
   _OR2(logic_AVR_3, 0, logic_AVR_3, 24, logic_AVR_3, 26);
   _OR2(logic_AVR_3, 22, logic_AVR_0, 17, logic_AVR_3, 27);
   
-  logic_AVR_3 |= (_CHECK_SET_BIT(p_active_functions, RANG_PUSK_K2_AVR) == 0) << 2;
+  logic_AVR_3 |= (_CHECK_SET_BIT(p_active_functions, RANG_PUSK_K2_AVR) != 0) << 2;
   _TIMER_IMPULSE(INDEX_TIMER_AVR_PUSK_K2, current_settings_prt.timeout_avr_pusk_k2[number_group_stp], previous_states_AVR_0, 2, logic_AVR_3, 2, logic_AVR_3, 3);
   
   logic_AVR_3 |= (_CHECK_SET_BIT(p_active_functions, RANG_STAT_BLOCK_AVR_2) != 0) << 4;
