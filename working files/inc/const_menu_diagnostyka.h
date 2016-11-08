@@ -66,12 +66,14 @@ ERROR_VDD_ADC2_TEST_BIT,
 ERROR_GND_ADC2_TEST_COARSE_BIT,
 ERROR_VREF_ADC2_TEST_COARSE_BIT,
 ERROR_VDD_ADC2_TEST_COARSE_BIT,
+
 ERROR_SPI_ADC_BIT,
+
 ERROR_OSCYLOJRAPH_OVERFLOW,
 
-ERROR_DIGITAL_OUTPUTS_BIT,
+ERROR_DIGITAL_OUTPUT_1_BIT,
 
-ERROR_AR_TEMPORARY_BUSY_BIT,
+ERROR_AR_TEMPORARY_BUSY_BIT = ERROR_DIGITAL_OUTPUT_1_BIT + NUMBER_OUTPUTS,
 ERROR_AR_OVERLOAD_BUFFER_BIT,
 ERROR_AR_UNDEFINED_BIT,
 ERROR_AR_LOSS_INFORMATION_BIT,
@@ -97,6 +99,52 @@ ERROR_SELECT_GRUPY_USRAVOK,
 
 LOSE_ENERGY_DATA
 };
+
+#define MASKA_AVAR_ERROR_0        (unsigned int)(               \
+    (1 << (ERROR_SETTINGS_EEPROM_BIT))                          \
+  | (1 << (ERROR_SETTINGS_EEPROM_EMPTY_BIT))                    \
+  | (1 << (ERROR_SETTINGS_EEPROM_COMPARISON_BIT) )              \
+  | (1 << (ERROR_SETTINGS_EEPROM_CONTROL_BIT))                  \
+  | (1 << (ERROR_USTUVANNJA_EEPROM_BIT) )                       \
+  | (1 << (ERROR_USTUVANNJA_EEPROM_EMPTY_BIT))                  \
+  | (1 << (ERROR_USTUVANNJA_EEPROM_COMPARISON_BIT))             \
+  | (1 << (ERROR_USTUVANNJA_EEPROM_CONTROL_BIT))                \
+  | (1 << (ERROR_USTUVANNJA_EEPROM_ADJUSTMENT_ID_FAIL_BIT))     \
+  | (1 << (ERROR_TRG_FUNC_EEPROM_BIT))                          \
+  | (1 << (ERROR_TRG_FUNC_EEPROM_EMPTY_BIT))                    \
+  | (1 << (ERROR_TRG_FUNC_EEPROM_COMPARISON_BIT))               \
+  | (1 << (ERROR_TRG_FUNC_EEPROM_CONTROL_BIT))                  \
+)
+
+#define MASKA_AVAR_ERROR_1        (unsigned int)(               \
+    (1 << (ERROR_GND_ADC1_TEST_BIT - 32))                       \
+  | (1 << (ERROR_VREF_ADC1_TEST_BIT - 32))                      \
+  | (1 << (ERROR_VDD_ADC1_TEST_BIT - 32))                       \
+  | (1 << (ERROR_GND_ADC1_TEST_COARSE_BIT - 32))                \
+  | (1 << (ERROR_VREF_ADC1_TEST_COARSE_BIT - 32))               \
+  | (1 << (ERROR_VDD_ADC1_TEST_COARSE_BIT - 32))                \
+  | (1 << (ERROR_GND_ADC2_TEST_BIT - 32))                       \
+  | (1 << (ERROR_VREF_ADC2_TEST_BIT - 32))                      \
+  | (1 << (ERROR_VDD_ADC2_TEST_BIT - 32))                       \
+  | (1 << (ERROR_GND_ADC2_TEST_COARSE_BIT - 32))                \
+  | (1 << (ERROR_VREF_ADC2_TEST_COARSE_BIT - 32))               \
+  | (1 << (ERROR_VDD_ADC2_TEST_COARSE_BIT - 32))                \
+  | (1 << (ERROR_SPI_ADC_BIT - 32))                             \
+  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 0 - 32))                \
+  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 1 - 32))                \
+  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 2 - 32))                \
+  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 3 - 32))                \
+  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 4 - 32))                \
+  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 5 - 32))                \
+  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 6 - 32))                \
+)
+
+#define MASKA_AVAR_ERROR_2        (unsigned int)(               \
+    (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 7 - 64))                \
+  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 8 - 64))                \
+  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 9 - 64))                \
+  | (1 << (ERROR_INTERNAL_FLASH_BIT - 64))                      \
+)
 
 # define NAME_DIAGN_RU  \
   " Ош.I2C         ",   \
@@ -156,7 +204,16 @@ LOSE_ENERGY_DATA
   "Тест VDD АЦП2 гр",   \
   " Ош. SPI АЦП    ",   \
   "Переп.буф.ц.осц.",   \
-  " Ош.вых.реле    ",   \
+  " Ош.вых.реле 1  ",   \
+  " Ош.вых.реле 2  ",   \
+  " Ош.вых.реле 3  ",   \
+  " Ош.вых.реле 4  ",   \
+  " Ош.вых.реле 5  ",   \
+  " Ош.вых.реле 6  ",   \
+  " Ош.вых.реле 7  ",   \
+  " Ош.вых.реле 8  ",   \
+  " Ош.вых.реле 9  ",   \
+  " Ош.вых.реле 10 ",   \
   "Ан.рег.вр.занят.",   \
   " Пер.буф.aн.рег.",   \
   "Неопр.ош.ан.рег.",   \
@@ -176,15 +233,6 @@ LOSE_ENERGY_DATA
   " Ош.внутр.FLASH ",   \
   " Ош.выб.гр.уст. ",   \
   " Пот.д.энергии  ",   \
-  " Ошибка 78      ",   \
-  " Ошибка 79      ",   \
-  " Ошибка 80      ",   \
-  " Ошибка 81      ",   \
-  " Ошибка 82      ",   \
-  " Ошибка 83      ",   \
-  " Ошибка 84      ",   \
-  " Ошибка 85      ",   \
-  " Ошибка 86      ",   \
   " Ошибка 87      ",   \
   " Ошибка 88      "
 
@@ -246,7 +294,16 @@ LOSE_ENERGY_DATA
   "Тест VDD АЦП2 гр",   \
   " Пом.SPI АЦП    ",   \
   "Переп.буф.ц.осц.",   \
-  " Пом.вих.реле   ",   \
+  " Пом.вих.реле 1 ",   \
+  " Пом.вих.реле 2 ",   \
+  " Пом.вих.реле 3 ",   \
+  " Пом.вих.реле 4 ",   \
+  " Пом.вих.реле 5 ",   \
+  " Пом.вих.реле 6 ",   \
+  " Пом.вих.реле 7 ",   \
+  " Пом.вих.реле 8 ",   \
+  " Пом.вих.реле 9 ",   \
+  " Пом.вих.реле 10",   \
   "Ан.р.тимч.зайнят",   \
   " Переп.буф.aн.р.",   \
   "Невизн.пом.ан.р.",   \
@@ -266,15 +323,6 @@ LOSE_ENERGY_DATA
   " Пом.внутр.FLASH",   \
   " Пом.виб.гр.уст.",   \
   " Втр.д.енергії  ",   \
-  " Помилка 78     ",   \
-  " Помилка 79     ",   \
-  " Помилка 80     ",   \
-  " Помилка 81     ",   \
-  " Помилка 82     ",   \
-  " Помилка 83     ",   \
-  " Помилка 84     ",   \
-  " Помилка 85     ",   \
-  " Помилка 86     ",   \
   " Помилка 87     ",   \
   " Помилка 88     "
 
@@ -336,7 +384,16 @@ LOSE_ENERGY_DATA
   "ADC2:VDD Test R.",   \
   " ADC SPI Err.   ",   \
   "Переп.буф.ц.осц.",   \
-  " DO Ctrl.Err.   ",   \
+  " DO1 Ctrl.Err.  ",   \
+  " DO2 Ctrl.Err.  ",   \
+  " DO3 Ctrl.Err.  ",   \
+  " DO4 Ctrl.Err.  ",   \
+  " DO5 Ctrl.Err.  ",   \
+  " DO6 Ctrl.Err.  ",   \
+  " DO7 Ctrl.Err.  ",   \
+  " DO8 Ctrl.Err.  ",   \
+  " DO9 Ctrl.Err.  ",   \
+  " DO10 Ctrl.Err. ",   \
   " An.Rec.busy    ",   \
   " An.Rec.buff.OVF",   \
   "Undef.An.Rec.Err",   \
@@ -356,15 +413,6 @@ LOSE_ENERGY_DATA
   " Int.FLASH Err. ",   \
   " Ош.выб.гр.уст. ",   \
   " Пот.д.энергии  ",   \
-  " Error 78       ",   \
-  " Error 79       ",   \
-  " Error 80       ",   \
-  " Error 81       ",   \
-  " Error 82       ",   \
-  " Error 83       ",   \
-  " Error 84       ",   \
-  " Error 85       ",   \
-  " Error 86       ",   \
   " Error 87       ",   \
   " Error 88       "
 
@@ -426,7 +474,16 @@ LOSE_ENERGY_DATA
   "Тест VDD АЦП2 гр",   \
   " Ош.SPI АЦП     ",   \
   "Переп.буф.ц.осц.",   \
-  " Ош.вых.реле    ",   \
+  " Ош.вых.реле 1  ",   \
+  " Ош.вых.реле 2  ",   \
+  " Ош.вых.реле 3  ",   \
+  " Ош.вых.реле 4  ",   \
+  " Ош.вых.реле 5  ",   \
+  " Ош.вых.реле 6  ",   \
+  " Ош.вых.реле 7  ",   \
+  " Ош.вых.реле 8  ",   \
+  " Ош.вых.реле 9  ",   \
+  " Ош.вых.реле 10 ",   \
   "Ан.рег.вр.занят.",   \
   " Пер.буф.aн.рег.",   \
   "Неопр.ош.ан.рег.",   \
@@ -446,15 +503,6 @@ LOSE_ENERGY_DATA
   " Ош.внутр.FLASH ",   \
   " Ош.выб.гр.уст. ",   \
   " Пот.д.энергии  ",   \
-  " Ошибка 78      ",   \
-  " Ошибка 79      ",   \
-  " Ошибка 80      ",   \
-  " Ошибка 81      ",   \
-  " Ошибка 82      ",   \
-  " Ошибка 83      ",   \
-  " Ошибка 84      ",   \
-  " Ошибка 85      ",   \
-  " Ошибка 86      ",   \
   " Ошибка 87      ",   \
   " Ошибка 88      "
     
