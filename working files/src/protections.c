@@ -7733,7 +7733,7 @@ void TIM2_IRQHandler(void)
         else
           maska = 1 << index;
         
-        if ((control_state_outputs & maska) != (state_outputs_raw & maska)) _SET_BIT(set_diagnostyka, (ERROR_DIGITAL_OUTPUT_1_BIT + index));
+        if ((control_state_outputs & maska) != (temp_state_outputs & maska)) _SET_BIT(set_diagnostyka, (ERROR_DIGITAL_OUTPUT_1_BIT + index));
       }
     }
     
