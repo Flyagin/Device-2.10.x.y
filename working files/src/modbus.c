@@ -150,6 +150,10 @@ void convert_order_list_function_to_gmm(unsigned int* input_array, unsigned shor
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_AVR_TN1_U2_LOW_WORK , (BIT_MA_PO_AVR_TN1_U2_LOW_WORK  - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_AVR_TN2_U2_MIN      , (BIT_MA_PO_AVR_TN2_U2_MIN       - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_AVR_TN2_U1_LOW_WORK , (BIT_MA_PO_AVR_TN2_U1_LOW_WORK  - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_AVR_TN1_U1_MAX      , (BIT_MA_PO_AVR_TN1_U1_MAX       - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_AVR_TN1_U2_HIGH_WORK, (BIT_MA_PO_AVR_TN1_U2_HIGH_WORK  - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_AVR_TN2_U2_MAX      , (BIT_MA_PO_AVR_TN2_U2_MAX       - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_AVR_TN2_U1_HIGH_WORK, (BIT_MA_PO_AVR_TN2_U1_HIGH_WORK - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OZT_AVR_1              , (BIT_MA_OZT_AVR_1               - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_OZT_AVR_2              , (BIT_MA_OZT_AVR_2               - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_AVR_K1              , (BIT_MA_PO_AVR_K1               - BIT_MA_CURRENT_AF_BASE));
@@ -5685,7 +5689,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         temp_value = current_settings_interfaces.timeout_avr_vvimk_k1[num_gr]/10;
         break;
       }
-    case MA_TO_AVR_GENERAL_VYMK_ROB_K1:
+    case MA_TO_AVR_GENERAL_VYMK_ROB_K1_UMIN:
       {
         temp_value = current_settings_interfaces.timeout_avr_vymk_rob_k1_Umin[num_gr]/10;
         break;
@@ -5720,7 +5724,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         temp_value = current_settings_interfaces.timeout_avr_vvimk_k2[num_gr]/10;
         break;
       }
-    case MA_TO_AVR_GENERAL_VYMK_ROB_K2:
+    case MA_TO_AVR_GENERAL_VYMK_ROB_K2_UMIN:
       {
         temp_value = current_settings_interfaces.timeout_avr_vymk_rob_k2_Umin[num_gr]/10;
         break;
@@ -8348,7 +8352,7 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_TO_AVR_GENERAL_VYMK_ROB_K1:
+    case MA_TO_AVR_GENERAL_VYMK_ROB_K1_UMIN:
       {
         temp_value = data*10;
     
@@ -8453,7 +8457,7 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_TO_AVR_GENERAL_VYMK_ROB_K2:
+    case MA_TO_AVR_GENERAL_VYMK_ROB_K2_UMIN:
       {
         temp_value = data*10;
     
