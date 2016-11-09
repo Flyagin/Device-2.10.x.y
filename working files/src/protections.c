@@ -2933,8 +2933,8 @@ uint32_t choose_tn1_tn2(volatile unsigned int *p_active_functions)
   _INVERTOR(logic_tn1_tn2_0, 1, logic_tn1_tn2_0, 4);
   _INVERTOR(logic_tn1_tn2_0, 2, logic_tn1_tn2_0, 5);
   
-  _AND2(logic_tn1_tn2_0, 0, logic_tn1_tn2_0, 1, logic_tn1_tn2_0, 6); /*1к- 2к-*/
-  _AND2(logic_tn1_tn2_0, 3, logic_tn1_tn2_0, 5, logic_tn1_tn2_0, 7);
+//  _AND2(logic_tn1_tn2_0, 0, logic_tn1_tn2_0, 1, logic_tn1_tn2_0, 6); /*1к- 2к-*/
+//  _AND2(logic_tn1_tn2_0, 3, logic_tn1_tn2_0, 5, logic_tn1_tn2_0, 7);
   _AND2(logic_tn1_tn2_0, 0, logic_tn1_tn2_0, 4, logic_tn1_tn2_0, 8); /*1к- 2к+*/
   _AND2(logic_tn1_tn2_0, 5, logic_tn1_tn2_0, 8, logic_tn1_tn2_0, 9);
   
@@ -3050,50 +3050,50 @@ uint32_t choose_tn1_tn2(volatile unsigned int *p_active_functions)
   _AND2(static_logic_tn1_tn2_0, 2, static_logic_tn1_tn2_0, 4, logic_tn1_tn2_0, 11); /*НЦН2к*/
   /*Несправність кіл напруг*/
   
-  _INVERTOR(logic_tn1_tn2_0, 10, logic_tn1_tn2_0, 12);
+//  _INVERTOR(logic_tn1_tn2_0, 10, logic_tn1_tn2_0, 12);
   _INVERTOR(logic_tn1_tn2_0, 11, logic_tn1_tn2_0, 13);
   
-  _INVERTOR(static_logic_tn1_tn2_0, 1, logic_tn1_tn2_0, 14);
+//  _INVERTOR(static_logic_tn1_tn2_0, 1, logic_tn1_tn2_0, 14);
   _INVERTOR(static_logic_tn1_tn2_0, 0, logic_tn1_tn2_0, 15);
   
-  _OR2(logic_tn1_tn2_0, 14, logic_tn1_tn2_0, 11, logic_tn1_tn2_0, 16);
+//  _OR2(logic_tn1_tn2_0, 14, logic_tn1_tn2_0, 11, logic_tn1_tn2_0, 16);
   _OR2(logic_tn1_tn2_0, 15, logic_tn1_tn2_0, 10, logic_tn1_tn2_0, 17);
   
-  _AND2(static_logic_tn1_tn2_0, 0, logic_tn1_tn2_0, 12, logic_tn1_tn2_0, 18);
+//  _AND2(static_logic_tn1_tn2_0, 0, logic_tn1_tn2_0, 12, logic_tn1_tn2_0, 18);
   _AND2(static_logic_tn1_tn2_0, 1, logic_tn1_tn2_0, 13, logic_tn1_tn2_0, 19);
   
-  _AND3(logic_tn1_tn2_0, 3, logic_tn1_tn2_0, 18, logic_tn1_tn2_0, 2, logic_tn1_tn2_0, 20);
+//  _AND3(logic_tn1_tn2_0, 3, logic_tn1_tn2_0, 18, logic_tn1_tn2_0, 2, logic_tn1_tn2_0, 20);
   _AND3(logic_tn1_tn2_0, 8, logic_tn1_tn2_0, 19, logic_tn1_tn2_0, 2, logic_tn1_tn2_0, 21);
   
-  _AND4(logic_tn1_tn2_0, 18, logic_tn1_tn2_0, 2, logic_tn1_tn2_0,  8, logic_tn1_tn2_0, 16, logic_tn1_tn2_0, 22);
+//  _AND4(logic_tn1_tn2_0, 18, logic_tn1_tn2_0, 2, logic_tn1_tn2_0,  8, logic_tn1_tn2_0, 16, logic_tn1_tn2_0, 22);
   _AND4(logic_tn1_tn2_0, 19, logic_tn1_tn2_0, 2, logic_tn1_tn2_0, 17, logic_tn1_tn2_0,  3, logic_tn1_tn2_0, 23);
   
-  _AND3(logic_tn1_tn2_0, 18, logic_tn1_tn2_0,  2, logic_tn1_tn2_0, 16, logic_tn1_tn2_0, 24);
+//  _AND3(logic_tn1_tn2_0, 18, logic_tn1_tn2_0,  2, logic_tn1_tn2_0, 16, logic_tn1_tn2_0, 24);
   _AND3(logic_tn1_tn2_0,  8, logic_tn1_tn2_0, 17, logic_tn1_tn2_0,  2, logic_tn1_tn2_0, 25);
   
-  _OR3(logic_tn1_tn2_0, 20, logic_tn1_tn2_0, 22, logic_tn1_tn2_0, 24, logic_tn1_tn2_0, 26);
+//  _OR3(logic_tn1_tn2_0, 20, logic_tn1_tn2_0, 22, logic_tn1_tn2_0, 24, logic_tn1_tn2_0, 26);
   _OR3(logic_tn1_tn2_0, 21, logic_tn1_tn2_0, 23, logic_tn1_tn2_0, 25, logic_tn1_tn2_0, 27);
   
-  _OR3(logic_tn1_tn2_0, 26, logic_tn1_tn2_0, 6, logic_tn1_tn2_0, 7, logic_tn1_tn2_0, 28);
+//  _OR3(logic_tn1_tn2_0, 26, logic_tn1_tn2_0, 6, logic_tn1_tn2_0, 7, logic_tn1_tn2_0, 28);
   _OR2(logic_tn1_tn2_0, 27, logic_tn1_tn2_0, 9, logic_tn1_tn2_0, 29);
 
   uint32_t tn1_tn2 = 0;
-  if (_GET_OUTPUT_STATE(logic_tn1_tn2_0, 28)) tn1_tn2 = 0;
-  else if (_GET_OUTPUT_STATE(logic_tn1_tn2_0, 29))  tn1_tn2 = 1;
-  else
-  {
-    //у всіх інших випадках беремо tn1_tn2 = 0
-  }
+//  if (_GET_OUTPUT_STATE(logic_tn1_tn2_0, 28)) tn1_tn2 = 0;
+  /*else*/ if (_GET_OUTPUT_STATE(logic_tn1_tn2_0, 29))  tn1_tn2 = 1;
+//  else
+//  {
+//    //у всіх інших випадках беремо tn1_tn2 = 0
+//  }
   
   if (tn1_tn2 == 0) 
   {
-    _SET_BIT(p_active_functions, RANG_TN1);
+//    _SET_BIT(p_active_functions, RANG_TN1);
     _CLEAR_BIT(p_active_functions, RANG_TN2);
   }
   else
   {
     _SET_BIT(p_active_functions, RANG_TN2);
-    _CLEAR_BIT(p_active_functions, RANG_TN1);
+//    _CLEAR_BIT(p_active_functions, RANG_TN1);
   }
 
   return tn1_tn2;
