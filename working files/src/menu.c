@@ -8363,7 +8363,7 @@ void main_manu_function(void)
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_TN2_U1_LOW_WORK)
                   {
-                    if (check_data_setpoint(edition_settings.setpoint_avr_tn2_U1_low_work[group], SETPOINT_AVR1_TN2_U1_LOW_WORK_MIN, SETPOINT_AVR1_TN2_U1_LOW_WORK_MAX) == 1)
+                    if (check_data_setpoint(edition_settings.setpoint_avr_tn2_U1_low_work[group], SETPOINT_AVR_TN2_U1_LOW_WORK_MIN, SETPOINT_AVR_TN2_U1_LOW_WORK_MAX) == 1)
                     {
                       if (edition_settings.setpoint_avr_tn2_U1_low_work[group] != current_settings.setpoint_avr_tn2_U1_low_work[group])
                       {
@@ -8405,7 +8405,7 @@ void main_manu_function(void)
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_TN1_U2_HIGH_WORK)
                   {
-                    if (check_data_setpoint(edition_settings.setpoint_avr_tn1_U2_high_work[group], SETPOINT_AVR1_TN1_U2_HIGH_WORK_MIN, SETPOINT_AVR1_TN1_U2_HIGH_WORK_MAX) == 1)
+                    if (check_data_setpoint(edition_settings.setpoint_avr_tn1_U2_high_work[group], SETPOINT_AVR_TN1_U2_HIGH_WORK_MIN, SETPOINT_AVR_TN1_U2_HIGH_WORK_MAX) == 1)
                     {
                       if (edition_settings.setpoint_avr_tn1_U2_high_work[group] != current_settings.setpoint_avr_tn1_U2_high_work[group])
                       {
@@ -8439,7 +8439,7 @@ void main_manu_function(void)
                   }
                   else if (current_ekran.index_position == INDEX_ML_STPAVR_TN2_U1_HIGH_WORK)
                   {
-                    if (check_data_setpoint(edition_settings.setpoint_avr_tn2_U1_high_work[group], SETPOINT_AVR1_TN2_U1_HIGH_WORK_MIN, SETPOINT_AVR1_TN2_U1_HIGH_WORK_MAX) == 1)
+                    if (check_data_setpoint(edition_settings.setpoint_avr_tn2_U1_high_work[group], SETPOINT_AVR_TN2_U1_HIGH_WORK_MIN, SETPOINT_AVR_TN2_U1_HIGH_WORK_MAX) == 1)
                     {
                       if (edition_settings.setpoint_avr_tn2_U1_high_work[group] != current_settings.setpoint_avr_tn2_U1_high_work[group])
                       {

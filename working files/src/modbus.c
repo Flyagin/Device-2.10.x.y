@@ -278,6 +278,7 @@ void convert_order_list_function_to_gmm(unsigned int* input_array, unsigned shor
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_WORK_A_REJESTRATOR          , (BIT_MA_WORK_A_REJESTRATOR           - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_WORK_D_REJESTRATOR          , (BIT_MA_WORK_D_REJESTRATOR           - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_SETTINGS_CHANGED            , (BIT_MA_SETTINGS_CHANGED             - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_TN2                         , (BIT_MA_TN1_TN2                      - BIT_MA_CURRENT_AF_BASE));
 
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_VIDKL_VID_ZAKHYSTIV              , (BIT_MA_VIDKL_VID_ZAKHYSTIV               - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_INVERS_DV_GRUPA_USTAVOK          , (BIT_MA_INVERS_DV_GRUPA_USTAVOK           - BIT_MA_CURRENT_AF_BASE));
@@ -1213,6 +1214,11 @@ unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int nu
         rezultat = BIT_MA_STATE_VV;
         break;
       }
+    case RANG_TN2:
+      {
+        rezultat = BIT_MA_TN1_TN2;
+        break;
+      }
     case RANG_OTKL_VID_ZOVN_ZAHYSTIV:
       {
         rezultat = BIT_MA_OTKL_VID_ZOVN_ZAHYSTIV;
@@ -1751,6 +1757,26 @@ unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int nu
     case RANG_PO_AVR_TN2_U1_LOW_WORK:
       {
         rezultat = BIT_MA_PO_AVR_TN2_U1_LOW_WORK;
+        break;
+      }
+    case RANG_PO_AVR_TN1_U1_MAX:
+      {
+        rezultat = BIT_MA_PO_AVR_TN1_U1_MAX;
+        break;
+      }
+    case RANG_PO_AVR_TN1_U2_HIGH_WORK:
+      {
+        rezultat = BIT_MA_PO_AVR_TN1_U2_HIGH_WORK;
+        break;
+      }
+    case RANG_PO_AVR_TN2_U2_MAX:
+      {
+        rezultat = BIT_MA_PO_AVR_TN2_U2_MAX;
+        break;
+      }
+    case RANG_PO_AVR_TN2_U1_HIGH_WORK:
+      {
+        rezultat = BIT_MA_PO_AVR_TN2_U1_HIGH_WORK;
         break;
       }
     case RANG_PO_AVR_K1:
@@ -2481,6 +2507,7 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
         (data == BIT_MA_RESET_RELES           ) || 
         (data == BIT_MA_MISCEVE_DYSTANCIJNE   ) || 
         (data == BIT_MA_STATE_VV              ) || 
+        (data == BIT_MA_TN1_TN2               ) || 
         (data == BIT_MA_OTKL_VID_ZOVN_ZAHYSTIV) ||
         (data == BIT_MA_VKL_VV                ) || 
         (data == BIT_MA_CONTROL_VKL           ) || 
@@ -2662,6 +2689,10 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
              (data == BIT_MA_PO_AVR_TN1_U2_LOW_WORK ) || 
              (data == BIT_MA_PO_AVR_TN2_U2_MIN      ) || 
              (data == BIT_MA_PO_AVR_TN2_U1_LOW_WORK ) || 
+             (data == BIT_MA_PO_AVR_TN1_U1_MAX      ) || 
+             (data == BIT_MA_PO_AVR_TN1_U2_HIGH_WORK) || 
+             (data == BIT_MA_PO_AVR_TN2_U2_MAX      ) || 
+             (data == BIT_MA_PO_AVR_TN2_U1_HIGH_WORK) || 
              (data == BIT_MA_BLOCK_AVR              ) ||
              (data == BIT_MA_OZT_AVR_1              ) ||
              (data == BIT_MA_OZT_AVR_2              ) ||
@@ -3232,6 +3263,11 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
          _SET_BIT(set_array_rang, RANG_STATE_VV);
         break;
       }
+    case BIT_MA_TN1_TN2:
+      {
+        _SET_BIT(set_array_rang, RANG_TN2);
+        break;
+      }
     case BIT_MA_OTKL_VID_ZOVN_ZAHYSTIV:
       {
          _SET_BIT(set_array_rang, RANG_OTKL_VID_ZOVN_ZAHYSTIV);
@@ -3755,6 +3791,26 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
     case BIT_MA_PO_AVR_TN2_U1_LOW_WORK:
       {
         _SET_BIT(set_array_rang, RANG_PO_AVR_TN2_U1_LOW_WORK);
+        break;
+      }
+    case BIT_MA_PO_AVR_TN1_U1_MAX:
+      {
+        _SET_BIT(set_array_rang, RANG_PO_AVR_TN1_U1_MAX);
+        break;
+      }
+    case BIT_MA_PO_AVR_TN1_U2_HIGH_WORK:
+      {
+        _SET_BIT(set_array_rang, RANG_PO_AVR_TN1_U2_HIGH_WORK);
+        break;
+      }
+    case BIT_MA_PO_AVR_TN2_U2_MAX:
+      {
+        _SET_BIT(set_array_rang, RANG_PO_AVR_TN2_U2_MAX);
+        break;
+      }
+    case BIT_MA_PO_AVR_TN2_U1_HIGH_WORK:
+      {
+        _SET_BIT(set_array_rang, RANG_PO_AVR_TN2_U1_HIGH_WORK);
         break;
       }
     case BIT_MA_BLOCK_AVR:
@@ -5186,10 +5242,11 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         int input_value = current_settings_interfaces.control_avr;
         int input_conf = current_settings_interfaces.configuration;
         
-        temp_value = (((input_conf  >> AVR_BIT_CONFIGURATION ) & 0x1 ) << (BIT_MA_CONFIGURATION_AVR    - BIT_MA_CONTROL_AVR_BASE)) |
+        temp_value = (((input_conf  >> AVR_BIT_CONFIGURATION ) & 0x1 ) << (BIT_MA_CONFIGURATION_AVR - BIT_MA_CONTROL_AVR_BASE)) |
           
-                     (((input_value >> INDEX_CTR_AVR         ) & 0x1 ) << (BIT_MA_CONTROL_AVR          - BIT_MA_CONTROL_AVR_BASE)) |
-                     (((input_value >> INDEX_CTR_AVR_BLK     ) & 0x1 ) << (BIT_MA_CONTROL_AVR_BLK      - BIT_MA_CONTROL_AVR_BASE));
+                     (((input_value >> INDEX_CTR_AVR         ) & 0x1 ) << (BIT_MA_CONTROL_AVR       - BIT_MA_CONTROL_AVR_BASE)) |
+                     (((input_value >> INDEX_CTR_AVR_BLK     ) & 0x1 ) << (BIT_MA_CONTROL_AVR_BLK   - BIT_MA_CONTROL_AVR_BASE)) |
+                     (((input_value >> INDEX_CTR_AVR_UMAX    ) & 0x1 ) << (BIT_MA_CONTROL_AVR_UMAX  - BIT_MA_CONTROL_AVR_BASE));
         break;
       }
     case M_ADDRESS_CONTROL_APV:
@@ -5664,6 +5721,26 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         temp_value = current_settings_interfaces.setpoint_avr_tn2_U1_low_work[num_gr]/100;
         break;
       }
+    case MA_STP_AVR_TN1_U1_UMAX:
+      {
+        temp_value = current_settings_interfaces.setpoint_avr_tn1_U1_Umax[num_gr]/100;
+        break;
+      }
+    case MA_STP_AVR_TN1_U2_HIGH_WORK:
+      {
+        temp_value = current_settings_interfaces.setpoint_avr_tn1_U2_high_work[num_gr]/100;
+        break;
+      }
+    case MA_STP_AVR_TN2_U2_UMAX:
+      {
+        temp_value = current_settings_interfaces.setpoint_avr_tn2_U2_Umax[num_gr]/100;
+        break;
+      }
+    case MA_STP_AVR_TN2_U1_HIGH_WORK:
+      {
+        temp_value = current_settings_interfaces.setpoint_avr_tn2_U1_high_work[num_gr]/100;
+        break;
+      }
     case MA_TO_AVR_GENERAL_BLK_K1:
       {
         temp_value = current_settings_interfaces.timeout_avr_blk_k1[num_gr]/10;
@@ -5689,9 +5766,14 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         temp_value = current_settings_interfaces.timeout_avr_vvimk_k1[num_gr]/10;
         break;
       }
-    case MA_TO_AVR_GENERAL_VYMK_ROB_K1_UMIN:
+    case MA_TO_AVR_UMIN_VYMK_ROB_K1:
       {
         temp_value = current_settings_interfaces.timeout_avr_vymk_rob_k1_Umin[num_gr]/10;
+        break;
+      }
+    case MA_TO_AVR_UMAX_VYMK_ROB_K1:
+      {
+        temp_value = current_settings_interfaces.timeout_avr_vymk_rob_k1_Umax[num_gr]/10;
         break;
       }
     case MA_TO_AVR_GENERAL_VYMK_K1:
@@ -5724,9 +5806,14 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         temp_value = current_settings_interfaces.timeout_avr_vvimk_k2[num_gr]/10;
         break;
       }
-    case MA_TO_AVR_GENERAL_VYMK_ROB_K2_UMIN:
+    case MA_TO_AVR_UMIN_VYMK_ROB_K2:
       {
         temp_value = current_settings_interfaces.timeout_avr_vymk_rob_k2_Umin[num_gr]/10;
+        break;
+      }
+    case MA_TO_AVR_UMAX_VYMK_ROB_K2:
+      {
+        temp_value = current_settings_interfaces.timeout_avr_vymk_rob_k2_Umax[num_gr]/10;
         break;
       }
     case MA_TO_AVR_GENERAL_VYMK_K2:
@@ -7019,8 +7106,9 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
           {
             int output_value = 0;
 
-            output_value |= ((data >> (BIT_MA_CONTROL_AVR          - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR;
-            output_value |= ((data >> (BIT_MA_CONTROL_AVR_BLK      - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR_BLK;
+            output_value |= ((data >> (BIT_MA_CONTROL_AVR      - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR;
+            output_value |= ((data >> (BIT_MA_CONTROL_AVR_BLK  - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR_BLK;
+            output_value |= ((data >> (BIT_MA_CONTROL_AVR_UMAX - BIT_MA_CONTROL_AVR_BASE)) & 0x1) << INDEX_CTR_AVR_UMAX;
         
             target_label->control_avr = output_value;
           }
@@ -8270,8 +8358,52 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
       {
         temp_value = data*100;
     
-        if ((temp_value >= SETPOINT_AVR1_TN2_U1_LOW_WORK_MIN) && (temp_value <= SETPOINT_AVR1_TN2_U1_LOW_WORK_MAX))
+        if ((temp_value >= SETPOINT_AVR_TN2_U1_LOW_WORK_MIN) && (temp_value <= SETPOINT_AVR_TN2_U1_LOW_WORK_MAX))
           target_label->setpoint_avr_tn2_U1_low_work[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_STP_AVR_TN1_U1_UMAX:
+      {
+        temp_value = data*100;
+    
+        if ((temp_value >= SETPOINT_AVR_TN1_U1_UMAX_MIN) && (temp_value <= SETPOINT_AVR_TN1_U1_UMAX_MAX))
+          target_label->setpoint_avr_tn1_U1_Umax[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_STP_AVR_TN1_U2_HIGH_WORK:
+      {
+        temp_value = data*100;
+    
+        if ((temp_value >= SETPOINT_AVR_TN1_U2_HIGH_WORK_MIN) && (temp_value <= SETPOINT_AVR_TN1_U2_HIGH_WORK_MAX))
+          target_label->setpoint_avr_tn1_U2_high_work[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_STP_AVR_TN2_U2_UMAX:
+      {
+        temp_value = data*100;
+    
+        if ((temp_value >= SETPOINT_AVR_TN2_U2_UMAX_MIN) && (temp_value <= SETPOINT_AVR_TN2_U2_UMAX_MAX))
+          target_label->setpoint_avr_tn2_U2_Umax[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_STP_AVR_TN2_U1_HIGH_WORK:
+      {
+        temp_value = data*100;
+    
+        if ((temp_value >= SETPOINT_AVR_TN2_U1_HIGH_WORK_MIN) && (temp_value <= SETPOINT_AVR_TN2_U1_HIGH_WORK_MAX))
+          target_label->setpoint_avr_tn2_U1_high_work[num_gr] = temp_value;
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
 
@@ -8352,7 +8484,7 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_TO_AVR_GENERAL_VYMK_ROB_K1_UMIN:
+    case MA_TO_AVR_UMIN_VYMK_ROB_K1:
       {
         temp_value = data*10;
     
@@ -8362,6 +8494,21 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
         if (temp_value <= TIMEOUT_AVR_UMIN_VYMK_ROB_K1_MAX)
 #endif            
           target_label->timeout_avr_vymk_rob_k1_Umin[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_AVR_UMAX_VYMK_ROB_K1:
+      {
+        temp_value = data*10;
+    
+#if (TIMEOUT_AVR_UMAX_VYMK_ROB_K1_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_UMAX_VYMK_ROB_K1_MIN) && (temp_value <= TIMEOUT_AVR_UMAX_VYMK_ROB_K1_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_UMAX_VYMK_ROB_K1_MAX)
+#endif            
+          target_label->timeout_avr_vymk_rob_k1_Umax[num_gr] = temp_value;
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
 
@@ -8457,16 +8604,31 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
 
         break;
       }
-    case MA_TO_AVR_GENERAL_VYMK_ROB_K2_UMIN:
+    case MA_TO_AVR_UMIN_VYMK_ROB_K2:
       {
         temp_value = data*10;
     
 #if (TIMEOUT_AVR_UMIN_VYMK_ROB_K2_MIN != 0)          
-        if ((temp_value >= TIMEOUT_AVR_UMIN_VYMK_ROB_K2_MIN) && (temp_value <= TIMEOUT_AVR_UMAX_VYMK_ROB_K2_MAX))
+        if ((temp_value >= TIMEOUT_AVR_UMIN_VYMK_ROB_K2_MIN) && (temp_value <= TIMEOUT_AVR_UMIN_VYMK_ROB_K2_MAX))
 #else
         if (temp_value <= TIMEOUT_AVR_UMIN_VYMK_ROB_K2_MAX)
 #endif            
           target_label->timeout_avr_vymk_rob_k2_Umin[num_gr] = temp_value;
+        else
+          error = ERROR_ILLEGAL_DATA_VALUE;
+
+        break;
+      }
+    case MA_TO_AVR_UMAX_VYMK_ROB_K2:
+      {
+        temp_value = data*10;
+    
+#if (TIMEOUT_AVR_UMAX_VYMK_ROB_K2_MIN != 0)          
+        if ((temp_value >= TIMEOUT_AVR_UMAX_VYMK_ROB_K2_MIN) && (temp_value <= TIMEOUT_AVR_UMAX_VYMK_ROB_K2_MAX))
+#else
+        if (temp_value <= TIMEOUT_AVR_UMAX_VYMK_ROB_K2_MAX)
+#endif            
+          target_label->timeout_avr_vymk_rob_k2_Umax[num_gr] = temp_value;
         else
           error = ERROR_ILLEGAL_DATA_VALUE;
 

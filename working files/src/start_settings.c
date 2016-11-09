@@ -1881,11 +1881,11 @@ void min_settings(__SETTINGS *target_label)
     target_label->setpoint_avr_tn1_U1_Umin[i] = SETPOINT_AVR_TN1_U1_UMIN_MIN;
     target_label->setpoint_avr_tn1_U2_low_work[i] = SETPOINT_AVR_TN1_U2_LOW_WORK_MIN;
     target_label->setpoint_avr_tn2_U2_Umin[i] = SETPOINT_AVR_TN2_U2_UMIN_MIN;
-    target_label->setpoint_avr_tn2_U1_low_work[i] = SETPOINT_AVR1_TN2_U1_LOW_WORK_MIN;
+    target_label->setpoint_avr_tn2_U1_low_work[i] = SETPOINT_AVR_TN2_U1_LOW_WORK_MIN;
     target_label->setpoint_avr_tn1_U1_Umax[i] = SETPOINT_AVR_TN1_U1_UMAX_MIN;
-    target_label->setpoint_avr_tn1_U2_high_work[i] = SETPOINT_AVR1_TN1_U2_HIGH_WORK_MIN;
+    target_label->setpoint_avr_tn1_U2_high_work[i] = SETPOINT_AVR_TN1_U2_HIGH_WORK_MIN;
     target_label->setpoint_avr_tn2_U2_Umax[i] = SETPOINT_AVR_TN2_U2_UMAX_MIN;
-    target_label->setpoint_avr_tn2_U1_high_work[i] = SETPOINT_AVR1_TN2_U1_HIGH_WORK_MIN;
+    target_label->setpoint_avr_tn2_U1_high_work[i] = SETPOINT_AVR_TN2_U1_HIGH_WORK_MIN;
     target_label->timeout_avr_blk_k1[i] = TIMEOUT_AVR_GENERAL_BLK_K1_MIN;
     target_label->timeout_avr_pusk_k1[i] = TIMEOUT_AVR_GENERAL_PUSK_K1_MIN;
     target_label->timeout_avr_d_diji_k1[i] = TIMEOUT_AVR_GENERAL_D_DIJI_K1_MIN;
