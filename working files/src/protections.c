@@ -3297,11 +3297,11 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
     else  _CLEAR_BIT(p_active_functions, RANG_PO_AVR_K2);
 
     _AND2(logic_AVR_1, 9, logic_AVR_1, 16, logic_AVR_1, 17);
-    _INVERTOR(logic_AVR_1, 17, logic_AVR_1, 18);
+    _OR2_INVERTOR(logic_AVR_1, 3, logic_AVR_1, 17, logic_AVR_1, 18);
     _AND2(logic_AVR_1, 9, logic_AVR_1, 18, logic_AVR_1, 19);
 
     _AND2(logic_AVR_3, 9, logic_AVR_3, 16, logic_AVR_3, 17);
-    _INVERTOR(logic_AVR_3, 17, logic_AVR_3, 18);
+    _OR2_INVERTOR(logic_AVR_3, 3, logic_AVR_3, 17, logic_AVR_3, 18);
     _AND2(logic_AVR_3, 9, logic_AVR_3, 18, logic_AVR_3, 19);
     
     _AND2(logic_AVR_1, 0, logic_AVR_1, 19, logic_AVR_1, 30);
