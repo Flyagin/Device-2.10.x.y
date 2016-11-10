@@ -3254,8 +3254,6 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
 
   logic_AVR_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_KOM3_ON_AVR) != 0) << 5;
   logic_AVR_3 |= (_CHECK_SET_BIT(p_active_functions, RANG_KOM4_ON_AVR) != 0) << 5;
-  logic_AVR_1 |= (_CHECK_SET_BIT(p_active_functions, RANG_KOM1_OFF_AVR) != 0) << 11;
-  logic_AVR_3 |= (_CHECK_SET_BIT(p_active_functions, RANG_KOM2_OFF_AVR) != 0) << 11;
   do
   {
     //"Ком.3 Вкл.АВР" (ця операція не має значення для першої ітерації, але потрібна для наступних ітерацій)
@@ -3265,14 +3263,6 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
     //"Ком.4 Вкл.АВР" (ця операція не має значення для першої ітерації, але потрібна для наступних ітерацій)
     if (_GET_OUTPUT_STATE(logic_AVR_3, 5)) _SET_BIT(p_active_functions, RANG_KOM4_ON_AVR);
     else  _CLEAR_BIT(p_active_functions, RANG_KOM4_ON_AVR);
-
-    //"Ком.1 Откл.АВР" (ця операція не має значення для першої ітерації, але потрібна для наступних ітерацій)
-    if (_GET_OUTPUT_STATE(logic_AVR_1, 11)) _SET_BIT(p_active_functions, RANG_KOM1_OFF_AVR);
-    else  _CLEAR_BIT(p_active_functions, RANG_KOM1_OFF_AVR);
-
-    //"Ком.2 Откл.АВР" (ця операція не має значення для першої ітерації, але потрібна для наступних ітерацій)
-    if (_GET_OUTPUT_STATE(logic_AVR_3, 11)) _SET_BIT(p_active_functions, RANG_KOM2_OFF_AVR);
-    else  _CLEAR_BIT(p_active_functions, RANG_KOM2_OFF_AVR);
     
     _OR2(logic_AVR_1, 5, logic_AVR_3, 5, logic_AVR_0, 14);
     _OR2(logic_AVR_0, 14, logic_AVR_0, 6, logic_AVR_0, 15);
@@ -3307,11 +3297,11 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
     else  _CLEAR_BIT(p_active_functions, RANG_PO_AVR_K2);
 
     _AND2(logic_AVR_1, 9, logic_AVR_1, 16, logic_AVR_1, 17);
-    _OR2_INVERTOR(logic_AVR_1, 17, logic_AVR_1, 11, logic_AVR_1, 18);
+    _INVERTOR(logic_AVR_1, 17, logic_AVR_1, 18);
     _AND2(logic_AVR_1, 9, logic_AVR_1, 18, logic_AVR_1, 19);
 
     _AND2(logic_AVR_3, 9, logic_AVR_3, 16, logic_AVR_3, 17);
-    _OR2_INVERTOR(logic_AVR_3, 17, logic_AVR_3, 11, logic_AVR_3, 18);
+    _INVERTOR(logic_AVR_3, 17, logic_AVR_3, 18);
     _AND2(logic_AVR_3, 9, logic_AVR_3, 18, logic_AVR_3, 19);
     
     _AND2(logic_AVR_1, 0, logic_AVR_1, 19, logic_AVR_1, 30);
@@ -3324,11 +3314,17 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
     _TIMER_T_0(INDEX_TIMER_AVR_VYMK_ROB_K1_UMAX, current_settings_prt.timeout_avr_vymk_rob_k1_Umax[number_group_stp], logic_AVR_1, 25, logic_AVR_1, 23);
     _OR3(logic_AVR_1, 10, logic_AVR_1, 23, logic_AVR_1, 17, logic_AVR_1, 20);
     _TIMER_0_T(INDEX_TIMER_AVR_VYMK_K1, current_settings_prt.timeout_avr_vymk_k1[number_group_stp], logic_AVR_1, 20, logic_AVR_1, 11);
+    //"Ком.1 Откл.АВР"
+    if (_GET_OUTPUT_STATE(logic_AVR_1, 11)) _SET_BIT(p_active_functions, RANG_KOM1_OFF_AVR);
+    else  _CLEAR_BIT(p_active_functions, RANG_KOM1_OFF_AVR);
     
     _TIMER_T_0(INDEX_TIMER_AVR_VYMK_ROB_K2_UMIN, current_settings_prt.timeout_avr_vymk_rob_k2_Umin[number_group_stp], logic_AVR_3, 30, logic_AVR_3, 10);
     _TIMER_T_0(INDEX_TIMER_AVR_VYMK_ROB_K2_UMAX, current_settings_prt.timeout_avr_vymk_rob_k2_Umax[number_group_stp], logic_AVR_3, 25, logic_AVR_3, 23);
     _OR3(logic_AVR_3, 10, logic_AVR_3, 23, logic_AVR_3, 17, logic_AVR_3, 20);
     _TIMER_0_T(INDEX_TIMER_AVR_VYMK_K2, current_settings_prt.timeout_avr_vymk_k2[number_group_stp], logic_AVR_3, 20, logic_AVR_3, 11);
+    //"Ком.2 Откл.АВР"
+    if (_GET_OUTPUT_STATE(logic_AVR_3, 11)) _SET_BIT(p_active_functions, RANG_KOM2_OFF_AVR);
+    else  _CLEAR_BIT(p_active_functions, RANG_KOM2_OFF_AVR);
     
     _AND2(logic_AVR_1, 28, logic_AVR_1, 9, logic_AVR_1, 12);
     _AND2(logic_AVR_3, 28, logic_AVR_3, 9, logic_AVR_3, 12);
@@ -3353,18 +3349,10 @@ void avr_handler(volatile unsigned int *p_active_functions, unsigned int number_
     _TIMER_0_T(INDEX_TIMER_AVR_TMP_1MS_K2, 1, logic_AVR_3, 15, logic_AVR_3, 5);
   }
   while(
-        (_GET_OUTPUT_STATE(logic_AVR_1,  5) != (_CHECK_SET_BIT(p_active_functions, RANG_KOM3_ON_AVR ) != 0)) ||
-        (_GET_OUTPUT_STATE(logic_AVR_3,  5) != (_CHECK_SET_BIT(p_active_functions, RANG_KOM4_ON_AVR ) != 0)) ||
-        (_GET_OUTPUT_STATE(logic_AVR_1, 11) != (_CHECK_SET_BIT(p_active_functions, RANG_KOM1_OFF_AVR) != 0)) ||
-        (_GET_OUTPUT_STATE(logic_AVR_3, 11) != (_CHECK_SET_BIT(p_active_functions, RANG_KOM2_OFF_AVR) != 0))
+        (_GET_OUTPUT_STATE(logic_AVR_1, 5) != (_CHECK_SET_BIT(p_active_functions, RANG_KOM3_ON_AVR) != 0)) ||
+        (_GET_OUTPUT_STATE(logic_AVR_3, 5) != (_CHECK_SET_BIT(p_active_functions, RANG_KOM4_ON_AVR) != 0))
        );
-  /*
-  Якщо ми вийшли з цього циклу, то гарантовано біти:
-  logic_AVR_1.5 рівний стану команди "Ком.3 Вкл.АВР";
-  logic_AVR_3.5 рівний стану команди "Ком.4 Вкл.АВР";
-  logic_AVR_1.11 рівний стану команди "Ком.1 Откл.АВР";
-  logic_AVR_3.11 рівний стану команди "Ком.2 Откл.АВР"
-  */
+  /*Якщо ми вийшли з цього циклу, то гарантовано біт logic_AVR_1.5 рівний стану команди "Ком.3 Вкл.АВР" і logic_AVR_3.5 рівний стану команди "Ком.4 Вкл.АВР"*/
 }
 /*****************************************************/
 
