@@ -435,73 +435,98 @@ inline void directional_mtz(int ortogonal_local_calc[], unsigned int number_grou
 /*****************************************************/
 inline void calc_power(int ortogonal_local_calc[]) 
 {
-  unsigned int index_FULL_ORT_Uab, index_FULL_ORT_Ubc/*, index_FULL_ORT_Uca*/;
+  unsigned int index_FULL_ORT_Ua, index_FULL_ORT_Ub, index_FULL_ORT_Uc;
   if (TN1_TN2 == 1)
   {
-    index_FULL_ORT_Uab = FULL_ORT_Uab2;
-    index_FULL_ORT_Ubc = FULL_ORT_Ubc2;
-//    index_FULL_ORT_Uca = FULL_ORT_Uca2;
+    index_FULL_ORT_Ua = FULL_ORT_Ua2;
+    index_FULL_ORT_Ub = FULL_ORT_Ub2;
+    index_FULL_ORT_Uc = FULL_ORT_Uc2;
   }
   else
   {
-    index_FULL_ORT_Uab = FULL_ORT_Uab1;
-    index_FULL_ORT_Ubc = FULL_ORT_Ubc1;
-//    index_FULL_ORT_Uca = FULL_ORT_Uca1;
+    index_FULL_ORT_Ua = FULL_ORT_Ua1;
+    index_FULL_ORT_Ub = FULL_ORT_Ub1;
+    index_FULL_ORT_Uc = FULL_ORT_Uc1;
   }
 
   /*
   Розраховуємо дійсну і уявну частину потужності у компдексній площині
   
-  .    .  .     .  .
-  S = UabIa* - UbcIc*
+  .    . .     . .     . .
+  S = UaIa* + UbIb* + UcIc*
   */
   
 #define IA_SIN          ortogonal_local_calc[2*FULL_ORT_Ia + 1]
 #define IA_COS          ortogonal_local_calc[2*FULL_ORT_Ia + 0]
-#define UAB_SIN         ortogonal_local_calc[2*index_FULL_ORT_Uab + 1]
-#define UAB_COS         ortogonal_local_calc[2*index_FULL_ORT_Uab + 0]
+#define UA_SIN          ortogonal_local_calc[2*index_FULL_ORT_Ua + 1]
+#define UA_COS          ortogonal_local_calc[2*index_FULL_ORT_Ua + 0]
   
+#define IB_SIN          ortogonal_local_calc[2*FULL_ORT_Ib + 1]
+#define IB_COS          ortogonal_local_calc[2*FULL_ORT_Ib + 0]
+#define UB_SIN          ortogonal_local_calc[2*index_FULL_ORT_Ub + 1]
+#define UB_COS          ortogonal_local_calc[2*index_FULL_ORT_Ub + 0]
+
 #define IC_SIN          ortogonal_local_calc[2*FULL_ORT_Ic + 1]
 #define IC_COS          ortogonal_local_calc[2*FULL_ORT_Ic + 0]
-#define UBC_SIN         ortogonal_local_calc[2*index_FULL_ORT_Ubc + 1]
-#define UBC_COS         ortogonal_local_calc[2*index_FULL_ORT_Ubc + 0]
+#define UC_SIN          ortogonal_local_calc[2*index_FULL_ORT_Uc + 1]
+#define UC_COS          ortogonal_local_calc[2*index_FULL_ORT_Uc + 0]
   
-  long long Re_IaUab, Im_IaUab;
+  long long Re_UaIa, Im_UaIa;
   if (measurement[IM_IA] >= PORIG_I_ENERGY)
   {
-    Re_IaUab = UAB_COS*IA_COS + UAB_SIN*IA_SIN;
-    Im_IaUab = UAB_SIN*IA_COS - UAB_COS*IA_SIN;
+    Re_UaIa = UA_COS*IA_COS + UA_SIN*IA_SIN;
+    Im_UaIa = UA_SIN*IA_COS - UA_COS*IA_SIN;
   
   }
   else
   {
-    Re_IaUab = 0;
-    Im_IaUab = 0;
+    Re_UaIa = 0;
+    Im_UaIa = 0;
   }
-
-  long long Re_IcUbc, Im_IcUbc;
-  if (measurement[IM_IC] >= PORIG_I_ENERGY)
-  {  
-    Re_IcUbc = UBC_COS*IC_COS + UBC_SIN*IC_SIN;
-    Im_IcUbc = UBC_SIN*IC_COS - UBC_COS*IC_SIN;
+  
+  long long Re_UbIb, Im_UbIb;
+  if (measurement[IM_IB] >= PORIG_I_ENERGY)
+  {
+    Re_UbIb = UB_COS*IB_COS + UB_SIN*IB_SIN;
+    Im_UbIb = UB_SIN*IB_COS - UB_COS*IB_SIN;
+  
   }
   else
   {
-    Re_IcUbc = 0;
-    Im_IcUbc = 0;
+    Re_UbIb = 0;
+    Im_UbIb = 0;
   }
+  
+  long long Re_UcIc, Im_UcIc;
+  if (measurement[IM_IC] >= PORIG_I_ENERGY)
+  {
+    Re_UcIc = UC_COS*IC_COS + UC_SIN*IC_SIN;
+    Im_UcIc = UC_SIN*IC_COS - UC_COS*IC_SIN;
+  
+  }
+  else
+  {
+    Re_UcIc = 0;
+    Im_UcIc = 0;
+  }
+
 #undef IA_SIN
 #undef IA_COS
-#undef UAB_SIN
-#undef UAB_COS
+#undef UA_SIN
+#undef UA_COS
+  
+#undef IB_SIN
+#undef IB_COS
+#undef UB_SIN
+#undef UB_COS
   
 #undef IC_SIN
 #undef IC_COS
-#undef UBC_SIN
-#undef UBC_COS
-  
-  long long P_adc_x16 = Re_IaUab - Re_IcUbc; /*  активна потужність у поділках АЦП і з вхідними сигналами, які є підсилені у 16 разів*/
-  long long Q_adc_x16 = Im_IaUab - Im_IcUbc; /*реактивна потужність у поділках АЦП і з вхідними сигналами, які є підсилені у 16 разів*/
+#undef UC_SIN
+#undef UC_COS
+
+  long long P_adc_x16 = Re_UaIa + Re_UbIb + Re_UcIc; /*  активна потужність у поділках АЦП і з вхідними сигналами, які є підсилені у 16 разів*/
+  long long Q_adc_x16 = Im_UaIa + Im_UbIb + Im_UcIc; /*реактивна потужність у поділках АЦП і з вхідними сигналами, які є підсилені у 16 разів*/
   
   /*
   Коли перемножимо на коефіцієнти MNOGNYK_I_DIJUCHE_FLOAT і MNOGNYK_U_DIJUCHE_FLOAT,
