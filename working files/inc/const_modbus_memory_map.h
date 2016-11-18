@@ -361,50 +361,53 @@
 #define BIT_MA_PEREVYSHCHENNJA_Inom_VYMK        50474
 #define BIT_MA_KRYTYCHNYJ_RESURS_VYMYKACHA      50475
 #define BIT_MA_VYCHERPANYJ_RESURS_VYMYKACHA     50476
-#define BIT_MA_DEFECT                           50477
-#define BIT_MA_AVAR_DEFECT                      50478
-#define BIT_MA_RESET_LEDS                       50479
-#define BIT_MA_RESET_RELES                      50480
-#define BIT_MA_RESET_GENERAL_AF                 50481
-#define BIT_MA_RESET_RESURS_VYMYKACHA           50482
-#define BIT_MA_SETTINGS_CHANGED                 50483
-#define BIT_MA_NEW_SETTINGS_SET                 50484
-#define BIT_MA_PASSWORD_SET                     50485
-#define BIT_MA_MISCEVE_DYSTANCIJNE              50486
-#define BIT_MA_WORK_A_REJESTRATOR               50487
-#define BIT_MA_WORK_D_REJESTRATOR               50488
 
-#define BIT_MA_OTKL_VID_ZOVN_ZAHYSTIV           50493                         
-#define BIT_MA_ERROR_CONF_EL                    50494
-#define BIT_MA_TN1_TN2                          50495
+#define BIT_MA_DEFECT                           50480
+#define BIT_MA_AVAR_DEFECT                      50481
+#define BIT_MA_RESET_LEDS                       50482
+#define BIT_MA_RESET_RELES                      50483
+#define BIT_MA_RESET_GENERAL_AF                 50484
+#define BIT_MA_RESET_RESURS_VYMYKACHA           50485
+#define BIT_MA_SETTINGS_CHANGED                 50486
+#define BIT_MA_NEW_SETTINGS_SET                 50487
+#define BIT_MA_PASSWORD_SET                     50488
+#define BIT_MA_MISCEVE_DYSTANCIJNE              50489
+#define BIT_MA_WORK_A_REJESTRATOR               50490
+#define BIT_MA_WORK_D_REJESTRATOR               50491
 
-//#define BIT_MA_DVERI_SHAFY_UPR_VIDKR            50496
-//#define BIT_MA_ACUMUL_BATAREJA_ROZRJADGENA      50497
-//#define BIT_MA_REZERVTE_GYVLENNJA               50498
-#define BIT_MA_VIDKL_VID_ZAKHYSTIV              50499
-#define BIT_MA_BLK_GRUP_USTAVOK_VID_ZACHYSTIV   50500
-#define BIT_MA_INVERS_DV_GRUPA_USTAVOK          50501
-#define BIT_MA_READY_TU                         50502
-#define BIT_MA_RESET_BLOCK_READY_TU_VID_ZAHYSTIV 50503
+#define BIT_MA_OTKL_VID_ZOVN_ZAHYSTIV           50496                         
+#define BIT_MA_ERROR_CONF_EL                    50497
+#define BIT_MA_TN1_TN2                          50498
+#define BIT_MA_PUSK_K1_AVR                      50499
+#define BIT_MA_PUSK_K2_AVR                      50500
 
-#define M_ADDRESS_LAST_CURRENT_AF             287
+//#define BIT_MA_DVERI_SHAFY_UPR_VIDKR            50512
+//#define BIT_MA_ACUMUL_BATAREJA_ROZRJADGENA      50513
+//#define BIT_MA_REZERVTE_GYVLENNJA               50514
+#define BIT_MA_VIDKL_VID_ZAKHYSTIV              50515
+#define BIT_MA_BLK_GRUP_USTAVOK_VID_ZACHYSTIV   50516
+#define BIT_MA_INVERS_DV_GRUPA_USTAVOK          50517
+#define BIT_MA_READY_TU                         50518
+#define BIT_MA_RESET_BLOCK_READY_TU_VID_ZAHYSTIV 50519
+
+#define M_ADDRESS_LAST_CURRENT_AF             288
 #define BIT_MA_CURRENT_AF_LAST                  (BIT_MA_CURRENT_AF_BASE + ((M_ADDRESS_LAST_CURRENT_AF - M_ADDRESS_FIRST_CURRENT_AF + 1) << 4) - 1)
 /*****************************************************/
 
 /*****************************************************/
 /* Загальні активні функції */
 /*****************************************************/
-#define M_ADDRESS_FIRST_GENERAL_AF            288
+#define M_ADDRESS_FIRST_GENERAL_AF            289
 #define BIT_MA_GENERAL_AF_BASE                  50512
 
-#define M_ADDRESS_LAST_GENERAL_AF             319
+#define M_ADDRESS_LAST_GENERAL_AF             321
 #define BIT_MA_GENERAL_AF_LAST                  (BIT_MA_GENERAL_AF_BASE + ((M_ADDRESS_LAST_GENERAL_AF - M_ADDRESS_FIRST_GENERAL_AF + 1) << 4) - 1)
 /*****************************************************/
 
 /*****************************************************/
 /* Митєві вимірювання розраховані фетодом перетворення Фур'є */
 /*****************************************************/
-#define M_ADDRESS_FIRST_MEASUREMENTS_1        320
+#define M_ADDRESS_FIRST_MEASUREMENTS_1        322
 
 #define OFFSET_MEASUREMENT_UA_1                 0
 #define OFFSET_MEASUREMENT_UB_1                 1
@@ -487,18 +490,18 @@
 //#define OFFSET_ANGLE_3I0                        62
 //#define OFFSET_ANGLE_3I0_r                      63
 
-#define M_ADDRESS_LAST_MEASUREMENTS_1         388
+#define M_ADDRESS_LAST_MEASUREMENTS_1         390
 /*****************************************************/
 
 /**************Лічильник ресурсів********************/
-#define M_COUNTER_FIRST                       389
+#define M_COUNTER_FIRST                       391
 
-#define MA_COUNTER_VIDKLJUCHENNJA_LSW         389
-#define MA_COUNTER_VIDKLJUCHENNJA_MSW         390
-#define MA_COUNTER_VYMYKACHA_LSW              391
-#define MA_COUNTER_VYMYKACHA_MSW              392
+#define MA_COUNTER_VIDKLJUCHENNJA_LSW         391
+#define MA_COUNTER_VIDKLJUCHENNJA_MSW         392
+#define MA_COUNTER_VYMYKACHA_LSW              393
+#define MA_COUNTER_VYMYKACHA_MSW              394
 
-#define M_COUNTER_LAST                        392
+#define M_COUNTER_LAST                        394
 
 /*****************************************************/
 
@@ -506,7 +509,7 @@
 /* Вимірювання в момент роботи дискретного реєстратора*/
 /*****************************************************/
 #define MEASUREMENTS_DR_WIDTH                 32 
-#define M_ADDRESS_FIRST_MEASUREMENTS_DR       393
+#define M_ADDRESS_FIRST_MEASUREMENTS_DR       395
 
 #define DR_OFFSET_MEASUREMENT_UA_1            0
 #define DR_OFFSET_MEASUREMENT_UB_1            1
@@ -553,7 +556,7 @@
 //#define BLOCK_PROTECTION_FREQUENCY_2_CAPV     12
 //#define BLOCK_PROTECTION_MTZ04                13
 
-#define M_ADDRESS_LAST_MEASUREMENTS_DR        712
+#define M_ADDRESS_LAST_MEASUREMENTS_DR        714
 /*****************************************************/
 
 /*****************************************************/

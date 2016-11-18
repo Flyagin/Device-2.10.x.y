@@ -279,7 +279,9 @@ void convert_order_list_function_to_gmm(unsigned int* input_array, unsigned shor
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_WORK_D_REJESTRATOR          , (BIT_MA_WORK_D_REJESTRATOR           - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_SETTINGS_CHANGED            , (BIT_MA_SETTINGS_CHANGED             - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_TN2                         , (BIT_MA_TN1_TN2                      - BIT_MA_CURRENT_AF_BASE));
-
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PUSK_K1_AVR                 , (BIT_MA_PUSK_K1_AVR                  - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PUSK_K2_AVR                 , (BIT_MA_PUSK_K2_AVR                  - BIT_MA_CURRENT_AF_BASE));
+  
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_VIDKL_VID_ZAKHYSTIV              , (BIT_MA_VIDKL_VID_ZAKHYSTIV               - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_INVERS_DV_GRUPA_USTAVOK          , (BIT_MA_INVERS_DV_GRUPA_USTAVOK           - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLK_GRUP_USTAVOK_VID_ZACHYSTIV   , (BIT_MA_BLK_GRUP_USTAVOK_VID_ZACHYSTIV    - BIT_MA_CURRENT_AF_BASE));
@@ -1212,6 +1214,16 @@ unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int nu
     case RANG_STATE_VV:
       {
         rezultat = BIT_MA_STATE_VV;
+        break;
+      }
+    case RANG_PUSK_K1_AVR:
+      {
+        rezultat = BIT_MA_PUSK_K1_AVR;
+        break;
+      }
+    case RANG_PUSK_K2_AVR:
+      {
+        rezultat = BIT_MA_PUSK_K2_AVR;
         break;
       }
     case RANG_TN2:
@@ -2507,6 +2519,8 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
         (data == BIT_MA_RESET_RELES           ) || 
         (data == BIT_MA_MISCEVE_DYSTANCIJNE   ) || 
         (data == BIT_MA_STATE_VV              ) || 
+        (data == BIT_MA_PUSK_K1_AVR           ) || 
+        (data == BIT_MA_PUSK_K2_AVR           ) || 
         (data == BIT_MA_TN1_TN2               ) || 
         (data == BIT_MA_OTKL_VID_ZOVN_ZAHYSTIV) ||
         (data == BIT_MA_VKL_VV                ) || 
@@ -3261,6 +3275,16 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
     case BIT_MA_STATE_VV:
       {
          _SET_BIT(set_array_rang, RANG_STATE_VV);
+        break;
+      }
+    case BIT_MA_PUSK_K1_AVR:
+      {
+         _SET_BIT(set_array_rang, RANG_PUSK_K1_AVR);
+        break;
+      }
+    case BIT_MA_PUSK_K2_AVR:
+      {
+         _SET_BIT(set_array_rang, RANG_PUSK_K2_AVR);
         break;
       }
     case BIT_MA_TN1_TN2:
