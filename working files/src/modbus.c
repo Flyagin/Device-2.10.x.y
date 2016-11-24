@@ -1351,6 +1351,11 @@ unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int nu
         rezultat = BIT_MA_RESET_BLOCK_READY_TU_VID_ZAHYSTIV;
         break;
       }
+    case RANG_SETTINGS_CHANGED:
+      {
+        rezultat = BIT_MA_SETTINGS_CHANGED;
+        break;
+      }
     case RANG_BLOCK_MTZ1:
       {
         rezultat = BIT_MA_BLOCK_MTZ1;
@@ -2545,7 +2550,8 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
         (data == BIT_MA_BLK_GRUP_USTAVOK_VID_ZACHYSTIV   ) || 
         (data == BIT_MA_INVERS_DV_GRUPA_USTAVOK          ) || 
         (data == BIT_MA_READY_TU                         ) || 
-        (data == BIT_MA_RESET_BLOCK_READY_TU_VID_ZAHYSTIV) 
+        (data == BIT_MA_RESET_BLOCK_READY_TU_VID_ZAHYSTIV) ||
+        (data == BIT_MA_SETTINGS_CHANGED) 
        )
     {
       //Зараз є намагання зранжувати загальну функцю і номер її є допустимим
@@ -3410,6 +3416,11 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
     case BIT_MA_RESET_BLOCK_READY_TU_VID_ZAHYSTIV:
       {
          _SET_BIT(set_array_rang, RANG_RESET_BLOCK_READY_TU_VID_ZAHYSTIV);
+        break;
+      }
+    case BIT_MA_SETTINGS_CHANGED:
+      {
+        _SET_BIT(set_array_rang, RANG_SETTINGS_CHANGED);
         break;
       }
     case BIT_MA_BLOCK_MTZ1:
