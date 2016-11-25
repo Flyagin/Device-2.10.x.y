@@ -501,8 +501,7 @@ void make_ekran_current(unsigned int pervynna_vtorynna)
       unsigned int index = index_array[index_of_ekran];
       unsigned int start_number_digit_after_point = 3;
       if (pervynna_vtorynna == 0) convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], 1, 1, name_string[index_of_ekran], 7);
-      {
-        convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], current_settings.TCurrent, 1, name_string[index_of_ekran], 7);
+      else convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], current_settings.TCurrent, 1, name_string[index_of_ekran], 7);
       }
       /********************************/
 
