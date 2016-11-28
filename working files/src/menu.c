@@ -15130,6 +15130,7 @@ void main_manu_function(void)
                     ((current_ekran.current_level >= EKRAN_RANGUVANNJA_OUTPUT_1) && (current_ekran.current_level <= EKRAN_RANGUVANNJA_OUTPUT_10          )) ||
                     ((current_ekran.current_level >= EKRAN_RANGUVANNJA_LED_1   ) && (current_ekran.current_level <= EKRAN_RANGUVANNJA_LED_8              )) ||
                     ( current_ekran.current_level == EKRAN_RANGUVANNJA_ANALOG_REGISTRATOR                                                                 ) ||
+                    ( current_ekran.current_level == EKRAN_RANGUVANNJA_DIGITAL_REGISTRATOR                                                                ) ||
                     ( current_ekran.current_level == EKRAN_RANGUVANNJA_OFF_CB                                                                             ) ||
                     ( current_ekran.current_level == EKRAN_RANGUVANNJA_ON_CB                                                                              ) ||
                     ((current_ekran.current_level >= EKRAN_RANGUVANNJA_DF1_PLUS) && (current_ekran.current_level <= EKRAN_RANGUVANNJA_DF8_BLK            )) ||

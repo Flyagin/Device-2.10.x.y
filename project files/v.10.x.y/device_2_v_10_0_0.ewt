@@ -16,9 +16,6 @@
         <cstatargs>
           <useExtraArgs>0</useExtraArgs>
           <extraArgs></extraArgs>
-          <analyzeTimeout>600</analyzeTimeout>
-          <enableParallel>0</enableParallel>
-          <parallelThreads>4</parallelThreads>
         </cstatargs>
         <cstatsettings>
           <package checked="true" name="STDCHECKS">

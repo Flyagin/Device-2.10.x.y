@@ -27,7 +27,7 @@
 #define BF_BIT            7
 
 #define NUMBER_KEY_KEYBOARD (4*3)
-#define DEREVIACIA          8
+#define DEREVIACIA          /*8*/15
 
 #define BIT_KEY_ENTER           0
 #define BIT_KEY_DOWN            1
