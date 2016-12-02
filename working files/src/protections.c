@@ -3432,9 +3432,9 @@ void ctrl_phase_handler(volatile unsigned int *p_active_functions, unsigned int 
     //Різниця частот
     unsigned int setpoint_f;
     setpoint_f = (state_delta_f == 0) ? current_settings_prt.setpoint_ctrl_phase_f[number_group_stp] : current_settings_prt.setpoint_ctrl_phase_f[number_group_stp]*KOEF_POVERNENNJA_GENERAL/100;
-    int frequency_val_1_int = (int)frequency_val_1;
-    int frequency_val_2_int = (int)frequency_val_2;
-    state_delta_f = (frequency_val_1_int >= 0) && (frequency_val_2_int >= 0) && (((unsigned int)(abs(1000*frequency_val_1_int - 1000*frequency_val_2_int))) >= setpoint_f);
+    int frequency_val_1x1000_int = (int)(frequency_val_1*1000);
+    int frequency_val_2x1000_int = (int)(frequency_val_2*1000);
+    state_delta_f = (frequency_val_1x1000_int >= 0) && (frequency_val_2x1000_int >= 0) && (((unsigned int)(abs(frequency_val_1x1000_int - frequency_val_2x1000_int))) >= setpoint_f);
 
     logic_CTRL_PHASE_0 |= ((state_delta_U   != 0) && ((current_settings_prt.control_ctrl_phase & CTR_CTRL_PHASE_U  ) != 0)) << 0;
     logic_CTRL_PHASE_0 |= ((state_delta_phi != 0) && ((current_settings_prt.control_ctrl_phase & CTR_CTRL_PHASE_PHI) != 0)) << 1;
