@@ -3404,13 +3404,13 @@ void ctrl_phase_handler(volatile unsigned int *p_active_functions, unsigned int 
   {
     //Різниця напруг
     unsigned int setpoint_U;
-    setpoint_U = (state_delta_U == 0) ? current_settings_prt.setpoint_ctrl_phase_U[number_group_stp] : current_settings_prt.setpoint_ctrl_phase_U[number_group_stp]*U_DOWN/100;
-    unsigned int Ua1 = measurement[IM_UA1];
-    unsigned int Ua2 = measurement[IM_UA2];
-    unsigned int Ub1 = measurement[IM_UB1];
-    unsigned int Ub2 = measurement[IM_UB2];
-    unsigned int Uc1 = measurement[IM_UC1];
-    unsigned int Uc2 = measurement[IM_UC2];
+    setpoint_U = (state_delta_U == 0) ? current_settings_prt.setpoint_ctrl_phase_U[number_group_stp] : current_settings_prt.setpoint_ctrl_phase_U[number_group_stp]*U_UP/100;
+    int Ua1 = measurement[IM_UA1];
+    int Ua2 = measurement[IM_UA2];
+    int Ub1 = measurement[IM_UB1];
+    int Ub2 = measurement[IM_UB2];
+    int Uc1 = measurement[IM_UC1];
+    int Uc2 = measurement[IM_UC2];
     state_delta_U = ((unsigned int)(abs(Ua1 - Ua2)) >= setpoint_U) && 
                     ((unsigned int)(abs(Ub1 - Ub2)) >= setpoint_U) && 
                     ((unsigned int)(abs(Uc1 - Uc2)) >= setpoint_U);
