@@ -2219,11 +2219,11 @@ inline void mtz_handler(volatile unsigned int *p_active_functions, unsigned int 
       //ДВ
       tmp_value |= (_CHECK_SET_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_BLOCK_USK_MTZ]) == 0) << 9; //Блокировка ускорения МТЗ 2
       //М
-      tmp_value |= ((current_settings_prt.control_mtz & mtz_prysk_const_menu_settings_prt[mtz_level - MTZ_LEVEL2][CTR_MTZ_PRYSKORENNJA]/*CTR_MTZ_2_PRYSKORENA*/) != 0) << 10; //МТЗ2 Ускоренная
+      tmp_value |= ((current_settings_prt.control_mtz & mtz_prysk_const_menu_settings_prt[mtz_level - MTZ_LEVEL2][CTR_MTZ_PRYSKORENA]/*CTR_MTZ_2_PRYSKORENA*/) != 0) << 10; //МТЗ2 Ускоренная
       //ДВ
       tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV) != 0) << 18; //Положение ВВ
       //M
-      tmp_value |= ((current_settings_prt.control_mtz & mtz_prysk_const_menu_settings_prt[mtz_level - MTZ_LEVEL2][CTR_MTZ_PRYSKORENA]/*CTR_MTZ_2_PRYSKORENNJA*/) != 0) << 11; //Ускорение МТЗ2 вкл.
+      tmp_value |= ((current_settings_prt.control_mtz & mtz_prysk_const_menu_settings_prt[mtz_level - MTZ_LEVEL2][CTR_MTZ_PRYSKORENNJA]/*CTR_MTZ_2_PRYSKORENNJA*/) != 0) << 11; //Ускорение МТЗ2 вкл.
     }
     
     if (_GET_OUTPUT_STATE(tmp_value, 15)) 
