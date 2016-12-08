@@ -1411,20 +1411,45 @@ void make_ekran_timeout_mtz(unsigned int group)
       current_ekran.position_cursor_x = COL_TMO_MTZ_3_BEGIN;
       last_position_cursor_x = COL_TMO_MTZ_3_END;
     }
+    else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_PR) 
+    {
+      current_ekran.position_cursor_x = COL_TMO_MTZ_3_PR_BEGIN;
+      last_position_cursor_x = COL_TMO_MTZ_3_PR_END;
+    }
     else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_VPERED) 
     {
       current_ekran.position_cursor_x = COL_TMO_MTZ_3_N_VPERED_BEGIN;
       last_position_cursor_x = COL_TMO_MTZ_3_N_VPERED_END;
+    }
+    else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_VPERED_PR) 
+    {
+      current_ekran.position_cursor_x = COL_TMO_MTZ_3_N_VPERED_PR_BEGIN;
+      last_position_cursor_x = COL_TMO_MTZ_3_N_VPERED_PR_END;
     }
     else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_NAZAD) 
     {
       current_ekran.position_cursor_x = COL_TMO_MTZ_3_N_NAZAD_BEGIN;
       last_position_cursor_x = COL_TMO_MTZ_3_N_NAZAD_END;
     }
+    else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_N_NAZAD_PR) 
+    {
+      current_ekran.position_cursor_x = COL_TMO_MTZ_3_N_NAZAD_PR_BEGIN;
+      last_position_cursor_x = COL_TMO_MTZ_3_N_NAZAD_PR_END;
+    }
     else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_PO_NAPRUZI) 
     {
       current_ekran.position_cursor_x = COL_TMO_MTZ_3_PO_NAPRUZI_BEGIN;
       last_position_cursor_x = COL_TMO_MTZ_3_PO_NAPRUZI_END;
+    }
+    else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_PO_NAPRUZI_PR) 
+    {
+      current_ekran.position_cursor_x = COL_TMO_MTZ_3_PO_NAPRUZI_PR_BEGIN;
+      last_position_cursor_x = COL_TMO_MTZ_3_PO_NAPRUZI_PR_END;
+    }
+    else if (current_ekran.index_position == INDEX_ML_TMOMTZ3_VVID_PR) 
+    {
+      current_ekran.position_cursor_x = COL_TMO_MTZ_3_VVID_PR_BEGIN;
+      last_position_cursor_x = COL_TMO_MTZ_3_VVID_PR_END;
     }
     else if (current_ekran.index_position == INDEX_ML_TMOMTZ4) 
     {

@@ -2314,7 +2314,7 @@ inline void mtz_handler(volatile unsigned int *p_active_functions, unsigned int 
       _AND2(tmp_value, 9, tmp, 2, tmp, 3);
       _INVERTOR(tmp, 3, tmp, 4);
       _INVERTOR(tmp_value, 3, tmp, 23); /*Добавлено Тарасом у Богданову програму*/
-      _AND3(tmp, 4, tmp_value, 3, tmp_value, 21, tmp, 5);
+      if (mtz_level == MTZ_LEVEL2) _AND3(tmp, 4, tmp_value, 3, tmp_value, 21, tmp, 5);
       _AND2(tmp, 3, tmp_value, 21, tmp, 6);
       _AND3(tmp, 4, tmp_value, 21, tmp, 23, tmp, 7); /*Модифіковано Тарасом у Богдановій програмі*/
       _AND2(tmp, 4, tmp_value, 22, tmp, 8);
@@ -2324,20 +2324,30 @@ inline void mtz_handler(volatile unsigned int *p_active_functions, unsigned int 
       _AND2(tmp, 4, tmp_value, 24, tmp, 12);
       _AND2(tmp, 3, tmp_value, 24, tmp, 13);
       
-      unsigned int i_max = measurement[IM_IA];
-      if (i_max < measurement[IM_IB]) i_max = measurement[IM_IB];
-      if (i_max < measurement[IM_IC]) i_max = measurement[IM_IC];
-      _TIMER_T_0_LOCK(INDEX_TIMER_MTZ2_DEPENDENT, timeout_dependent_general(i_max, number_group_stp), tmp, 5, p_global_trigger_state_mtz2, 0);
-      _TIMER_T_0(mtz_prysk_tmr_const[mtz_level][INDEX_TIMER_MTZ_PR]/*INDEX_TIMER_MTZ2_PR*/, *(timeout_mtz_prysk[mtz_level - MTZ_LEVEL2] + number_group_stp)/*current_settings_prt.timeout_mtz_2_pr[number_group_stp]*/, tmp, 6, tmp, 15);
-      _TIMER_T_0(mtz_tmr_const[mtz_level][INDEX_TIMER_MTZ]/*INDEX_TIMER_MTZ2*/, *(timeout_mtz[mtz_level] + number_group_stp)/*current_settings_prt.timeout_mtz_2[number_group_stp]*/, tmp, 7, tmp, 16);
-      _TIMER_T_0(mtz_tmr_const[mtz_level][INDEX_TIMER_MTZ_N_VPERED]/*INDEX_TIMER_MTZ2_N_VPERED*/, *(timeout_mtz_n_vpered[mtz_level] + number_group_stp)/*current_settings_prt.timeout_mtz_2_n_vpered[number_group_stp]*/, tmp, 8, tmp, 17);
-      _TIMER_T_0(mtz_prysk_tmr_const[mtz_level][INDEX_TIMER_MTZ_N_VPERED_PR]/*INDEX_TIMER_MTZ2_N_VPERED_PR*/, *(timeout_mtz_n_vpered_prysk[mtz_level - MTZ_LEVEL2] + number_group_stp)/*current_settings_prt.timeout_mtz_2_n_vpered_pr[number_group_stp]*/, tmp, 9, tmp, 18);
-      _TIMER_T_0(mtz_tmr_const[mtz_level][INDEX_TIMER_MTZ_N_NAZAD]/*INDEX_TIMER_MTZ2_N_NAZAD*/, *(timeout_mtz_n_nazad[mtz_level] + number_group_stp)/*current_settings_prt.timeout_mtz_2_n_nazad[number_group_stp]*/, tmp, 10, tmp, 19);
-      _TIMER_T_0(mtz_prysk_tmr_const[mtz_level][INDEX_TIMER_MTZ_N_NAZAD_PR]/*INDEX_TIMER_MTZ2_N_NAZAD_PR*/, *(timeout_mtz_n_nazad_prysk[mtz_level - MTZ_LEVEL2] + number_group_stp)/*current_settings_prt.timeout_mtz_2_n_nazad_pr[number_group_stp]*/, tmp, 11, tmp, 20);
-      _TIMER_T_0(mtz_tmr_const[mtz_level][INDEX_TIMER_MTZ_PO_NAPRUZI]/*INDEX_TIMER_MTZ2_PO_NAPRUZI*/, *(timeout_mtz_po_napruzi[mtz_level] + number_group_stp)/*current_settings_prt.timeout_mtz_2_po_napruzi[number_group_stp]*/, tmp, 12, tmp, 21);
-      _TIMER_T_0(mtz_prysk_tmr_const[mtz_level][INDEX_TIMER_MTZ_PO_NAPRUZI_PR]/*INDEX_TIMER_MTZ2_PO_NAPRUZI_PR*/, *(timeout_mtz_po_napruzi_prysk[mtz_level - MTZ_LEVEL2] + number_group_stp)/*current_settings_prt.timeout_mtz_2_po_napruzi_pr[number_group_stp]*/, tmp, 13, tmp, 22);
+      if (mtz_level == MTZ_LEVEL2)
+      {
+        unsigned int i_max = measurement[IM_IA];
+        if (i_max < measurement[IM_IB]) i_max = measurement[IM_IB];
+        if (i_max < measurement[IM_IC]) i_max = measurement[IM_IC];
+        _TIMER_T_0_LOCK(INDEX_TIMER_MTZ2_DEPENDENT, timeout_dependent_general(i_max, number_group_stp), tmp, 5, p_global_trigger_state_mtz2, 0);
+      }
+      _TIMER_T_0(mtz_tmr_const[mtz_level                   ][INDEX_TIMER_MTZ              ]/*INDEX_TIMER_MTZ2*/              , *(timeout_mtz[mtz_level                              ] + number_group_stp)/*current_settings_prt.timeout_mtz_2[number_group_stp]*/              , tmp, 7 , tmp, 16);
+      _TIMER_T_0(mtz_prysk_tmr_const[mtz_level - MTZ_LEVEL2][INDEX_TIMER_MTZ_PR           ]/*INDEX_TIMER_MTZ2_PR*/           , *(timeout_mtz_prysk[mtz_level            - MTZ_LEVEL2] + number_group_stp)/*current_settings_prt.timeout_mtz_2_pr[number_group_stp]*/           , tmp, 6 , tmp, 15);
+      _TIMER_T_0(mtz_tmr_const[mtz_level                   ][INDEX_TIMER_MTZ_N_VPERED     ]/*INDEX_TIMER_MTZ2_N_VPERED*/     , *(timeout_mtz_n_vpered[mtz_level                     ] + number_group_stp)/*current_settings_prt.timeout_mtz_2_n_vpered[number_group_stp]*/     , tmp, 8 , tmp, 17);
+      _TIMER_T_0(mtz_prysk_tmr_const[mtz_level - MTZ_LEVEL2][INDEX_TIMER_MTZ_N_VPERED_PR  ]/*INDEX_TIMER_MTZ2_N_VPERED_PR*/  , *(timeout_mtz_n_vpered_prysk[mtz_level   - MTZ_LEVEL2] + number_group_stp)/*current_settings_prt.timeout_mtz_2_n_vpered_pr[number_group_stp]*/  , tmp, 9 , tmp, 18);
+      _TIMER_T_0(mtz_tmr_const[mtz_level                   ][INDEX_TIMER_MTZ_N_NAZAD      ]/*INDEX_TIMER_MTZ2_N_NAZAD*/      , *(timeout_mtz_n_nazad[mtz_level                      ] + number_group_stp)/*current_settings_prt.timeout_mtz_2_n_nazad[number_group_stp]*/      , tmp, 10, tmp, 19);
+      _TIMER_T_0(mtz_prysk_tmr_const[mtz_level - MTZ_LEVEL2][INDEX_TIMER_MTZ_N_NAZAD_PR   ]/*INDEX_TIMER_MTZ2_N_NAZAD_PR*/   , *(timeout_mtz_n_nazad_prysk[mtz_level    - MTZ_LEVEL2] + number_group_stp)/*current_settings_prt.timeout_mtz_2_n_nazad_pr[number_group_stp]*/   , tmp, 11, tmp, 20);
+      _TIMER_T_0(mtz_tmr_const[mtz_level                   ][INDEX_TIMER_MTZ_PO_NAPRUZI   ]/*INDEX_TIMER_MTZ2_PO_NAPRUZI*/   , *(timeout_mtz_po_napruzi[mtz_level                   ] + number_group_stp)/*current_settings_prt.timeout_mtz_2_po_napruzi[number_group_stp]*/   , tmp, 12, tmp, 21);
+      _TIMER_T_0(mtz_prysk_tmr_const[mtz_level - MTZ_LEVEL2][INDEX_TIMER_MTZ_PO_NAPRUZI_PR]/*INDEX_TIMER_MTZ2_PO_NAPRUZI_PR*/, *(timeout_mtz_po_napruzi_prysk[mtz_level - MTZ_LEVEL2] + number_group_stp)/*current_settings_prt.timeout_mtz_2_po_napruzi_pr[number_group_stp]*/, tmp, 13, tmp, 22);
       
-      _OR6(p_global_trigger_state_mtz2, 0, tmp, 15, tmp, 16, tmp, 17, tmp, 18, tmp, 19, tmp_value, 29);
+      if (mtz_level == MTZ_LEVEL2) 
+      {
+        _OR6(p_global_trigger_state_mtz2, 0, tmp, 15, tmp, 16, tmp, 17, tmp, 18, tmp, 19, tmp_value, 29);
+      }
+      else
+      {
+        _OR5(tmp, 15, tmp, 16, tmp, 17, tmp, 18, tmp, 19, tmp_value, 29);
+      }
       _OR3(tmp, 20, tmp, 21, tmp, 22, tmp_value, 30);
       _OR2(tmp_value, 29, tmp_value, 30, tmp_value, 31);
     }

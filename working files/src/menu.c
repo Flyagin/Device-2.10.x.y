@@ -12209,12 +12209,26 @@ void main_manu_function(void)
                       (current_ekran.position_cursor_x > COL_TMO_MTZ_3_END))
                     current_ekran.position_cursor_x = COL_TMO_MTZ_3_BEGIN;
                 }
+                else if(current_ekran.index_position == INDEX_ML_TMOMTZ3_PR)
+                {
+                  if (current_ekran.position_cursor_x == COL_TMO_MTZ_3_PR_COMMA )current_ekran.position_cursor_x++;
+                  if ((current_ekran.position_cursor_x < COL_TMO_MTZ_3_PR_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TMO_MTZ_3_PR_END))
+                    current_ekran.position_cursor_x = COL_TMO_MTZ_3_PR_BEGIN;
+                }
                 else if(current_ekran.index_position == INDEX_ML_TMOMTZ3_N_VPERED)
                 {
                   if (current_ekran.position_cursor_x == COL_TMO_MTZ_3_N_VPERED_COMMA )current_ekran.position_cursor_x++;
                   if ((current_ekran.position_cursor_x < COL_TMO_MTZ_3_N_VPERED_BEGIN) ||
                       (current_ekran.position_cursor_x > COL_TMO_MTZ_3_N_VPERED_END))
                     current_ekran.position_cursor_x = COL_TMO_MTZ_3_N_VPERED_BEGIN;
+                }
+                else if(current_ekran.index_position == INDEX_ML_TMOMTZ3_N_VPERED_PR)
+                {
+                  if (current_ekran.position_cursor_x == COL_TMO_MTZ_3_N_VPERED_PR_COMMA )current_ekran.position_cursor_x++;
+                  if ((current_ekran.position_cursor_x < COL_TMO_MTZ_3_N_VPERED_PR_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TMO_MTZ_3_N_VPERED_PR_END))
+                    current_ekran.position_cursor_x = COL_TMO_MTZ_3_N_VPERED_PR_BEGIN;
                 }
                 else if(current_ekran.index_position == INDEX_ML_TMOMTZ3_N_NAZAD)
                 {
@@ -12223,12 +12237,33 @@ void main_manu_function(void)
                       (current_ekran.position_cursor_x > COL_TMO_MTZ_3_N_NAZAD_END))
                     current_ekran.position_cursor_x = COL_TMO_MTZ_3_N_NAZAD_BEGIN;
                 }
+                else if(current_ekran.index_position == INDEX_ML_TMOMTZ3_N_NAZAD_PR)
+                {
+                  if (current_ekran.position_cursor_x == COL_TMO_MTZ_3_N_NAZAD_PR_COMMA )current_ekran.position_cursor_x++;
+                  if ((current_ekran.position_cursor_x < COL_TMO_MTZ_3_N_NAZAD_PR_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TMO_MTZ_3_N_NAZAD_PR_END))
+                    current_ekran.position_cursor_x = COL_TMO_MTZ_3_N_NAZAD_PR_BEGIN;
+                }
                 else if(current_ekran.index_position == INDEX_ML_TMOMTZ3_PO_NAPRUZI)
                 {
                   if (current_ekran.position_cursor_x == COL_TMO_MTZ_3_PO_NAPRUZI_COMMA )current_ekran.position_cursor_x++;
                   if ((current_ekran.position_cursor_x < COL_TMO_MTZ_3_PO_NAPRUZI_BEGIN) ||
                       (current_ekran.position_cursor_x > COL_TMO_MTZ_3_PO_NAPRUZI_END))
                     current_ekran.position_cursor_x = COL_TMO_MTZ_3_PO_NAPRUZI_BEGIN;
+                }
+                else if(current_ekran.index_position == INDEX_ML_TMOMTZ3_PO_NAPRUZI_PR)
+                {
+                  if (current_ekran.position_cursor_x == COL_TMO_MTZ_3_PO_NAPRUZI_PR_COMMA )current_ekran.position_cursor_x++;
+                  if ((current_ekran.position_cursor_x < COL_TMO_MTZ_3_PO_NAPRUZI_PR_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TMO_MTZ_3_PO_NAPRUZI_PR_END))
+                    current_ekran.position_cursor_x = COL_TMO_MTZ_3_PO_NAPRUZI_PR_BEGIN;
+                }
+                else if(current_ekran.index_position == INDEX_ML_TMOMTZ3_VVID_PR)
+                {
+                  if (current_ekran.position_cursor_x == COL_TMO_MTZ_3_VVID_PR_COMMA )current_ekran.position_cursor_x++;
+                  if ((current_ekran.position_cursor_x < COL_TMO_MTZ_3_VVID_PR_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TMO_MTZ_3_VVID_PR_END))
+                    current_ekran.position_cursor_x = COL_TMO_MTZ_3_VVID_PR_BEGIN;
                 }
                 else if(current_ekran.index_position == INDEX_ML_TMOMTZ4)
                 {
@@ -13594,12 +13629,26 @@ void main_manu_function(void)
                       (current_ekran.position_cursor_x > COL_TMO_MTZ_3_END))
                     current_ekran.position_cursor_x = COL_TMO_MTZ_3_END;
                 }
+                else if(current_ekran.index_position == INDEX_ML_TMOMTZ3_PR)
+                {
+                  if (current_ekran.position_cursor_x == COL_TMO_MTZ_3_PR_COMMA )current_ekran.position_cursor_x--;
+                  if ((current_ekran.position_cursor_x < COL_TMO_MTZ_3_PR_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TMO_MTZ_3_PR_END))
+                    current_ekran.position_cursor_x = COL_TMO_MTZ_3_PR_END;
+                }
                 else if(current_ekran.index_position == INDEX_ML_TMOMTZ3_N_VPERED)
                 {
                   if (current_ekran.position_cursor_x == COL_TMO_MTZ_3_N_VPERED_COMMA )current_ekran.position_cursor_x--;
                   if ((current_ekran.position_cursor_x < COL_TMO_MTZ_3_N_VPERED_BEGIN) ||
                       (current_ekran.position_cursor_x > COL_TMO_MTZ_3_N_VPERED_END))
                     current_ekran.position_cursor_x = COL_TMO_MTZ_3_N_VPERED_END;
+                }
+                else if(current_ekran.index_position == INDEX_ML_TMOMTZ3_N_VPERED_PR)
+                {
+                  if (current_ekran.position_cursor_x == COL_TMO_MTZ_3_N_VPERED_PR_COMMA )current_ekran.position_cursor_x--;
+                  if ((current_ekran.position_cursor_x < COL_TMO_MTZ_3_N_VPERED_PR_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TMO_MTZ_3_N_VPERED_PR_END))
+                    current_ekran.position_cursor_x = COL_TMO_MTZ_3_N_VPERED_PR_END;
                 }
                 else if(current_ekran.index_position == INDEX_ML_TMOMTZ3_N_NAZAD)
                 {
@@ -13608,12 +13657,33 @@ void main_manu_function(void)
                       (current_ekran.position_cursor_x > COL_TMO_MTZ_3_N_NAZAD_END))
                     current_ekran.position_cursor_x = COL_TMO_MTZ_3_N_NAZAD_END;
                 }
+                else if(current_ekran.index_position == INDEX_ML_TMOMTZ3_N_NAZAD_PR)
+                {
+                  if (current_ekran.position_cursor_x == COL_TMO_MTZ_3_N_NAZAD_PR_COMMA )current_ekran.position_cursor_x--;
+                  if ((current_ekran.position_cursor_x < COL_TMO_MTZ_3_N_NAZAD_PR_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TMO_MTZ_3_N_NAZAD_PR_END))
+                    current_ekran.position_cursor_x = COL_TMO_MTZ_3_N_NAZAD_PR_END;
+                }
                 else if(current_ekran.index_position == INDEX_ML_TMOMTZ3_PO_NAPRUZI)
                 {
                   if (current_ekran.position_cursor_x == COL_TMO_MTZ_3_PO_NAPRUZI_COMMA )current_ekran.position_cursor_x--;
                   if ((current_ekran.position_cursor_x < COL_TMO_MTZ_3_PO_NAPRUZI_BEGIN) ||
                       (current_ekran.position_cursor_x > COL_TMO_MTZ_3_PO_NAPRUZI_END))
                     current_ekran.position_cursor_x = COL_TMO_MTZ_3_PO_NAPRUZI_END;
+                }
+                else if(current_ekran.index_position == INDEX_ML_TMOMTZ3_PO_NAPRUZI_PR)
+                {
+                  if (current_ekran.position_cursor_x == COL_TMO_MTZ_3_PO_NAPRUZI_PR_COMMA )current_ekran.position_cursor_x--;
+                  if ((current_ekran.position_cursor_x < COL_TMO_MTZ_3_PO_NAPRUZI_PR_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TMO_MTZ_3_PO_NAPRUZI_PR_END))
+                    current_ekran.position_cursor_x = COL_TMO_MTZ_3_PO_NAPRUZI_PR_END;
+                }
+                else if(current_ekran.index_position == INDEX_ML_TMOMTZ3_VVID_PR)
+                {
+                  if (current_ekran.position_cursor_x == COL_TMO_MTZ_3_VVID_PR_COMMA )current_ekran.position_cursor_x--;
+                  if ((current_ekran.position_cursor_x < COL_TMO_MTZ_3_VVID_PR_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TMO_MTZ_3_VVID_PR_END))
+                    current_ekran.position_cursor_x = COL_TMO_MTZ_3_VVID_PR_END;
                 }
                 else if(current_ekran.index_position == INDEX_ML_TMOMTZ4)
                 {
