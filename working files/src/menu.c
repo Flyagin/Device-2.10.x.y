@@ -12297,6 +12297,8 @@ void main_manu_function(void)
                   else if (current_ekran.index_position == INDEX_ML_CTRMTZ_3             ) maska = CTR_MTZ_3;
                   else if (current_ekran.index_position == INDEX_ML_CTRMTZ_3_VPERED      ) maska = CTR_MTZ_3_VPERED;
                   else if (current_ekran.index_position == INDEX_ML_CTRMTZ_3_NAZAD       ) maska = CTR_MTZ_3_NAZAD;
+                  else if (current_ekran.index_position == INDEX_ML_CTRMTZ_3_PRYSKORENNJA) maska = CTR_MTZ_3_PRYSKORENNJA;
+                  else if (current_ekran.index_position == INDEX_ML_CTRMTZ_3_PRYSKORENA  ) maska = CTR_MTZ_3_PRYSKORENA;
                   else if (current_ekran.index_position == INDEX_ML_CTRMTZ_4             ) maska = CTR_MTZ_4;
                   else if (current_ekran.index_position == INDEX_ML_CTRMTZ_4_VPERED      ) maska = CTR_MTZ_4_VPERED;
                   else if (current_ekran.index_position == INDEX_ML_CTRMTZ_4_NAZAD       ) maska = CTR_MTZ_4_NAZAD;
@@ -13680,6 +13682,8 @@ void main_manu_function(void)
                   else if (current_ekran.index_position == INDEX_ML_CTRMTZ_3             ) maska = CTR_MTZ_3;
                   else if (current_ekran.index_position == INDEX_ML_CTRMTZ_3_VPERED      ) maska = CTR_MTZ_3_VPERED;
                   else if (current_ekran.index_position == INDEX_ML_CTRMTZ_3_NAZAD       ) maska = CTR_MTZ_3_NAZAD;
+                  else if (current_ekran.index_position == INDEX_ML_CTRMTZ_3_PRYSKORENNJA) maska = CTR_MTZ_3_PRYSKORENNJA;
+                  else if (current_ekran.index_position == INDEX_ML_CTRMTZ_3_PRYSKORENA  ) maska = CTR_MTZ_3_PRYSKORENA;
                   else if (current_ekran.index_position == INDEX_ML_CTRMTZ_4             ) maska = CTR_MTZ_4;
                   else if (current_ekran.index_position == INDEX_ML_CTRMTZ_4_VPERED      ) maska = CTR_MTZ_4_VPERED;
                   else if (current_ekran.index_position == INDEX_ML_CTRMTZ_4_NAZAD       ) maska = CTR_MTZ_4_NAZAD;
