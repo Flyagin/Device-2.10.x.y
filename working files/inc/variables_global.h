@@ -204,10 +204,10 @@ const float cos_data_f[NUMBER_POINT] = {
 
 unsigned int index_sin_cos_array[NUMBER_ADCs] = {0, 0};
 unsigned int index_data_sin_cos_array[NUMBER_ADCs] = {0, 0};
-int data_sin_val_1[NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_1];
-int data_cos_val_1[NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_1];
-int data_sin_val_2[NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_2];
-int data_cos_val_2[NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_2];
+int data_sin_val_1[NUMBER_POINT*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_1)];
+int data_cos_val_1[NUMBER_POINT*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_1)];
+int data_sin_val_2[NUMBER_POINT*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_2)];
+int data_cos_val_2[NUMBER_POINT*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_2)];
 int ortogonal_irq[2*NUMBER_ANALOG_CANALES];
 int ortogonal[2*NUMBER_ANALOG_CANALES][2];
 unsigned int bank_ortogonal = 0;
@@ -263,7 +263,7 @@ unsigned int temp_states_for_mtz = 0;
 
 unsigned int i1_bilshe_porogu = 0, i2_bilshe_porogu = 0;
 
-unsigned int TN1_TN2 = 0; //0 - ТН1; 1 - ТН2
+unsigned int TN1_TN2 = 0, TN1_TN2_meas_global; //0 - ТН1; 1 - ТН2
 volatile unsigned int state_inputs = 0; //"є сигнал " - відповідає встановленому біту (1); "немає сигналу" - відповідає скинутому біту (0)
 volatile unsigned int active_inputs = 0; //"вхід активний" - відповідає встановленому біту (1); "вхід пасивний" - відповідає скинутому біту (0)
 unsigned int state_outputs = 0;

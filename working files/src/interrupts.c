@@ -589,7 +589,8 @@ void TIM5_IRQHandler(void)
     Це є умовою на цьому місці (переривання від таймеру має вищий пріоритет
     ніж перериванні від SPI) не ведеться зчитування значень з АЦП або їх обробка
     */
-    control_reading_ADCs();
+    unsigned int TN1_TN2_meas = TN1_TN2;
+    control_reading_ADCs(TN1_TN2_meas);
   }
   
 #ifdef SYSTEM_VIEWER_ENABLE

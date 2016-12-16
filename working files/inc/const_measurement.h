@@ -113,22 +113,6 @@ Koef_1 = 74.831881801009052122160116719483 (4790/64 = 74.84375)
 #define C_GND_ADC1_5            13
 #define C_VREF_ADC1             14
 #define C_VDD_ADC1              15
-//#define C_GND_ADC2_1            (0  + NUMBER_CANALs_ADC)
-//#define C_Ub2_1                 (1  + NUMBER_CANALs_ADC)
-//#define C_Ub2_16                (2  + NUMBER_CANALs_ADC)
-//#define C_Uc1_1                 (3  + NUMBER_CANALs_ADC)
-//#define C_Uc1_16                (4  + NUMBER_CANALs_ADC)
-//#define C_Ub1_1                 (5  + NUMBER_CANALs_ADC)
-//#define C_Ub1_16                (6  + NUMBER_CANALs_ADC)
-//#define C_Ua1_1                 (7  + NUMBER_CANALs_ADC)
-//#define C_Ua1_16                (8  + NUMBER_CANALs_ADC)
-//#define C_Ub2_256               (9  + NUMBER_CANALs_ADC)
-//#define C_Ua2_16                (10 + NUMBER_CANALs_ADC)
-//#define C_Ua2_1                 (11 + NUMBER_CANALs_ADC)
-//#define C_GND_ADC2_2            (12 + NUMBER_CANALs_ADC)
-//#define C_GND_ADC2_3            (13 + NUMBER_CANALs_ADC)
-//#define C_VREF_ADC2             (14 + NUMBER_CANALs_ADC)
-//#define C_VDD_ADC2              (15 + NUMBER_CANALs_ADC)
 #define C_GND_ADC2_1            (0  + NUMBER_CANALs_ADC)
 #define C_Ua1_1                 (1  + NUMBER_CANALs_ADC)
 #define C_Ua1_16                (2  + NUMBER_CANALs_ADC)
@@ -186,7 +170,6 @@ Koef_1 = 74.831881801009052122160116719483 (4790/64 = 74.84375)
                  )
 
 #define READ_DATA_VAL_1 (           \
-                         READ_I   | \
                          READ_Ua1 | \
                          READ_Ub1 | \
                          READ_Uc1   \

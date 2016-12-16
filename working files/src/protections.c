@@ -674,7 +674,11 @@ inline void calc_measurement(unsigned int number_group_stp)
     
     float sin_beta;
     float cos_beta;
-    if (i < I_Ua2)
+    if (
+        ((i <= I_Ic) && (TN1_TN2_meas_global != 1))
+        ||
+        ((i >= I_Ua1) && (i <= I_Uc1))
+       )   
     {
       sin_beta =  phi_ustuvannja_sin_cos_meas[2*i    ];
       cos_beta =  phi_ustuvannja_sin_cos_meas[2*i + 1];

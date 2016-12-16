@@ -1833,12 +1833,12 @@ void fix_change_settings(unsigned int setting_rang, unsigned int source)
     *(point_to_target + 7) = (unsigned char)(source & 0xff);
   }
   
+  //Запускаємо запис у EEPROM
+  _SET_BIT(control_i2c_taskes, TASK_START_WRITE_SETTINGS_EEPROM_BIT);
+  
   //Помічаємо, що таблиця змінилася і її треба буде з системи захистів зкопіювати у таблицю з якою працює система захистів
   changed_settings = CHANGED_ETAP_ENDED;
   if (_CHECK_SET_BIT(active_functions, RANG_SETTINGS_CHANGED) == 0) current_settings_interfaces = current_settings;
-  
-  //Запускаємо запис у EEPROM
-  _SET_BIT(control_i2c_taskes, TASK_START_WRITE_SETTINGS_EEPROM_BIT);
 }
 /*****************************************************/
 

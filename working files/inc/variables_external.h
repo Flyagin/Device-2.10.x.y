@@ -99,10 +99,10 @@ extern const float sin_data_f[NUMBER_POINT];
 extern const float cos_data_f[NUMBER_POINT];
 extern unsigned int index_sin_cos_array[NUMBER_ADCs];
 extern unsigned int index_data_sin_cos_array[NUMBER_ADCs];
-extern int data_sin_val_1[NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_1];
-extern int data_cos_val_1[NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_1];
-extern int data_sin_val_2[NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_2];
-extern int data_cos_val_2[NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_2];
+extern int data_sin_val_1[NUMBER_POINT*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_1)];
+extern int data_cos_val_1[NUMBER_POINT*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_1)];
+extern int data_sin_val_2[NUMBER_POINT*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_2)];
+extern int data_cos_val_2[NUMBER_POINT*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_2)];
 extern unsigned int index_data_sin_and_cos_array;
 extern int ortogonal_irq[2*NUMBER_ANALOG_CANALES];
 extern int ortogonal[2*NUMBER_ANALOG_CANALES][2];
@@ -161,7 +161,7 @@ extern unsigned int temp_states_for_mtz;
 
 extern unsigned int i1_bilshe_porogu, i2_bilshe_porogu;
 
-extern unsigned int TN1_TN2;
+extern unsigned int TN1_TN2, TN1_TN2_meas_global;
 extern volatile unsigned int state_inputs;
 extern volatile unsigned int active_inputs;
 extern unsigned int state_outputs;

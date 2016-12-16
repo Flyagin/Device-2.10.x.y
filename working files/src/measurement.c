@@ -50,7 +50,7 @@ inline void find_new_ADC_canal_to_read(unsigned int command_word_adc_diff, unsig
 /*****************************************************/
 //Управління читанням даних з АЦП
 /*****************************************************/
-void control_reading_ADCs(void)
+void control_reading_ADCs(unsigned int TN1_TN2_meas)
 {
   //Обновляємо робоче командне слово і вибираємо які канали треба оцифровувати
   if (adc_DATA_VAL_1_read != 0)
@@ -66,6 +66,7 @@ void control_reading_ADCs(void)
     command_word_adc_work &= (unsigned int)(~maska_canaliv_fapch_1);
         
     command_word_adc |= READ_DATA_VAL_1;
+    if (TN1_TN2_meas != 1) command_word_adc |= READ_I;
   }
 
   if (adc_DATA_VAL_2_read != 0)
@@ -81,6 +82,7 @@ void control_reading_ADCs(void)
     command_word_adc_work &= (unsigned int)(~maska_canaliv_fapch_2);
         
     command_word_adc |= READ_DATA_VAL_2;
+    if (TN1_TN2_meas == 1) command_word_adc |= READ_I;
   }
 
   
@@ -296,20 +298,22 @@ void operate_test_ADCs(void)
 /*************************************************************************
 Опрацьовуємо дані для перетворення Фур'є
  *************************************************************************/
-void Fourier(unsigned int number_val_group)
+void Fourier(unsigned int number_val_group, unsigned int TN1_TN2_meas)
 {
-  unsigned int index_first_canal, number_canals;
+  unsigned int index_first_U_canal, number_canals, number_U_canals, max_number_canals;
   int *data_sin, *data_cos;
   
   switch (number_val_group)
   {
   case N_VAL_1:
     {
-      number_canals = NUMBER_ANALOG_CANALES_VAL_1;
+      max_number_canals = NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_1;
+      number_U_canals = NUMBER_ANALOG_CANALES_VAL_1;
 
-      index_first_canal = I_Ia;
-      number_canals = NUMBER_ANALOG_CANALES_VAL_1;
+      if (TN1_TN2_meas != 1) number_canals = max_number_canals;
+      else number_canals = number_U_canals;
       
+      index_first_U_canal = I_Ua1;
       data_sin = data_sin_val_1;
       data_cos = data_cos_val_1;
       
@@ -317,11 +321,13 @@ void Fourier(unsigned int number_val_group)
     }
   case N_VAL_2:
     {
-      number_canals = NUMBER_ANALOG_CANALES_VAL_2;
+      max_number_canals = NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_2;
+      number_U_canals = NUMBER_ANALOG_CANALES_VAL_2;
 
-      index_first_canal = I_Ua2;
-      number_canals = NUMBER_ANALOG_CANALES_VAL_2;
+      if (TN1_TN2_meas == 1) number_canals = max_number_canals;
+      else number_canals = number_U_canals;
       
+      index_first_U_canal = I_Ua2;
       data_sin = data_sin_val_2;
       data_cos = data_cos_val_2;
       
@@ -335,15 +341,53 @@ void Fourier(unsigned int number_val_group)
   }
   
   unsigned int index_data_sin_cos_array_tmp = index_data_sin_cos_array[number_val_group];
-  unsigned int max_size_data_sin_cos = NUMBER_POINT*number_canals;
+  unsigned int max_size_data_sin_cos = NUMBER_POINT*max_number_canals;
   unsigned int index_sin_cos_array_tmp = index_sin_cos_array[number_val_group];
+
+  unsigned int bank_ortogonal_tmp = bank_ortogonal;
+
+  //Стркмові канали, які прив'ящані до ТН1 чи ТН2
+  for (int i = 0; i < NUMBER_ANALOG_CANALES_VAL_I; i++)
+  {
+    if (max_number_canals == number_canals)
+    {
+      //Зчитуємо миттєве значення яке треба опрацювати
+      int temp_value_1 = ADCs_data[I_Ia + i];
+      int temp_value_2;
+      unsigned int i_ort_tmp = 2*(I_Ia + i);
+
+      //Ортогональні SIN
+      ortogonal_irq[i_ort_tmp] -= data_sin[index_data_sin_cos_array_tmp];
+      temp_value_2 = (int)((float)temp_value_1*sin_data_f[index_sin_cos_array_tmp]);
+      data_sin[index_data_sin_cos_array_tmp] = temp_value_2;
+      ortogonal_irq[i_ort_tmp] += temp_value_2;
+    
+      //Ортогональні COS
+      ortogonal_irq[i_ort_tmp + 1] -= data_cos[index_data_sin_cos_array_tmp];
+      temp_value_2 = (int)((float)temp_value_1*cos_data_f[index_sin_cos_array_tmp]);
+      data_cos[index_data_sin_cos_array_tmp] = temp_value_2;
+      ortogonal_irq[i_ort_tmp + 1] += temp_value_2;
+      
+      //Копіювання для інших систем
+      ortogonal[i_ort_tmp    ][bank_ortogonal_tmp] = ortogonal_irq[i_ort_tmp    ];
+      ortogonal[i_ort_tmp + 1][bank_ortogonal_tmp] = ortogonal_irq[i_ort_tmp + 1];
+    }
+    else
+    {
+      data_sin[index_data_sin_cos_array_tmp] = 0;
+      data_cos[index_data_sin_cos_array_tmp] = 0;
+    }
+    
+    if((++index_data_sin_cos_array_tmp) >= max_size_data_sin_cos) index_data_sin_cos_array_tmp = 0;
+  }
   
-  for (unsigned int i = 0; i < number_canals; i++)
+  //напругові канали, які є незалежними
+  for (unsigned int i = 0; i < number_U_canals; i++)
   {
     //Зчитуємо миттєве значення яке треба опрацювати
-    int temp_value_1 = ADCs_data[index_first_canal + i];
+    int temp_value_1 = ADCs_data[index_first_U_canal + i];
     int temp_value_2;
-    unsigned int i_ort_tmp = 2*(index_first_canal + i);
+    unsigned int i_ort_tmp = 2*(index_first_U_canal + i);
 
     //Ортогональні SIN
     ortogonal_irq[i_ort_tmp] -= data_sin[index_data_sin_cos_array_tmp];
@@ -356,6 +400,10 @@ void Fourier(unsigned int number_val_group)
     temp_value_2 = (int)((float)temp_value_1*cos_data_f[index_sin_cos_array_tmp]);
     data_cos[index_data_sin_cos_array_tmp] = temp_value_2;
     ortogonal_irq[i_ort_tmp + 1] += temp_value_2;
+  
+    //Копіювання для інших систем
+    ortogonal[i_ort_tmp    ][bank_ortogonal_tmp] = ortogonal_irq[i_ort_tmp    ];
+    ortogonal[i_ort_tmp + 1][bank_ortogonal_tmp] = ortogonal_irq[i_ort_tmp + 1];
     
     if((++index_data_sin_cos_array_tmp) >= max_size_data_sin_cos) index_data_sin_cos_array_tmp = 0;
   }
@@ -363,12 +411,6 @@ void Fourier(unsigned int number_val_group)
   
   if((++index_sin_cos_array_tmp) >= NUMBER_POINT) index_sin_cos_array_tmp = 0;
   index_sin_cos_array[number_val_group] = index_sin_cos_array_tmp;
-
-  //Копіювання для інших систем
-  unsigned int first_index = 2*index_first_canal;
-
-  unsigned int bank_ortogonal_tmp = bank_ortogonal;
-  for(unsigned int i = 0; i < (2*number_canals); i++ ) ortogonal[first_index + i][bank_ortogonal_tmp] = ortogonal_irq[first_index + i];
 }
 /*************************************************************************/
 
@@ -873,7 +915,8 @@ void SPI_ADC_IRQHandler(void)
   /***/
   
   //Виконуємо операції з читання АЦП
-  control_reading_ADCs();
+  unsigned int TN1_TN2_meas = TN1_TN2;
+  control_reading_ADCs(TN1_TN2_meas);
   
   /*
   Подальші діх виконуємо тільки тоді, коли всі канали вже оцифровані
@@ -906,154 +949,51 @@ void SPI_ADC_IRQHandler(void)
     unsigned int command_word = 0;
     if ((status_adc_read_work & DATA_VAL_1_READ) != 0)
     {
-      command_word |= (1 << I_Ia ) | (1 << I_Ib ) | (1 << I_Ic ) |
-                      (1 << I_Ua1) | (1 << I_Ub1) | (1 << I_Uc1);
+      command_word |= (1 << I_Ua1) | (1 << I_Ub1) | (1 << I_Uc1);
+      if (TN1_TN2_meas != 1) command_word |= (1 << I_Ia ) | (1 << I_Ib ) | (1 << I_Ic );
     }
       
     if ((status_adc_read_work & DATA_VAL_2_READ) != 0)
     {
       command_word |= (1 << I_Ua2) | (1 << I_Ub2) | (1 << I_Uc2);
+      if (TN1_TN2_meas == 1) command_word |= (1 << I_Ia ) | (1 << I_Ib ) | (1 << I_Ic );
     }
-      
+
+    if (TN1_TN2_meas_global != TN1_TN2_meas)
+    {
+      TN1_TN2_meas_global = TN1_TN2_meas;
+    
+      for (int i = 0; i < NUMBER_ANALOG_CANALES_VAL_I; i++) 
+      {
+        ortogonal_irq[2*(I_Ia + i)    ] = 0;
+        ortogonal_irq[2*(I_Ia + i) + 1] = 0;
+        
+        if (TN1_TN2_meas == 1)
+        {
+          rozshyrena_vyborka.VAL_2_data_c[I_Ia + i] = rozshyrena_vyborka.VAL_1_data_c[I_Ia + 1];
+          rozshyrena_vyborka.VAL_1_data_p[I_Ia + i] = rozshyrena_vyborka.VAL_1_data_c[I_Ia + i] = 0;
+
+          ADCs_data_raw[I_Ia + i].tick = penultimate_tick_VAL_2;
+        }
+        else
+        {
+          rozshyrena_vyborka.VAL_1_data_c[I_Ia + i] = rozshyrena_vyborka.VAL_2_data_c[I_Ia + i];
+          rozshyrena_vyborka.VAL_2_data_p[I_Ia + i] = rozshyrena_vyborka.VAL_2_data_c[I_Ia + i] = 0;
+
+          ADCs_data_raw[I_Ia + i].tick = penultimate_tick_VAL_1;
+        }
+            
+      }
+    }
+    
     uint32_t _x1, _x2, _DX, _dx;
     int _y1, _y2;
     long long _y;
       
-    unsigned int gnd_adc  = gnd_adc1; 
-    unsigned int vref_adc = vref_adc1; 
-
     uint32_t _x = previous_tick_VAL_1;
-    /*****/
-    //Формуємо значення Ia
-    /*****/
-    if ((command_word & (1 << I_Ia)) != 0)
-    {
-      _x1 = ADCs_data_raw[I_Ia].tick;
-      _y1 = ADCs_data_raw[I_Ia].value;
-        
-      _y2 = output_adc[C_Ia_1].value - gnd_adc - vref_adc;
-      if (abs(_y2) > 87)
-      {
-        _x2 = output_adc[C_Ia_1].tick;
-        _y2 = (int)(_y2*ustuvannja_meas[I_Ia])>>(USTUVANNJA_VAGA - 4);
-      }
-      else
-      {
-        _y2 = output_adc[C_Ia_16].value - gnd_adc - vref_adc;
-
-        _x2 = output_adc[C_Ia_16].tick;
-        _y2 = (int)((-_y2)*ustuvannja_meas[I_Ia])>>(USTUVANNJA_VAGA);
-      }
-      
-      if (_x2 > _x1) _DX = _x2 - _x1;
-      else
-      {
-        uint64_t _DX_64 = _x2 + 0x100000000 - _x1;
-        _DX = _DX_64;
-      }
-      if (_x >= _x1) _dx = _x - _x1;
-      else
-      {
-        uint64_t _dx_64 = _x + 0x100000000 - _x1;
-        _dx = _dx_64;
-      }
-      _y = ((long long)_y1) + ((long long)(_y2 - _y1))*((long long)_dx)/((long long)_DX);
-
-      ADCs_data[I_Ia] = _y;
-      
-      ADCs_data_raw[I_Ia].tick = _x2;
-      ADCs_data_raw[I_Ia].value = _y2;
-    }
-    /*****/
-
-    /*****/
-    //Формуємо значення Ib
-    /*****/
-    if ((command_word & (1 << I_Ib)) != 0)
-    {
-      _x1 = ADCs_data_raw[I_Ib].tick;
-      _y1 = ADCs_data_raw[I_Ib].value;
-        
-      _y2 = output_adc[C_Ib_1].value - gnd_adc - vref_adc;
-      if (abs(_y2) > 87)
-      {
-        _x2 = output_adc[C_Ib_1].tick;
-        _y2 = (int)(_y2*ustuvannja_meas[I_Ib])>>(USTUVANNJA_VAGA - 4);
-      }
-      else
-      {
-        _y2 = output_adc[C_Ib_16].value - gnd_adc - vref_adc;
-
-        _x2 = output_adc[C_Ib_16].tick;
-        _y2 = (int)((-_y2)*ustuvannja_meas[I_Ib])>>(USTUVANNJA_VAGA);
-      }
-      
-      if (_x2 > _x1) _DX = _x2 - _x1;
-      else
-      {
-        uint64_t _DX_64 = _x2 + 0x100000000 - _x1;
-        _DX = _DX_64;
-      }
-      if (_x >= _x1) _dx = _x - _x1;
-      else
-      {
-        uint64_t _dx_64 = _x + 0x100000000 - _x1;
-        _dx = _dx_64;
-      }
-      _y = ((long long)_y1) + ((long long)(_y2 - _y1))*((long long)_dx)/((long long)_DX);
-
-      ADCs_data[I_Ib] = _y;
-      
-      ADCs_data_raw[I_Ib].tick = _x2;
-      ADCs_data_raw[I_Ib].value = _y2;
-    }
-    /*****/
     
-    /*****/
-    //Формуємо значення Ic
-    /*****/
-    if ((command_word & (1 << I_Ic)) != 0)
-    {
-      _x1 = ADCs_data_raw[I_Ic].tick;
-      _y1 = ADCs_data_raw[I_Ic].value;
-        
-      _y2 = output_adc[C_Ic_1].value - gnd_adc - vref_adc;
-      if (abs(_y2) > 87)
-      {
-        _x2 = output_adc[C_Ic_1].tick;
-        _y2 = (int)(_y2*ustuvannja_meas[I_Ic])>>(USTUVANNJA_VAGA - 4);
-      }
-      else
-      {
-        _y2 = output_adc[C_Ic_16].value - gnd_adc - vref_adc;
-
-        _x2 = output_adc[C_Ic_16].tick;
-        _y2 = (int)((-_y2)*ustuvannja_meas[I_Ic])>>(USTUVANNJA_VAGA);
-      }
-      
-      if (_x2 > _x1) _DX = _x2 - _x1;
-      else
-      {
-        uint64_t _DX_64 = _x2 + 0x100000000 - _x1;
-        _DX = _DX_64;
-      }
-      if (_x >= _x1) _dx = _x - _x1;
-      else
-      {
-        uint64_t _dx_64 = _x + 0x100000000 - _x1;
-        _dx = _dx_64;
-      }
-      _y = ((long long)_y1) + ((long long)(_y2 - _y1))*((long long)_dx)/((long long)_DX);
-
-      ADCs_data[I_Ic] = _y;
-      
-      ADCs_data_raw[I_Ic].tick = _x2;
-      ADCs_data_raw[I_Ic].value = _y2;
-    }
-    /*****/
-    
-    gnd_adc  = gnd_adc2; 
-    vref_adc = vref_adc2; 
+    unsigned int gnd_adc  = gnd_adc2; 
+    unsigned int vref_adc = vref_adc2; 
 
     /*****/
     //Формуємо значення Ua1
@@ -1243,9 +1183,147 @@ void SPI_ADC_IRQHandler(void)
       ADCs_data_raw[I_Uc1].value = _y2;
     }
     /*****/
+
+    if (TN1_TN2_meas == 1) _x = previous_tick_VAL_2;
+    
+    gnd_adc  = gnd_adc1; 
+    vref_adc = vref_adc1; 
+
+    /*****/
+    //Формуємо значення Ia
+    /*****/
+    if ((command_word & (1 << I_Ia)) != 0)
+    {
+      _x1 = ADCs_data_raw[I_Ia].tick;
+      _y1 = ADCs_data_raw[I_Ia].value;
+        
+      _y2 = output_adc[C_Ia_1].value - gnd_adc - vref_adc;
+      if (abs(_y2) > 87)
+      {
+        _x2 = output_adc[C_Ia_1].tick;
+        _y2 = (int)(_y2*ustuvannja_meas[I_Ia])>>(USTUVANNJA_VAGA - 4);
+      }
+      else
+      {
+        _y2 = output_adc[C_Ia_16].value - gnd_adc - vref_adc;
+
+        _x2 = output_adc[C_Ia_16].tick;
+        _y2 = (int)((-_y2)*ustuvannja_meas[I_Ia])>>(USTUVANNJA_VAGA);
+      }
+      
+      if (_x2 > _x1) _DX = _x2 - _x1;
+      else
+      {
+        uint64_t _DX_64 = _x2 + 0x100000000 - _x1;
+        _DX = _DX_64;
+      }
+      if (_x >= _x1) _dx = _x - _x1;
+      else
+      {
+        uint64_t _dx_64 = _x + 0x100000000 - _x1;
+        _dx = _dx_64;
+      }
+      _y = ((long long)_y1) + ((long long)(_y2 - _y1))*((long long)_dx)/((long long)_DX);
+
+      ADCs_data[I_Ia] = _y;
+      
+      ADCs_data_raw[I_Ia].tick = _x2;
+      ADCs_data_raw[I_Ia].value = _y2;
+    }
+    /*****/
+
+    /*****/
+    //Формуємо значення Ib
+    /*****/
+    if ((command_word & (1 << I_Ib)) != 0)
+    {
+      _x1 = ADCs_data_raw[I_Ib].tick;
+      _y1 = ADCs_data_raw[I_Ib].value;
+        
+      _y2 = output_adc[C_Ib_1].value - gnd_adc - vref_adc;
+      if (abs(_y2) > 87)
+      {
+        _x2 = output_adc[C_Ib_1].tick;
+        _y2 = (int)(_y2*ustuvannja_meas[I_Ib])>>(USTUVANNJA_VAGA - 4);
+      }
+      else
+      {
+        _y2 = output_adc[C_Ib_16].value - gnd_adc - vref_adc;
+
+        _x2 = output_adc[C_Ib_16].tick;
+        _y2 = (int)((-_y2)*ustuvannja_meas[I_Ib])>>(USTUVANNJA_VAGA);
+      }
+      
+      if (_x2 > _x1) _DX = _x2 - _x1;
+      else
+      {
+        uint64_t _DX_64 = _x2 + 0x100000000 - _x1;
+        _DX = _DX_64;
+      }
+      if (_x >= _x1) _dx = _x - _x1;
+      else
+      {
+        uint64_t _dx_64 = _x + 0x100000000 - _x1;
+        _dx = _dx_64;
+      }
+      _y = ((long long)_y1) + ((long long)(_y2 - _y1))*((long long)_dx)/((long long)_DX);
+
+      ADCs_data[I_Ib] = _y;
+      
+      ADCs_data_raw[I_Ib].tick = _x2;
+      ADCs_data_raw[I_Ib].value = _y2;
+    }
+    /*****/
+    
+    /*****/
+    //Формуємо значення Ic
+    /*****/
+    if ((command_word & (1 << I_Ic)) != 0)
+    {
+      _x1 = ADCs_data_raw[I_Ic].tick;
+      _y1 = ADCs_data_raw[I_Ic].value;
+        
+      _y2 = output_adc[C_Ic_1].value - gnd_adc - vref_adc;
+      if (abs(_y2) > 87)
+      {
+        _x2 = output_adc[C_Ic_1].tick;
+        _y2 = (int)(_y2*ustuvannja_meas[I_Ic])>>(USTUVANNJA_VAGA - 4);
+      }
+      else
+      {
+        _y2 = output_adc[C_Ic_16].value - gnd_adc - vref_adc;
+
+        _x2 = output_adc[C_Ic_16].tick;
+        _y2 = (int)((-_y2)*ustuvannja_meas[I_Ic])>>(USTUVANNJA_VAGA);
+      }
+      
+      if (_x2 > _x1) _DX = _x2 - _x1;
+      else
+      {
+        uint64_t _DX_64 = _x2 + 0x100000000 - _x1;
+        _DX = _DX_64;
+      }
+      if (_x >= _x1) _dx = _x - _x1;
+      else
+      {
+        uint64_t _dx_64 = _x + 0x100000000 - _x1;
+        _dx = _dx_64;
+      }
+      _y = ((long long)_y1) + ((long long)(_y2 - _y1))*((long long)_dx)/((long long)_DX);
+
+      ADCs_data[I_Ic] = _y;
+      
+      ADCs_data_raw[I_Ic].tick = _x2;
+      ADCs_data_raw[I_Ic].value = _y2;
+    }
+    /*****/
     
     _x = previous_tick_VAL_2;
-     /*****/
+    
+    gnd_adc  = gnd_adc2; 
+    vref_adc = vref_adc2; 
+
+    /*****/
     //Формуємо значення Ua2
     /*****/
     if ((command_word & (1 << I_Ua2)) != 0)
@@ -1371,7 +1449,10 @@ void SPI_ADC_IRQHandler(void)
     }
     /*****/
     
-     /*****/
+    gnd_adc  = gnd_adc1; 
+    vref_adc = vref_adc1; 
+
+    /*****/
     //Формуємо значення Uc2
     /*****/
     if ((command_word & (1 << I_Uc2)) != 0)
@@ -1448,15 +1529,27 @@ void SPI_ADC_IRQHandler(void)
       /*
       Необхідно опрацювати оцифровані дані для перетворення Фур'є
       */
-      Fourier(N_VAL_1);
+      Fourier(N_VAL_1, TN1_TN2_meas);
       
       //Формуємо дані для розширеної виборки
       x1 = rozshyrena_vyborka.VAL_1_time_p = penultimate_tick_VAL_1;
       x2 = rozshyrena_vyborka.VAL_1_time_c = previous_tick_VAL_1;
+
+      //Струми, які прив'язані до ТН1
+      if (TN1_TN2_meas != 1)
+      {
+        for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_I; i++) 
+        {
+          rozshyrena_vyborka.VAL_1_data_p[i] = rozshyrena_vyborka.VAL_1_data_c[i];
+          rozshyrena_vyborka.VAL_1_data_c[i] = ADCs_data[I_Ia + i];
+        }
+      }
+
+      //Напруги, які незалежні
       for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_1; i++) 
       {
-        rozshyrena_vyborka.VAL_1_data_p[i] = rozshyrena_vyborka.VAL_1_data_c[i];
-        rozshyrena_vyborka.VAL_1_data_c[i] = ADCs_data[I_Ia + i];
+        rozshyrena_vyborka.VAL_1_data_p[NUMBER_ANALOG_CANALES_VAL_I + i] = rozshyrena_vyborka.VAL_1_data_c[NUMBER_ANALOG_CANALES_VAL_I + i];
+        rozshyrena_vyborka.VAL_1_data_c[NUMBER_ANALOG_CANALES_VAL_I + i] = ADCs_data[I_Ua1 + i];
       }
 
       /*******************************************************
@@ -1489,10 +1582,30 @@ void SPI_ADC_IRQHandler(void)
           {
             break;
           }
+          
+          //Струми, які прив'язані до ТН1
+          if (TN1_TN2_meas != 1)
+          {
+            for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_I; i++)
+            {
+              int y1 = rozshyrena_vyborka.VAL_1_data_p[i], y2 = rozshyrena_vyborka.VAL_1_data_c[i];
+              long long y;
+              if (dx <= delta_x)
+              {
+                y = ((long long)(y2 - y1))*((long long)dx)/((long long)delta_x) + ((long long)y1);
+              }
+              else
+              {
+                y = 0;
+              }
+              data_for_oscylograph[VAL_1_tail_data_for_oscylograph_tmp].data[I_Ia + i] = y;
+            }
+          }
 
+          //Напруги, які незалежні
           for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_1; i++)
           {
-            int y1 = rozshyrena_vyborka.VAL_1_data_p[i], y2 = rozshyrena_vyborka.VAL_1_data_c[i];
+            int y1 = rozshyrena_vyborka.VAL_1_data_p[NUMBER_ANALOG_CANALES_VAL_I + i], y2 = rozshyrena_vyborka.VAL_1_data_c[NUMBER_ANALOG_CANALES_VAL_I + i];
             long long y;
             if (dx <= delta_x)
             {
@@ -1502,7 +1615,7 @@ void SPI_ADC_IRQHandler(void)
             {
               y = 0;
             }
-            data_for_oscylograph[VAL_1_tail_data_for_oscylograph_tmp].data[I_Ia + i] = y;
+            data_for_oscylograph[VAL_1_tail_data_for_oscylograph_tmp].data[NUMBER_ANALOG_CANALES_VAL_I + i] = y;
           }
           data_for_oscylograph[VAL_1_tail_data_for_oscylograph_tmp].VAL_1_fix = 0xff;
 
@@ -1535,15 +1648,27 @@ void SPI_ADC_IRQHandler(void)
       Необхідно опрацювати оцифровані дані для перетворення Фур'є для
       аналогових величин групи 2
       */
-      Fourier(N_VAL_2);
+      Fourier(N_VAL_2, TN1_TN2_meas);
       
       //Формуємо дані для розширеної виборки
       x1 = rozshyrena_vyborka.VAL_2_time_p = penultimate_tick_VAL_2;
       x2 = rozshyrena_vyborka.VAL_2_time_c = previous_tick_VAL_2;
+
+      //Струми, які прив'язані до ТН2
+      if (TN1_TN2_meas == 1)
+      {
+        for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_I; i++) 
+        {
+          rozshyrena_vyborka.VAL_2_data_p[i] = rozshyrena_vyborka.VAL_2_data_c[i];
+          rozshyrena_vyborka.VAL_2_data_c[i] = ADCs_data[I_Ia + i];
+        }
+      }
+
+      //Напруги, які незалежні
       for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_2; i++) 
       {
-        rozshyrena_vyborka.VAL_2_data_p[i] = rozshyrena_vyborka.VAL_1_data_c[i];
-        rozshyrena_vyborka.VAL_2_data_c[i] = ADCs_data[I_Ua2 + i];
+        rozshyrena_vyborka.VAL_2_data_p[NUMBER_ANALOG_CANALES_VAL_I + i] = rozshyrena_vyborka.VAL_2_data_c[NUMBER_ANALOG_CANALES_VAL_I + i];
+        rozshyrena_vyborka.VAL_2_data_c[NUMBER_ANALOG_CANALES_VAL_I + i] = ADCs_data[I_Ua2 + i];
       }
   
       /*******************************************************
@@ -1572,9 +1697,30 @@ void SPI_ADC_IRQHandler(void)
           
           if (dx > delta_x) break;
 
+          
+          //Струми, які прив'язані до ТН2
+          if (TN1_TN2_meas == 1)
+          {
+            for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_I; i++)
+            {
+              int y1 = rozshyrena_vyborka.VAL_2_data_p[i], y2 = rozshyrena_vyborka.VAL_2_data_c[i];
+              long long y;
+              if (dx <= delta_x)
+              {
+                y = ((long long)(y2 - y1))*((long long)dx)/((long long)delta_x) + ((long long)y1);
+              }
+              else
+              {
+                y = 0;
+              }
+              data_for_oscylograph[VAL_2_tail_data_for_oscylograph_tmp].data[I_Ia + i] = y;
+            }
+          }
+
+          //Напруги, які незалежні
           for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_2; i++)
           {
-            int y1 = rozshyrena_vyborka.VAL_2_data_p[i], y2 = rozshyrena_vyborka.VAL_2_data_c[i];
+            int y1 = rozshyrena_vyborka.VAL_2_data_p[NUMBER_ANALOG_CANALES_VAL_I + i], y2 = rozshyrena_vyborka.VAL_2_data_c[NUMBER_ANALOG_CANALES_VAL_I + i];
             long long y;
             if (dx <= delta_x)
             {
@@ -1584,7 +1730,7 @@ void SPI_ADC_IRQHandler(void)
             {
               y = 0;
             }
-            data_for_oscylograph[VAL_2_tail_data_for_oscylograph_tmp].data[I_Ua2 + i] = y;
+            data_for_oscylograph[VAL_2_tail_data_for_oscylograph_tmp].data[NUMBER_ANALOG_CANALES_VAL_I + i] = y;
           }
           data_for_oscylograph[VAL_2_tail_data_for_oscylograph_tmp].VAL_2_fix = 0xff;
 
@@ -1593,11 +1739,11 @@ void SPI_ADC_IRQHandler(void)
       }
       /******************************************************/
       
-        /*
-        Виконуємо операції по визначенню частоти і підстройці частоти для 
-        групи вимірювальних величин 2
-        */
-        fapch_val_2();
+      /*
+      Виконуємо операції по визначенню частоти і підстройці частоти для 
+      групи вимірювальних величин 2
+      */
+      fapch_val_2();
     
       status_adc_read_work &= (unsigned int)(~DATA_VAL_2_READ);
 
@@ -1903,7 +2049,7 @@ void SPI_ADC_IRQHandler(void)
     не рівна false, а тим чином блокує запуск оцифровки х переривання таймеру
     */
     
-    control_reading_ADCs();
+    control_reading_ADCs(TN1_TN2_meas);
     
     /*
     Скидаємо прапорець. який сигналізує що ми у перериванні обробки оцифрованих даних, які прийшли по SPI

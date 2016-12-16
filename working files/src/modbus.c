@@ -12522,6 +12522,8 @@ void modbus_rountines(unsigned int type_interface)
                      ( add_data == MA_SET_SERIAL_NUMBER)  
                     )
             {
+              //Запис юстуючик коефіцієнтів
+              _SET_BIT(control_i2c_taskes, TASK_START_WRITE_USTUVANNJA_EEPROM_BIT);
               if (
                   ((add_data >= MA_ADDRESS_FIRST_USTUVANNJA) && (add_data <= MA_ADDRESS_LAST_PHI_USTUVANNJA))
                  )   
@@ -12529,8 +12531,6 @@ void modbus_rountines(unsigned int type_interface)
                 //Помічаємо, що вимірювальною системою треба забрати нові коефіцієнти юстування
                 changed_ustuvannja = CHANGED_ETAP_ENDED;
               }
-              //Запис юстуючик коефіцієнтів
-              _SET_BIT(control_i2c_taskes, TASK_START_WRITE_USTUVANNJA_EEPROM_BIT);
             }
             else if (add_data == MA_DEFAULT_SETTINGS)
             {
@@ -13314,11 +13314,12 @@ void modbus_rountines(unsigned int type_interface)
                 phi_ustuvannja_sin_cos[2*k] = phi_edit_ustuvannja_sin_cos[2*k];
                 phi_ustuvannja_sin_cos[2*k + 1] = phi_edit_ustuvannja_sin_cos[2*k + 1];
               }
-              //Помічаємо, що елементи масиву юстування змінені і готові для передавання у вимірювальну систему
-              changed_ustuvannja = CHANGED_ETAP_ENDED;
               serial_number_dev = edit_serial_number_dev;
 
               _SET_BIT(control_i2c_taskes, TASK_START_WRITE_USTUVANNJA_EEPROM_BIT);
+
+              //Помічаємо, що елементи масиву юстування змінені і готові для передавання у вимірювальну систему
+              changed_ustuvannja = CHANGED_ETAP_ENDED;
             }
             if (
                 (reinit_settings      != 0) ||

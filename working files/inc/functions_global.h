@@ -252,9 +252,9 @@ void main_routines_for_i2c(void);
 void error_start_i2c(void);
 
 void find_new_ADC_canal_to_read(unsigned int, unsigned int*);
-void control_reading_ADCs(void);
+void control_reading_ADCs(unsigned int);
 void operate_test_ADCs(void);
-void Fourier(unsigned int);
+void Fourier(unsigned int, unsigned int);
 void fapch_val_1(void);
 void fapch_val_2(void);
 void delta_phi_routine(void);

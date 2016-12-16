@@ -20,12 +20,14 @@
 #define DELTA_TIME_FOR_TIMERS           1
 #define PERIOD_SIGNAL_OUTPUT_MODE_2     1000 /*мс*/
 
-#define NUMBER_ANALOG_CANALES_VAL_1     6
+#define NUMBER_ANALOG_CANALES_VAL_1     3
 #define NUMBER_ANALOG_CANALES_VAL_2     3
+#define NUMBER_ANALOG_CANALES_VAL_I     3
 
 #define NUMBER_ANALOG_CANALES           (                               \
                                          NUMBER_ANALOG_CANALES_VAL_1  + \
-                                         NUMBER_ANALOG_CANALES_VAL_2    \
+                                         NUMBER_ANALOG_CANALES_VAL_2  + \
+                                         NUMBER_ANALOG_CANALES_VAL_I    \
                                         )
 
 #define NUMBER_INPUTS_1                 5

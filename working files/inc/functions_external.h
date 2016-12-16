@@ -251,9 +251,9 @@ extern void main_routines_for_i2c(void);
 extern void error_start_i2c(void);
 
 extern void find_new_ADC_canal_to_read(unsigned int, unsigned int*);
-extern void control_reading_ADCs(void);
+extern void control_reading_ADCs(unsigned int);
 extern void operate_test_ADCs(void);
-extern void Fourier(unsigned int);
+extern void Fourier(unsigned int, unsigned int);
 extern void fapch_val_1(void);
 extern void fapch_val_2(void);
 extern void delta_phi_routine(void);

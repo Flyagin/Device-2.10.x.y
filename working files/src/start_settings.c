@@ -88,14 +88,14 @@ void global_vareiables_installation(void)
   
   rozshyrena_vyborka.VAL_1_time_p = 0;
   rozshyrena_vyborka.VAL_1_time_c = 0;
-  for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_1; i++)
+  for (unsigned int i = 0; i < (NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_1); i++)
   {
     rozshyrena_vyborka.VAL_1_data_p[i] = 0;
     rozshyrena_vyborka.VAL_1_data_c[i] = 0;
   }
   rozshyrena_vyborka.VAL_2_time_p = 0;
   rozshyrena_vyborka.VAL_2_time_c = 0;
-  for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_2; i++)
+  for (unsigned int i = 0; i < (NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_2); i++)
   {
     rozshyrena_vyborka.VAL_2_data_p[i] = 0;
     rozshyrena_vyborka.VAL_2_data_c[i] = 0;
@@ -167,13 +167,13 @@ void global_vareiables_installation(void)
   sector_2_mtz_tznp[6] = (int) (AMPLITUDA_SECTOR*/*cos*/arm_cos_f32(/*(double)*/(PI*((float)(-90 + SECTOR2_MTZ_TZNP - POPRAVKA_MTZ_TZNP))/180.0f)));
   sector_2_mtz_tznp[7] = (int) (AMPLITUDA_SECTOR*/*sin*/arm_sin_f32(/*(double)*/(PI*((float)(-90 + SECTOR2_MTZ_TZNP - POPRAVKA_MTZ_TZNP))/180.0f)));
 
-  for(unsigned int i=0; i<(NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_1); i++)
+  for(unsigned int i=0; i<(NUMBER_POINT*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_1)); i++)
   {
     data_sin_val_1[i] = 0;
     data_cos_val_1[i] = 0;
   }
   
-  for(unsigned int i=0; i<(NUMBER_POINT*NUMBER_ANALOG_CANALES_VAL_2); i++)
+  for(unsigned int i=0; i<(NUMBER_POINT*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_2)); i++)
   {
     data_sin_val_2[i] = 0;
     data_cos_val_2[i] = 0;
@@ -2111,13 +2111,13 @@ void error_reading_with_eeprom()
       changed_settings = CHANGED_ETAP_EXECUTION;
       //Заповнюємо мінімальну конфігурацію
       min_settings(&current_settings);
-      //Помічаємо, що таблиця змінилася і її треба буде з системи захистів зкопіювати у таблицю з якою працює система захистів
-      changed_settings = CHANGED_ETAP_ENDED;
       current_settings_interfaces = current_settings;
       
       //Записуємо мінімальну конфігурацію
       _SET_BIT(control_i2c_taskes, TASK_START_WRITE_SETTINGS_EEPROM_BIT);
       
+      //Помічаємо, що таблиця змінилася і її треба буде з системи захистів зкопіювати у таблицю з якою працює система захистів
+      changed_settings = CHANGED_ETAP_ENDED;
     }
     else if (information_type == 2)
     {
