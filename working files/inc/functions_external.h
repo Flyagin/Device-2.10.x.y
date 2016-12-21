@@ -233,7 +233,7 @@ extern unsigned short int  AddCRC(unsigned char, unsigned short int);
 extern void modbus_rountines(unsigned int);
 extern void Error_modbus(unsigned int, unsigned int, unsigned int, unsigned char*);
 extern unsigned int Get_data(unsigned char *, unsigned int, unsigned int);
-extern unsigned int Set_data(unsigned short int, unsigned int, unsigned int, unsigned int, unsigned int);
+extern unsigned int Set_data(unsigned short int, unsigned int, unsigned int, unsigned int, unsigned int*, unsigned int);
 extern unsigned int Get_data_file(unsigned char*, unsigned char*, unsigned int*, unsigned int);
 extern void convert_order_list_function_to_gmm(unsigned int*, unsigned short int*);
 extern unsigned int convert_order_list_inputs_to_gmm(unsigned int, unsigned int);

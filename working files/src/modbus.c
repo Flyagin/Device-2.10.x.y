@@ -6544,7 +6544,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
 /***********************************************************************************/
 //Запис даних
 /***********************************************************************************/
-inline unsigned int Set_data(unsigned short int data, unsigned int address_data, unsigned int method_setting, unsigned int to_be_continue, unsigned int type_interface)
+inline unsigned int Set_data(unsigned short int data, unsigned int address_data, unsigned int method_setting, unsigned int to_be_continue,  unsigned int  *p_try_once_more, unsigned int type_interface)
 {
   unsigned int error = 0, temp_value;
   
@@ -6753,8 +6753,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
         if (target_label->configuration != output_conf)
         {
           //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+          if(action_after_changing_of_configuration(output_conf, target_label) == 0)
+          {
+            if (p_try_once_more != NULL) *p_try_once_more = true;
+          }
+          else
+          {
             error = ERROR_SLAVE_DEVICE_BUSY;
+          }
         }
         
         if (error == 0) 
@@ -6837,8 +6843,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
         if (target_label->configuration != output_conf)
         {
           //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+          if(action_after_changing_of_configuration(output_conf, target_label) == 0)
+          {
+            if (p_try_once_more != NULL) *p_try_once_more = true;
+          }
+          else
+          {
             error = ERROR_SLAVE_DEVICE_BUSY;
+          }
         }
         
         if (error == 0) 
@@ -6887,8 +6899,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
         if (target_label->configuration != output_conf)
         {
           //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+          if(action_after_changing_of_configuration(output_conf, target_label) == 0)
+          {
+            if (p_try_once_more != NULL) *p_try_once_more = true;
+          }
+          else
+          {
             error = ERROR_SLAVE_DEVICE_BUSY;
+          }
         }
         
         if (error == 0) 
@@ -6920,8 +6938,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
         if (target_label->configuration != output_conf)
         {
           //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+          if(action_after_changing_of_configuration(output_conf, target_label) == 0)
+          {
+            if (p_try_once_more != NULL) *p_try_once_more = true;
+          }
+          else
+          {
             error = ERROR_SLAVE_DEVICE_BUSY;
+          }
         }
         
         if (error == 0) 
@@ -6961,8 +6985,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
         if (target_label->configuration != output_conf)
         {
           //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+          if(action_after_changing_of_configuration(output_conf, target_label) == 0)
+          {
+            if (p_try_once_more != NULL) *p_try_once_more = true;
+          }
+          else
+          {
             error = ERROR_SLAVE_DEVICE_BUSY;
+          }
         }
         
         if (error == 0) 
@@ -7008,8 +7038,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
         if (target_label->configuration != output_conf)
         {
           //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+          if(action_after_changing_of_configuration(output_conf, target_label) == 0)
+          {
+            if (p_try_once_more != NULL) *p_try_once_more = true;
+          }
+          else
+          {
             error = ERROR_SLAVE_DEVICE_BUSY;
+          }
         }
         
         if (error == 0) 
@@ -7125,8 +7161,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
         if (target_label->configuration != output_conf)
         {
           //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+          if(action_after_changing_of_configuration(output_conf, target_label) == 0)
+          {
+            if (p_try_once_more != NULL) *p_try_once_more = true;
+          }
+          else
+          {
             error = ERROR_SLAVE_DEVICE_BUSY;
+          }
         }
         
         if (error == 0) 
@@ -7160,8 +7202,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
         if (target_label->configuration != output_conf)
         {
           //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+          if(action_after_changing_of_configuration(output_conf, target_label) == 0)
+          {
+            if (p_try_once_more != NULL) *p_try_once_more = true;
+          }
+          else
+          {
             error = ERROR_SLAVE_DEVICE_BUSY;
+          }
         }
         
         if (error == 0) 
@@ -7239,8 +7287,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
         if (target_label->configuration != output_conf)
         {
           //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+          if(action_after_changing_of_configuration(output_conf, target_label) == 0)
+          {
+            if (p_try_once_more != NULL) *p_try_once_more = true;
+          }
+          else
+          {
             error = ERROR_SLAVE_DEVICE_BUSY;
+          }
         }
         
         if (error == 0) 
@@ -7280,8 +7334,14 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
         if (target_label->configuration != output_conf)
         {
           //Обновлюємо всі поля структури настройок. які зв'язані із конфігурацією приладу, якщо ця операція доступна (ми не знаходимося у вікні, яке не дозволяє конфігурацію)
-          if(action_after_changing_of_configuration(output_conf, target_label) != 0)
+          if(action_after_changing_of_configuration(output_conf, target_label) == 0)
+          {
+            if (p_try_once_more != NULL) *p_try_once_more = true;
+          }
+          else
+          {
             error = ERROR_SLAVE_DEVICE_BUSY;
+          }
         }
 
         break;
@@ -12063,32 +12123,40 @@ void modbus_rountines(unsigned int type_interface)
 
                 //Визначаємо ще скільки розрядів залишається у наступному слові
                 offset &= 0xf;
-            
-                //Зчитуємо спочатку ціле слово
-                unsigned char temp_value_in_char[2];
-                error = Get_data(temp_value_in_char, first_address_of_word_for_function_3_or_4, type_interface);
-                temp_value = temp_value_in_char[1];
-                temp_value |= temp_value_in_char[0] << 8;
-
-                if (error == 0)
+                
+                unsigned int try_once_more;
+                
+                do
                 {
-                  //Якщо регістр прочитався вдало, то формуємо байт, який треба записати 
-                  if (value == 0xff00) temp_value |=   (1 << offset); //Встановити
-                  else if (value == 0x0)temp_value &= ~(1 << offset); //Зняти
-                  else error = ERROR_ILLEGAL_DATA_VALUE;              //Невизначена ситуація, яка теоретично ніколи не мала настати бо попередньо ми цю умову вже провіряли і цю ситуацію відкинули як недопустиму
+                  try_once_more = false;
+            
+                  //Зчитуємо спочатку ціле слово
+                  unsigned char temp_value_in_char[2];
+                  error = Get_data(temp_value_in_char, first_address_of_word_for_function_3_or_4, type_interface);
+                  temp_value = temp_value_in_char[1];
+                  temp_value |= temp_value_in_char[0] << 8;
 
                   if (error == 0)
                   {
-                    error = Set_data(temp_value,first_address_of_word_for_function_3_or_4, SET_DATA_IMMEDITATE, false, type_interface);
+                    //Якщо регістр прочитався вдало, то формуємо байт, який треба записати 
+                    if (value == 0xff00) temp_value |=   (1 << offset); //Встановити
+                    else if (value == 0x0)temp_value &= ~(1 << offset); //Зняти
+                    else error = ERROR_ILLEGAL_DATA_VALUE;              //Невизначена ситуація, яка теоретично ніколи не мала настати бо попередньо ми цю умову вже провіряли і цю ситуацію відкинули як недопустиму
+
                     if (error == 0)
                     {
-                      //Дійсно відбулася зміна настройки
-                      _SET_BIT(active_functions, RANG_SETTINGS_CHANGED);
-                      restart_timeout_idle_new_settings = true;
-                      type_of_settings_changed |= (1 << SETTINGS_DATA_CHANGED_BIT);
+                      error = Set_data(temp_value,first_address_of_word_for_function_3_or_4, SET_DATA_IMMEDITATE, false, &try_once_more, type_interface);
+                      if (error == 0)
+                      {
+                        //Дійсно відбулася зміна настройки
+                        _SET_BIT(active_functions, RANG_SETTINGS_CHANGED);
+                        restart_timeout_idle_new_settings = true;
+                        type_of_settings_changed |= (1 << SETTINGS_DATA_CHANGED_BIT);
+                      }
                     }
                   }
                 }
+                while((error != 0) && (try_once_more == true));
               }
               else
               {
@@ -12388,7 +12456,7 @@ void modbus_rountines(unsigned int type_interface)
 
               if (error == 0)
               {
-                error = Set_data(data,add_data, SET_DATA_IMMEDITATE, false, type_interface);
+                error = Set_data(data,add_data, SET_DATA_IMMEDITATE, false, NULL, type_interface);
                 if (error != 0)
                 {
                   if (changing_ustuvannja != 0)
@@ -12667,77 +12735,85 @@ void modbus_rountines(unsigned int type_interface)
 
                 //Робимо копію таблиці настройок
                 edition_settings = current_settings_interfaces;
-
-                //Визначаємо початкову адресу читання/запису цілими словами
-                first_address_of_word_for_function_3_or_4 += (offset >> 4);
-                //Визначаємо зміщення у наступному слові
-                offset &= 0xf;
                 
-                //Зчитуємо спочатку ціле слово
-                unsigned short int temp_value;
-                unsigned char temp_value_in_char[2];
-                error = Get_data(temp_value_in_char,first_address_of_word_for_function_3_or_4, type_interface);
-                temp_value = temp_value_in_char[1];
-                temp_value |= temp_value_in_char[0] << 8;
-
-                unsigned int index_byte = 0, index_bit, index_of_bit_in_target_word;
-                unsigned char temp_data;
-                unsigned int i = 0;
-                index_of_bit_in_target_word = offset;//початковий номер біту
-                while ((i < number) && (error == 0))
+                unsigned int try_once_more;
+                
+                do
                 {
-                  //Оскільки сама інформація які значення встановлювати, а які скинути упаковано побайтно, то і нам треба рухатися по-байтно
-                  index_bit  = i &  0x7; //Виділення трьох молодших біт аналогічне виділенню остачі при діленні цього числа на 8 - тобто це визначення номеру біту з вхідного "масиву" значень
-            
-                  //Новий байт зчитуємо тільки коли номер біту є 0, бо інакше байт вже є зчитаним
-                  if (index_bit == 0)
-                  {
-                    index_byte = i >> 3  ; //Зміщення на три розряди вправо аналогічне виділенню цілої частини при діленні цього числа на 8 - тобто це визначення номеру байту з вхідного "масиву" значень
-                    temp_data = *(received_buffer + 7 + index_byte);
-                  }
-            
-                  //Виділяємо значення біту, яке треба встановити
-                  unsigned int value_of_bit;
-                  value_of_bit = ((temp_data << (7 - index_bit)) >> 7) & 0x1;
-            
-                  //У слові, яке змінюємо спочатку скидаємо у нуль біт, який ми змінюємо
-                  //Це робимо тільки для тих сигналів, які можна скидати - для всіх інших цю операцію не виконуємо!!!
-                  temp_value &= (unsigned short)(~(1 << index_of_bit_in_target_word));
+                  try_once_more = false;
 
-                  //Тепер виставляємо потрібний біт
-                  temp_value |=  (value_of_bit << index_of_bit_in_target_word);
-  
-                  //Збільшуємо номер біту
-                  i++;
-                  //Вираховуємо номер наступного біту, який треба змінити
-                  index_of_bit_in_target_word = ((offset + i) & 0xf);//Виділення чотиох молодших біт аналогічне виділенню остачі при діленні цього числа на 16 - тобто це визначення номеру біту з вихідному слові
-            
-                  /*
-                  У разі, якщо індекс наступного цілового біту є нуль або якщо ми записали останній біт,
-                  то значить треба спочатку записати модернізоване слово і якщо є ще біти для запису, то зчитати нове слово
-                  */
-                  if ((index_of_bit_in_target_word == 0) || (i == number))
+                  //Визначаємо початкову адресу читання/запису цілими словами
+                  unsigned int first_address_of_word_for_function_3_or_4_tmp = first_address_of_word_for_function_3_or_4 + (offset >> 4);
+                  //Визначаємо зміщення у наступному слові
+                  unsigned offset_tmp = offset & 0xf;
+                
+                  //Зчитуємо спочатку ціле слово
+                  unsigned short int temp_value;
+                  unsigned char temp_value_in_char[2];
+                  error = Get_data(temp_value_in_char,first_address_of_word_for_function_3_or_4_tmp, type_interface);
+                  temp_value = temp_value_in_char[1];
+                  temp_value |= temp_value_in_char[0] << 8;
+
+                  unsigned int index_byte = 0, index_bit, index_of_bit_in_target_word;
+                  unsigned char temp_data;
+                  unsigned int i = 0;
+                  index_of_bit_in_target_word = offset_tmp;//початковий номер біту
+                  while ((i < number) && (error == 0))
                   {
-                    //Записуємо відповідне нове значення
-                    error = Set_data(temp_value, first_address_of_word_for_function_3_or_4, SET_DATA_INTO_EDIT_TABLE, (i < number), type_interface); /*тут і вже збільшений на одиницю, тому перевірка здійснюється (i) з (number)*/
-                    if (error == 0)
+                    //Оскільки сама інформація які значення встановлювати, а які скинути упаковано побайтно, то і нам треба рухатися по-байтно
+                    index_bit  = i &  0x7; //Виділення трьох молодших біт аналогічне виділенню остачі при діленні цього числа на 8 - тобто це визначення номеру біту з вхідного "масиву" значень
+            
+                    //Новий байт зчитуємо тільки коли номер біту є 0, бо інакше байт вже є зчитаним
+                    if (index_bit == 0)
                     {
-                      if (reinit_settings == 0) reinit_settings = 1; //Помічаємо, що треба буде виконати запис нових настройок у EEPROM
+                      index_byte = i >> 3  ; //Зміщення на три розряди вправо аналогічне виділенню цілої частини при діленні цього числа на 8 - тобто це визначення номеру байту з вхідного "масиву" значень
+                      temp_data = *(received_buffer + 7 + index_byte);
+                    }
+            
+                    //Виділяємо значення біту, яке треба встановити
+                    unsigned int value_of_bit;
+                    value_of_bit = ((temp_data << (7 - index_bit)) >> 7) & 0x1;
+            
+                    //У слові, яке змінюємо спочатку скидаємо у нуль біт, який ми змінюємо
+                    //Це робимо тільки для тих сигналів, які можна скидати - для всіх інших цю операцію не виконуємо!!!
+                    temp_value &= (unsigned short)(~(1 << index_of_bit_in_target_word));
 
-                      //Якщо є ще біти для запису, то зчитати нове слово
-                      if (i < number)
-                      {
-                        //Збільшуємо адресу слова у якому мають проводитися зміни
-                        first_address_of_word_for_function_3_or_4++;
+                    //Тепер виставляємо потрібний біт
+                    temp_value |=  (value_of_bit << index_of_bit_in_target_word);
   
-                        //Зчитуємо ціле слово
-                        error = Get_data(temp_value_in_char,first_address_of_word_for_function_3_or_4, type_interface);
-                        temp_value = temp_value_in_char[1];
-                        temp_value |= temp_value_in_char[0] << 8;
+                    //Збільшуємо номер біту
+                    i++;
+                    //Вираховуємо номер наступного біту, який треба змінити
+                    index_of_bit_in_target_word = ((offset_tmp + i) & 0xf);//Виділення чотиох молодших біт аналогічне виділенню остачі при діленні цього числа на 16 - тобто це визначення номеру біту з вихідному слові
+            
+                    /*
+                    У разі, якщо індекс наступного цілового біту є нуль або якщо ми записали останній біт,
+                    то значить треба спочатку записати модернізоване слово і якщо є ще біти для запису, то зчитати нове слово
+                    */
+                    if ((index_of_bit_in_target_word == 0) || (i == number))
+                    {
+                      //Записуємо відповідне нове значення
+                      error = Set_data(temp_value, first_address_of_word_for_function_3_or_4_tmp, SET_DATA_INTO_EDIT_TABLE, (i < number), &try_once_more, type_interface); /*тут і вже збільшений на одиницю, тому перевірка здійснюється (i) з (number)*/
+                      if (error == 0)
+                      {
+                        if (reinit_settings == 0) reinit_settings = 1; //Помічаємо, що треба буде виконати запис нових настройок у EEPROM
+
+                        //Якщо є ще біти для запису, то зчитати нове слово
+                        if (i < number)
+                        {
+                          //Збільшуємо адресу слова у якому мають проводитися зміни
+                          first_address_of_word_for_function_3_or_4_tmp++;
+  
+                          //Зчитуємо ціле слово
+                          error = Get_data(temp_value_in_char,first_address_of_word_for_function_3_or_4_tmp, type_interface);
+                          temp_value = temp_value_in_char[1];
+                          temp_value |= temp_value_in_char[0] << 8;
+                        }
                       }
                     }
                   }
                 }
+                while ((error != 0) && (try_once_more == true));
               }
               else
               {
@@ -13128,7 +13204,7 @@ void modbus_rountines(unsigned int type_interface)
                   if (error == 0)
                   {
                     //Вводимо нові значення через тимчасову структуру
-                    error = Set_data(data, add_data, SET_DATA_INTO_EDIT_TABLE, ((i + 1) < number), type_interface); /*тут і ще не збільшений на одиницю, тому перевірка здійснюється(i + 1) з (number)*/
+                    error = Set_data(data, add_data, SET_DATA_INTO_EDIT_TABLE, ((i + 1) < number), NULL, type_interface); /*тут і ще не збільшений на одиницю, тому перевірка здійснюється(i + 1) з (number)*/
                   }
                 }
               }
@@ -13157,7 +13233,7 @@ void modbus_rountines(unsigned int type_interface)
                   }
                 }
                 //Вводимо нові значення через тимчасовий масив (хоч настравді він використовується тільки для юстування, а для всіх інших регістрів все одно який другий параметра викликаємої функції)
-                error = Set_data(data, add_data, SET_DATA_INTO_EDIT_TABLE, ((i + 1) < number), type_interface); /*тут і ще не збільшений на одиницю, тому перевірка здійснюється(i + 1) з (number)*/
+                error = Set_data(data, add_data, SET_DATA_INTO_EDIT_TABLE, ((i + 1) < number), NULL, type_interface); /*тут і ще не збільшений на одиницю, тому перевірка здійснюється(i + 1) з (number)*/
               }
             }
             else error = ERROR_SLAVE_DEVICE_BUSY;
