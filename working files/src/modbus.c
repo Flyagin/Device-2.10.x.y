@@ -6778,21 +6778,21 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
           {
             int output_value = target_label->control_mtz & 
                                (unsigned int)(~(
-                                                BIT_MA_CONTROL_MTZ1              | 
-                                                BIT_MA_CONTROL_MTZ1_N_VPERED     | 
-                                                BIT_MA_CONTROL_MTZ1_N_NAZAD      | 
-                                                BIT_MA_CONTROL_MTZ2              | 
-                                                BIT_MA_CONTROL_MTZ2_N_VPERED     |
-                                                BIT_MA_CONTROL_MTZ2_N_NAZAD      | 
-                                                BIT_MA_CONTROL_MTZ2_PRYSKORENNJA | 
-                                                BIT_MA_CONTROL_MTZ2_PRYSKORENA   | 
-                                                BIT_MA_CONTROL_MTZ3              |
-                                                BIT_MA_CONTROL_MTZ3_N_VPERED     |     
-                                                BIT_MA_CONTROL_MTZ3_N_NAZAD      |     
-                                                BIT_MA_CONTROL_MTZ3_PRYSKORENNJA |     
-                                                BIT_MA_CONTROL_MTZ3_PRYSKORENA   |     
-                                                BIT_MA_CONTROL_MTZ4              |     
-                                                BIT_MA_CONTROL_MTZ4_N_VPERED    
+                                                CTR_MTZ_1              | 
+                                                CTR_MTZ_1_VPERED       | 
+                                                CTR_MTZ_1_NAZAD        | 
+                                                CTR_MTZ_2              | 
+                                                CTR_MTZ_2_VPERED       |
+                                                CTR_MTZ_2_NAZAD        | 
+                                                CTR_MTZ_2_PRYSKORENNJA | 
+                                                CTR_MTZ_2_PRYSKORENA   | 
+                                                CTR_MTZ_3              |
+                                                CTR_MTZ_3_VPERED       |     
+                                                CTR_MTZ_3_NAZAD        |     
+                                                CTR_MTZ_3_PRYSKORENNJA |     
+                                                CTR_MTZ_3_PRYSKORENA   |     
+                                                CTR_MTZ_4              |     
+                                                CTR_MTZ_4_VPERED    
                                              ));
 
             output_value |= ((data >> (BIT_MA_CONTROL_MTZ1               - BIT_MA_CONTROL_MTZ_BASE_PART1)) & 0x1) << N_BIT_CTRMTZ_1;
@@ -6824,8 +6824,8 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
         {
           int output_value = target_label->control_mtz & 
                              (unsigned int)(~(
-                                               BIT_MA_CONTROL_MTZ4_N_NAZAD       |
-                                               BIT_MA_CONTROL_MTZ_NESPR_KIL_NAPR
+                                               CTR_MTZ_4_NAZAD       |
+                                               CTR_MTZ_NESPR_KIL_NAPR
                                            ));
 
           output_value |= ((data >> (BIT_MA_CONTROL_MTZ4_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE_PART2)) & 0x1) << N_BIT_CTRMTZ_4_NAZAD;
