@@ -579,6 +579,16 @@ unsigned int convert_order_list_inputs_to_gmm(unsigned int number, unsigned int 
         rezultat = BIT_MA_STATE_VV;
         break;
       }
+    case RANG_INPUT_PUSK_K1_AVR:
+      {
+        rezultat = BIT_MA_PUSK_K1_AVR;
+        break;
+      }
+    case RANG_INPUT_PUSK_K2_AVR:
+      {
+        rezultat = BIT_MA_PUSK_K2_AVR;
+        break;
+      }
     case RANG_INPUT_OTKL_VID_ZOVN_ZAHYSTIV:
       {
         rezultat = BIT_MA_OTKL_VID_ZOVN_ZAHYSTIV;
@@ -1942,6 +1952,8 @@ unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int num
         (data == BIT_MA_RESET_RELES           ) ||
         (data == BIT_MA_MISCEVE_DYSTANCIJNE   ) ||
         (data == BIT_MA_STATE_VV              ) || 
+        (data == BIT_MA_PUSK_K1_AVR           ) || 
+        (data == BIT_MA_PUSK_K2_AVR           ) || 
         (data == BIT_MA_OTKL_VID_ZOVN_ZAHYSTIV) ||
         (data == BIT_MA_VKL_VV                ) || 
         (data == BIT_MA_CONTROL_VKL           ) || 
@@ -2214,6 +2226,16 @@ unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int num
     case BIT_MA_STATE_VV:
       {
         _SET_BIT(set_array_rang, RANG_INPUT_STATE_VV);
+        break;
+      }
+    case BIT_MA_PUSK_K1_AVR:
+      {
+        _SET_BIT(set_array_rang, RANG_INPUT_PUSK_K1_AVR);
+        break;
+      }
+    case BIT_MA_PUSK_K2_AVR:
+      {
+        _SET_BIT(set_array_rang, RANG_INPUT_PUSK_K2_AVR);
         break;
       }
     case BIT_MA_OTKL_VID_ZOVN_ZAHYSTIV:
