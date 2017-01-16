@@ -83,7 +83,7 @@ void make_ekran_transformator()
         }
         else if ((index_of_ekran>>1) == INDEX_ML_TN)
         {
-          vaga = 100; //максимальний ваговий коефіцієнт для коефіцієнта трансформації TН
+          vaga = 1000; //максимальний ваговий коефіцієнт для коефіцієнта трансформації TН
           if (current_ekran.edition == 0) value = current_settings.TVoltage; //у змінну value поміщаємо значення коефіцієнта трансформації TН
           else value = edition_settings.TVoltage;
           first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
