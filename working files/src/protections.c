@@ -7557,7 +7557,8 @@ inline void main_protection(void)
   }
   
   //Стан виходу з урахуванням імпульсного режиму роботи сигнальних виходів
-  state_outputs_raw = ( state_outputs & ((unsigned int)(~current_settings_prt.type_of_output_modif)) ) | ((state_outputs & current_settings_prt.type_of_output_modif)*output_timer_prt_signal_output_mode_2);
+  unsigned int output_signal_modif = (current_settings_prt.type_of_output_modif & current_settings_prt.type_of_output);
+  state_outputs_raw = ( state_outputs & ((unsigned int)(~output_signal_modif)) ) | ((state_outputs & output_signal_modif)*output_timer_prt_signal_output_mode_2);
   
   //Виводимо інформацію по виходах на піни процесора (у зворотньому порядку)
   unsigned int temp_state_outputs = 0;
