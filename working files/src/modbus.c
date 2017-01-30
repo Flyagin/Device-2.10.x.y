@@ -4457,19 +4457,19 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_UA_2):
       {
-        temp_value = measurement_low[IM_UA1] >> 3;
+        temp_value = measurement_low[IM_UA2] >> 3;
 
         break;
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_UB_2):
       {
-        temp_value = measurement_low[IM_UB1] >> 3;
+        temp_value = measurement_low[IM_UB2] >> 3;
 
         break;
       }
     case (M_ADDRESS_FIRST_MEASUREMENTS_1 + OFFSET_MEASUREMENT_UC_2):
       {
-        temp_value = measurement_low[IM_UC1] >> 3;
+        temp_value = measurement_low[IM_UC2] >> 3;
 
         break;
       }
