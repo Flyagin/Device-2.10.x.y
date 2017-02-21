@@ -915,7 +915,7 @@
 //#define MA_STP_TZNP3_ANGLE                10391
 
 #define MA_STP_ZOP1                       10392
-#define MA_TO_ZOP1                        10383
+#define MA_TO_ZOP1                        10393
 
 #define MA_STP_UMIN1                      10398
 #define MA_TO_UMIN1                       10399
