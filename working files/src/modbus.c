@@ -5878,6 +5878,16 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
         temp_value = current_settings_interfaces.timeout_avr_vymk_k2[num_gr]/10;
         break;
       }
+    case MA_TO_APV_BLOCK_VID_VV:
+      {
+        temp_value = current_settings_interfaces.timeout_apv_block_vid_VV[num_gr]/10;
+        break;
+      }
+    case MA_TO_APV_CYCLE_1:
+      {
+        temp_value = current_settings_interfaces.timeout_apv_1[num_gr]/10;
+        break;
+      }
     case MA_TO_APV_CYCLE_2:
       {
         temp_value = current_settings_interfaces.timeout_apv_2[num_gr]/10;
