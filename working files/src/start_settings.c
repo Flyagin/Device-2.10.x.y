@@ -86,19 +86,26 @@ void global_vareiables_installation(void)
   for(unsigned int i=0; i<(NUMBER_ANALOG_CANALES*NUMBER_POINT*NUMBER_PERIOD_TRANSMIT); i++)
     current_data[i] = 0;
   
-  rozshyrena_vyborka.VAL_1_time_p = 0;
-  rozshyrena_vyborka.VAL_1_time_c = 0;
-  for (unsigned int i = 0; i < (NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_1); i++)
+  rozshyrena_vyborka.I_time_p = 0;
+  rozshyrena_vyborka.I_time_c = 0;
+  for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_I; i++)
   {
-    rozshyrena_vyborka.VAL_1_data_p[i] = 0;
-    rozshyrena_vyborka.VAL_1_data_c[i] = 0;
+    rozshyrena_vyborka.I_data_p[i] = 0;
+    rozshyrena_vyborka.I_data_c[i] = 0;
   }
-  rozshyrena_vyborka.VAL_2_time_p = 0;
-  rozshyrena_vyborka.VAL_2_time_c = 0;
-  for (unsigned int i = 0; i < (NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_2); i++)
+  rozshyrena_vyborka.U_1_time_p = 0;
+  rozshyrena_vyborka.U_1_time_c = 0;
+  for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_U_1; i++)
   {
-    rozshyrena_vyborka.VAL_2_data_p[i] = 0;
-    rozshyrena_vyborka.VAL_2_data_c[i] = 0;
+    rozshyrena_vyborka.U_1_data_p[i] = 0;
+    rozshyrena_vyborka.U_1_data_c[i] = 0;
+  }
+  rozshyrena_vyborka.U_2_time_p = 0;
+  rozshyrena_vyborka.U_2_time_c = 0;
+  for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_U_2; i++)
+  {
+    rozshyrena_vyborka.U_2_data_p[i] = 0;
+    rozshyrena_vyborka.U_2_data_c[i] = 0;
   }
 
   for (unsigned int i = 0; i < MAX_INDEX_DATA_FOR_OSCYLOGRAPH; i++)
@@ -167,16 +174,22 @@ void global_vareiables_installation(void)
   sector_2_mtz_tznp[6] = (int) (AMPLITUDA_SECTOR*/*cos*/arm_cos_f32(/*(double)*/(PI*((float)(-90 + SECTOR2_MTZ_TZNP - POPRAVKA_MTZ_TZNP))/180.0f)));
   sector_2_mtz_tznp[7] = (int) (AMPLITUDA_SECTOR*/*sin*/arm_sin_f32(/*(double)*/(PI*((float)(-90 + SECTOR2_MTZ_TZNP - POPRAVKA_MTZ_TZNP))/180.0f)));
 
-  for(unsigned int i=0; i<(NUMBER_POINT*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_1)); i++)
+  for(unsigned int i = 0; i < (NUMBER_POINT*NUMBER_ANALOG_CANALES_I); i++)
   {
-    data_sin_val_1[i] = 0;
-    data_cos_val_1[i] = 0;
+    data_sin_I[i] = 0;
+    data_cos_I[i] = 0;
   }
   
-  for(unsigned int i=0; i<(NUMBER_POINT*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_2)); i++)
+  for(unsigned int i = 0; i < (NUMBER_POINT*NUMBER_ANALOG_CANALES_U_1); i++)
   {
-    data_sin_val_2[i] = 0;
-    data_cos_val_2[i] = 0;
+    data_sin_U_1[i] = 0;
+    data_cos_U_1[i] = 0;
+  }
+  
+  for(unsigned int i = 0; i < (NUMBER_POINT*NUMBER_ANALOG_CANALES_U_2); i++)
+  {
+    data_sin_U_2[i] = 0;
+    data_cos_U_2[i] = 0;
   }
   
   for(unsigned int i=0; i<NUMBER_ANALOG_CANALES; i++)

@@ -409,17 +409,23 @@ typedef struct
 
 typedef struct
 {
-  unsigned int VAL_1_time_p;
-  int VAL_1_data_p[NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_1];
+  unsigned int I_time_p;
+  int I_data_p[NUMBER_ANALOG_CANALES_I];
 
-  unsigned int VAL_1_time_c;
-  int VAL_1_data_c[NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_1];
+  unsigned int I_time_c;
+  int I_data_c[NUMBER_ANALOG_CANALES_I];
 
-  unsigned int VAL_2_time_p;
-  int VAL_2_data_p[NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_2];
+  unsigned int U_1_time_p;
+  int U_1_data_p[NUMBER_ANALOG_CANALES_U_1];
 
-  unsigned int VAL_2_time_c;
-  int VAL_2_data_c[NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_2];
+  unsigned int U_1_time_c;
+  int U_1_data_c[NUMBER_ANALOG_CANALES_U_1];
+
+  unsigned int U_2_time_p;
+  int U_2_data_p[NUMBER_ANALOG_CANALES_U_2];
+
+  unsigned int U_2_time_c;
+  int U_2_data_c[NUMBER_ANALOG_CANALES_U_2];
 } ROZSHYRENA_VYBORKA;
 
 typedef struct

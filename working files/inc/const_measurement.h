@@ -206,9 +206,6 @@ Koef_1 = 74.831881801009052122160116719483 (4790/64 = 74.84375)
 #define NUMBER_GND_ADC1         5
 #define NUMBER_GND_ADC2         3
 
-#define N_VAL_1                 0
-#define N_VAL_2                 1
-
 #define I_Ia          0
 #define I_Ib          1
 #define I_Ic          2

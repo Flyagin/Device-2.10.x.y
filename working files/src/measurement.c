@@ -301,35 +301,35 @@ void operate_test_ADCs(void)
 void Fourier(unsigned int number_val_group, unsigned int TN1_TN2_meas)
 {
   unsigned int index_first_U_canal, number_canals, number_U_canals, max_number_canals;
-  int *data_sin, *data_cos;
+  int *data_sin_U, *data_cos_U;
   
   switch (number_val_group)
   {
-  case N_VAL_1:
+  case INDEX_U_1_MEAS:
     {
-      max_number_canals = NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_1;
-      number_U_canals = NUMBER_ANALOG_CANALES_VAL_1;
+      max_number_canals = NUMBER_ANALOG_CANALES_I + NUMBER_ANALOG_CANALES_U_1;
+      number_U_canals = NUMBER_ANALOG_CANALES_U_1;
 
       if (TN1_TN2_meas != 1) number_canals = max_number_canals;
       else number_canals = number_U_canals;
       
       index_first_U_canal = I_Ua1;
-      data_sin = data_sin_val_1;
-      data_cos = data_cos_val_1;
+      data_sin_U = data_sin_U_1;
+      data_cos_U = data_cos_U_1;
       
       break;
     }
-  case N_VAL_2:
+  case INDEX_U_2_MEAS:
     {
-      max_number_canals = NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_2;
-      number_U_canals = NUMBER_ANALOG_CANALES_VAL_2;
+      max_number_canals = NUMBER_ANALOG_CANALES_I + NUMBER_ANALOG_CANALES_U_2;
+      number_U_canals = NUMBER_ANALOG_CANALES_U_2;
 
       if (TN1_TN2_meas == 1) number_canals = max_number_canals;
       else number_canals = number_U_canals;
       
       index_first_U_canal = I_Ua2;
-      data_sin = data_sin_val_2;
-      data_cos = data_cos_val_2;
+      data_sin_U = data_sin_U_2;
+      data_cos_U = data_cos_U_2;
       
       break;
     }
@@ -340,16 +340,20 @@ void Fourier(unsigned int number_val_group, unsigned int TN1_TN2_meas)
     }
   }
   
-  unsigned int index_data_sin_cos_array_tmp = index_data_sin_cos_array[number_val_group];
-  unsigned int max_size_data_sin_cos = NUMBER_POINT*max_number_canals;
-  unsigned int index_sin_cos_array_tmp = index_sin_cos_array[number_val_group];
+  unsigned int index_data_sin_cos_array_tmp;
+  unsigned int max_size_data_sin_cos;
+  unsigned int index_sin_cos_array_tmp;
 
   unsigned int bank_ortogonal_tmp = bank_ortogonal;
 
   //Стркмові канали, які прив'ящані до ТН1 чи ТН2
-  for (int i = 0; i < NUMBER_ANALOG_CANALES_VAL_I; i++)
+  if (max_number_canals == number_canals)
   {
-    if (max_number_canals == number_canals)
+    index_data_sin_cos_array_tmp = index_data_sin_cos_array[INDEX_I_MEAS];
+    max_size_data_sin_cos = NUMBER_POINT*NUMBER_ANALOG_CANALES_I;
+    index_sin_cos_array_tmp = index_sin_cos_array[INDEX_I_MEAS];
+  
+    for (int i = 0; i < NUMBER_ANALOG_CANALES_I; i++)
     {
       //Зчитуємо миттєве значення яке треба опрацювати
       int temp_value_1 = ADCs_data[I_Ia + i];
@@ -357,30 +361,33 @@ void Fourier(unsigned int number_val_group, unsigned int TN1_TN2_meas)
       unsigned int i_ort_tmp = 2*(I_Ia + i);
 
       //Ортогональні SIN
-      ortogonal_irq[i_ort_tmp] -= data_sin[index_data_sin_cos_array_tmp];
+      ortogonal_irq[i_ort_tmp] -= data_sin_I[index_data_sin_cos_array_tmp];
       temp_value_2 = (int)((float)temp_value_1*sin_data_f[index_sin_cos_array_tmp]);
-      data_sin[index_data_sin_cos_array_tmp] = temp_value_2;
+      data_sin_I[index_data_sin_cos_array_tmp] = temp_value_2;
       ortogonal_irq[i_ort_tmp] += temp_value_2;
     
       //Ортогональні COS
-      ortogonal_irq[i_ort_tmp + 1] -= data_cos[index_data_sin_cos_array_tmp];
+      ortogonal_irq[i_ort_tmp + 1] -= data_cos_I[index_data_sin_cos_array_tmp];
       temp_value_2 = (int)((float)temp_value_1*cos_data_f[index_sin_cos_array_tmp]);
-      data_cos[index_data_sin_cos_array_tmp] = temp_value_2;
+      data_cos_I[index_data_sin_cos_array_tmp] = temp_value_2;
       ortogonal_irq[i_ort_tmp + 1] += temp_value_2;
       
       //Копіювання для інших систем
       ortogonal[i_ort_tmp    ][bank_ortogonal_tmp] = ortogonal_irq[i_ort_tmp    ];
       ortogonal[i_ort_tmp + 1][bank_ortogonal_tmp] = ortogonal_irq[i_ort_tmp + 1];
+      
+      if((++index_data_sin_cos_array_tmp) >= max_size_data_sin_cos) index_data_sin_cos_array_tmp = 0;
     }
-    else
-    {
-      data_sin[index_data_sin_cos_array_tmp] = 0;
-      data_cos[index_data_sin_cos_array_tmp] = 0;
-    }
-    
-    if((++index_data_sin_cos_array_tmp) >= max_size_data_sin_cos) index_data_sin_cos_array_tmp = 0;
+    index_data_sin_cos_array[INDEX_I_MEAS] = index_data_sin_cos_array_tmp;
+
+    if((++index_sin_cos_array_tmp) >= NUMBER_POINT) index_sin_cos_array_tmp = 0;
+    index_sin_cos_array[INDEX_I_MEAS] = index_sin_cos_array_tmp;
   }
   
+  index_data_sin_cos_array_tmp = index_data_sin_cos_array[number_val_group];
+  max_size_data_sin_cos = NUMBER_POINT*number_U_canals;
+  index_sin_cos_array_tmp = index_sin_cos_array[number_val_group];
+
   //напругові канали, які є незалежними
   for (unsigned int i = 0; i < number_U_canals; i++)
   {
@@ -390,15 +397,15 @@ void Fourier(unsigned int number_val_group, unsigned int TN1_TN2_meas)
     unsigned int i_ort_tmp = 2*(index_first_U_canal + i);
 
     //Ортогональні SIN
-    ortogonal_irq[i_ort_tmp] -= data_sin[index_data_sin_cos_array_tmp];
+    ortogonal_irq[i_ort_tmp] -= data_sin_U[index_data_sin_cos_array_tmp];
     temp_value_2 = (int)((float)temp_value_1*sin_data_f[index_sin_cos_array_tmp]);
-    data_sin[index_data_sin_cos_array_tmp] = temp_value_2;
+    data_sin_U[index_data_sin_cos_array_tmp] = temp_value_2;
     ortogonal_irq[i_ort_tmp] += temp_value_2;
     
     //Ортогональні COS
-    ortogonal_irq[i_ort_tmp + 1] -= data_cos[index_data_sin_cos_array_tmp];
+    ortogonal_irq[i_ort_tmp + 1] -= data_cos_U[index_data_sin_cos_array_tmp];
     temp_value_2 = (int)((float)temp_value_1*cos_data_f[index_sin_cos_array_tmp]);
-    data_cos[index_data_sin_cos_array_tmp] = temp_value_2;
+    data_cos_U[index_data_sin_cos_array_tmp] = temp_value_2;
     ortogonal_irq[i_ort_tmp + 1] += temp_value_2;
   
     //Копіювання для інших систем
@@ -457,7 +464,7 @@ void fapch_val_1()
   {
     fix_perechid_cherez_nul[index_1] = 0;
     
-    fix_perechid_cherez_nul_TN1_TN2 |= (1 << N_VAL_1);
+    fix_perechid_cherez_nul_TN1_TN2 |= (1 << INDEX_U_1_MEAS);
     
     unsigned int delta_tick;
     long long tick_tmp;
@@ -687,7 +694,7 @@ void fapch_val_2()
   {
     fix_perechid_cherez_nul[index_2] = 0;
 
-    fix_perechid_cherez_nul_TN1_TN2 |= (1 << N_VAL_2);
+    fix_perechid_cherez_nul_TN1_TN2 |= (1 << INDEX_U_2_MEAS);
 
     unsigned int delta_tick;
     long long tick_tmp;
@@ -963,47 +970,17 @@ void SPI_ADC_IRQHandler(void)
     {
       TN1_TN2_meas_global = TN1_TN2_meas;
     
-      int *data_sin, *data_cos;
-      if (TN1_TN2_meas == 1)
-      {
-        data_sin = data_sin_val_2;
-        data_cos = data_cos_val_2;
-      }
-      else
-      {
-        data_sin = data_sin_val_1;
-        data_cos = data_cos_val_1;
-      }
-      
-      for (unsigned int i = 0; i < NUMBER_POINT; i++)
-      {
-        for (unsigned int j = 0; j < NUMBER_ANALOG_CANALES_VAL_I; j++)
-        {
-          data_sin[i*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_1) + j] = 0;
-          data_cos[i*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_1) + j] = 0;
-        }
-      }
-      
-      for (int i = 0; i < NUMBER_ANALOG_CANALES_VAL_I; i++) 
-      {
-        ortogonal_irq[2*(I_Ia + i)    ] = 0;
-        ortogonal_irq[2*(I_Ia + i) + 1] = 0;
-        
-        if (TN1_TN2_meas == 1)
-        {
-          rozshyrena_vyborka.VAL_2_data_c[I_Ia + i] = rozshyrena_vyborka.VAL_1_data_c[I_Ia + 1];
-          rozshyrena_vyborka.VAL_1_data_p[I_Ia + i] = rozshyrena_vyborka.VAL_1_data_c[I_Ia + i] = 0;
-
-          ADCs_data_raw[I_Ia + i].tick = penultimate_tick_VAL_2;
-        }
-        else
-        {
-          rozshyrena_vyborka.VAL_1_data_c[I_Ia + i] = rozshyrena_vyborka.VAL_2_data_c[I_Ia + i];
-          rozshyrena_vyborka.VAL_2_data_p[I_Ia + i] = rozshyrena_vyborka.VAL_2_data_c[I_Ia + i] = 0;
-
-          ADCs_data_raw[I_Ia + i].tick = penultimate_tick_VAL_1;
-        }
-      }
+//      for (int i = 0; i < NUMBER_ANALOG_CANALES_VAL_I; i++) 
+//      {
+//        if (TN1_TN2_meas == 1)
+//        {
+//          ADCs_data_raw[I_Ia + i].tick = penultimate_tick_VAL_2;
+//        }
+//        else
+//        {
+//          ADCs_data_raw[I_Ia + i].tick = penultimate_tick_VAL_1;
+//        }
+//      }
     }
     
     uint32_t _x1, _x2, _DX, _dx;
@@ -1549,27 +1526,29 @@ void SPI_ADC_IRQHandler(void)
       /*
       Необхідно опрацювати оцифровані дані для перетворення Фур'є
       */
-      Fourier(N_VAL_1, TN1_TN2_meas);
+      Fourier(INDEX_U_1_MEAS, TN1_TN2_meas);
       
       //Формуємо дані для розширеної виборки
-      x1 = rozshyrena_vyborka.VAL_1_time_p = penultimate_tick_VAL_1;
-      x2 = rozshyrena_vyborka.VAL_1_time_c = previous_tick_VAL_1;
+
+      //Напруги, які незалежні
+      x1 = rozshyrena_vyborka.U_1_time_p = penultimate_tick_VAL_1;
+      x2 = rozshyrena_vyborka.U_1_time_c = previous_tick_VAL_1;
+      for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_U_1; i++) 
+      {
+        rozshyrena_vyborka.U_1_data_p[i] = rozshyrena_vyborka.U_1_data_c[i];
+        rozshyrena_vyborka.U_1_data_c[i] = ADCs_data[I_Ua1 + i];
+      }
 
       //Струми, які прив'язані до ТН1
       if (TN1_TN2_meas != 1)
       {
-        for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_I; i++) 
+        rozshyrena_vyborka.I_time_p = x1;
+        rozshyrena_vyborka.I_time_c = x2;
+        for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_I; i++) 
         {
-          rozshyrena_vyborka.VAL_1_data_p[i] = rozshyrena_vyborka.VAL_1_data_c[i];
-          rozshyrena_vyborka.VAL_1_data_c[i] = ADCs_data[I_Ia + i];
+          rozshyrena_vyborka.I_data_p[i] = rozshyrena_vyborka.I_data_c[i];
+          rozshyrena_vyborka.I_data_c[i] = ADCs_data[I_Ia + i];
         }
-      }
-
-      //Напруги, які незалежні
-      for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_1; i++) 
-      {
-        rozshyrena_vyborka.VAL_1_data_p[NUMBER_ANALOG_CANALES_VAL_I + i] = rozshyrena_vyborka.VAL_1_data_c[NUMBER_ANALOG_CANALES_VAL_I + i];
-        rozshyrena_vyborka.VAL_1_data_c[NUMBER_ANALOG_CANALES_VAL_I + i] = ADCs_data[I_Ua1 + i];
       }
 
       /*******************************************************
@@ -1606,9 +1585,9 @@ void SPI_ADC_IRQHandler(void)
           //Струми, які прив'язані до ТН1
           if (TN1_TN2_meas != 1)
           {
-            for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_I; i++)
+            for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_I; i++)
             {
-              int y1 = rozshyrena_vyborka.VAL_1_data_p[i], y2 = rozshyrena_vyborka.VAL_1_data_c[i];
+              int y1 = rozshyrena_vyborka.I_data_p[i], y2 = rozshyrena_vyborka.I_data_c[i];
               long long y;
               if (dx <= delta_x)
               {
@@ -1623,9 +1602,9 @@ void SPI_ADC_IRQHandler(void)
           }
 
           //Напруги, які незалежні
-          for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_1; i++)
+          for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_U_1; i++)
           {
-            int y1 = rozshyrena_vyborka.VAL_1_data_p[NUMBER_ANALOG_CANALES_VAL_I + i], y2 = rozshyrena_vyborka.VAL_1_data_c[NUMBER_ANALOG_CANALES_VAL_I + i];
+            int y1 = rozshyrena_vyborka.U_1_data_p[i], y2 = rozshyrena_vyborka.U_1_data_c[i];
             long long y;
             if (dx <= delta_x)
             {
@@ -1635,7 +1614,7 @@ void SPI_ADC_IRQHandler(void)
             {
               y = 0;
             }
-            data_for_oscylograph[VAL_1_tail_data_for_oscylograph_tmp].data[NUMBER_ANALOG_CANALES_VAL_I + i] = y;
+            data_for_oscylograph[VAL_1_tail_data_for_oscylograph_tmp].data[I_Ua1 + i] = y;
           }
           data_for_oscylograph[VAL_1_tail_data_for_oscylograph_tmp].VAL_1_fix = 0xff;
 
@@ -1668,29 +1647,31 @@ void SPI_ADC_IRQHandler(void)
       Необхідно опрацювати оцифровані дані для перетворення Фур'є для
       аналогових величин групи 2
       */
-      Fourier(N_VAL_2, TN1_TN2_meas);
+      Fourier(INDEX_U_2_MEAS, TN1_TN2_meas);
       
       //Формуємо дані для розширеної виборки
-      x1 = rozshyrena_vyborka.VAL_2_time_p = penultimate_tick_VAL_2;
-      x2 = rozshyrena_vyborka.VAL_2_time_c = previous_tick_VAL_2;
+
+      //Напруги, які незалежні
+      x1 = rozshyrena_vyborka.U_2_time_p = penultimate_tick_VAL_2;
+      x2 = rozshyrena_vyborka.U_2_time_c = previous_tick_VAL_2;
+      for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_U_2; i++) 
+      {
+        rozshyrena_vyborka.U_2_data_p[i] = rozshyrena_vyborka.U_2_data_c[i];
+        rozshyrena_vyborka.U_2_data_c[i] = ADCs_data[I_Ua2 + i];
+      }
 
       //Струми, які прив'язані до ТН2
       if (TN1_TN2_meas == 1)
       {
-        for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_I; i++) 
+        rozshyrena_vyborka.I_time_p = x1;
+        rozshyrena_vyborka.I_time_c = x2;
+        for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_I; i++) 
         {
-          rozshyrena_vyborka.VAL_2_data_p[i] = rozshyrena_vyborka.VAL_2_data_c[i];
-          rozshyrena_vyborka.VAL_2_data_c[i] = ADCs_data[I_Ia + i];
+          rozshyrena_vyborka.I_data_p[i] = rozshyrena_vyborka.I_data_c[i];
+          rozshyrena_vyborka.I_data_c[i] = ADCs_data[I_Ia + i];
         }
       }
 
-      //Напруги, які незалежні
-      for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_2; i++) 
-      {
-        rozshyrena_vyborka.VAL_2_data_p[NUMBER_ANALOG_CANALES_VAL_I + i] = rozshyrena_vyborka.VAL_2_data_c[NUMBER_ANALOG_CANALES_VAL_I + i];
-        rozshyrena_vyborka.VAL_2_data_c[NUMBER_ANALOG_CANALES_VAL_I + i] = ADCs_data[I_Ua2 + i];
-      }
-  
       /*******************************************************
       Формування апроксимованих значень для каналів групи 2
       *******************************************************/
@@ -1721,9 +1702,9 @@ void SPI_ADC_IRQHandler(void)
           //Струми, які прив'язані до ТН2
           if (TN1_TN2_meas == 1)
           {
-            for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_I; i++)
+            for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_I; i++)
             {
-              int y1 = rozshyrena_vyborka.VAL_2_data_p[i], y2 = rozshyrena_vyborka.VAL_2_data_c[i];
+              int y1 = rozshyrena_vyborka.I_data_p[i], y2 = rozshyrena_vyborka.I_data_c[i];
               long long y;
               if (dx <= delta_x)
               {
@@ -1738,9 +1719,9 @@ void SPI_ADC_IRQHandler(void)
           }
 
           //Напруги, які незалежні
-          for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_VAL_2; i++)
+          for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_U_2; i++)
           {
-            int y1 = rozshyrena_vyborka.VAL_2_data_p[NUMBER_ANALOG_CANALES_VAL_I + i], y2 = rozshyrena_vyborka.VAL_2_data_c[NUMBER_ANALOG_CANALES_VAL_I + i];
+            int y1 = rozshyrena_vyborka.U_2_data_p[i], y2 = rozshyrena_vyborka.U_2_data_c[i];
             long long y;
             if (dx <= delta_x)
             {
@@ -1750,7 +1731,7 @@ void SPI_ADC_IRQHandler(void)
             {
               y = 0;
             }
-            data_for_oscylograph[VAL_2_tail_data_for_oscylograph_tmp].data[NUMBER_ANALOG_CANALES_VAL_I + i] = y;
+            data_for_oscylograph[VAL_2_tail_data_for_oscylograph_tmp].data[I_Ua2 + i] = y;
           }
           data_for_oscylograph[VAL_2_tail_data_for_oscylograph_tmp].VAL_2_fix = 0xff;
 
@@ -1773,7 +1754,7 @@ void SPI_ADC_IRQHandler(void)
       control_word_of_watchdog |= WATCHDOG_MEASURE_STOP_VAL_2;
       /**************************************************/
     }
-    if ((fix_perechid_cherez_nul_TN1_TN2 & ((1 << N_VAL_1) | (1 << N_VAL_2))) == ((1 << N_VAL_1) | (1 << N_VAL_2))) 
+    if ((fix_perechid_cherez_nul_TN1_TN2 & ((1 << INDEX_U_1_MEAS) | (1 << INDEX_U_2_MEAS))) == ((1 << INDEX_U_1_MEAS) | (1 << INDEX_U_2_MEAS))) 
     {
       if (semaphore_delta_phi == 0)
       {
@@ -2659,7 +2640,7 @@ void delta_phi_routine(void)
   
     semaphore_delta_phi = 0;
   
-    if ((fix_perechid_cherez_nul_TN1_TN2_work_tmp & ((1 << N_VAL_1) | (1 << N_VAL_2))) == ((1 << N_VAL_1) | (1 << N_VAL_2))) 
+    if ((fix_perechid_cherez_nul_TN1_TN2_work_tmp & ((1 << INDEX_U_1_MEAS) | (1 << INDEX_U_2_MEAS))) == ((1 << INDEX_U_1_MEAS) | (1 << INDEX_U_2_MEAS))) 
     {
       if (
           (frequency_val_1_work_tmp > 0) &&

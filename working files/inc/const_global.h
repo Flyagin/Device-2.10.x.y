@@ -20,14 +20,23 @@
 #define DELTA_TIME_FOR_TIMERS           1
 #define PERIOD_SIGNAL_OUTPUT_MODE_2     1000 /*мс*/
 
-#define NUMBER_ANALOG_CANALES_VAL_1     3
-#define NUMBER_ANALOG_CANALES_VAL_2     3
-#define NUMBER_ANALOG_CANALES_VAL_I     3
+#define NUMBER_ANALOG_CANALES_U_1       3
+#define NUMBER_ANALOG_CANALES_U_2       3
+#define NUMBER_ANALOG_CANALES_I         3
+
+enum _groups_meas
+{
+  INDEX_I_MEAS = 0,
+  INDEX_U_1_MEAS,
+  INDEX_U_2_MEAS,
+  
+  MAX_GROUPS_MEAS
+};
 
 #define NUMBER_ANALOG_CANALES           (                               \
-                                         NUMBER_ANALOG_CANALES_VAL_1  + \
-                                         NUMBER_ANALOG_CANALES_VAL_2  + \
-                                         NUMBER_ANALOG_CANALES_VAL_I    \
+                                         NUMBER_ANALOG_CANALES_I    +   \
+                                         NUMBER_ANALOG_CANALES_U_1  +   \
+                                         NUMBER_ANALOG_CANALES_U_2      \
                                         )
 
 #define NUMBER_INPUTS_1                 5

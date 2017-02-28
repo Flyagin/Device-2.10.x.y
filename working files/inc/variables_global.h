@@ -202,12 +202,14 @@ const float cos_data_f[NUMBER_POINT] = {
                                          0.980785280403230000000000000000f
 };
 
-unsigned int index_sin_cos_array[NUMBER_ADCs] = {0, 0};
-unsigned int index_data_sin_cos_array[NUMBER_ADCs] = {0, 0};
-int data_sin_val_1[NUMBER_POINT*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_1)];
-int data_cos_val_1[NUMBER_POINT*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_1)];
-int data_sin_val_2[NUMBER_POINT*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_2)];
-int data_cos_val_2[NUMBER_POINT*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_2)];
+unsigned int index_sin_cos_array[MAX_GROUPS_MEAS] = {0, 0, 0};
+unsigned int index_data_sin_cos_array[MAX_GROUPS_MEAS] = {0, 0, 0};
+int data_sin_I[NUMBER_POINT*NUMBER_ANALOG_CANALES_I];
+int data_cos_I[NUMBER_POINT*NUMBER_ANALOG_CANALES_I];
+int data_sin_U_1[NUMBER_POINT*NUMBER_ANALOG_CANALES_U_1];
+int data_cos_U_1[NUMBER_POINT*NUMBER_ANALOG_CANALES_U_1];
+int data_sin_U_2[NUMBER_POINT*NUMBER_ANALOG_CANALES_U_2];
+int data_cos_U_2[NUMBER_POINT*NUMBER_ANALOG_CANALES_U_2];
 int ortogonal_irq[2*NUMBER_ANALOG_CANALES];
 int ortogonal[2*NUMBER_ANALOG_CANALES][2];
 unsigned int bank_ortogonal = 0;
