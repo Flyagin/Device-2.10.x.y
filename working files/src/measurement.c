@@ -963,6 +963,27 @@ void SPI_ADC_IRQHandler(void)
     {
       TN1_TN2_meas_global = TN1_TN2_meas;
     
+      int *data_sin, *data_cos;
+      if (TN1_TN2_meas == 1)
+      {
+        data_sin = data_sin_val_2;
+        data_cos = data_cos_val_2;
+      }
+      else
+      {
+        data_sin = data_sin_val_1;
+        data_cos = data_cos_val_1;
+      }
+      
+      for (unsigned int i = 0; i < NUMBER_POINT; i++)
+      {
+        for (unsigned int j = 0; j < NUMBER_ANALOG_CANALES_VAL_I; j++)
+        {
+          data_sin[i*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_1) + j] = 0;
+          data_cos[i*(NUMBER_ANALOG_CANALES_VAL_I + NUMBER_ANALOG_CANALES_VAL_1) + j] = 0;
+        }
+      }
+      
       for (int i = 0; i < NUMBER_ANALOG_CANALES_VAL_I; i++) 
       {
         ortogonal_irq[2*(I_Ia + i)    ] = 0;
@@ -982,7 +1003,6 @@ void SPI_ADC_IRQHandler(void)
 
           ADCs_data_raw[I_Ia + i].tick = penultimate_tick_VAL_1;
         }
-            
       }
     }
     
