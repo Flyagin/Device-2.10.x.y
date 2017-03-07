@@ -202,7 +202,7 @@ const float cos_data_f[NUMBER_POINT] = {
                                          0.980785280403230000000000000000f
 };
 
-unsigned int index_sin_cos_array[MAX_GROUPS_MEAS] = {0, 0, 0};
+unsigned int index_sin_cos_array[MAX_GROUPS_MEAS - INDEX_U_1_MEAS] = {0, 0};
 unsigned int index_data_sin_cos_array[MAX_GROUPS_MEAS] = {0, 0, 0};
 int data_sin_I[NUMBER_POINT*NUMBER_ANALOG_CANALES_I];
 int data_cos_I[NUMBER_POINT*NUMBER_ANALOG_CANALES_I];

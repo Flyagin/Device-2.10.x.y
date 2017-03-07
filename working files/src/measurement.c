@@ -342,7 +342,7 @@ void Fourier(unsigned int number_val_group, unsigned int TN1_TN2_meas)
   
   unsigned int index_data_sin_cos_array_tmp;
   unsigned int max_size_data_sin_cos;
-  unsigned int index_sin_cos_array_tmp;
+  unsigned int index_sin_cos_array_tmp = index_sin_cos_array[number_val_group - INDEX_U_1_MEAS];
 
   unsigned int bank_ortogonal_tmp = bank_ortogonal;
 
@@ -351,7 +351,6 @@ void Fourier(unsigned int number_val_group, unsigned int TN1_TN2_meas)
   {
     index_data_sin_cos_array_tmp = index_data_sin_cos_array[INDEX_I_MEAS];
     max_size_data_sin_cos = NUMBER_POINT*NUMBER_ANALOG_CANALES_I;
-    index_sin_cos_array_tmp = index_sin_cos_array[INDEX_I_MEAS];
   
     for (int i = 0; i < NUMBER_ANALOG_CANALES_I; i++)
     {
@@ -379,14 +378,10 @@ void Fourier(unsigned int number_val_group, unsigned int TN1_TN2_meas)
       if((++index_data_sin_cos_array_tmp) >= max_size_data_sin_cos) index_data_sin_cos_array_tmp = 0;
     }
     index_data_sin_cos_array[INDEX_I_MEAS] = index_data_sin_cos_array_tmp;
-
-    if((++index_sin_cos_array_tmp) >= NUMBER_POINT) index_sin_cos_array_tmp = 0;
-    index_sin_cos_array[INDEX_I_MEAS] = index_sin_cos_array_tmp;
   }
   
   index_data_sin_cos_array_tmp = index_data_sin_cos_array[number_val_group];
   max_size_data_sin_cos = NUMBER_POINT*number_U_canals;
-  index_sin_cos_array_tmp = index_sin_cos_array[number_val_group];
 
   //напругові канали, які є незалежними
   for (unsigned int i = 0; i < number_U_canals; i++)
@@ -417,7 +412,7 @@ void Fourier(unsigned int number_val_group, unsigned int TN1_TN2_meas)
   index_data_sin_cos_array[number_val_group] = index_data_sin_cos_array_tmp;
   
   if((++index_sin_cos_array_tmp) >= NUMBER_POINT) index_sin_cos_array_tmp = 0;
-  index_sin_cos_array[number_val_group] = index_sin_cos_array_tmp;
+  index_sin_cos_array[number_val_group - INDEX_U_1_MEAS] = index_sin_cos_array_tmp;
 }
 /*************************************************************************/
 
@@ -970,7 +965,7 @@ void SPI_ADC_IRQHandler(void)
     {
       TN1_TN2_meas_global = TN1_TN2_meas;
     
-//      for (int i = 0; i < NUMBER_ANALOG_CANALES_VAL_I; i++) 
+//      for (int i = 0; i < NUMBER_ANALOG_CANALES_I; i++) 
 //      {
 //        if (TN1_TN2_meas == 1)
 //        {
@@ -2355,8 +2350,8 @@ void calc_angle(void)
                 angle_int = 3600 - angle_int;
               }
     
-              if (angle_int >= 3600) angle_int -= 3600;
-              else if (angle_int < 0) angle_int += 3600;
+              if ((angle_int <= -3600) || (angle_int >= 3600)) angle_int %= 3600;
+              while (angle_int < 0) angle_int += 3600;
       
               phi_angle[index_tmp] = angle_int;
       
@@ -2468,6 +2463,7 @@ void calc_angle(void)
     {
       frequency_locking_phi += (phi_angle_fapch2 - phi_angle_fapch1 - delta_phi_synchro_tmp);
       if ((frequency_locking_phi <= -3600) || (frequency_locking_phi >= 3600)) frequency_locking_phi %= 3600;
+      while (frequency_locking_phi < 0) frequency_locking_phi += 3600;
 
       float radian_frequency_locking_phi = PI*((float)frequency_locking_phi)/1800.0f; /*кут у нас розраховується з тчністю до десятих, тому і ми ділимо на 1800, а не на 180*/
       frequency_locking_cos[frequency_locking_bank_tmp] = arm_cos_f32(radian_frequency_locking_phi);
@@ -2687,6 +2683,7 @@ void delta_phi_routine(void)
           //Можна розраховувати зсув фаз у градусах (з точністю до десятих градума - тому беремо число 3600, а не 360)
           int delta_phi_tmp = (int)((3600.0f*((float)delta_phi_tick)*frequency_val_2_work_tmp)/((float)MEASUREMENT_TIM_FREQUENCY));
           if ((delta_phi_tmp <= -3600) || ( delta_phi_tmp >= 3600))  delta_phi_tmp %= 3600;
+          while (delta_phi_tmp < 0) delta_phi_tmp += 3600;
           delta_phi[bank_delta_phi] = delta_phi_tmp;
           
           if (delta_phi[bank_delta_phi] < delta_phi_min) delta_phi_min = delta_phi[bank_delta_phi];
@@ -2732,6 +2729,7 @@ void current_delta_phi(void)
     }
     int delta_phi_synchro_tmp = delta_phi[bank_delta_phi_tmp] + (int)((float)speed_delta_phi[bank_delta_phi_tmp]*((float)deta_tick)/((float)MEASUREMENT_TIM_FREQUENCY));
     if ((delta_phi_synchro_tmp <= -3600) || ( delta_phi_synchro_tmp >= 3600))  delta_phi_synchro_tmp %= 3600;
+    while (delta_phi_synchro_tmp < 0) delta_phi_synchro_tmp += 3600;
     delta_phi_synchro = delta_phi_synchro_tmp;
   }
   else delta_phi_synchro = UNDEF_PHI;

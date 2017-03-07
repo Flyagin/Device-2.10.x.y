@@ -667,6 +667,7 @@ inline void calc_measurement(unsigned int number_group_stp)
   /***
   Довертаємо кути і копіюємо ортогональні для низькопріоритетних задач
   ***/
+  unsigned int frequency_locking_bank_tmp = frequency_locking_bank & 0x1;
   for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES; i++)
   {
     float sin_alpha = ((float)ortogonal_local[2*i    ])/((float)((1 << (VAGA_NUMBER_POINT - 1))));
@@ -685,7 +686,6 @@ inline void calc_measurement(unsigned int number_group_stp)
     }
     else
     {
-       unsigned int frequency_locking_bank_tmp = frequency_locking_bank & 0x1;
        sin_beta = phi_ustuvannja_sin_cos_meas[2*i    ]*frequency_locking_cos[frequency_locking_bank_tmp] + phi_ustuvannja_sin_cos_meas[2*i + 1]*frequency_locking_sin[frequency_locking_bank_tmp];
        cos_beta = phi_ustuvannja_sin_cos_meas[2*i + 1]*frequency_locking_cos[frequency_locking_bank_tmp] - phi_ustuvannja_sin_cos_meas[2*i    ]*frequency_locking_sin[frequency_locking_bank_tmp];
     }
