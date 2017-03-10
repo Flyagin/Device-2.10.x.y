@@ -3445,8 +3445,8 @@ void ctrl_phase_handler(volatile unsigned int *p_active_functions, unsigned int 
     int Ub2 = measurement[IM_UB2];
     int Uc1 = measurement[IM_UC1];
     int Uc2 = measurement[IM_UC2];
-    state_delta_U = ((unsigned int)(abs(Ua1 - Ua2)) >= setpoint_U) && 
-                    ((unsigned int)(abs(Ub1 - Ub2)) >= setpoint_U) && 
+    state_delta_U = ((unsigned int)(abs(Ua1 - Ua2)) >= setpoint_U) || 
+                    ((unsigned int)(abs(Ub1 - Ub2)) >= setpoint_U) || 
                     ((unsigned int)(abs(Uc1 - Uc2)) >= setpoint_U);
     
     //Різниця фаз
@@ -3459,8 +3459,8 @@ void ctrl_phase_handler(volatile unsigned int *p_active_functions, unsigned int 
     int phi_Ub2 = phi_angle_high[bank_phi_angle_high_tmp][FULL_ORT_Ub2];
     int phi_Uc1 = phi_angle_high[bank_phi_angle_high_tmp][FULL_ORT_Uc1];
     int phi_Uc2 = phi_angle_high[bank_phi_angle_high_tmp][FULL_ORT_Uc2];
-    state_delta_phi = ((phi_Ua1 >= 0) && (phi_Ua2 >= 0) && ((unsigned int)(abs(phi_Ua1 - phi_Ua2)) >= setpoint_phi)) && 
-                      ((phi_Ub1 >= 0) && (phi_Ub2 >= 0) && ((unsigned int)(abs(phi_Ub1 - phi_Ub2)) >= setpoint_phi)) && 
+    state_delta_phi = ((phi_Ua1 >= 0) && (phi_Ua2 >= 0) && ((unsigned int)(abs(phi_Ua1 - phi_Ua2)) >= setpoint_phi)) ||
+                      ((phi_Ub1 >= 0) && (phi_Ub2 >= 0) && ((unsigned int)(abs(phi_Ub1 - phi_Ub2)) >= setpoint_phi)) || 
                       ((phi_Uc1 >= 0) && (phi_Uc2 >= 0) && ((unsigned int)(abs(phi_Uc1 - phi_Uc2)) >= setpoint_phi));
 
     //Різниця частот
