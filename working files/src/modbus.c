@@ -5930,7 +5930,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case MA_STP_CTRL_PHASE_PHI:
       {
-        temp_value = current_settings_interfaces.setpoint_ctrl_phase_phi[num_gr]/100;
+        temp_value = current_settings_interfaces.setpoint_ctrl_phase_phi[num_gr];
         break;
       }
     case MA_STP_CTRL_PHASE_F:
@@ -8942,7 +8942,7 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
       }
     case MA_STP_CTRL_PHASE_PHI:
       {
-        temp_value = data*100;
+        temp_value = data;
     
         if ((temp_value >= SETPOINT_CTRL_PHASE_PHI_MIN) && (temp_value <= SETPOINT_CTRL_PHASE_PHI_MAX))
           target_label->setpoint_ctrl_phase_phi[num_gr] = temp_value;
