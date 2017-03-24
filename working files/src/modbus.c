@@ -5940,32 +5940,32 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case MA_TO_CTRL_PHASE_U:
       {
-        temp_value = current_settings_interfaces.timeout_ctrl_phase_U[num_gr]/100;
+        temp_value = current_settings_interfaces.timeout_ctrl_phase_U[num_gr]/10;
         break;
       }
     case MA_TO_CTRL_PHASE_U_D:
       {
-        temp_value = current_settings_interfaces.timeout_ctrl_phase_U_d[num_gr]/100;
+        temp_value = current_settings_interfaces.timeout_ctrl_phase_U_d[num_gr]/10;
         break;
       }
     case MA_TO_CTRL_PHASE_PHI:
       {
-        temp_value = current_settings_interfaces.timeout_ctrl_phase_phi[num_gr]/100;
+        temp_value = current_settings_interfaces.timeout_ctrl_phase_phi[num_gr]/10;
         break;
       }
     case MA_TO_CTRL_PHASE_PHI_D:
       {
-        temp_value = current_settings_interfaces.timeout_ctrl_phase_phi_d[num_gr]/100;
+        temp_value = current_settings_interfaces.timeout_ctrl_phase_phi_d[num_gr]/10;
         break;
       }
     case MA_TO_CTRL_PHASE_F:
       {
-        temp_value = current_settings_interfaces.timeout_ctrl_phase_f[num_gr]/100;
+        temp_value = current_settings_interfaces.timeout_ctrl_phase_f[num_gr]/10;
         break;
       }
     case MA_TO_CTRL_PHASE_F_D:
       {
-        temp_value = current_settings_interfaces.timeout_ctrl_phase_f_d[num_gr]/100;
+        temp_value = current_settings_interfaces.timeout_ctrl_phase_f_d[num_gr]/10;
         break;
       }
     default:
