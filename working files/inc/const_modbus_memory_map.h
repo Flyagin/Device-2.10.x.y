@@ -398,7 +398,7 @@
 /* Загальні активні функції */
 /*****************************************************/
 #define M_ADDRESS_FIRST_GENERAL_AF            289
-#define BIT_MA_GENERAL_AF_BASE                  50512
+#define BIT_MA_GENERAL_AF_BASE                  50528
 
 #define M_ADDRESS_LAST_GENERAL_AF             321
 #define BIT_MA_GENERAL_AF_LAST                  (BIT_MA_GENERAL_AF_BASE + ((M_ADDRESS_LAST_GENERAL_AF - M_ADDRESS_FIRST_GENERAL_AF + 1) << 4) - 1)
