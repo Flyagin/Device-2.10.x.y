@@ -3471,8 +3471,8 @@ void ctrl_phase_handler(volatile unsigned int *p_active_functions, unsigned int 
              (delta_phi_Ua >   1800)
             )
       {
-        while (delta_phi_Ua <= -1800) delta_phi_Ua += 1800;  /*формат xy <- x.y*/
-        while (delta_phi_Ua >   1800) delta_phi_Ua -= 1800;  /*формат xy <- x.y*/
+        while (delta_phi_Ua <= -1800) delta_phi_Ua += 3600;  /*формат xy <- x.y*/
+        while (delta_phi_Ua >   1800) delta_phi_Ua -= 3600;  /*формат xy <- x.y*/
       }
       
       int delta_phi_Ub = phi_Ub1 - phi_Ub2;
@@ -3481,8 +3481,8 @@ void ctrl_phase_handler(volatile unsigned int *p_active_functions, unsigned int 
              (delta_phi_Ub >   1800)
             )
       {
-        while (delta_phi_Ub <= -1800) delta_phi_Ub += 1800;  /*формат xy <- x.y*/
-        while (delta_phi_Ub >   1800) delta_phi_Ub -= 1800;  /*формат xy <- x.y*/
+        while (delta_phi_Ub <= -1800) delta_phi_Ub += 3600;  /*формат xy <- x.y*/
+        while (delta_phi_Ub >   1800) delta_phi_Ub -= 3600;  /*формат xy <- x.y*/
       }
       
       int delta_phi_Uc = phi_Uc1 - phi_Uc2;
@@ -3491,8 +3491,8 @@ void ctrl_phase_handler(volatile unsigned int *p_active_functions, unsigned int 
              (delta_phi_Uc >   1800)
             )
       {
-        while (delta_phi_Uc <= -1800) delta_phi_Uc += 1800;  /*формат xy <- x.y*/
-        while (delta_phi_Uc >   1800) delta_phi_Uc -= 1800;  /*формат xy <- x.y*/
+        while (delta_phi_Uc <= -1800) delta_phi_Uc += 3600;  /*формат xy <- x.y*/
+        while (delta_phi_Uc >   1800) delta_phi_Uc -= 3600;  /*формат xy <- x.y*/
       }
       
       state_delta_phi = ((unsigned int)(abs(delta_phi_Ua)) >= setpoint_phi) ||
