@@ -1,3 +1,7 @@
+#ifndef __EXTERNAL_VARIABLES_H
+#define __EXTERNAL_VARIABLES_H
+
+
 extern volatile unsigned int semaphore_adc_irq;
 extern volatile unsigned int adc_DATA_VAL_1_read;
 extern volatile unsigned int adc_DATA_VAL_2_read;
@@ -532,5 +536,7 @@ extern unsigned int temp_value_UC;
 extern unsigned int temp_value_3U0;
 extern unsigned int temp_value_I2;
 extern unsigned int temp_value_I1;
+
+#endif
 
 #endif

@@ -188,7 +188,6 @@
           <state>USE_STDPERIPH_DRIVER</state>
           <state>STM32F2XX</state>
           <state>USE_USB_OTG_FS</state>
-          <state>KEYBOARD_VER_1</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -618,7 +617,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>device_2_v_10_0_2.bin</state>
+          <state>device_2_v_10_0_3.bin</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -673,7 +672,7 @@
         </option>
         <option>
           <name>IlinkOutputFile</name>
-          <state>device_2_v_10_0_2.out</state>
+          <state>device_2_v_10_0_3.out</state>
         </option>
         <option>
           <name>IlinkDebugInfoEnable</name>

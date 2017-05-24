@@ -296,9 +296,13 @@ void convert_order_list_function_to_gmm(unsigned int* input_array, unsigned shor
 який передається системою захистів у формат для "унверсальної карти пам'яті"
 */
 /***********************************************************************************/
-unsigned int convert_order_list_buttons_to_gmm(unsigned int number, unsigned int number_position)
+unsigned int convert_order_list_buttons_to_gmm(unsigned int number, unsigned int number_position, __getting_data target_task)
 {
-  unsigned int input_value =current_settings_interfaces.ranguvannja_buttons[number];
+  __SETTINGS *target_label;
+  if (target_task == GET_DATA_IMMEDITATE) target_label = &current_settings_interfaces;
+  else target_label = &edition_settings;
+
+  unsigned int input_value = target_label->ranguvannja_buttons[number];
   unsigned int index_in_gmm = 0;
   unsigned int rezultat = 0;
   
@@ -449,11 +453,15 @@ unsigned int convert_order_list_buttons_to_gmm(unsigned int number, unsigned int
 який передається системою захистів у формат для "унверсальної карти пам'яті"
 */
 /***********************************************************************************/
-unsigned int convert_order_list_inputs_to_gmm(unsigned int number, unsigned int number_position)
+unsigned int convert_order_list_inputs_to_gmm(unsigned int number, unsigned int number_position, __getting_data target_task)
 {
+  __SETTINGS *target_label;
+  if (target_task == GET_DATA_IMMEDITATE) target_label = &current_settings_interfaces;
+  else target_label = &edition_settings;
+
   unsigned int input_value[N_SMALL];
-  input_value[0] =current_settings_interfaces.ranguvannja_inputs[2*number    ];
-  input_value[1] =current_settings_interfaces.ranguvannja_inputs[2*number + 1];
+  input_value[0] = target_label->ranguvannja_inputs[2*number    ];
+  input_value[1] = target_label->ranguvannja_inputs[2*number + 1];
   unsigned int index_in_gmm = 0;
   unsigned int rezultat = 0;
   
@@ -763,8 +771,12 @@ unsigned int convert_order_list_inputs_to_gmm(unsigned int number, unsigned int 
 який передається системою захистів у формат для "унверсальної карти пам'яті"
 */
 /***********************************************************************************/
-unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int number_position, unsigned int source)
+unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int number_position, unsigned int source, __getting_data target_task)
 {
+  __SETTINGS *target_label;
+  if (target_task == GET_DATA_IMMEDITATE) target_label = &current_settings_interfaces;
+  else target_label = &edition_settings;
+
   unsigned int input_value[N_BIG];
   unsigned int index_in_gmm = 0;
   unsigned short rezultat = 0;
@@ -772,71 +784,71 @@ unsigned int convert_order_list_oldr_to_gmm(unsigned int number, unsigned int nu
   //Визначаємо значення .яке треба конвертувати у коди "універсальної карти пам'яті"
   if (source == SOURCE_OUTPUTS_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_outputs[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = target_label->ranguvannja_outputs[N_BIG*number + i];
   }
   else if (source == SOURCE_LEDS_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_leds[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = target_label->ranguvannja_leds[N_BIG*number + i];
   }
   else if (source == SOURCE_DF_PLUS_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_df_source_plus[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = target_label->ranguvannja_df_source_plus[N_BIG*number + i];
   }
   else if (source == SOURCE_DF_MINUS_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_df_source_minus[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = target_label->ranguvannja_df_source_minus[N_BIG*number + i];
   }
   else if (source == SOURCE_DF_BLK_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_df_source_blk[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = target_label->ranguvannja_df_source_blk[N_BIG*number + i];
   }
   else if (source == SOURCE_AR_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_analog_registrator[i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = target_label->ranguvannja_analog_registrator[i];
   }
   else if (source == SOURCE_DR_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_digital_registrator[i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = target_label->ranguvannja_digital_registrator[i];
   }
   else if (source == SOURCE_SET_DT_PLUS_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_set_dt_source_plus[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = target_label->ranguvannja_set_dt_source_plus[N_BIG*number + i];
   }
   else if (source == SOURCE_SET_DT_MINUS_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_set_dt_source_minus[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = target_label->ranguvannja_set_dt_source_minus[N_BIG*number + i];
   }
   else if (source == SOURCE_RESET_DT_PLUS_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_reset_dt_source_plus[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = target_label->ranguvannja_reset_dt_source_plus[N_BIG*number + i];
   }
   else if (source == SOURCE_RESET_DT_MINUS_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_reset_dt_source_minus[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = target_label->ranguvannja_reset_dt_source_minus[N_BIG*number + i];
   }
   else if (source == SOURCE_D_AND_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_d_and[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = target_label->ranguvannja_d_and[N_BIG*number + i];
   }
   else if (source == SOURCE_D_OR_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_d_or[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = target_label->ranguvannja_d_or[N_BIG*number + i];
   }
   else if (source == SOURCE_D_XOR_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_d_xor[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = target_label->ranguvannja_d_xor[N_BIG*number + i];
   }
   else if (source == SOURCE_D_NOT_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_d_not[N_BIG*number + i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = target_label->ranguvannja_d_not[N_BIG*number + i];
   }
   else if (source == SOURCE_ON_CB_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_on_cb[i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = target_label->ranguvannja_on_cb[i];
   }
   else if (source == SOURCE_OFF_CB_RANG)
   {
-    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = current_settings_interfaces.ranguvannja_off_cb[i];
+    for (unsigned int i = 0; i < N_BIG; i++ ) input_value[i] = target_label->ranguvannja_off_cb[i];
   }
   
   //Шукаємо потрібний індекс функції у полі бітових настройок
@@ -1905,7 +1917,7 @@ void set_previous_ranguvannja(void)
 /***********************************************************************************/
 // Виконання ранжування дискретного входу
 /***********************************************************************************/
-unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int number_position, unsigned short int data, unsigned int method_setting)
+unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int number_position, unsigned short int data, __settings_data method_setting)
 {
   __SETTINGS *target_label;
   if (method_setting == SET_DATA_IMMEDITATE) target_label = &current_settings_interfaces;
@@ -2416,7 +2428,7 @@ unsigned int save_new_rang_inputs_from_gmm(unsigned int number, unsigned int num
 /***********************************************************************************/
 // Виконання ранжування дискретного виходу або світлоіндикатора, або опреділюваної функції, або реємтратора
 /***********************************************************************************/
-unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int number_position, unsigned int source, unsigned short int data, unsigned int method_setting)
+unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int number_position, unsigned int source, unsigned short int data, __settings_data method_setting)
 {
   __SETTINGS *target_label;
   if (method_setting == SET_DATA_IMMEDITATE) target_label = &current_settings_interfaces;
@@ -3966,7 +3978,7 @@ unsigned int save_new_rang_oldr_from_gmm(unsigned int number, unsigned int numbe
 /***********************************************************************************/
 // Виконання ранжування функціональних клафіш
 /***********************************************************************************/
-unsigned int save_new_rang_buttons_from_gmm(unsigned int number, unsigned int number_position, unsigned short int data, unsigned int method_setting)
+unsigned int save_new_rang_buttons_from_gmm(unsigned int number, unsigned int number_position, unsigned short int data, __settings_data method_setting)
 {
   __SETTINGS *target_label;
   if (method_setting == SET_DATA_IMMEDITATE) target_label = &current_settings_interfaces;
@@ -4231,10 +4243,14 @@ unsigned int save_new_rang_buttons_from_gmm(unsigned int number, unsigned int nu
 /***********************************************************************************/
 //Читання даних
 /***********************************************************************************/
-inline unsigned int Get_data(unsigned char *data, unsigned int address_data, unsigned int type_interface)
+inline unsigned int Get_data(unsigned char *data, unsigned int address_data, unsigned int type_interface, __getting_data target_task)
 {
   unsigned int error = 0, temp_value = 0;
   
+  __SETTINGS *target_label;
+  if (target_task == GET_DATA_IMMEDITATE) target_label = &current_settings_interfaces;
+  else target_label = &edition_settings;
+
   if(address_data <= M_ADDRESS_LAST_RO_BLOCK_1)
   {
     //Ідентифікація пристою
@@ -4330,13 +4346,13 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
   }
   else if ((address_data >= M_ADDRESS_FIRST_USER_REGISTER_DATA) && (address_data <= M_ADDRESS_LAST_USER_REGISTER_DATA))
   {
-    unsigned int address_data_tmp = current_settings_interfaces.user_register[address_data - M_ADDRESS_FIRST_USER_REGISTER_DATA];
+    unsigned int address_data_tmp = target_label->user_register[address_data - M_ADDRESS_FIRST_USER_REGISTER_DATA];
 
     //Щоб не відбулося зациклювання регістрів користувача на регістри користувача робимо цю перевірку
     if ( !((address_data_tmp >= M_ADDRESS_FIRST_USER_REGISTER_DATA) && (address_data_tmp <= M_ADDRESS_LAST_USER_REGISTER_DATA)) )
     {
       unsigned char local_temp_value[2];
-      unsigned local_error = Get_data(local_temp_value, address_data_tmp, type_interface);
+      unsigned local_error = Get_data(local_temp_value, address_data_tmp, type_interface, target_task);
 
       if (local_error == 0) temp_value = local_temp_value[1] | (local_temp_value[0] << 8);
       else error = local_error;
@@ -5049,7 +5065,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
   }
   else if ((address_data >= M_ADDRESS_FIRST_USER_REGISTER) && (address_data <= M_ADDRESS_LAST_USER_REGISTER))
   {
-    temp_value = current_settings_interfaces.user_register[address_data - M_ADDRESS_FIRST_USER_REGISTER];
+    temp_value = target_label->user_register[address_data - M_ADDRESS_FIRST_USER_REGISTER];
   }
   else if ((address_data >= M_ADDRESS_FIRST_DO_RANG) && (address_data <= M_ADDRESS_LAST_DO_RANG))
   {
@@ -5058,7 +5074,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     
     if(number_output < NUMBER_OUTPUTS)
     {
-      temp_value = convert_order_list_oldr_to_gmm(number_output, (((address_data - M_ADDRESS_FIRST_DO_RANG) & (MAX_FUNCTIONS_IN_OUTPUT - 1)) + 1), SOURCE_OUTPUTS_RANG);
+      temp_value = convert_order_list_oldr_to_gmm(number_output, (((address_data - M_ADDRESS_FIRST_DO_RANG) & (MAX_FUNCTIONS_IN_OUTPUT - 1)) + 1), SOURCE_OUTPUTS_RANG, target_task);
     }
     else temp_value = 0;
   }
@@ -5069,7 +5085,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     
     if(number_input < NUMBER_INPUTS)
     {
-      temp_value = convert_order_list_inputs_to_gmm(number_input, (((address_data - M_ADDRESS_FIRST_DI_RANG) & (MAX_FUNCTIONS_IN_INPUT - 1)) + 1));
+      temp_value = convert_order_list_inputs_to_gmm(number_input, (((address_data - M_ADDRESS_FIRST_DI_RANG) & (MAX_FUNCTIONS_IN_INPUT - 1)) + 1), target_task);
     }
     else temp_value = 0;
   }
@@ -5080,7 +5096,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     
     if(number_led < NUMBER_LEDS)
     {
-      temp_value = convert_order_list_oldr_to_gmm(number_led, (((address_data - M_ADDRESS_FIRST_LED_RANG) & (MAX_FUNCTIONS_IN_LED - 1)) + 1), SOURCE_LEDS_RANG);
+      temp_value = convert_order_list_oldr_to_gmm(number_led, (((address_data - M_ADDRESS_FIRST_LED_RANG) & (MAX_FUNCTIONS_IN_LED - 1)) + 1), SOURCE_LEDS_RANG, target_task);
     }
     else temp_value = 0;
   }
@@ -5091,7 +5107,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     
     if(number_df_mul_3 <  (NUMBER_DEFINED_FUNCTIONS*3))
     {
-      temp_value = convert_order_list_oldr_to_gmm((number_df_mul_3 / 3), (((address_data -  M_ADDRESS_FIRST_DF_RANG) & (MAX_FUNCTIONS_IN_DF - 1)) + 1), (SOURCE_DF_PLUS_RANG + (number_df_mul_3 % 3)));
+      temp_value = convert_order_list_oldr_to_gmm((number_df_mul_3 / 3), (((address_data -  M_ADDRESS_FIRST_DF_RANG) & (MAX_FUNCTIONS_IN_DF - 1)) + 1), (SOURCE_DF_PLUS_RANG + (number_df_mul_3 % 3)), target_task);
     }
     else temp_value = 0;
   }
@@ -5102,7 +5118,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     
     if(number_db < NUMBER_DEFINED_BUTTONS)
     {
-      temp_value = convert_order_list_buttons_to_gmm(number_db, (((address_data - M_ADDRESS_FIRST_DB_RANG) & (MAX_FUNCTIONS_IN_DB - 1)) + 1));
+      temp_value = convert_order_list_buttons_to_gmm(number_db, (((address_data - M_ADDRESS_FIRST_DB_RANG) & (MAX_FUNCTIONS_IN_DB - 1)) + 1), target_task);
     }
     else temp_value = 0;
   }
@@ -5115,17 +5131,17 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     {
       temp_value = convert_order_list_oldr_to_gmm((number_defined_triggers >> 2),
                                (((address_data -  M_ADDRESS_FIRST_DT_RANG) % MAX_FUNCTIONS_IN_DT) + 1),
-                               (SOURCE_SET_DT_PLUS_RANG + (number_defined_triggers % 4)));
+                               (SOURCE_SET_DT_PLUS_RANG + (number_defined_triggers % 4)), target_task);
     }
     else temp_value = 0;
   }
   else if ((address_data >= M_ADDRESS_FIRST_ON_CB_RANG) && (address_data <= M_ADDRESS_LAST_ON_CB_RANG))
   {
-    temp_value  = convert_order_list_oldr_to_gmm(0, (((address_data - M_ADDRESS_FIRST_ON_CB_RANG) & (MAX_FUNCTIONS_IN_ON_CB - 1)) + 1), SOURCE_ON_CB_RANG);
+    temp_value  = convert_order_list_oldr_to_gmm(0, (((address_data - M_ADDRESS_FIRST_ON_CB_RANG) & (MAX_FUNCTIONS_IN_ON_CB - 1)) + 1), SOURCE_ON_CB_RANG, target_task);
   }
   else if ((address_data >= M_ADDRESS_FIRST_OFF_CB_RANG) && (address_data <= M_ADDRESS_LAST_OFF_CB_RANG))
   {
-    temp_value  = convert_order_list_oldr_to_gmm(0, (((address_data - M_ADDRESS_FIRST_OFF_CB_RANG) & (MAX_FUNCTIONS_IN_OFF_CB - 1)) + 1), SOURCE_OFF_CB_RANG);
+    temp_value  = convert_order_list_oldr_to_gmm(0, (((address_data - M_ADDRESS_FIRST_OFF_CB_RANG) & (MAX_FUNCTIONS_IN_OFF_CB - 1)) + 1), SOURCE_OFF_CB_RANG, target_task);
   }
   else if ((address_data >= M_ADDRESS_FIRST_D_AND_RANG) && (address_data <= M_ADDRESS_LAST_D_AND_RANG))
   {
@@ -5134,7 +5150,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     
     if(number_defined_and < NUMBER_DEFINED_AND)
     {
-      temp_value = convert_order_list_oldr_to_gmm(number_defined_and, (((address_data -  M_ADDRESS_FIRST_D_AND_RANG) % MAX_FUNCTIONS_IN_D_AND) + 1), SOURCE_D_AND_RANG);
+      temp_value = convert_order_list_oldr_to_gmm(number_defined_and, (((address_data -  M_ADDRESS_FIRST_D_AND_RANG) % MAX_FUNCTIONS_IN_D_AND) + 1), SOURCE_D_AND_RANG, target_task);
     }
     else temp_value = 0;
   }
@@ -5145,7 +5161,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     
     if(number_defined_or < NUMBER_DEFINED_OR)
     {
-      temp_value = convert_order_list_oldr_to_gmm(number_defined_or, (((address_data -  M_ADDRESS_FIRST_D_OR_RANG) % MAX_FUNCTIONS_IN_D_OR) + 1), SOURCE_D_OR_RANG);
+      temp_value = convert_order_list_oldr_to_gmm(number_defined_or, (((address_data -  M_ADDRESS_FIRST_D_OR_RANG) % MAX_FUNCTIONS_IN_D_OR) + 1), SOURCE_D_OR_RANG, target_task);
     }
     else temp_value = 0;
   }
@@ -5156,7 +5172,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     
     if(number_defined_xor < NUMBER_DEFINED_XOR)
     {
-      temp_value = convert_order_list_oldr_to_gmm(number_defined_xor, (((address_data -  M_ADDRESS_FIRST_D_XOR_RANG) % MAX_FUNCTIONS_IN_D_XOR) + 1), SOURCE_D_XOR_RANG);
+      temp_value = convert_order_list_oldr_to_gmm(number_defined_xor, (((address_data -  M_ADDRESS_FIRST_D_XOR_RANG) % MAX_FUNCTIONS_IN_D_XOR) + 1), SOURCE_D_XOR_RANG, target_task);
     }
     else temp_value = 0;
   }
@@ -5167,7 +5183,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     
     if(number_defined_not < NUMBER_DEFINED_NOT)
     {
-      temp_value = convert_order_list_oldr_to_gmm(number_defined_not, (((address_data -  M_ADDRESS_FIRST_D_NOT_RANG) % MAX_FUNCTIONS_IN_D_NOT) + 1), SOURCE_D_NOT_RANG);
+      temp_value = convert_order_list_oldr_to_gmm(number_defined_not, (((address_data -  M_ADDRESS_FIRST_D_NOT_RANG) % MAX_FUNCTIONS_IN_D_NOT) + 1), SOURCE_D_NOT_RANG, target_task);
     }
     else temp_value = 0;
   }
@@ -5177,8 +5193,8 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     {
     case M_ADDRESS_CONTROL_MTZ_PART1:
       {
-        int input_value = current_settings_interfaces.control_mtz;
-        int input_conf = current_settings_interfaces.configuration;
+        int input_value = target_label->control_mtz;
+        int input_conf = target_label->configuration;
         
         temp_value = (((input_conf  >> MTZ_BIT_CONFIGURATION         ) & 0x1 ) << (BIT_MA_CONFIGURATION_MTZ          - BIT_MA_CONTROL_MTZ_BASE_PART1) ) |
           
@@ -5201,7 +5217,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case M_ADDRESS_CONTROL_MTZ_PART2:
       {
-        int input_value = current_settings_interfaces.control_mtz;
+        int input_value = target_label->control_mtz;
         
         temp_value = (((input_value >> N_BIT_CTRMTZ_4_NAZAD          ) & 0x1 ) << (BIT_MA_CONTROL_MTZ4_N_NAZAD       - BIT_MA_CONTROL_MTZ_BASE_PART2) ) |
                      (((input_value >> N_BIT_CTRMTZ_NESPR_KIL_NAPR   ) & 0x1 ) << (BIT_MA_CONTROL_MTZ_NESPR_KIL_NAPR - BIT_MA_CONTROL_MTZ_BASE_PART2) );
@@ -5209,8 +5225,8 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case M_ADDRESS_CONTROL_ZDZ:
       {
-        int input_value = current_settings_interfaces.control_zdz;
-        int input_conf = current_settings_interfaces.configuration;
+        int input_value = target_label->control_zdz;
+        int input_conf = target_label->configuration;
         
         temp_value = (((input_conf  >> ZDZ_BIT_CONFIGURATION             ) & 0x1 ) << (BIT_MA_CONFIGURATION_ZDZ             - BIT_MA_CONTROL_ZDZ_BASE) ) |
           
@@ -5223,8 +5239,8 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case M_ADDRESS_CONTROL_ZOP:
       {
-        int input_value = current_settings_interfaces.control_zop;
-        int input_conf = current_settings_interfaces.configuration;
+        int input_value = target_label->control_zop;
+        int input_conf = target_label->configuration;
         
         temp_value = (((input_conf  >> ZOP_BIT_CONFIGURATION) & 0x1 ) << (BIT_MA_CONFIGURATION_ZOP - BIT_MA_CONTROL_ZOP_BASE) ) |
           
@@ -5233,8 +5249,8 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case M_ADDRESS_CONTROL_UMIN:
       {
-        int input_value = current_settings_interfaces.control_Umin;
-        int input_conf = current_settings_interfaces.configuration;
+        int input_value = target_label->control_Umin;
+        int input_conf = target_label->configuration;
         
         temp_value = (((input_conf  >> UMIN_BIT_CONFIGURATION   ) & 0x1 ) << (BIT_MA_CONFIGURATION_UMIN      - BIT_MA_CONTROL_UMIN_BASE)) |
           
@@ -5250,8 +5266,8 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case M_ADDRESS_CONTROL_UMAX:
       {
-        int input_value = current_settings_interfaces.control_Umax;
-        int input_conf = current_settings_interfaces.configuration;
+        int input_value = target_label->control_Umax;
+        int input_conf = target_label->configuration;
         
         temp_value = (((input_conf  >> UMAX_BIT_CONFIGURATION   ) & 0x1 ) << (BIT_MA_CONFIGURATION_UMAX      - BIT_MA_CONTROL_UMAX_BASE)) |
           
@@ -5263,15 +5279,15 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case M_ADDRESS_CONTROL_EXTRA_SETTINGS:
       {
-        int input_value1 = current_settings_interfaces.control_transformator;
+        int input_value1 = target_label->control_transformator;
         
         temp_value = ((((input_value1 >> INDEX_ML_CTR_TRANSFORMATOR_LINE_PHASE ) & 0x1 ) == 0) << (BIT_MA_CONTROL_PHASE_LINE - BIT_MA_CONTROL_EXTRA_SETTINGS_BASE));
         break;
       }
     case M_ADDRESS_CONTROL_UROV_PART1:
       {
-        int input_value = current_settings_interfaces.control_urov;
-        int input_conf = current_settings_interfaces.configuration;
+        int input_value = target_label->control_urov;
+        int input_conf = target_label->configuration;
         
         temp_value = (((input_conf  >> UROV_BIT_CONFIGURATION               ) & 0x1 ) << (BIT_MA_CONFIGURATION_UROV                - BIT_MA_CONTROL_UROV_BASE_PART1)) |
           
@@ -5289,15 +5305,15 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case M_ADDRESS_CONTROL_UROV_PART2:
       {
-        int input_value = current_settings_interfaces.control_urov;
+        int input_value = target_label->control_urov;
         
         temp_value = (((input_value >> INDEX_ML_CTRUROV_STARTED_FROM_ZDZ  ) & 0x1 ) << (BIT_MA_CONTROL_UROV_STARTED_FROM_ZDZ   - BIT_MA_CONTROL_UROV_BASE_PART2));
         break;
       }
     case M_ADDRESS_CONTROL_AVR:
       {
-        int input_value = current_settings_interfaces.control_avr;
-        int input_conf = current_settings_interfaces.configuration;
+        int input_value = target_label->control_avr;
+        int input_conf = target_label->configuration;
         
         temp_value = (((input_conf  >> AVR_BIT_CONFIGURATION ) & 0x1 ) << (BIT_MA_CONFIGURATION_AVR - BIT_MA_CONTROL_AVR_BASE)) |
           
@@ -5308,8 +5324,8 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case M_ADDRESS_CONTROL_APV:
       {
-        int input_value = current_settings_interfaces.control_apv;
-        int input_conf = current_settings_interfaces.configuration;
+        int input_value = target_label->control_apv;
+        int input_conf = target_label->configuration;
         
         temp_value = (((input_conf  >> APV_BIT_CONFIGURATION             ) & 0x1 ) << (BIT_MA_CONFIGURATION_APV             - BIT_MA_CONTROL_APV_BASE)) |
           
@@ -5325,8 +5341,8 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case M_ADDRESS_CONTROL_CTRL_VV:
       {
-        int input_value1 = current_settings_interfaces.control_switch;
-        int input_value2 = current_settings_interfaces.control_extra_settings_1;
+        int input_value1 = target_label->control_switch;
+        int input_value2 = target_label->control_extra_settings_1;
         
         temp_value = (((input_value1 >> INDEX_ML_CTRPRYVOD_VV                          ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_VV_STATE           - BIT_MA_CONTROL_CTRL_VV_BASE)) |
                      (((input_value2 >> INDEX_ML_CTREXTRA_SETTINGS_1_BLK_ON_CB_MISCEVE ) & 0x1 ) << (BIT_MA_CONTROL_CTRL_BLK_ON_CB_MISCEVE  - BIT_MA_CONTROL_CTRL_VV_BASE)) |
@@ -5339,8 +5355,8 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case M_ADDRESS_CONTROL_CTRL_PHASE:
       {
-        int input_value = current_settings_interfaces.control_ctrl_phase;
-        int input_conf = current_settings_interfaces.configuration;
+        int input_value = target_label->control_ctrl_phase;
+        int input_conf = target_label->configuration;
         
         temp_value = (((input_conf  >> CTRL_PHASE_BIT_CONFIGURATION  ) & 0x1 ) << (BIT_MA_CONFIGURATION_CTRL_PHASE    - BIT_MA_CONTROL_CTRL_PHASE_BASE) ) |
           
@@ -5353,7 +5369,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case M_ADDRESS_CONTROL_EL:
       {
-        int input_conf = current_settings_interfaces.configuration;
+        int input_conf = target_label->configuration;
         
         temp_value = (((input_conf >> EL_BIT_CONFIGURATION) & 0x1 ) << (BIT_MA_CONFIGURATION_EL - BIT_MA_CONTROL_EL_BASE));
         break;
@@ -5371,27 +5387,27 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     {
     case MA_GROUP_USTAVOK:
       {
-        temp_value = current_settings_interfaces.grupa_ustavok;
+        temp_value = target_label->grupa_ustavok;
         break;
       }
     case MA_TYPE_MTZ1:
       {
-        temp_value = current_settings_interfaces.type_mtz1;
+        temp_value = target_label->type_mtz1;
         break;
       }
     case MA_TYPE_MTZ2:
       {
-        temp_value = current_settings_interfaces.type_mtz2;
+        temp_value = target_label->type_mtz2;
         break;
       }
     case MA_TYPE_MTZ3:
       {
-        temp_value = current_settings_interfaces.type_mtz3;
+        temp_value = target_label->type_mtz3;
         break;
       }
     case MA_TYPE_MTZ4:
       {
-        temp_value = current_settings_interfaces.type_mtz4;
+        temp_value = target_label->type_mtz4;
         break;
       }
     default:
@@ -5435,537 +5451,537 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     {
     case MA_STP_MTZ1:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_1[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_1[num_gr]/10;
         break;
       }
     case MA_STP_MTZ1_N_VPERED:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_1_n_vpered[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_1_n_vpered[num_gr]/10;
         break;
       }
     case MA_STP_MTZ1_N_NAZAD:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_1_n_nazad[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_1_n_nazad[num_gr]/10;
         break;
       }
     case MA_STP_MTZ1_PO_NAPRUZI:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_1_po_napruzi[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_1_po_napruzi[num_gr]/10;
         break;
       }
     case MA_STP_MTZ1_U:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_1_U[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_1_U[num_gr]/10;
         break;
       }
     case MA_STP_MTZ1_ANGLE:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_1_angle[num_gr];
+        temp_value = target_label->setpoint_mtz_1_angle[num_gr];
         break;
       }
     case MA_TO_MTZ1:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_1[num_gr]/10;
+        temp_value = target_label->timeout_mtz_1[num_gr]/10;
         break;
       }
     case MA_TO_MTZ1_N_VPERED:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_1_n_vpered[num_gr]/10;
+        temp_value = target_label->timeout_mtz_1_n_vpered[num_gr]/10;
         break;
       }
     case MA_TO_MTZ1_N_NAZAD:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_1_n_nazad[num_gr]/10;
+        temp_value = target_label->timeout_mtz_1_n_nazad[num_gr]/10;
         break;
       }
     case MA_TO_MTZ1_PO_NAPRUZI:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_1_po_napruzi[num_gr]/10;
+        temp_value = target_label->timeout_mtz_1_po_napruzi[num_gr]/10;
         break;
       }
     case MA_STP_MTZ2:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_2[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_2[num_gr]/10;
         break;
       }
     case MA_STP_MTZ2_N_VPERED:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_2_n_vpered[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_2_n_vpered[num_gr]/10;
         break;
       }
     case MA_STP_MTZ2_N_NAZAD:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_2_n_nazad[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_2_n_nazad[num_gr]/10;
         break;
       }
     case MA_STP_MTZ2_PO_NAPRUZI:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_2_po_napruzi[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_2_po_napruzi[num_gr]/10;
         break;
       }
     case MA_STP_MTZ2_U:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_2_U[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_2_U[num_gr]/10;
         break;
       }
     case MA_STP_MTZ2_ANGLE:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_2_angle[num_gr];
+        temp_value = target_label->setpoint_mtz_2_angle[num_gr];
         break;
       }
     case MA_TO_MTZ2:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_2[num_gr]/10;
+        temp_value = target_label->timeout_mtz_2[num_gr]/10;
         break;
       }
     case MA_TO_MTZ2_N_VPERED:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_2_n_vpered[num_gr]/10;
+        temp_value = target_label->timeout_mtz_2_n_vpered[num_gr]/10;
         break;
       }
     case MA_TO_MTZ2_N_NAZAD:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_2_n_nazad[num_gr]/10;
+        temp_value = target_label->timeout_mtz_2_n_nazad[num_gr]/10;
         break;
       }
     case MA_TO_MTZ2_PO_NAPRUZI:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_2_po_napruzi[num_gr]/10;
+        temp_value = target_label->timeout_mtz_2_po_napruzi[num_gr]/10;
         break;
       }
     case MA_TO_MTZ2_VVID_PR:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_2_vvid_pr[num_gr]/10;
+        temp_value = target_label->timeout_mtz_2_vvid_pr[num_gr]/10;
         break;
       }
     case MA_TO_MTZ2_PR:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_2_pr[num_gr]/10;
+        temp_value = target_label->timeout_mtz_2_pr[num_gr]/10;
         break;
       }
     case MA_TO_MTZ2_N_VPERED_PR:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_2_n_vpered_pr[num_gr]/10;
+        temp_value = target_label->timeout_mtz_2_n_vpered_pr[num_gr]/10;
         break;
       }
     case MA_TO_MTZ2_N_NAZAD_PR:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_2_n_nazad_pr[num_gr]/10;
+        temp_value = target_label->timeout_mtz_2_n_nazad_pr[num_gr]/10;
         break;
       }
     case MA_TO_MTZ2_PO_NAPRUZI_PR:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_2_po_napruzi_pr[num_gr]/10;
+        temp_value = target_label->timeout_mtz_2_po_napruzi_pr[num_gr]/10;
         break;
       }
     case MA_STP_MTZ3:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_3[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_3[num_gr]/10;
         break;
       }
     case MA_STP_MTZ3_N_VPERED:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_3_n_vpered[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_3_n_vpered[num_gr]/10;
         break;
       }
     case MA_STP_MTZ3_N_NAZAD:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_3_n_nazad[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_3_n_nazad[num_gr]/10;
         break;
       }
     case MA_STP_MTZ3_PO_NAPRUZI:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_3_po_napruzi[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_3_po_napruzi[num_gr]/10;
         break;
       }
     case MA_STP_MTZ3_U:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_3_U[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_3_U[num_gr]/10;
         break;
       }
     case MA_STP_MTZ3_ANGLE:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_3_angle[num_gr];
+        temp_value = target_label->setpoint_mtz_3_angle[num_gr];
         break;
       }
     case MA_TO_MTZ3:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_3[num_gr]/10;
+        temp_value = target_label->timeout_mtz_3[num_gr]/10;
         break;
       }
     case MA_TO_MTZ3_N_VPERED:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_3_n_vpered[num_gr]/10;
+        temp_value = target_label->timeout_mtz_3_n_vpered[num_gr]/10;
         break;
       }
     case MA_TO_MTZ3_N_NAZAD:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_3_n_nazad[num_gr]/10;
+        temp_value = target_label->timeout_mtz_3_n_nazad[num_gr]/10;
         break;
       }
     case MA_TO_MTZ3_PO_NAPRUZI:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_3_po_napruzi[num_gr]/10;
+        temp_value = target_label->timeout_mtz_3_po_napruzi[num_gr]/10;
         break;
       }
     case MA_TO_MTZ3_VVID_PR:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_3_vvid_pr[num_gr]/10;
+        temp_value = target_label->timeout_mtz_3_vvid_pr[num_gr]/10;
         break;
       }
     case MA_TO_MTZ3_PR:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_3_pr[num_gr]/10;
+        temp_value = target_label->timeout_mtz_3_pr[num_gr]/10;
         break;
       }
     case MA_TO_MTZ3_N_VPERED_PR:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_3_n_vpered_pr[num_gr]/10;
+        temp_value = target_label->timeout_mtz_3_n_vpered_pr[num_gr]/10;
         break;
       }
     case MA_TO_MTZ3_N_NAZAD_PR:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_3_n_nazad_pr[num_gr]/10;
+        temp_value = target_label->timeout_mtz_3_n_nazad_pr[num_gr]/10;
         break;
       }
     case MA_TO_MTZ3_PO_NAPRUZI_PR:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_3_po_napruzi_pr[num_gr]/10;
+        temp_value = target_label->timeout_mtz_3_po_napruzi_pr[num_gr]/10;
         break;
       }
     case MA_STP_MTZ4:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_4[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_4[num_gr]/10;
         break;
       }
     case MA_STP_MTZ4_N_VPERED:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_4_n_vpered[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_4_n_vpered[num_gr]/10;
         break;
       }
     case MA_STP_MTZ4_N_NAZAD:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_4_n_nazad[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_4_n_nazad[num_gr]/10;
         break;
       }
     case MA_STP_MTZ4_PO_NAPRUZI:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_4_po_napruzi[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_4_po_napruzi[num_gr]/10;
         break;
       }
     case MA_STP_MTZ4_U:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_4_U[num_gr]/10;
+        temp_value = target_label->setpoint_mtz_4_U[num_gr]/10;
         break;
       }
     case MA_STP_MTZ4_ANGLE:
       {
-        temp_value = current_settings_interfaces.setpoint_mtz_4_angle[num_gr];
+        temp_value = target_label->setpoint_mtz_4_angle[num_gr];
         break;
       }
     case MA_TO_MTZ4:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_4[num_gr]/10;
+        temp_value = target_label->timeout_mtz_4[num_gr]/10;
         break;
       }
     case MA_TO_MTZ4_N_VPERED:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_4_n_vpered[num_gr]/10;
+        temp_value = target_label->timeout_mtz_4_n_vpered[num_gr]/10;
         break;
       }
     case MA_TO_MTZ4_N_NAZAD:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_4_n_nazad[num_gr]/10;
+        temp_value = target_label->timeout_mtz_4_n_nazad[num_gr]/10;
         break;
       }
     case MA_TO_MTZ4_PO_NAPRUZI:
       {
-        temp_value = current_settings_interfaces.timeout_mtz_4_po_napruzi[num_gr]/10;
+        temp_value = target_label->timeout_mtz_4_po_napruzi[num_gr]/10;
         break;
       }
     case MA_STP_ZOP1:
       {
-        temp_value = current_settings_interfaces.setpoint_zop[num_gr];
+        temp_value = target_label->setpoint_zop[num_gr];
         break;
       }
     case MA_TO_ZOP1:
       {
-        temp_value = current_settings_interfaces.timeout_zop[num_gr]/10;
+        temp_value = target_label->timeout_zop[num_gr]/10;
         break;
       }
     case MA_STP_UMIN1:
       {
-        temp_value = current_settings_interfaces.setpoint_Umin1[num_gr]/100;
+        temp_value = target_label->setpoint_Umin1[num_gr]/100;
         break;
       }
     case MA_TO_UMIN1:
       {
-        temp_value = current_settings_interfaces.timeout_Umin1[num_gr]/10;
+        temp_value = target_label->timeout_Umin1[num_gr]/10;
         break;
       }
     case MA_STP_UMIN2:
       {
-        temp_value = current_settings_interfaces.setpoint_Umin2[num_gr]/100;
+        temp_value = target_label->setpoint_Umin2[num_gr]/100;
         break;
       }
     case MA_TO_UMIN2:
       {
-        temp_value = current_settings_interfaces.timeout_Umin2[num_gr]/10;
+        temp_value = target_label->timeout_Umin2[num_gr]/10;
         break;
       }
     case MA_STP_BLK_UMIN1_BY_I:
       {
-        temp_value = current_settings_interfaces.setpoint_Umin1_Iblk[num_gr]/10;
+        temp_value = target_label->setpoint_Umin1_Iblk[num_gr]/10;
         break;
       }
     case MA_STP_BLK_UMIN2_BY_I:
       {
-        temp_value = current_settings_interfaces.setpoint_Umin2_Iblk[num_gr]/10;
+        temp_value = target_label->setpoint_Umin2_Iblk[num_gr]/10;
         break;
       }
     case MA_STP_UMAX1:
       {
-        temp_value = current_settings_interfaces.setpoint_Umax1[num_gr]/100;
+        temp_value = target_label->setpoint_Umax1[num_gr]/100;
         break;
       }
     case MA_TO_UMAX1:
       {
-        temp_value = current_settings_interfaces.timeout_Umax1[num_gr]/10;
+        temp_value = target_label->timeout_Umax1[num_gr]/10;
         break;
       }
     case MA_STP_UMAX2:
       {
-        temp_value = current_settings_interfaces.setpoint_Umax2[num_gr]/100;
+        temp_value = target_label->setpoint_Umax2[num_gr]/100;
         break;
       }
     case MA_TO_UMAX2:
       {
-        temp_value = current_settings_interfaces.timeout_Umax2[num_gr]/10;
+        temp_value = target_label->timeout_Umax2[num_gr]/10;
         break;
       }
     case MA_STP_UROV:
       {
-        temp_value = current_settings_interfaces.setpoint_urov[num_gr]/10;
+        temp_value = target_label->setpoint_urov[num_gr]/10;
         break;
       }
     case MA_TO_UROV1:
       {
-        temp_value = current_settings_interfaces.timeout_urov_1[num_gr]/10;
+        temp_value = target_label->timeout_urov_1[num_gr]/10;
         break;
       }
     case MA_TO_UROV2:
       {
-        temp_value = current_settings_interfaces.timeout_urov_2[num_gr]/10;
+        temp_value = target_label->timeout_urov_2[num_gr]/10;
         break;
       }
     case MA_STP_AVR_TN1_U1_UMIN:
       {
-        temp_value = current_settings_interfaces.setpoint_avr_tn1_U1_Umin[num_gr]/100;
+        temp_value = target_label->setpoint_avr_tn1_U1_Umin[num_gr]/100;
         break;
       }
     case MA_STP_AVR_TN1_U2_LOW_WORK:
       {
-        temp_value = current_settings_interfaces.setpoint_avr_tn1_U2_low_work[num_gr]/100;
+        temp_value = target_label->setpoint_avr_tn1_U2_low_work[num_gr]/100;
         break;
       }
     case MA_STP_AVR_TN2_U2_UMIN:
       {
-        temp_value = current_settings_interfaces.setpoint_avr_tn2_U2_Umin[num_gr]/100;
+        temp_value = target_label->setpoint_avr_tn2_U2_Umin[num_gr]/100;
         break;
       }
     case MA_STP_AVR_TN2_U1_LOW_WORK:
       {
-        temp_value = current_settings_interfaces.setpoint_avr_tn2_U1_low_work[num_gr]/100;
+        temp_value = target_label->setpoint_avr_tn2_U1_low_work[num_gr]/100;
         break;
       }
     case MA_STP_AVR_TN1_U1_UMAX:
       {
-        temp_value = current_settings_interfaces.setpoint_avr_tn1_U1_Umax[num_gr]/100;
+        temp_value = target_label->setpoint_avr_tn1_U1_Umax[num_gr]/100;
         break;
       }
     case MA_STP_AVR_TN1_U2_HIGH_WORK:
       {
-        temp_value = current_settings_interfaces.setpoint_avr_tn1_U2_high_work[num_gr]/100;
+        temp_value = target_label->setpoint_avr_tn1_U2_high_work[num_gr]/100;
         break;
       }
     case MA_STP_AVR_TN2_U2_UMAX:
       {
-        temp_value = current_settings_interfaces.setpoint_avr_tn2_U2_Umax[num_gr]/100;
+        temp_value = target_label->setpoint_avr_tn2_U2_Umax[num_gr]/100;
         break;
       }
     case MA_STP_AVR_TN2_U1_HIGH_WORK:
       {
-        temp_value = current_settings_interfaces.setpoint_avr_tn2_U1_high_work[num_gr]/100;
+        temp_value = target_label->setpoint_avr_tn2_U1_high_work[num_gr]/100;
         break;
       }
     case MA_TO_AVR_GENERAL_BLK_K1:
       {
-        temp_value = current_settings_interfaces.timeout_avr_blk_k1[num_gr]/10;
+        temp_value = target_label->timeout_avr_blk_k1[num_gr]/10;
         break;
       }
     case MA_TO_AVR_GENERAL_PUSK_K1:
       {
-        temp_value = current_settings_interfaces.timeout_avr_pusk_k1[num_gr]/10;
+        temp_value = target_label->timeout_avr_pusk_k1[num_gr]/10;
         break;
       }
     case MA_TO_AVR_GENERAL_D_DIJI_K1:
       {
-        temp_value = current_settings_interfaces.timeout_avr_d_diji_k1[num_gr]/10;
+        temp_value = target_label->timeout_avr_d_diji_k1[num_gr]/10;
         break;
       }
     case MA_TO_AVR_GENERAL_VVIMK_REZ_K1:
       {
-        temp_value = current_settings_interfaces.timeout_avr_vvimk_rez_k1[num_gr]/10;
+        temp_value = target_label->timeout_avr_vvimk_rez_k1[num_gr]/10;
         break;
       }
     case MA_TO_AVR_GENERAL_VVIMK_K1:
       {
-        temp_value = current_settings_interfaces.timeout_avr_vvimk_k1[num_gr]/10;
+        temp_value = target_label->timeout_avr_vvimk_k1[num_gr]/10;
         break;
       }
     case MA_TO_AVR_UMIN_VYMK_ROB_K1:
       {
-        temp_value = current_settings_interfaces.timeout_avr_vymk_rob_k1_Umin[num_gr]/10;
+        temp_value = target_label->timeout_avr_vymk_rob_k1_Umin[num_gr]/10;
         break;
       }
     case MA_TO_AVR_UMAX_VYMK_ROB_K1:
       {
-        temp_value = current_settings_interfaces.timeout_avr_vymk_rob_k1_Umax[num_gr]/10;
+        temp_value = target_label->timeout_avr_vymk_rob_k1_Umax[num_gr]/10;
         break;
       }
     case MA_TO_AVR_GENERAL_VYMK_K1:
       {
-        temp_value = current_settings_interfaces.timeout_avr_vymk_k1[num_gr]/10;
+        temp_value = target_label->timeout_avr_vymk_k1[num_gr]/10;
         break;
       }
     case MA_TO_AVR_GENERAL_BLK_K2:
       {
-        temp_value = current_settings_interfaces.timeout_avr_blk_k2[num_gr]/10;
+        temp_value = target_label->timeout_avr_blk_k2[num_gr]/10;
         break;
       }
     case MA_TO_AVR_GENERAL_PUSK_K2:
       {
-        temp_value = current_settings_interfaces.timeout_avr_pusk_k2[num_gr]/10;
+        temp_value = target_label->timeout_avr_pusk_k2[num_gr]/10;
         break;
       }
     case MA_TO_AVR_GENERAL_D_DIJI_K2:
       {
-        temp_value = current_settings_interfaces.timeout_avr_d_diji_k2[num_gr]/10;
+        temp_value = target_label->timeout_avr_d_diji_k2[num_gr]/10;
         break;
       }
     case MA_TO_AVR_GENERAL_VVIMK_REZ_K2:
       {
-        temp_value = current_settings_interfaces.timeout_avr_vvimk_rez_k2[num_gr]/10;
+        temp_value = target_label->timeout_avr_vvimk_rez_k2[num_gr]/10;
         break;
       }
     case MA_TO_AVR_GENERAL_VVIMK_K2:
       {
-        temp_value = current_settings_interfaces.timeout_avr_vvimk_k2[num_gr]/10;
+        temp_value = target_label->timeout_avr_vvimk_k2[num_gr]/10;
         break;
       }
     case MA_TO_AVR_UMIN_VYMK_ROB_K2:
       {
-        temp_value = current_settings_interfaces.timeout_avr_vymk_rob_k2_Umin[num_gr]/10;
+        temp_value = target_label->timeout_avr_vymk_rob_k2_Umin[num_gr]/10;
         break;
       }
     case MA_TO_AVR_UMAX_VYMK_ROB_K2:
       {
-        temp_value = current_settings_interfaces.timeout_avr_vymk_rob_k2_Umax[num_gr]/10;
+        temp_value = target_label->timeout_avr_vymk_rob_k2_Umax[num_gr]/10;
         break;
       }
     case MA_TO_AVR_GENERAL_VYMK_K2:
       {
-        temp_value = current_settings_interfaces.timeout_avr_vymk_k2[num_gr]/10;
+        temp_value = target_label->timeout_avr_vymk_k2[num_gr]/10;
         break;
       }
     case MA_TO_APV_BLOCK_VID_VV:
       {
-        temp_value = current_settings_interfaces.timeout_apv_block_vid_VV[num_gr]/10;
+        temp_value = target_label->timeout_apv_block_vid_VV[num_gr]/10;
         break;
       }
     case MA_TO_APV_CYCLE_1:
       {
-        temp_value = current_settings_interfaces.timeout_apv_1[num_gr]/10;
+        temp_value = target_label->timeout_apv_1[num_gr]/10;
         break;
       }
     case MA_TO_APV_CYCLE_2:
       {
-        temp_value = current_settings_interfaces.timeout_apv_2[num_gr]/10;
+        temp_value = target_label->timeout_apv_2[num_gr]/10;
         break;
       }
     case MA_TO_APV_CYCLE_3:
       {
-        temp_value = current_settings_interfaces.timeout_apv_3[num_gr]/10;
+        temp_value = target_label->timeout_apv_3[num_gr]/10;
         break;
       }
     case MA_TO_APV_CYCLE_4:
       {
-        temp_value = current_settings_interfaces.timeout_apv_4[num_gr]/10;
+        temp_value = target_label->timeout_apv_4[num_gr]/10;
         break;
       }
     case MA_TO_APV_BLOCK_VID_APV1:
       {
-        temp_value = current_settings_interfaces.timeout_apv_block_vid_apv1[num_gr]/10;
+        temp_value = target_label->timeout_apv_block_vid_apv1[num_gr]/10;
         break;
       }
     case MA_TO_APV_BLOCK_VID_APV2:
       {
-        temp_value = current_settings_interfaces.timeout_apv_block_vid_apv2[num_gr]/10;
+        temp_value = target_label->timeout_apv_block_vid_apv2[num_gr]/10;
         break;
       }
     case MA_TO_APV_BLOCK_VID_APV3:
       {
-        temp_value = current_settings_interfaces.timeout_apv_block_vid_apv3[num_gr]/10;
+        temp_value = target_label->timeout_apv_block_vid_apv3[num_gr]/10;
         break;
       }
     case MA_TO_APV_BLOCK_VID_APV4:
       {
-        temp_value = current_settings_interfaces.timeout_apv_block_vid_apv4[num_gr]/10;
+        temp_value = target_label->timeout_apv_block_vid_apv4[num_gr]/10;
         break;
       }
     case MA_STP_CTRL_PHASE_U:
       {
-        temp_value = current_settings_interfaces.setpoint_ctrl_phase_U[num_gr]/100;
+        temp_value = target_label->setpoint_ctrl_phase_U[num_gr]/100;
         break;
       }
     case MA_STP_CTRL_PHASE_PHI:
       {
-        temp_value = current_settings_interfaces.setpoint_ctrl_phase_phi[num_gr];
+        temp_value = target_label->setpoint_ctrl_phase_phi[num_gr];
         break;
       }
     case MA_STP_CTRL_PHASE_F:
       {
-        temp_value = current_settings_interfaces.setpoint_ctrl_phase_f[num_gr]/10;
+        temp_value = target_label->setpoint_ctrl_phase_f[num_gr]/10;
         break;
       }
     case MA_TO_CTRL_PHASE_U:
       {
-        temp_value = current_settings_interfaces.timeout_ctrl_phase_U[num_gr]/10;
+        temp_value = target_label->timeout_ctrl_phase_U[num_gr]/10;
         break;
       }
     case MA_TO_CTRL_PHASE_U_D:
       {
-        temp_value = current_settings_interfaces.timeout_ctrl_phase_U_d[num_gr]/10;
+        temp_value = target_label->timeout_ctrl_phase_U_d[num_gr]/10;
         break;
       }
     case MA_TO_CTRL_PHASE_PHI:
       {
-        temp_value = current_settings_interfaces.timeout_ctrl_phase_phi[num_gr]/10;
+        temp_value = target_label->timeout_ctrl_phase_phi[num_gr]/10;
         break;
       }
     case MA_TO_CTRL_PHASE_PHI_D:
       {
-        temp_value = current_settings_interfaces.timeout_ctrl_phase_phi_d[num_gr]/10;
+        temp_value = target_label->timeout_ctrl_phase_phi_d[num_gr]/10;
         break;
       }
     case MA_TO_CTRL_PHASE_F:
       {
-        temp_value = current_settings_interfaces.timeout_ctrl_phase_f[num_gr]/10;
+        temp_value = target_label->timeout_ctrl_phase_f[num_gr]/10;
         break;
       }
     case MA_TO_CTRL_PHASE_F_D:
       {
-        temp_value = current_settings_interfaces.timeout_ctrl_phase_f_d[num_gr]/10;
+        temp_value = target_label->timeout_ctrl_phase_f_d[num_gr]/10;
         break;
       }
     default:
@@ -5982,107 +5998,107 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     {
     case MA_TN1:
       {
-        temp_value = current_settings_interfaces.TVoltage;
+        temp_value = target_label->TVoltage;
         break;
       }
     case MA_TT:
       {
-        temp_value = current_settings_interfaces.TCurrent;
+        temp_value = target_label->TCurrent;
         break;
       }
     case MA_TO_SWCH_ON:
       {
-        temp_value = current_settings_interfaces.timeout_swch_on/10;
+        temp_value = target_label->timeout_swch_on/10;
         break;
       }
     case MA_TO_SWCH_OFF:
       {
-        temp_value = current_settings_interfaces.timeout_swch_off/10;
+        temp_value = target_label->timeout_swch_off/10;
         break;
       }
     case MA_TO_SWCH_UDL_BLK_ON:
       {
-        temp_value = current_settings_interfaces.timeout_swch_udl_blk_on/10;
+        temp_value = target_label->timeout_swch_udl_blk_on/10;
         break;
       }
     case MA_TO_FAULT_CONTROL_CIRCUIT:
       {
-        temp_value = current_settings_interfaces.timeout_pryvoda_VV/10;
+        temp_value = target_label->timeout_pryvoda_VV/10;
         break;
       }
     case MA_STP_Inom:
       {
-        temp_value = current_settings_interfaces.setpoint_Inom;
+        temp_value = target_label->setpoint_Inom;
         break;
       }
     case MA_STP_RKS_Inom:
       {
-        temp_value = current_settings_interfaces.setpoint_r_kom_st_Inom/10;
+        temp_value = target_label->setpoint_r_kom_st_Inom/10;
         break;
       }
     case MA_STP_Inom_vymk:
       {
-        temp_value = current_settings_interfaces.setpoint_Inom_vymk;
+        temp_value = target_label->setpoint_Inom_vymk;
         break;
       }
     case MA_STP_RKS_Inom_vymk:
       {
-        temp_value = current_settings_interfaces.setpoint_r_kom_st_Inom_vymk;
+        temp_value = target_label->setpoint_r_kom_st_Inom_vymk;
         break;
       }
     case MA_STP_POCHATKOVYJ_RESURS_LSW:
       {
-        temp_value = current_settings_interfaces.setpoint_pochatkovyj_resurs & 0xffff;
+        temp_value = target_label->setpoint_pochatkovyj_resurs & 0xffff;
         break;
       }
     case MA_STP_POCHATKOVYJ_RESURS_MSW:
       {
-        temp_value = (current_settings_interfaces.setpoint_pochatkovyj_resurs >> 16) & 0xffff;
+        temp_value = (target_label->setpoint_pochatkovyj_resurs >> 16) & 0xffff;
         break;
       }
     case MA_STP_KRYTYCHNYJ_RESURS:
       {
-        temp_value = current_settings_interfaces.setpoint_krytychnyj_resurs;
+        temp_value = target_label->setpoint_krytychnyj_resurs;
         break;
       }
     case MA_POCHATKOVA_K_VYMK_LSW:
       {
-        temp_value = current_settings_interfaces.setpoint_pochatkova_k_vymk & 0xffff;
+        temp_value = target_label->setpoint_pochatkova_k_vymk & 0xffff;
         break;
       }
     case MA_POCHATKOVA_K_VYMK_MSW:
       {
-        temp_value = (current_settings_interfaces.setpoint_pochatkova_k_vymk >> 16) & 0xffff;
+        temp_value = (target_label->setpoint_pochatkova_k_vymk >> 16) & 0xffff;
         break;
       }
     case MA_UVV_TYPE_SIGNAL_INPUT:
       {
-        temp_value = current_settings_interfaces.type_of_input_signal & ((1 << NUMBER_INPUTS) - 1);
+        temp_value = target_label->type_of_input_signal & ((1 << NUMBER_INPUTS) - 1);
         break;
       }
     case MA_UVV_TYPE_INPUT:
       {
-        temp_value = ((unsigned int)(~current_settings_interfaces.type_of_input)) & ((1 << NUMBER_INPUTS) - 1);
+        temp_value = ((unsigned int)(~target_label->type_of_input)) & ((1 << NUMBER_INPUTS) - 1);
         break;
       }
     case MA_UVV_TYPE_OUTPUT:
       {
-        temp_value = current_settings_interfaces.type_of_output & ((1 << NUMBER_OUTPUTS) - 1);
+        temp_value = target_label->type_of_output & ((1 << NUMBER_OUTPUTS) - 1);
         break;
       }
     case MA_UVV_TYPE_OUTPUT_MODIF:
       {
-        temp_value = current_settings_interfaces.type_of_output_modif & ((1 << NUMBER_OUTPUTS) - 1);
+        temp_value = target_label->type_of_output_modif & ((1 << NUMBER_OUTPUTS) - 1);
         break;
       }
     case MA_TYPE_DF:
       {
-        temp_value = current_settings_interfaces.type_df & ((1 << NUMBER_DEFINED_FUNCTIONS) - 1);
+        temp_value = target_label->type_df & ((1 << NUMBER_DEFINED_FUNCTIONS) - 1);
         break;
       }
     case MA_UVV_TYPE_LED:
       {
-        temp_value = current_settings_interfaces.type_of_led & ((1 << NUMBER_LEDS) - 1);
+        temp_value = target_label->type_of_led & ((1 << NUMBER_LEDS) - 1);
         break;
       }
     case MA_DOPUSK_DV_1:
@@ -6096,7 +6112,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     case MA_DOPUSK_DV_9:
     case MA_DOPUSK_DV_10:
       {
-        temp_value = current_settings_interfaces.dopusk_dv[address_data - MA_DOPUSK_DV_1];
+        temp_value = target_label->dopusk_dv[address_data - MA_DOPUSK_DV_1];
         break;
       }
     case MA_DF_PAUSE_1:
@@ -6108,7 +6124,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     case MA_DF_PAUSE_7:
     case MA_DF_PAUSE_8:
       {
-        temp_value = current_settings_interfaces.timeout_pause_df[address_data - MA_DF_PAUSE_1]/10;
+        temp_value = target_label->timeout_pause_df[address_data - MA_DF_PAUSE_1]/10;
         break;
       }
     case MA_DF_WORK_1:
@@ -6120,18 +6136,18 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     case MA_DF_WORK_7:
     case MA_DF_WORK_8:
       {
-        temp_value = current_settings_interfaces.timeout_work_df[address_data - MA_DF_WORK_1]/10;
+        temp_value = target_label->timeout_work_df[address_data - MA_DF_WORK_1]/10;
         break;
       }
     case MA_TO_DEACTIVATION_PASSWORD_INTERFACE:
       {
           if (type_interface == USB_RECUEST)
           {
-            temp_value = current_settings_interfaces.timeout_deactivation_password_interface_USB;
+            temp_value = target_label->timeout_deactivation_password_interface_USB;
           }
           else if (type_interface == RS485_RECUEST)
           {
-            temp_value = current_settings_interfaces.timeout_deactivation_password_interface_RS485;
+            temp_value = target_label->timeout_deactivation_password_interface_RS485;
           }
           else error = ERROR_SLAVE_DEVICE_FAILURE;
       
@@ -6139,38 +6155,38 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
       }
     case MA_TO_IDLE_NEW_SETTINGS:
       {
-          temp_value = current_settings_interfaces.timeout_idle_new_settings;
+          temp_value = target_label->timeout_idle_new_settings;
       
           break;
       }
     case MA_LANGUAGE_MENU:
       {
-        temp_value = current_settings_interfaces.language;
+        temp_value = target_label->language;
         break;
       }
     case MA_SPEED_RS485_1:
       {
-        temp_value = current_settings_interfaces.speed_RS485;
+        temp_value = target_label->speed_RS485;
         break;
       }
     case MA_STOP_BITS_RS485_1:
       {
-        temp_value = current_settings_interfaces.number_stop_bit_RS485 + 1;
+        temp_value = target_label->number_stop_bit_RS485 + 1;
         break;
       }
     case MA_PARE_RS485_1:
       {
-        temp_value = current_settings_interfaces.pare_bit_RS485;
+        temp_value = target_label->pare_bit_RS485;
         break;
       }
     case MA_TIMEOUT_RS485_1:
       {
-        temp_value = current_settings_interfaces.time_out_1_RS485;
+        temp_value = target_label->time_out_1_RS485;
         break;
       }
     case MA_LOGICAL_ADDRESS:
       {
-        temp_value = current_settings_interfaces.address;
+        temp_value = target_label->address;
         break;
       }
     case MA_NAME_OF_CELL_CHARS_01_02:
@@ -6183,7 +6199,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
     case MA_NAME_OF_CELL_CHARS_15_16:
       {
         unsigned int two_char_index = (address_data - MA_NAME_OF_CELL_CHARS_01_02) << 1;
-        temp_value = (current_settings_interfaces.name_of_cell[two_char_index] & 0xff) | ((current_settings_interfaces.name_of_cell[two_char_index + 1] & 0xff) << 8);
+        temp_value = (target_label->name_of_cell[two_char_index] & 0xff) | ((target_label->name_of_cell[two_char_index + 1] & 0xff) << 8);
         break;
       }
     default:
@@ -6246,17 +6262,17 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
   }
   else if ((address_data >= M_ADDRESS_FIRST_SETPOINTS_RANG_AR) && (address_data <= M_ADDRESS_LAST_SETPOINTS_RANG_AR))
   {
-    temp_value  = convert_order_list_oldr_to_gmm(0, (((address_data - M_ADDRESS_FIRST_SETPOINTS_RANG_AR) & (MAX_FUNCTIONS_IN_AREG - 1)) + 1), SOURCE_AR_RANG);
+    temp_value  = convert_order_list_oldr_to_gmm(0, (((address_data - M_ADDRESS_FIRST_SETPOINTS_RANG_AR) & (MAX_FUNCTIONS_IN_AREG - 1)) + 1), SOURCE_AR_RANG, target_task);
   }
   else if (address_data == MA_PREFAULT_INTERVAL_AR)
   {
     //Читання глибини доаварійного масиву (кількість періодів промислової частоти)
-    temp_value = current_settings_interfaces.prefault_number_periods;
+    temp_value = target_label->prefault_number_periods;
   }
   else if (address_data == MA_POSTFAULT_INTERVAL_AR)
   {
     //Читання глибини післяаварійного масиву (кількість періодів промислової частоти)
-    temp_value = current_settings_interfaces.postfault_number_periods;
+    temp_value = target_label->postfault_number_periods;
   }
   else if (address_data == MA_TOTAL_NUMBER_RECORDS_AR)
   {
@@ -6274,7 +6290,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
   }
   else if ((address_data >= M_ADDRESS_FIRST_SETPOINTS_RANG_DR) && (address_data <= M_ADDRESS_LAST_SETPOINTS_RANG_DR))
   {
-    temp_value  = convert_order_list_oldr_to_gmm(0, (((address_data - M_ADDRESS_FIRST_SETPOINTS_RANG_DR) & (MAX_FUNCTIONS_IN_DREG - 1)) + 1), SOURCE_DR_RANG);
+    temp_value  = convert_order_list_oldr_to_gmm(0, (((address_data - M_ADDRESS_FIRST_SETPOINTS_RANG_DR) & (MAX_FUNCTIONS_IN_DREG - 1)) + 1), SOURCE_DR_RANG, target_task);
   }
   else if (address_data == MA_TOTAL_NUMBER_RECORDS_DR)
   {
@@ -6478,7 +6494,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
   }
   else if (address_data == MA_NUMBER_ITERATION_EL)
   {
-    temp_value = current_settings_interfaces.number_iteration_el;
+    temp_value = target_label->number_iteration_el;
   }
   else if (address_data == MA_LSW_GLOBAL_RESURS_MIN)
   {
@@ -6576,7 +6592,7 @@ inline unsigned int Get_data(unsigned char *data, unsigned int address_data, uns
 /***********************************************************************************/
 //Запис даних
 /***********************************************************************************/
-inline unsigned int Set_data(unsigned short int data, unsigned int address_data, unsigned int method_setting, unsigned int to_be_continue,  unsigned int  *p_try_once_more, unsigned int type_interface)
+inline unsigned int Set_data(unsigned short int data, unsigned int address_data, __settings_data method_setting, unsigned int to_be_continue,  unsigned int  *p_try_once_more, unsigned int type_interface)
 {
   unsigned int error = 0, temp_value;
   
@@ -11920,7 +11936,7 @@ void modbus_rountines(unsigned int type_interface)
             
             //Зчитуємо спочатку цілі слова
             unsigned int i=0;
-            while((i < number_word_read) && ((error = Get_data((transmited_buffer + 3 + 2*i), (first_address_of_word_for_function_3_or_4 + i), type_interface))==0)) i++;
+            while((i < number_word_read) && ((error = Get_data((transmited_buffer + 3 + 2*i), (first_address_of_word_for_function_3_or_4 + i), type_interface, GET_DATA_IMMEDITATE))==0)) i++;
           }
           else
           {
@@ -12015,7 +12031,7 @@ void modbus_rountines(unsigned int type_interface)
             }
 
             unsigned int i=0;
-            while((i<number) && ((error = Get_data((transmited_buffer+3+2*i),(add_data+i), type_interface))==0))i++;
+            while((i<number) && ((error = Get_data((transmited_buffer+3+2*i),(add_data+i), type_interface, GET_DATA_IMMEDITATE))==0))i++;
           }
 
           if (error == 0)
@@ -12174,7 +12190,7 @@ void modbus_rountines(unsigned int type_interface)
             
                   //Зчитуємо спочатку ціле слово
                   unsigned char temp_value_in_char[2];
-                  error = Get_data(temp_value_in_char, first_address_of_word_for_function_3_or_4, type_interface);
+                  error = Get_data(temp_value_in_char, first_address_of_word_for_function_3_or_4, type_interface, GET_DATA_IMMEDITATE);
                   temp_value = temp_value_in_char[1];
                   temp_value |= temp_value_in_char[0] << 8;
 
@@ -12792,7 +12808,7 @@ void modbus_rountines(unsigned int type_interface)
                   //Зчитуємо спочатку ціле слово
                   unsigned short int temp_value;
                   unsigned char temp_value_in_char[2];
-                  error = Get_data(temp_value_in_char,first_address_of_word_for_function_3_or_4_tmp, type_interface);
+                  error = Get_data(temp_value_in_char,first_address_of_word_for_function_3_or_4_tmp, type_interface, GET_DATA_FOR_EDITING);
                   temp_value = temp_value_in_char[1];
                   temp_value |= temp_value_in_char[0] << 8;
 
@@ -12847,7 +12863,7 @@ void modbus_rountines(unsigned int type_interface)
                           first_address_of_word_for_function_3_or_4_tmp++;
   
                           //Зчитуємо ціле слово
-                          error = Get_data(temp_value_in_char,first_address_of_word_for_function_3_or_4_tmp, type_interface);
+                          error = Get_data(temp_value_in_char,first_address_of_word_for_function_3_or_4_tmp, type_interface, GET_DATA_FOR_EDITING);
                           temp_value = temp_value_in_char[1];
                           temp_value |= temp_value_in_char[0] << 8;
                         }

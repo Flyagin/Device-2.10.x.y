@@ -1,3 +1,6 @@
+#ifndef __EXTERNAL_FUNCTIONS_H
+#define __EXTERNAL_FUNCTIONS_H
+
 extern USB_OTG_CORE_HANDLE           USB_OTG_dev;
 extern uint32_t USBD_OTG_ISR_Handler (USB_OTG_CORE_HANDLE *pdev);
 
@@ -232,17 +235,17 @@ extern void start_transmint_data_via_RS_485(unsigned int);
 extern unsigned short int  AddCRC(unsigned char, unsigned short int);
 extern void modbus_rountines(unsigned int);
 extern void Error_modbus(unsigned int, unsigned int, unsigned int, unsigned char*);
-extern unsigned int Get_data(unsigned char *, unsigned int, unsigned int);
-extern unsigned int Set_data(unsigned short int, unsigned int, unsigned int, unsigned int, unsigned int*, unsigned int);
+extern unsigned int Get_data(unsigned char *, unsigned int, unsigned int, __getting_data);
+extern unsigned int Set_data(unsigned short int, unsigned int, __settings_data, unsigned int, unsigned int*, unsigned int);
 extern unsigned int Get_data_file(unsigned char*, unsigned char*, unsigned int*, unsigned int);
 extern void convert_order_list_function_to_gmm(unsigned int*, unsigned short int*);
-extern unsigned int convert_order_list_inputs_to_gmm(unsigned int, unsigned int);
-extern unsigned int convert_order_list_oldr_to_gmm(unsigned int, unsigned int, unsigned int);
-extern unsigned int convert_order_list_buttons_to_gmm(unsigned int, unsigned int);
+extern unsigned int convert_order_list_inputs_to_gmm(unsigned int, unsigned int, __getting_data);
+extern unsigned int convert_order_list_oldr_to_gmm(unsigned int, unsigned int, unsigned int, __getting_data);
+extern unsigned int convert_order_list_buttons_to_gmm(unsigned int, unsigned int, __getting_data);
 extern void set_previous_ranguvannja(void);
-extern unsigned int save_new_rang_inputs_from_gmm(unsigned int, unsigned int, unsigned short int, unsigned int);
-extern unsigned int save_new_rang_oldr_from_gmm(unsigned int, unsigned int, unsigned int, unsigned short int, unsigned int);
-extern unsigned int save_new_rang_buttons_from_gmm(unsigned int, unsigned int, unsigned short int, unsigned int);
+extern unsigned int save_new_rang_inputs_from_gmm(unsigned int, unsigned int, unsigned short int, __settings_data);
+extern unsigned int save_new_rang_oldr_from_gmm(unsigned int, unsigned int, unsigned int, unsigned short int, __settings_data);
+extern unsigned int save_new_rang_buttons_from_gmm(unsigned int, unsigned int, unsigned short int, __settings_data);
 
 extern ErrorStatus check_errors_i2c(void);
 extern unsigned int start_write_buffer_via_I2C(uint32_t, uint32_t, uint8_t volatile*, uint32_t);
@@ -330,3 +333,5 @@ extern void EXITI_POWER_IRQHandler(void);
 extern void setpoints_selecting(volatile unsigned int*, unsigned int);
 
 extern int str_to_int_DATE_Mmm(void);
+
+#endif

@@ -492,4 +492,18 @@ typedef struct
 //  int real_number;
 //} EL_FILTER_STRUCT;
 
+typedef enum _getting_data
+{
+  GET_DATA_FOR_EDITING = 0,
+  GET_DATA_IMMEDITATE
+} __getting_data;
+
+typedef enum _setting_data
+{
+  SET_DATA_INTO_EDIT_TABLE = 0,
+  SET_DATA_IMMEDITATE
+} __settings_data;
+
+
+
 #endif

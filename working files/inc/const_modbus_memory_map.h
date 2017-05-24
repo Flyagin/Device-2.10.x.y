@@ -1,9 +1,6 @@
 #ifndef __CONST_MODBUS_MEMORY_MAP__
 #define __CONST_MODBUS_MEMORY_MAP__
 
-#define SET_DATA_INTO_EDIT_TABLE          0
-#define SET_DATA_IMMEDITATE               1
-
 /*****************************************************/
 /* Адресний простір тільки для читання (Блок 1) */
 /*****************************************************/
