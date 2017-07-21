@@ -1134,11 +1134,11 @@ enum __mtz_abc_direction_const {
    | (1 << (RANG_PO_MTZN3_VPERED - 32))                       /*58*/  \
    | (1 << (RANG_PO_MTZN3_NAZAD - 32))                        /*59*/  \
    | (1 << (RANG_PO_MTZPN3 - 32))                             /*61*/  \
+   | (1 << (RANG_MTZ3 - 32))                                  /*62*/  \
 )
 
 #define MASKA_MONITOTYNG_PHASE_SIGNALES_2 (unsigned int)(            \
-     (1 << (RANG_MTZ3 - 32))                                  /*63*/  \
-   | (1 << (RANG_PO_MTZ4 - 64))                               /*65*/ \
+     (1 << (RANG_PO_MTZ4 - 64))                               /*65*/ \
    | (1 << (RANG_PO_MTZN4_VPERED - 64))                       /*66*/ \
    | (1 << (RANG_PO_MTZN4_NAZAD - 64))                        /*67*/ \
    | (1 << (RANG_PO_MTZPN4 - 64))                             /*69*/ \
@@ -1320,7 +1320,7 @@ NUMBER_ODYNYCI_VYMIRJUVANNJA
 /*****************************************/
 #define VERSIA_PZ                                             10
 #define MODYFIKACIA_VERSII_PZ                                 0
-#define ZBIRKA_VERSII_PZ                                      3
+#define ZBIRKA_VERSII_PZ                                      4
 /*****************************************/
 
 /*****************************************/
