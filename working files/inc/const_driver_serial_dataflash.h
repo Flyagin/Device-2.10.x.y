@@ -41,7 +41,7 @@
 #define FIRST_INDEX_NUMBER_MAX_U_DR           45
 #define FIRST_INDEX_NUMBER_MAX_ZOP_DR         46
 #define FIRST_INDEX_FIRST_BLOCK_DR            47
-#define FIRST_INDEX_FIRST_DATA_DR             846
+#define FIRST_INDEX_FIRST_DATA_DR             847
 
 #define VAGA_SIZE_ONE_RECORD_PR_ERR           5
 #define SIZE_ONE_RECORD_PR_ERR                (1<<VAGA_SIZE_ONE_RECORD_PR_ERR)
