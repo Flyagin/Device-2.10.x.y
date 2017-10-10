@@ -167,6 +167,8 @@ extern unsigned int temp_states_for_mtz;
 
 extern unsigned int i1_bilshe_porogu, i2_bilshe_porogu;
 
+extern uint32_t TIM_PRT_write_tick;
+
 extern unsigned int TN1_TN2, TN1_TN2_meas_global;
 extern volatile unsigned int state_inputs;
 extern volatile unsigned int active_inputs;
