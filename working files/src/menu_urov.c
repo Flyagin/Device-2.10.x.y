@@ -338,8 +338,8 @@ void make_ekran_control_urov()
         ||
         (
          (
-          (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMIN1) ||
-          (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMIN2)
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_UMIN1) ||
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_UMIN2)
          )   
          &&
          ((current_settings.configuration & (1<<UMIN_BIT_CONFIGURATION)) == 0)
@@ -347,8 +347,8 @@ void make_ekran_control_urov()
         ||
         (
          (
-          (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMAX1) ||
-          (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMAX2)
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_UMAX1) ||
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_UMAX2)
          )   
          &&
          ((current_settings.configuration & (1<<UMAX_BIT_CONFIGURATION)) == 0)

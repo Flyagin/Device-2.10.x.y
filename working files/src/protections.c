@@ -2841,7 +2841,7 @@ void umax1_handler(volatile unsigned int *p_active_functions, unsigned int numbe
   _Bool previous_state_po_umax1 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UMAX1) > 0;
   
   unsigned int setpoint1 = previous_state_po_umax1 ?
-          current_settings_prt.setpoint_Umax1[number_group_stp] * U_UP / 100 :
+          current_settings_prt.setpoint_Umax1[number_group_stp] * U_UP_UMAX / 100 :
           current_settings_prt.setpoint_Umax1[number_group_stp];
   
   _Bool Uab_is_larger_than_Umax1 = measurement[index_IM_UAB] >= setpoint1;
@@ -2924,7 +2924,7 @@ void umax2_handler(volatile unsigned int *p_active_functions, unsigned int numbe
   _Bool previous_state_po_umax2 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UMAX2) > 0;
   
   unsigned int setpoint1 = previous_state_po_umax2 ?
-          current_settings_prt.setpoint_Umax2[number_group_stp] * U_UP / 100 :
+          current_settings_prt.setpoint_Umax2[number_group_stp] * U_UP_UMAX / 100 :
           current_settings_prt.setpoint_Umax2[number_group_stp];
   
   _Bool Uab_is_larger_than_Umax2 = measurement[index_IM_UAB] >= setpoint1;

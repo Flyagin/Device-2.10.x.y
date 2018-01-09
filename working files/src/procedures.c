@@ -1432,8 +1432,8 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
       
       point_to_mask_array = array_full;
     }
-//    else
-//    {
+    else
+    {
 //      //Формуємо маски тільки тих сигналів розширеної логіки, які виведені з конфігурації у кількісному значенні
 //      unsigned int array_defined_logic[NUMBER_DEFINED_ELEMENTS][2] =
 //      {
@@ -1508,9 +1508,9 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
 //        
 //        button_shift += button_signals[index]*array_defined_logic[index][1];
 //      }
-//      
-//      point_to_mask_array = maska_1;
-//    }
+      
+      point_to_mask_array = maska_1;
+    }
 
     //Знімаємо всі функції для ранжування входів, які відповідають за Розширеної логіки
     for (int i = 0; i < NUMBER_DEFINED_BUTTONS; i++)

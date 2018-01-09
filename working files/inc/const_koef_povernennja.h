@@ -7,6 +7,8 @@
 
 #define KOEF_POVERNENNJA_SECTOR_BLK     110
 
+#define U_UP_UMAX                       96
+
 #define U_UP                            90
 #define U_DOWN                          110
 #define U_DOWN_1                        125
