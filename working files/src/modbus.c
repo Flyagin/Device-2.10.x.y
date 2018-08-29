@@ -99,6 +99,10 @@ void convert_order_list_function_to_gmm(unsigned int* input_array, unsigned shor
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PO_BLOCK_U_MTZN    , (BIT_MA_PO_BLOCK_U_MTZN     - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_NCN_MTZ            , (BIT_MA_NCN_MTZ             - BIT_MA_CURRENT_AF_BASE));
 
+  //гдг
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_PUSK_ZDZ_VID_DV    , (BIT_MA_PUSK_ZDZ_VID_DV     - BIT_MA_CURRENT_AF_BASE));
+  _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_ZDZ                , (BIT_MA_ZDZ                 - BIT_MA_CURRENT_AF_BASE));
+
   //гно
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_BLOCK_ZOP , (BIT_MA_BLOCK_ZOP  - BIT_MA_CURRENT_AF_BASE));
   _CONVERT_SIGNAL_TO_GMM(input_array, output_array, RANG_ZOP       , (BIT_MA_ZOP        - BIT_MA_CURRENT_AF_BASE));
