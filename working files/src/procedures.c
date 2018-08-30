@@ -1229,7 +1229,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
     if ((target_label->configuration & (1<<CTRL_PHASE_BIT_CONFIGURATION)) == 0)
     {
       //Виводим всі "Перевірки фазування"
-      target_label->control_ctrl_phase &= (unsigned int)(~CTR_CTRL_PHASE_U | CTR_CTRL_PHASE_PHI | CTR_CTRL_PHASE_F | CTR_CTRL_PHASE_SEQ_TN1 | CTR_CTRL_PHASE_SEQ_TN2);
+      target_label->control_ctrl_phase &= (unsigned int)(~(CTR_CTRL_PHASE_U | CTR_CTRL_PHASE_PHI | CTR_CTRL_PHASE_F | CTR_CTRL_PHASE_SEQ_TN1 | CTR_CTRL_PHASE_SEQ_TN2));
    
       //Формуємо маски функцій "Перевірка фазування"
       maska[0] = 0;
