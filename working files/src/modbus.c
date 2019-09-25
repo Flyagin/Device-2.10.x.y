@@ -7052,8 +7052,8 @@ inline unsigned int Set_data(unsigned short int data, unsigned int address_data,
           if (
               ((target_label->configuration & (1 << UMAX_BIT_CONFIGURATION)) !=0 ) ||
               ((data & (
-                        (1 << (BIT_MA_CONTROL_UMAX1 - BIT_MA_CONTROL_UMIN_BASE)) |
-                        (1 << (BIT_MA_CONTROL_UMAX2 - BIT_MA_CONTROL_UMIN_BASE))
+                        (1 << (BIT_MA_CONTROL_UMAX1 - BIT_MA_CONTROL_UMAX_BASE)) |
+                        (1 << (BIT_MA_CONTROL_UMAX2 - BIT_MA_CONTROL_UMAX_BASE))
                        )
                ) == 0) 
              )
