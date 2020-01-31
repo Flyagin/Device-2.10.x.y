@@ -2,11 +2,11 @@
 #define __GLOBAL_VARIABLES_H
 
 //Вимірювальна система
-volatile unsigned int semaphore_adc_irq = false;
-volatile unsigned int adc_DATA_VAL_1_read = false;
-volatile unsigned int adc_DATA_VAL_2_read = false;
-volatile unsigned int adc_TEST_VAL_read = false;
-volatile unsigned int status_adc_read_work = 0;
+unsigned int semaphore_adc_irq = false;
+unsigned int adc_DATA_VAL_1_read = false;
+unsigned int adc_DATA_VAL_2_read = false;
+unsigned int adc_TEST_VAL_read = false;
+unsigned int status_adc_read_work = 0;
 const unsigned int input_adc[NUMBER_INPUTs_ADCs][2]={
                                                      {1,0x8330},
                                                      {1,0x8730},
@@ -62,7 +62,7 @@ unsigned int fix_perechid_cherez_nul[MAX_INDEX_PhK];
 unsigned int fix_perechid_cherez_nul_TN1_TN2 = 0, fix_perechid_cherez_nul_TN1_TN2_work = 0;
 POPEREDNJY_PERECHID poperednij_perechid;
 
-volatile unsigned int semaphore_delta_phi = 0;
+unsigned int semaphore_delta_phi = 0;
 
 int delta_phi_index_1 = -1, delta_phi_index_2 = -1;
 int delta_phi_index_1_work_middle = -1, delta_phi_index_2_work_middle = -1;
@@ -126,7 +126,7 @@ int ADCs_data[NUMBER_ANALOG_CANALES];
 int current_data[NUMBER_ANALOG_CANALES*NUMBER_POINT*NUMBER_PERIOD_TRANSMIT];
 unsigned int index_array_of_current_data_value = 0;
 
-volatile unsigned int changed_ustuvannja = CHANGED_ETAP_NONE; 
+unsigned int changed_ustuvannja = CHANGED_ETAP_NONE; 
 unsigned char crc_ustuvannja;
 unsigned int ustuvannja_meas[NUMBER_ANALOG_CANALES], ustuvannja[NUMBER_ANALOG_CANALES], edit_ustuvannja[NUMBER_ANALOG_CANALES];
 int phi_ustuvannja_meas[NUMBER_ANALOG_CANALES], phi_ustuvannja[NUMBER_ANALOG_CANALES], phi_edit_ustuvannja[NUMBER_ANALOG_CANALES];
@@ -213,13 +213,13 @@ int data_cos_U_2[NUMBER_POINT*NUMBER_ANALOG_CANALES_U_2];
 int ortogonal_irq[2*NUMBER_ANALOG_CANALES];
 int ortogonal[2*NUMBER_ANALOG_CANALES][2];
 unsigned int bank_ortogonal = 0;
-volatile unsigned int semaphore_measure_values_low = 0;
+unsigned int semaphore_measure_values_low = 0;
 
-volatile unsigned int semaphore_measure_values_low1 = 0;
+unsigned int semaphore_measure_values_low1 = 0;
 
 unsigned int number_inputs_for_fix_one_second = 0;
 unsigned int number_inputs_for_fix_one_period = 0;
-volatile unsigned int measurement[NUMBER_ANALOG_CANALES + 8]; 
+unsigned int measurement[NUMBER_ANALOG_CANALES + 8];
 unsigned int measurement_high[2][NUMBER_ANALOG_CANALES + 8] , bank_measurement_high = 0; 
 unsigned int measurement_middle[NUMBER_ANALOG_CANALES + 8]; 
 unsigned int measurement_low[NUMBER_ANALOG_CANALES + 8]; 
@@ -239,7 +239,7 @@ int Q_2q[2] = {0, 0};
 int Q_3q[2] = {0, 0};
 int Q_4q[2] = {0, 0};
 unsigned int lichylnyk_1s_po_20ms = 0;
-volatile unsigned int bank_for_enegry = 0;
+unsigned int bank_for_enegry = 0;
 int P = 0, Q = 0, cos_phi_x1000 = 0;
 unsigned int S = 0;
 double energy[MAX_NUMBER_INDEXES_ENERGY] = {0, 0, 0, 0, 0, 0};
@@ -268,29 +268,29 @@ unsigned int i1_bilshe_porogu = 0, i2_bilshe_porogu = 0;
 uint32_t TIM_PRT_write_tick;
 
 unsigned int TN1_TN2 = 0, TN1_TN2_meas_global; //0 - ТН1; 1 - ТН2
-volatile unsigned int state_inputs = 0; //"є сигнал " - відповідає встановленому біту (1); "немає сигналу" - відповідає скинутому біту (0)
-volatile unsigned int active_inputs = 0; //"вхід активний" - відповідає встановленому біту (1); "вхід пасивний" - відповідає скинутому біту (0)
+unsigned int state_inputs = 0; //"є сигнал " - відповідає встановленому біту (1); "немає сигналу" - відповідає скинутому біту (0)
+unsigned int active_inputs = 0; //"вхід активний" - відповідає встановленому біту (1); "вхід пасивний" - відповідає скинутому біту (0)
 unsigned int state_outputs = 0;
 unsigned int state_outputs_raw = 0;
-volatile unsigned int state_signal_outputs = 0;
-volatile unsigned int state_leds = 0;
-volatile unsigned int state_trigger_leds = 0;
-volatile unsigned int active_functions[N_BIG]  = {0, 0, 0, 0, 0, 0, 0};
+unsigned int state_signal_outputs = 0;
+unsigned int state_leds = 0;
+unsigned int state_trigger_leds = 0;
+unsigned int active_functions[N_BIG]  = {0, 0, 0, 0, 0, 0, 0};
 unsigned int misceve_dystancijne = 0, misceve_dystancijne_ctrl;
 unsigned int trigger_active_functions[N_BIG]  = {0, 0, 0, 0, 0, 0, 0}, trigger_active_functions_ctrl[N_BIG];
 unsigned char crc_trg_func, crc_trg_func_ctrl;
-volatile unsigned int trigger_functions_USB[N_BIG] = {0, 0, 0, 0, 0, 0, 0};
-volatile unsigned int trigger_functions_RS485[N_BIG] = {0, 0, 0, 0, 0, 0, 0};
+unsigned int trigger_functions_USB[N_BIG] = {0, 0, 0, 0, 0, 0, 0};
+unsigned int trigger_functions_RS485[N_BIG] = {0, 0, 0, 0, 0, 0, 0};
 unsigned int copying_active_functions = 0;
-volatile unsigned int active_functions_copy[N_BIG]  = {0, 0, 0, 0, 0, 0, 0};
-volatile unsigned int active_functions_trg[N_BIG]  = {0, 0, 0, 0, 0, 0, 0};
+unsigned int active_functions_copy[N_BIG]  = {0, 0, 0, 0, 0, 0, 0};
+unsigned int active_functions_trg[N_BIG]  = {0, 0, 0, 0, 0, 0, 0};
 unsigned int pressed_buttons = 0;
-volatile unsigned int activation_function_from_interface = 0;
-volatile unsigned int reset_trigger_function_from_interface = 0;
+unsigned int activation_function_from_interface = 0;
+unsigned int reset_trigger_function_from_interface = 0;
 unsigned int diagnostyka_before[3] = {0, 0, 0};
 volatile unsigned int diagnostyka[3] = {0, 0, 0};
-volatile unsigned int set_diagnostyka[3] = {0, 0, 0};
-volatile unsigned int clear_diagnostyka[3] = {0, 0, 0};
+unsigned int set_diagnostyka[3] = {0, 0, 0};
+unsigned int clear_diagnostyka[3] = {0, 0, 0};
 
 int global_timers[MAX_NUMBER_GLOBAL_TIMERS]; //Масив глобальних таймерів
 unsigned int timer_prt_signal_output_mode_2 = 0;
@@ -323,22 +323,22 @@ __CURRENT_EKRAN current_ekran;
 int position_in_current_level_menu[MAX_LEVEL_MENU]; //Масив у якому збкрігається індекс текучоїпозиції
 int previous_level_in_current_level_menu[MAX_LEVEL_MENU]; //Масив у якому збкрігається занчення попередніх екранів для даного рівня меню
 
-volatile unsigned int periodical_tasks_TEST_SETTINGS = false;
-volatile unsigned int periodical_tasks_TEST_USTUVANNJA = false;
-volatile unsigned int periodical_tasks_TEST_TRG_FUNC = false;
-volatile unsigned int periodical_tasks_TEST_TRG_FUNC_LOCK = false;
-volatile unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_AR = false;
-volatile unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_AR_LOCK = false;
-volatile unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_DR = false;
-volatile unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_DR_LOCK = false;
-volatile unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_PR_ERR = false;
-volatile unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_PR_ERR_LOCK = false;
-volatile unsigned int periodical_tasks_TEST_RESURS = false;
-volatile unsigned int periodical_tasks_TEST_RESURS_LOCK = false;
-volatile unsigned int periodical_tasks_TEST_FLASH_MEMORY = false;
-volatile unsigned int periodical_tasks_CALCULATION_ANGLE = false;
-volatile unsigned int periodical_tasks_CALC_ENERGY_DATA = false;
-volatile unsigned int periodical_tasks_CALC_DELTA_PHI = false;
+unsigned int periodical_tasks_TEST_SETTINGS = false;
+unsigned int periodical_tasks_TEST_USTUVANNJA = false;
+unsigned int periodical_tasks_TEST_TRG_FUNC = false;
+unsigned int periodical_tasks_TEST_TRG_FUNC_LOCK = false;
+unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_AR = false;
+unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_AR_LOCK = false;
+unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_DR = false;
+unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_DR_LOCK = false;
+unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_PR_ERR = false;
+unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_PR_ERR_LOCK = false;
+unsigned int periodical_tasks_TEST_RESURS = false;
+unsigned int periodical_tasks_TEST_RESURS_LOCK = false;
+unsigned int periodical_tasks_TEST_FLASH_MEMORY = false;
+unsigned int periodical_tasks_CALCULATION_ANGLE = false;
+unsigned int periodical_tasks_CALC_ENERGY_DATA = false;
+unsigned int periodical_tasks_CALC_DELTA_PHI = false;
 
 const unsigned char odynyci_vymirjuvannja[MAX_NAMBER_LANGUAGE][NUMBER_ODYNYCI_VYMIRJUVANNJA] =
 {
@@ -361,7 +361,7 @@ int etap_reset_of_bit = ETAP_CLEAR_OF_NONE;
 int etap_settings_test_frequency = -1;
 unsigned char temp_register_rtc[2];
 
-volatile unsigned int changed_settings = CHANGED_ETAP_NONE; 
+unsigned int changed_settings = CHANGED_ETAP_NONE;
 unsigned char crc_settings;
 __SETTINGS current_settings_prt, current_settings, edition_settings, current_settings_interfaces;
 const unsigned int mtz_settings_prt[NUMBER_LEVEL_MTZ][MTZ_SETTINGS_LENGTH] = 
@@ -596,10 +596,10 @@ unsigned int p_global_trigger_state_mtz2 = 0;
 
 //Визначення періодів у хвилину і більше
 unsigned int number_seconds = 0;
-volatile unsigned int number_minutes = 0;
+unsigned int number_minutes = 0;
 
 //Ресурс++
-volatile unsigned int restart_resurs_count = 0;
+unsigned int restart_resurs_count = 0;
 unsigned int resurs_temp = 0;
 unsigned int resurs_global = 0;
 unsigned int resurs_global_min;
@@ -642,7 +642,7 @@ __DRIVER_SPI_DF driver_spi_df[NUMBER_DATAFLASH_CHIP] = {
                                                         {TRANSACTION_EXECUTING_NONE, CODE_OPERATION_NONE},
                                                         {TRANSACTION_EXECUTING_NONE, CODE_OPERATION_NONE}
                                                        };
-volatile unsigned int error_into_spi_df = 0;/*Ненульве значення означає, що зафіксована помилка при прийом/передачі через SPI_DF*/
+unsigned int error_into_spi_df = 0;/*Ненульве значення означає, що зафіксована помилка при прийом/передачі через SPI_DF*/
 unsigned int dataflash_not_busy = 0;
 volatile unsigned int control_tasks_dataflash = 0;
 unsigned char buffer_for_manu_read_record[SIZE_BUFFER_FOR_DR_RECORD];
@@ -658,26 +658,26 @@ unsigned int what_we_are_reading_from_dataflash_2;
 
 //Аналоговий реєстратор
 unsigned char crc_info_rejestrator_ar;
-volatile __INFO_REJESTRATOR info_rejestrator_ar;
+__INFO_REJESTRATOR info_rejestrator_ar;
 unsigned char crc_info_rejestrator_ar_ctrl;
 __INFO_REJESTRATOR info_rejestrator_ar_ctrl;
-volatile unsigned int size_one_ar_record = 0;
+unsigned int size_one_ar_record = 0;
 unsigned int number_word_digital_part_ar;
-volatile unsigned int max_number_records_ar = 0; //Максимальна кількість записів в аналоговому реєстраторі при вибраних витримках (розраховується з витрмиок доаварійного і післяаварійного часу)
-volatile unsigned int semaphore_read_state_ar_record = 0; //Коли цей симафор встановлений, то якщо не йде запис, то новий запис не можна починати, а якщо іде, то можна продовжувати запис
+unsigned int max_number_records_ar = 0; //Максимальна кількість записів в аналоговому реєстраторі при вибраних витримках (розраховується з витрмиок доаварійного і післяаварійного часу)
+unsigned int semaphore_read_state_ar_record = 0; //Коли цей симафор встановлений, то якщо не йде запис, то новий запис не можна починати, а якщо іде, то можна продовжувати запис
 unsigned int continue_previous_record_ar = 0; //Сигналізує, не зняті вще всі джерела запуску аналогового реєстратора після його попе6реднього запуску
-volatile int state_ar_record = STATE_AR_NO_RECORD;
+int state_ar_record = STATE_AR_NO_RECORD;
 SRAM1 short int array_ar[SIZE_BUFFER_FOR_AR];
 SRAM1 short int word_SRAM1;
 unsigned int index_array_ar_current = 0;
-volatile unsigned int index_array_ar_heat;
-volatile unsigned int index_array_ar_tail;
+unsigned int index_array_ar_heat;
+unsigned int index_array_ar_tail;
 unsigned int prescaler_ar = 0; //Потрібний для того, щоб з 32 виборок на секунду зробити 16 виборки на секунду
 __HEADER_AR header_ar;
 unsigned char buffer_for_save_ar_record[SIZE_PAGE_DATAFLASH_2];
 unsigned int temporary_address_ar;
 volatile unsigned int count_to_save;
-volatile unsigned int permit_copy_new_data;
+unsigned int permit_copy_new_data;
 unsigned int copied_number_samples, total_number_samples;
 unsigned int etap_writing_part_page_ar_into_dataflash = ETAP_NONE;
 unsigned int number_record_of_ar_for_menu = 0xffff; //Це число означає, що номер запису не вибраний
@@ -690,7 +690,7 @@ int last_number_time_sample_for_RS485;// -1 - заголовок запису ан.р.; 0 - перший
 
 //Дискретний реєстратор
 unsigned char crc_info_rejestrator_dr;
-volatile __INFO_REJESTRATOR info_rejestrator_dr;
+__INFO_REJESTRATOR info_rejestrator_dr;
 unsigned char crc_info_rejestrator_dr_ctrl;
 __INFO_REJESTRATOR info_rejestrator_dr_ctrl;
 unsigned int state_dr_record = STATE_DR_NO_RECORD;
@@ -722,13 +722,13 @@ int index_cell_into_array_for_min_max_measurement_dr;
 
 //Реєстратор програмних помилок
 unsigned char crc_info_rejestrator_pr_err;
-volatile __INFO_REJESTRATOR info_rejestrator_pr_err;
+__INFO_REJESTRATOR info_rejestrator_pr_err;
 unsigned char crc_info_rejestrator_pr_err_ctrl;
 __INFO_REJESTRATOR info_rejestrator_pr_err_ctrl;
 unsigned char buffer_pr_err_records[SIZE_BUFFER_FOR_PR_ERR];
 volatile unsigned int head_fifo_buffer_pr_err_records = 0;
-volatile unsigned int tail_fifo_buffer_pr_err_records = 0;
-volatile unsigned int temporary_block_writing_records_pr_err_into_DataFlash = 0;
+unsigned int tail_fifo_buffer_pr_err_records = 0;
+unsigned int temporary_block_writing_records_pr_err_into_DataFlash = 0;
 unsigned int etap_writing_pr_err_into_dataflash = ETAP_NONE;
 unsigned int number_recods_writing_into_dataflash_now = 0;
 unsigned int number_record_of_pr_err_into_menu = 0xffff;
@@ -736,7 +736,7 @@ unsigned int number_record_of_pr_err_into_USB = 0xffff;
 unsigned int number_record_of_pr_err_into_RS485 = 0xffff;
 
 //Очистка інформації по реєстраторах
-volatile unsigned int clean_rejestrators = 0;
+unsigned int clean_rejestrators = 0;
 
 //Лічильник ресурсу
 unsigned int koef_resurs_changed = CHANGED_ETAP_NONE;
@@ -750,12 +750,12 @@ unsigned int restart_counter = 0;
 unsigned char TxBuffer_RS485[BUFFER_RS485];
 unsigned char RxBuffer_RS485[BUFFER_RS485];
 int TxBuffer_RS485_count = 0;
-int volatile RxBuffer_RS485_count = 0;
+int RxBuffer_RS485_count = 0;
 int RxBuffer_RS485_count_previous = 0;
 unsigned int time_last_receive_byte;
 unsigned int max_reaction_time_rs_485 = 0;
 unsigned int make_reconfiguration_RS_485 = 0;
-volatile unsigned int number_bits_rs_485_waiting = 0;
+unsigned int number_bits_rs_485_waiting = 0;
 unsigned int mark_current_tick_RS_485 = 0;
 unsigned int timeout_idle_RS485;
 
@@ -768,7 +768,7 @@ uint32_t USART_Rx_length  = 0;
 extern uint8_t  USB_Tx_State;
 
 //Для UDP
-u32 volatile count_out = 0;
+u32 count_out = 0;
 u32 count_out_previous = 0;
 uint16_t previous_count_tim4_USB;
 u8 buffer_out[BUFFER_USB];
@@ -789,7 +789,7 @@ unsigned int action_is_continued = false;
 unsigned int part_transmit_carrent_data = 0;
 unsigned int command_to_receive_current_data = false;
 int current_data_transmit[NUMBER_ANALOG_CANALES*NUMBER_POINT*NUMBER_PERIOD_TRANSMIT] /*@ "variables_RAM1"*/; 
-volatile unsigned int wait_of_receiving_current_data  = false; 
+volatile unsigned int wait_of_receiving_current_data  = false;
 unsigned int password_set_USB = 1, password_set_RS485 = 1;
 unsigned int password_changed;
 unsigned int password_ustuvannja = 0;
@@ -810,7 +810,7 @@ unsigned int edit_serial_number_dev;
 unsigned int info_vidkluchennja_vymykacha = 0;
 unsigned char info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_MAX_NUMBER][7]; 
 
-volatile unsigned int control_word_of_watchdog = 0;
+unsigned int control_word_of_watchdog = 0;
 unsigned int test_watchdogs = 0;
 
 /**************************************************************
