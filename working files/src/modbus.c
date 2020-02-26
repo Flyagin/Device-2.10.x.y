@@ -12655,7 +12655,7 @@ void modbus_rountines(unsigned int type_interface)
                     )
             {
               //Запис юстуючик коефіцієнтів
-              _SET_BIT(control_i2c_taskes, TASK_START_WRITE_USTUVANNJA_EEPROM_BIT);
+              _SET_BIT(control_spi1_taskes, TASK_START_WRITE_USTUVANNJA_EEPROM_BIT);
               if (
                   ((add_data >= MA_ADDRESS_FIRST_USTUVANNJA) && (add_data <= MA_ADDRESS_LAST_PHI_USTUVANNJA))
                  )   
@@ -13456,7 +13456,7 @@ void modbus_rountines(unsigned int type_interface)
               }
               serial_number_dev = edit_serial_number_dev;
 
-              _SET_BIT(control_i2c_taskes, TASK_START_WRITE_USTUVANNJA_EEPROM_BIT);
+              _SET_BIT(control_spi1_taskes, TASK_START_WRITE_USTUVANNJA_EEPROM_BIT);
 
               //Помічаємо, що елементи масиву юстування змінені і готові для передавання у вимірювальну систему
               changed_ustuvannja = CHANGED_ETAP_ENDED;
