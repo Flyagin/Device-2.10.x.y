@@ -878,7 +878,7 @@ void main_routines_for_spi1(void)
 
       //Добавляємо інвертовану контрольну суму у кінець масиву
       TxBuffer_SPI_EDF[3 + sizeof(info_rejestrator_pr_err)] = (unsigned char)((~(unsigned int)crc_eeprom_info_rejestrator_pr_err) & 0xff);
-      
+
       //Виставляємо перший блок запису у EEPROM
       number_block_info_rejestrator_pr_err_write_to_eeprom = 0;
     }
@@ -1220,7 +1220,7 @@ void main_routines_for_spi1(void)
         if (RxBuffer_SPI_EDF[3 + i] != 0xff) empty_block = 0;
         i++;
       }
-      
+
       if(empty_block == 0)
       {
         //Помічаємо, що блок енергій не є пустим
@@ -1249,7 +1249,7 @@ void main_routines_for_spi1(void)
 
           //Скидаємо повідомлення у слові діагностики
           _SET_BIT(clear_diagnostyka, ERROR_ENERGY_EEPROM_BIT);
-          
+
           if ((comparison_writing & COMPARISON_WRITING_ENERGY) == 0)
           {
             //Виконувалося зчитування енергій у масив енергій
@@ -1265,7 +1265,7 @@ void main_routines_for_spi1(void)
             //Виконувалося контроль достовірності записаної інформації у EEPROM з записуваною
             
             unsigned int difference = 0;
-  
+
             i = 0;
             while ((difference == 0) && (i < MAX_NUMBER_INDEXES_ENERGY))
             {
@@ -1388,6 +1388,24 @@ void main_routines_for_spi1(void)
               як ми подовжимо запускати інші модулі в роботу
               */
               calc_size_and_max_number_records_ar(current_settings.prefault_number_periods, current_settings.postfault_number_periods);
+              //Онулюємо доаварійний масив перед стартом захистів
+              {
+                uint32_t number_words_slice = NUMBER_ANALOG_CANALES + number_word_digital_part_ar;
+                uint32_t total_size = (current_settings.prefault_number_periods << VAGA_NUMBER_POINT_AR)*number_words_slice;
+                int32_t difference = index_array_ar_heat - total_size;
+                uint32_t index = (difference >= 0) ? difference : (difference + SIZE_BUFFER_FOR_AR);
+
+                uint32_t m = 0;
+                for (size_t l = 0; l < total_size; l++)
+                {
+                  int32_t data_tmp = (m < NUMBER_ANALOG_CANALES) ? 0x8000 : 0;
+                  if (++m >= number_words_slice) m = 0;
+                  
+                  array_ar[index++] = data_tmp;
+//                  AR_WRITE(index, data_tmp);
+                  if (index >= SIZE_BUFFER_FOR_AR) index = 0; /*Умова мал аб бути ==, але щоб перестахуватися на невизначену помилку я поставив >=*/
+                }
+              } 
               make_koef_for_resurs();
             }
             else
