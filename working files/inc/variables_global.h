@@ -616,32 +616,43 @@ unsigned int time_1_watchdog_output = 0;
 unsigned int time_2_watchdog_output = 0;
 unsigned int time_delta_watchdog_output = 0;
 unsigned int time_delta_watchdog_output_min = 0xffff*10;
-unsigned int time_delta_watchdog_output_max = 0;
-
+unsigned int time_delta_watchdog_output_max /*= 0*/;
 
 //I2C
+#ifndef I2C_EEPROM
 unsigned char Temporaty_I2C_Buffer[MAX_NUMBER_REGISTERS_RTC + 2];
-unsigned int number_busy_state = 0;
-unsigned int type_error_of_exchanging_via_i2c = 0;
-//unsigned int low_speed_i2c = 0;
+#else
+unsigned char Temporaty_I2C_Buffer[SIZE_PAGE_EEPROM + 2];
+#endif
+unsigned int number_busy_state /*= 0*/;
+unsigned int type_error_of_exchanging_via_i2c /*= 0*/;
+#ifdef I2C_EEPROM
+unsigned int low_speed_i2c = 0;
+#endif
 __DRIVER_I2C driver_i2c;
-unsigned int control_i2c_taskes[1]  = {0};
-unsigned int state_i2c_task = STATE_FIRST_READING_RTC;
+unsigned int control_i2c_taskes[N_I2C];
+
+unsigned int state_rtc_task = STATE_FIRST_READING_RTC;
 unsigned char read_write_i2c_buffer[SIZE_BUFFER_FOR_I2C];
 
 //Обмін через SPI1
+#ifndef I2C_EEPROM
 unsigned char TxBuffer_SPI_EDF[SIZE_BUFFER_FOR_EDF];
 unsigned char RxBuffer_SPI_EDF[SIZE_BUFFER_FOR_EDF];
 int state_execution_spi1 = -1; //-1 - драйвер готовий до початку нових транзакцій; 0 - відбувається обмін; 1 - обмін завершений без помилок
-unsigned int control_spi1_taskes[2] = {0,0};
-unsigned int comparison_writing = 0; /*очищений біт означає, що іде зчитування у робочий об'єкт, встановлений біт означає що іде порівняння записаної інформації після операції запису*/
-unsigned int state_spi1_task = 0;
 int etap_eeprom_write_enable = -1;
-unsigned int mutex_spi1 = false;
+unsigned int control_spi1_taskes[N_SPI];
+unsigned int mutex_spi1 /*= false*/;
+#endif
+
+unsigned int comparison_writing; /*очищений біт означає, що іде зчитування у робочий об'єкт, встановлений біт означає що іде порівняння записаної інформації після операції запису*/
+unsigned int state_eeprom_task;
 
 //DataFlash
+#ifdef I2C_EEPROM
 unsigned char RxBuffer_SPI_DF[SIZE_PAGE_DATAFLASH_MAX + 10];
 unsigned char TxBuffer_SPI_DF[SIZE_PAGE_DATAFLASH_MAX + 10];
+#endif
 unsigned int number_bytes_transfer_spi_df;
 unsigned int number_bytes_transfer_spi_df_copy;
 unsigned char TxBuffer_SPI_DF_copy[SIZE_PAGE_DATAFLASH_MAX + 10];

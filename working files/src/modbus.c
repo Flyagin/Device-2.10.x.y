@@ -10337,6 +10337,21 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                 )
           {
             //Якщ часом буде спрацьовувати Watchdog, то тут треба буде поставити функцію роботи з ним
+#ifndef I2C_EEPROM
+            if (  
+                (control_eeprom_taskes[0] != 0) || 
+                (control_eeprom_taskes[1] != 0) || 
+                (state_execution_spi1 > 0)
+               )
+            {
+              mutex_spi1 = true;
+              if (driver_spi_df[number_chip_dataflsh_exchange].state_execution == TRANSACTION_EXECUTING_NONE)
+              {
+                main_routines_for_spi1();
+              }
+              mutex_spi1 = false;
+            }
+#endif
           }
           
           int *point_to_first_number_time_sample, *point_to_last_number_time_sample;
@@ -10381,6 +10396,21 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                   )   
             {
               //Якщо часом буде спрацьовувати Watchdog, то тут треба буде поставити функцію роботи з ним
+#ifndef I2C_EEPROM
+            if (  
+                (control_eeprom_taskes[0] != 0) || 
+                (control_eeprom_taskes[1] != 0) || 
+                (state_execution_spi1 > 0)
+               )
+            {
+              mutex_spi1 = true;
+              if (driver_spi_df[number_chip_dataflsh_exchange].state_execution == TRANSACTION_EXECUTING_NONE)
+              {
+                main_routines_for_spi1();
+              }
+              mutex_spi1 = false;
+            }
+#endif
             }
           }
               
@@ -11102,10 +11132,11 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                  ((type_interface == RS485_RECUEST) && ((control_tasks_dataflash & TASK_MAMORY_READ_DATAFLASH_FOR_AR_RS485) != 0))
                 )
           {
-            //Якщ очасом буде спрацьовувати Watchdog, то тут треба буде поставити функцію роботи з ним
+            //Якщо очасом буде спрацьовувати Watchdog, то тут треба буде поставити функцію роботи з ним
+#ifndef I2C_EEPROM
             if (  
-                (control_spi1_taskes[0] != 0) || 
-                (control_spi1_taskes[1] != 0) || 
+                (control_eeprom_taskes[0] != 0) || 
+                (control_eeprom_taskes[1] != 0) || 
                 (state_execution_spi1 > 0)
                )
             {
@@ -11116,6 +11147,7 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
               }
               mutex_spi1 = false;
             }
+#endif
           }
 
           if (
@@ -11172,9 +11204,10 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                     )
               {
                 //Якщо очасом буде спрацьовувати Watchdog, то тут треба буде поставити функцію роботи з ним
+#ifndef I2C_EEPROM
                 if (  
-                    (control_spi1_taskes[0] != 0) || 
-                    (control_spi1_taskes[1] != 0) || 
+                    (control_eeprom_taskes[0] != 0) || 
+                    (control_eeprom_taskes[1] != 0) || 
                     (state_execution_spi1 > 0)
                    )
                 {
@@ -11185,6 +11218,7 @@ inline unsigned int Get_data_file(unsigned char* input_data, unsigned char* outp
                   }
                   mutex_spi1 = false;
                 }
+#endif
               }
             }
             
@@ -12681,7 +12715,7 @@ void modbus_rountines(unsigned int type_interface)
                     )
             {
               //Запис юстуючик коефіцієнтів
-              _SET_BIT(control_spi1_taskes, TASK_START_WRITE_USTUVANNJA_EEPROM_BIT);
+              _SET_BIT(control_eeprom_taskes, TASK_START_WRITE_USTUVANNJA_EEPROM_BIT);
               if (
                   ((add_data >= MA_ADDRESS_FIRST_USTUVANNJA) && (add_data <= MA_ADDRESS_LAST_PHI_USTUVANNJA))
                  )   
@@ -13482,7 +13516,7 @@ void modbus_rountines(unsigned int type_interface)
               }
               serial_number_dev = edit_serial_number_dev;
 
-              _SET_BIT(control_spi1_taskes, TASK_START_WRITE_USTUVANNJA_EEPROM_BIT);
+              _SET_BIT(control_eeprom_taskes, TASK_START_WRITE_USTUVANNJA_EEPROM_BIT);
 
               //Помічаємо, що елементи масиву юстування змінені і готові для передавання у вимірювальну систему
               changed_ustuvannja = CHANGED_ETAP_ENDED;

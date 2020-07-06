@@ -9,26 +9,48 @@
 #define ERROR_UNEXPECTED_BIT      1
 #define ERROR_FIX_ERRORS_BIT      2
 
-//#define CLOCKSPEED_1MBIT      1000000
+#ifdef I2C_EEPROM
+#define CLOCKSPEED_1MBIT      1000000
+#define EEPROM_ADDRESS        0xA2
+#endif
+
 #define CLOCKSPEED            400000
+
+#define RTC_ADDRESS           0xD0
+
 
 #define START_ADDRESS_TIME_REGISTERS              0x0
 #define MAX_NUMBER_REGISTERS_RTC                  20
 
-#define SIZE_BUFFER_FOR_I2C                  MAX_NUMBER_REGISTERS_RTC
+#ifndef I2C_EEPROM
+#define SIZE_BUFFER_FOR_I2C     MAX_NUMBER_REGISTERS_RTC
+#else
+#define SIZE_BUFFER_FOR_I2C     (sizeof(__SETTINGS) + 1)
+#endif
 
 
-#define TASK_BLK_OPERATION_BIT                                          0      
 
-#define TASK_START_READ_RTC_BIT                                         1      
-#define TASK_READING_RTC_BIT                                            2     
+enum  _task_i2c_bit
+{
+TASK_BLK_OPERATION_BIT,
 
-#define TASK_START_WRITE_RTC_BIT                                        3      
-#define TASK_WRITING_RTC_BIT                                            4      
+TASK_START_READ_RTC_BIT,
+TASK_READING_RTC_BIT,
 
-#define TASK_SET_START_SETTINGS_RTC_BIT                                 5      
-#define TASK_RESET_ST_RTC_BIT                                           6      
-#define TASK_RESET_OF_RTC_BIT                                           7      
+TASK_START_WRITE_RTC_BIT,
+TASK_WRITING_RTC_BIT,
+
+TASK_SET_START_SETTINGS_RTC_BIT,
+TASK_RESET_ST_RTC_BIT,
+TASK_RESET_OF_RTC_BIT,
+
+__TASK_NUMBER_RTC
+};
+
+#ifndef I2C_EEPROM
+#define N_I2C   ((__TASK_NUMBER_RTC / 32) + (__TASK_NUMBER_RTC % 32))
+#endif
+
 
 #define STATE_FIRST_READING_RTC_BIT                                     30      
 #define STATE_FIRST_READING_RTC                                         (1<<STATE_FIRST_READING_RTC_BIT)    

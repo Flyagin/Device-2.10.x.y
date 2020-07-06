@@ -4,6 +4,16 @@
 #define SRAM1 _Pragma("location=\"variables_RAM1\"")
 #define SRAM1_AR _Pragma("location=\"Analog_Registrator_Buffer\"")
 
+#ifndef I2C_EEPROM
+#define TxBuffer_SPI            TxBuffer_SPI_EDF
+#define RxBuffer_SPI            RxBuffer_SPI_EDF
+#define control_eeprom_taskes   control_spi1_taskes
+#else
+#define TxBuffer_SPI            TxBuffer_SPI_DF
+#define RxBuffer_SPI            RxBuffer_SPI_DF
+#define control_eeprom_taskes   control_i2c_taskes
+#endif
+
 typedef struct
 {
   int current_level;                  //Текучий рівень відображуваного екрану

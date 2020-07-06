@@ -84,6 +84,7 @@ void I2C_EV_IRQHandler(void)
       if(driver_i2c.action == 0)
       {
         //Підготовлюємо буфер для передачі в мікросхему для запису (адреса)
+#ifdef I2C_EEPROM
         if (driver_i2c.device_id == EEPROM_ADDRESS)
         {
           //Внутрішня адреса для EEPROM становить 2 байти
@@ -92,6 +93,7 @@ void I2C_EV_IRQHandler(void)
           number_transmit_with_i2c = 2;
         }
         else
+#endif
         {
           //Внутрішня адреса для RTC становить 1 байт
           Temporaty_I2C_Buffer[0] = (driver_i2c.internal_address & 0x00FF);
@@ -101,6 +103,7 @@ void I2C_EV_IRQHandler(void)
       else if(driver_i2c.action == 2)
       {
         //Підготовлюємо буфер для передачі в мікросхему для запису (адреса + корисні дані)
+#ifdef I2C_EEPROM
         if (driver_i2c.device_id == EEPROM_ADDRESS)
         {
           //Запис корисних байт іде разом із двома байтами внутрішньої адреси для EEPROM
@@ -113,6 +116,7 @@ void I2C_EV_IRQHandler(void)
           number_transmit_with_i2c = 2 + driver_i2c.number_bytes;
         }
         else
+#endif
         {
           //Запис корисних байт іде разом із одним байтами внутрішньої адреси для RTC
           Temporaty_I2C_Buffer[0] = (driver_i2c.internal_address & 0x00FF);
@@ -916,6 +920,20 @@ void TIM4_IRQHandler(void)
     }
     /***********************************************************/
 
+#ifdef I2C_EEPROM
+    /***********************************************************/
+    //Аналіз запуску, або розблоукування запуску періодичних задач
+    /***********************************************************/
+    if (_CHECK_SET_BIT(control_eeprom_taskes, TASK_BLK_WRITING_EEPROM_BIT) != 0)
+    {
+      //Розблоковуємо запуск заблокованих задач для драйверу I2C
+       _CLEAR_BIT(control_eeprom_taskes, TASK_BLK_WRITING_EEPROM_BIT);
+      //Остаточне розблокування відбудеться після засинхронізацією з зняття миттєвих виборок з АЦП
+      _SET_BIT(control_i2c_taskes, TASK_BLK_OPERATION_BIT);
+    }
+    /***********************************************************/
+#endif
+
     /***********************************************************/
     //Лічильник ресурсу + періодичні операції раз у секунду
     /***********************************************************/
@@ -937,7 +955,7 @@ void TIM4_IRQHandler(void)
       
       //Запуск читання часу з RTC тільки піся успішного зчитування настройок
       //При цьому виставляємо біт блокування негайного запуску операції, щоб засинхронізуватися з роботою вимірювальної системи
-      if ((state_spi1_task & STATE_SETTINGS_EEPROM_GOOD) != 0) 
+      if ((state_eeprom_task & STATE_SETTINGS_EEPROM_GOOD) != 0) 
       {
         _SET_BIT(control_i2c_taskes, TASK_START_READ_RTC_BIT);
         _SET_BIT(control_i2c_taskes, TASK_BLK_OPERATION_BIT);
@@ -961,7 +979,7 @@ void TIM4_IRQHandler(void)
             number_minutes = 0;
           
             //Запускаємо запис у EEPROM
-            _SET_BIT(control_spi1_taskes, TASK_START_WRITE_ENERGY_EEPROM_BIT);
+            _SET_BIT(control_eeprom_taskes, TASK_START_WRITE_ENERGY_EEPROM_BIT);
           }
         }
       }
@@ -1189,7 +1207,7 @@ void TIM4_IRQHandler(void)
   else if (TIM_GetITStatus(TIM4, TIM_IT_CC2) != RESET)
   {
     /***********************************************************************************************/
-    //Переривання відбулося вік каналу 2, який генерує переривання кожні 1 мс, для опраціьовування управління мікросхемами DataFlash і формування нових записів реєстратора програмних подій
+    //Переривання відбулося від каналу 2, який генерує переривання кожні 1 мс, для опраціьовування управління мікросхемами DataFlash і формування нових записів реєстратора програмних подій
     /***********************************************************************************************/
     TIM4->SR = (uint16_t)((~(uint32_t)TIM_IT_CC2) & 0xffff);
     uint16_t current_tick = TIM4->CCR2;
@@ -1214,7 +1232,7 @@ void TIM4_IRQHandler(void)
       //Виставлено каманда очистити реєстратор програмних подій
 
       //Виставляємо команду запису цієї структури у EEPROM
-      _SET_BIT(control_spi1_taskes, TASK_START_WRITE_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT);
+      _SET_BIT(control_eeprom_taskes, TASK_START_WRITE_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT);
 
       //Очищаємо структуру інформації по реєстраторі програмних помилок
       info_rejestrator_pr_err.next_address = MIN_ADDRESS_PR_ERR_AREA;
@@ -1235,8 +1253,10 @@ void TIM4_IRQHandler(void)
     //Періодично запускаємо звертання то мікросхем DataFlash
     /***********************************************************/
     if (
+#ifndef I2C_EEPROM
         (mutex_spi1 == false) &&
         (state_execution_spi1 < 0) &&
+#endif
         (((DMA_StreamSPI_EDF_Tx->CR & (uint32_t)DMA_SxCR_EN) == 0) && ((DMA_StreamSPI_EDF_Rx->CR & (uint32_t)DMA_SxCR_EN) == 0))
        )   
     {
@@ -1276,20 +1296,30 @@ void TIM4_IRQHandler(void)
           //Аналізуємо прийняті дані, якщо такі є і чекають на аналіз
           main_function_for_dataflash_resp(number_chip_dataflsh_exchange);
 
-          if (
-              (control_spi1_taskes[0] == 0) &&
-              (control_spi1_taskes[1] == 0) 
-             )
           {
-            //Змінюємо номер DataFlash з яким буде іти зараз робота
-            if (driver_spi_df[number_chip_dataflsh_exchange].state_execution == TRANSACTION_EXECUTING_NONE)
+#ifndef I2C_EEPROM
+            unsigned int no_yes = false;
+            for (size_t i = 0; i < N_SPI; i++)
             {
-              //Змінюємо номер мікросхеми, до якої ми будемо звертатися при натупних трансакціях, якщо зараз не запущена ніяка трансакція
-              number_chip_dataflsh_exchange = (number_chip_dataflsh_exchange + 1) & (NUMBER_DATAFLASH_CHIP - 1);
+              if (control_eeprom_taskes[i] != 0)
+              {
+                no_yes = true;
+                break;
+              }
             }
+            if (no_yes == false)
+#endif
+            {
+              //Змінюємо номер DataFlash з яким буде іти зараз робота
+              if (driver_spi_df[number_chip_dataflsh_exchange].state_execution == TRANSACTION_EXECUTING_NONE)
+              {
+                //Змінюємо номер мікросхеми, до якої ми будемо звертатися при натупних трансакціях, якщо зараз не запущена ніяка трансакція
+                number_chip_dataflsh_exchange = (number_chip_dataflsh_exchange + 1) & (NUMBER_DATAFLASH_CHIP - 1);
+              }
 
-            //Робимо запит на нову мікросхему DataFlash, якщо э такий
-            main_function_for_dataflash_req(number_chip_dataflsh_exchange);
+              //Робимо запит на нову мікросхему DataFlash, якщо э такий
+              main_function_for_dataflash_req(number_chip_dataflsh_exchange);
+            }
           }
         }
         else
@@ -1307,7 +1337,7 @@ void TIM4_IRQHandler(void)
               виконується незаплпнованим шляхом - тому перезапуск
               */
                
-              if ((RxBuffer_SPI_EDF[1] & (1<< 7)) != 0) dataflash_not_busy |= (1 << number_chip_dataflsh_exchange);
+              if ((RxBuffer_SPI[1] & (1<< 7)) != 0) dataflash_not_busy |= (1 << number_chip_dataflsh_exchange);
               else dataflash_not_busy &= (unsigned int)(~(1 << number_chip_dataflsh_exchange));
         
               driver_spi_df[number_chip_dataflsh_exchange].state_execution = TRANSACTION_EXECUTING_NONE;
@@ -1337,11 +1367,11 @@ void TIM4_IRQHandler(void)
               //Мікросхема готова до повторного виконання операції, під час якої виникла помилкова ситуація на SPI_EDF
 
               //Відновлюємо буфер передавання, який був під час помилки
-              if ((number_bytes_transfer_spi_df_copy != 0) && (number_bytes_transfer_spi_df_copy < sizeof(TxBuffer_SPI_EDF)))
+              if ((number_bytes_transfer_spi_df_copy != 0) && (number_bytes_transfer_spi_df_copy < sizeof(TxBuffer_SPI)))
               {
                 number_bytes_transfer_spi_df = number_bytes_transfer_spi_df_copy;
                 for(unsigned int i = 0; i < number_bytes_transfer_spi_df; i++)
-                  TxBuffer_SPI_EDF[i] = TxBuffer_SPI_DF_copy[i];
+                  TxBuffer_SPI[i] = TxBuffer_SPI_DF_copy[i];
 
                 /*
                 Знімаємо помітку, що зафіксовано помилку при обміні, бо ми будемо 
@@ -1386,14 +1416,14 @@ void TIM4_IRQHandler(void)
     if (periodical_tasks_TEST_INFO_REJESTRATOR_PR_ERR != 0)
     {
       //Стоїть у черзі активна задача зроботи резервні копії даних
-      if ((state_spi1_task & STATE_INFO_REJESTRATOR_PR_ERR_EEPROM_GOOD) != 0)
+      if ((state_eeprom_task & STATE_INFO_REJESTRATOR_PR_ERR_EEPROM_GOOD) != 0)
       {
         //Робимо копію тільки тоді, коли структура інформації реєстратора успішно зчитана і сформована контрольна сума
         if (
-            (_CHECK_SET_BIT(control_spi1_taskes, TASK_START_WRITE_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT) == 0) &&
-            (_CHECK_SET_BIT(control_spi1_taskes, TASK_WRITING_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT    ) == 0) &&
-            (_CHECK_SET_BIT(control_spi1_taskes, TASK_START_READ_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT ) == 0) &&
-            (_CHECK_SET_BIT(control_spi1_taskes, TASK_READING_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT    ) == 0)
+            (_CHECK_SET_BIT(control_eeprom_taskes, TASK_START_WRITE_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT) == 0) &&
+            (_CHECK_SET_BIT(control_eeprom_taskes, TASK_WRITING_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT    ) == 0) &&
+            (_CHECK_SET_BIT(control_eeprom_taskes, TASK_START_READ_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT ) == 0) &&
+            (_CHECK_SET_BIT(control_eeprom_taskes, TASK_READING_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT    ) == 0)
            ) 
         {
           //На даний моммент не іде читання-запис структури інформації реєстратора, тому можна здійснити копіювання
@@ -1508,7 +1538,7 @@ void SPI_EDF_IRQHandler(void)
   */
   
   /*
-  Запам'ятовуємо регістр статусу, який зчитаний зразу після генерації переривання - 
+  Запам'ятовуємо регістр статусу, який зчитаний зразу після генерації переривання -
   у ньому має бути зафіксована причина генерації переривання
   Цю змінну будемо використовувати при аналізі помилки
   */
@@ -1582,7 +1612,11 @@ void SPI_EDF_IRQHandler(void)
       SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
       SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
       SPI_InitStructure.SPI_NSS =  SPI_NSS_Soft;
+#ifndef I2C_EEPROM
       SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_8;
+#else
+      SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_2;
+#endif
       SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
       SPI_InitStructure.SPI_CRCPolynomial = 7;
       SPI_Init(SPI_EDF, &SPI_InitStructure);
@@ -1622,70 +1656,75 @@ void SPI_EDF_IRQHandler(void)
     total_error_sw_fixed(34);
   }
 
+#ifndef I2C_EEPROM
   if (state_execution_spi1 >= 0) 
   {
     //Відбувався обмін з EEPROM. Помічаємо, що відбулася помилка у процесі виконання попередньої операції прийом-передачі
     state_execution_spi1 = 2;
   }
-  else if ((number_chip_dataflsh_exchange >= INDEX_DATAFLASH_1) && (number_chip_dataflsh_exchange <= INDEX_DATAFLASH_2))
+  else 
+#endif
   {
-    if(driver_spi_df[number_chip_dataflsh_exchange].state_execution != TRANSACTION_EXECUTING_NONE)
+    if ((number_chip_dataflsh_exchange >= INDEX_DATAFLASH_1) && (number_chip_dataflsh_exchange <= INDEX_DATAFLASH_2))
     {
-      //Помилка виникла в процесі прийом/передачі
-      
-      //Фіксуємо операцію, яка виконувалася для подальшої обробки
-      unsigned int code_operation_copy_tmp = driver_spi_df[number_chip_dataflsh_exchange].code_operation;
-      
-      /*
-      Оскільки помилка зафіксована при прийомі, то, впринципі, передавання даних могло закінчитися успішно,
-      тому треба помітити, що треба зчитати статус готовності
-      */
-      dataflash_not_busy &= (unsigned int)(~(1 << number_chip_dataflsh_exchange));
-
-      //Знімаємо сигналізацію, що виконується операція для даної мікросхеми
-      driver_spi_df[number_chip_dataflsh_exchange].state_execution = TRANSACTION_EXECUTING_NONE;
-      driver_spi_df[number_chip_dataflsh_exchange].code_operation = CODE_OPERATION_NONE;
-      
-      if (code_operation_copy_tmp != CODE_OPERATION_STATUS_READ) 
+      if(driver_spi_df[number_chip_dataflsh_exchange].state_execution != TRANSACTION_EXECUTING_NONE)
       {
+        //Помилка виникла в процесі прийом/передачі
+      
+        //Фіксуємо операцію, яка виконувалася для подальшої обробки
+        unsigned int code_operation_copy_tmp = driver_spi_df[number_chip_dataflsh_exchange].code_operation;
+      
         /*
-        Виключаємо подпальші дії, якщо попередня операція було читання регістру статусу,
-        бо, оскільки ми зняли прапорець готовності даної мікросхеми, то ця операція всеодно
-        викличеться першою, а далі підуть всі наступні операції
+        Оскільки помилка зафіксована при прийомі, то, впринципі, передавання даних могло закінчитися успішно,
+        тому треба помітити, що треба зчитати статус готовності
         */
-        if (code_operation_copy_tmp == CODE_OPERATION_STATUS_READ)
-        {
-          /*Відбулася невизначена помилка (бо не може бути, щоб ішда якась операція, 
-          але вона була поміена. що ніякої операції немає), тому треба піти на перезавантаження
-          */
-          total_error_sw_fixed(37);
-        }
-          
-        //Робимо резервну копію кількості байт для передавання і буфер передавання
-        if ((number_bytes_transfer_spi_df != 0) && (number_bytes_transfer_spi_df < sizeof(TxBuffer_SPI_EDF)))
-        {
-          number_bytes_transfer_spi_df_copy = number_bytes_transfer_spi_df;
-          for(unsigned int i = 0; i < number_bytes_transfer_spi_df_copy; i++)
-            TxBuffer_SPI_DF_copy[i] = TxBuffer_SPI_EDF[i];
-        }
-        else
-        {
-          //Відбулася невизначена помилка, тому треба піти на перезавантаження
-          total_error_sw_fixed(36);
-        }
-        
-        //Запам'ятовуємо, яка виконувалася операція
-        code_operation_copy = code_operation_copy_tmp;
+        dataflash_not_busy &= (unsigned int)(~(1 << number_chip_dataflsh_exchange));
 
-        //Помічаємо, що зафіксовано помилку при обміні
-        error_into_spi_df = 0xff;
+        //Знімаємо сигналізацію, що виконується операція для даної мікросхеми
+        driver_spi_df[number_chip_dataflsh_exchange].state_execution = TRANSACTION_EXECUTING_NONE;
+        driver_spi_df[number_chip_dataflsh_exchange].code_operation = CODE_OPERATION_NONE;
+      
+        if (code_operation_copy_tmp != CODE_OPERATION_STATUS_READ) 
+        {
+          /*
+          Виключаємо подпальші дії, якщо попередня операція було читання регістру статусу,
+          бо, оскільки ми зняли прапорець готовності даної мікросхеми, то ця операція всеодно
+          викличеться першою, а далі підуть всі наступні операції
+          */
+          if (code_operation_copy_tmp == CODE_OPERATION_STATUS_READ)
+          {
+            /*Відбулася невизначена помилка (бо не може бути, щоб ішда якась операція, 
+            але вона була поміена. що ніякої операції немає), тому треба піти на перезавантаження
+            */
+            total_error_sw_fixed(37);
+          }
+          
+          //Робимо резервну копію кількості байт для передавання і буфер передавання
+          if ((number_bytes_transfer_spi_df != 0) && (number_bytes_transfer_spi_df < sizeof(TxBuffer_SPI)))
+          {
+            number_bytes_transfer_spi_df_copy = number_bytes_transfer_spi_df;
+            for(unsigned int i = 0; i < number_bytes_transfer_spi_df_copy; i++)
+              TxBuffer_SPI_DF_copy[i] = TxBuffer_SPI[i];
+          }
+          else
+          {
+            //Відбулася невизначена помилка, тому треба піти на перезавантаження
+            total_error_sw_fixed(36);
+          }
+        
+          //Запам'ятовуємо, яка виконувалася операція
+          code_operation_copy = code_operation_copy_tmp;
+
+          //Помічаємо, що зафіксовано помилку при обміні
+          error_into_spi_df = 0xff;
+        }
       }
     }
-  }
-  else
-  {
-    //Відбулася невизначена помилка, тому треба піти на перезавантаження
-    total_error_sw_fixed(35);
+    else
+    {
+      //Відбулася невизначена помилка, тому треба піти на перезавантаження
+      total_error_sw_fixed(35);
+    }
   }
   
   /*Виставляємо повідомлення про помилку обміну через SPI_EDF*/
@@ -1732,17 +1771,22 @@ void DMA_StreamSPI_EDF_Rx_IRQHandler(void)
   DMA_ClearFlag(DMA_StreamSPI_EDF_Rx, DMA_FLAG_TCSPI_EDF_Rx | DMA_FLAG_HTSPI_EDF_Rx | DMA_FLAG_TEISPI_EDF_Rx | DMA_FLAG_DMEISPI_EDF_Rx | DMA_FLAG_FEISPI_EDF_Rx);
   
   //Виставляємо повідомлення, що дані передані і готові до наступного аналізу
+#ifndef I2C_EEPROM
   if (state_execution_spi1 == 0) 
   {
     //Відбувався обмін з EEPROM. Помічаємо, що він завершився
     state_execution_spi1 = 1;
   }
-  else if ((number_chip_dataflsh_exchange == INDEX_DATAFLASH_1) || (number_chip_dataflsh_exchange == INDEX_DATAFLASH_2))
-    driver_spi_df[number_chip_dataflsh_exchange].state_execution = TRANSACTION_EXECUTED_WAIT_ANALIZE;
-  else
+  else 
+#endif
   {
-    //Відбулася невизначена помилка, тому треба піти на перезавантаження
-    total_error_sw_fixed(20);
+    if ((number_chip_dataflsh_exchange == INDEX_DATAFLASH_1) || (number_chip_dataflsh_exchange == INDEX_DATAFLASH_2))
+      driver_spi_df[number_chip_dataflsh_exchange].state_execution = TRANSACTION_EXECUTED_WAIT_ANALIZE;
+    else
+    {
+      //Відбулася невизначена помилка, тому треба піти на перезавантаження
+      total_error_sw_fixed(20);
+    }
   }
       
   //Обмін відбувся вдало - скидаємо повідомлення про попередньо можливу помилку обміну через SPI_EDF
@@ -1889,7 +1933,7 @@ void EXITI_POWER_IRQHandler(void)
       _SET_BIT(set_diagnostyka, EVENT_DROP_POWER_BIT);
 
       //Запускаємо запис у EEPROM
-      _SET_BIT(control_spi1_taskes, TASK_START_WRITE_ENERGY_EEPROM_BIT);
+      _SET_BIT(control_eeprom_taskes, TASK_START_WRITE_ENERGY_EEPROM_BIT);
       number_minutes = 0;
     }
   }
@@ -1904,4 +1948,3 @@ void EXITI_POWER_IRQHandler(void)
 //
 /*****************************************************/
 /*****************************************************/
-

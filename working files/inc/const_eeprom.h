@@ -1,10 +1,7 @@
 #ifndef __CONST_EEPROM__
 #define __CONST_EEPROM__
 
-
 #define SIZE_PAGE_EEPROM      64
-#define EEPROM_ADDRESS        0xA2
-#define RTC_ADDRESS           0xD0
 
 #define SIZE_USTUVANNJA         (sizeof(unsigned int) + sizeof(ustuvannja) + sizeof(phi_ustuvannja) + sizeof(phi_ustuvannja_sin_cos) + sizeof(serial_number_dev))
 #define SIZE_SETTINGS            sizeof(__SETTINGS)
@@ -15,7 +12,10 @@
 більше за розмір одної сторінки мікросхеми DataFlash (256) то розмір буферів
 для обміну по SPI_1 визначимо з врахуванням розміру структури __SETTINGS
 */
+
+#ifndef I2C_EEPROM
 #define SIZE_BUFFER_FOR_EDF     ((SIZE_SETTINGS + 1) + 3)
+#endif
 
 #define START_ADDRESS_USTUVANNJA_IN_EEPROM              0x0
 #define START_ADDRESS_SETTINGS_IN_EEPROM                (((START_ADDRESS_USTUVANNJA_IN_EEPROM         + (SIZE_USTUVANNJA                        + 1)) & (unsigned int)(~(SIZE_PAGE_EEPROM - 1))) + SIZE_PAGE_EEPROM)
@@ -26,6 +26,7 @@
 #define START_ADDRESS_INFO_REJESTRATORS_AR              (((START_ADDRESS_INFO_REJESTRATORS_PR_ERR     + (    sizeof(info_rejestrator_pr_err   ) + 1)) & (unsigned int)(~(SIZE_PAGE_EEPROM - 1))) + SIZE_PAGE_EEPROM)
 #define START_ADDRESS_RESURS_IN_EEPROM                  (((START_ADDRESS_INFO_REJESTRATORS_AR         + (    sizeof(info_rejestrator_ar       ) + 1)) & (unsigned int)(~(SIZE_PAGE_EEPROM - 1))) + SIZE_PAGE_EEPROM)
 #define START_ADDRESS_ENERGY_IN_EEPROM                  (((START_ADDRESS_RESURS_IN_EEPROM             + (  2*sizeof(unsigned int              ) + 1)) & (unsigned int)(~(SIZE_PAGE_EEPROM - 1))) + SIZE_PAGE_EEPROM)
+
 
 #define COMPARISON_WRITING_SETTINGS_BIT                                 0
 #define COMPARISON_WRITING_SETTINGS                                     (1 << COMPARISON_WRITING_SETTINGS_BIT)
@@ -46,61 +47,79 @@
 #define COMPARISON_WRITING_ENERGY_BIT                                   8
 #define COMPARISON_WRITING_ENERGY                                       (1 << COMPARISON_WRITING_ENERGY_BIT)
 
-#define TASK_EEPROM_WRITE_PREPARATION_BIT                               0      
 
-#define TASK_START_WRITE_SETTINGS_EEPROM_BIT                            1      
-#define TASK_WRITING_SETTINGS_EEPROM_BIT                                2      
+enum  _task_eeprom_bit
+{
+#ifndef I2C_EEPROM
+TASK_EEPROM_WRITE_PREPARATION_BIT = 0,
+#else
+TASK_BLK_WRITING_EEPROM_BIT = __TASK_NUMBER_RTC,
+#endif
 
-#define TASK_START_READ_SETTINGS_EEPROM_BIT                             3      
-#define TASK_READING_SETTINGS_EEPROM_BIT                                4      
+TASK_START_WRITE_SETTINGS_EEPROM_BIT,
+TASK_WRITING_SETTINGS_EEPROM_BIT,
 
-#define TASK_START_WRITE_USTUVANNJA_EEPROM_BIT                          5      
-#define TASK_WRITING_USTUVANNJA_EEPROM_BIT                              6      
+TASK_START_READ_SETTINGS_EEPROM_BIT,
+TASK_READING_SETTINGS_EEPROM_BIT,
 
-#define TASK_START_READ_USTUVANNJA_EEPROM_BIT                           7      
-#define TASK_READING_USTUVANNJA_EEPROM_BIT                              8      
+TASK_START_WRITE_USTUVANNJA_EEPROM_BIT,
+TASK_WRITING_USTUVANNJA_EEPROM_BIT,
 
-#define TASK_START_WRITE_STATE_LEDS_OUTPUTS_EEPROM_BIT                  9      
-#define TASK_WRITING_STATE_LEDS_OUTPUTS_EEPROM_BIT                      10      
+TASK_START_READ_USTUVANNJA_EEPROM_BIT,
+TASK_READING_USTUVANNJA_EEPROM_BIT,
 
-#define TASK_START_READ_STATE_LEDS_OUTPUTS_EEPROM_BIT                   11      
-#define TASK_READING_STATE_LEDS_OUTPUTS_EEPROM_BIT                      12      
+TASK_START_WRITE_STATE_LEDS_OUTPUTS_EEPROM_BIT,
+TASK_WRITING_STATE_LEDS_OUTPUTS_EEPROM_BIT,
 
-#define TASK_START_WRITE_TRG_FUNC_EEPROM_BIT                            13      
-#define TASK_WRITING_TRG_FUNC_EEPROM_BIT                                14      
+TASK_START_READ_STATE_LEDS_OUTPUTS_EEPROM_BIT,
+TASK_READING_STATE_LEDS_OUTPUTS_EEPROM_BIT,
 
-#define TASK_START_READ_TRG_FUNC_EEPROM_BIT                             15      
-#define TASK_READING_TRG_FUNC_EEPROM_BIT                                16      
+TASK_START_WRITE_TRG_FUNC_EEPROM_BIT,
+TASK_WRITING_TRG_FUNC_EEPROM_BIT,
 
-#define TASK_START_WRITE_INFO_REJESTRATOR_AR_EEPROM_BIT                 17      
-#define TASK_WRITING_INFO_REJESTRATOR_AR_EEPROM_BIT                     18      
+TASK_START_READ_TRG_FUNC_EEPROM_BIT,
+TASK_READING_TRG_FUNC_EEPROM_BIT,
 
-#define TASK_START_READ_INFO_REJESTRATOR_AR_EEPROM_BIT                  19      
-#define TASK_READING_INFO_REJESTRATOR_AR_EEPROM_BIT                     20      
+TASK_START_WRITE_INFO_REJESTRATOR_AR_EEPROM_BIT,
+TASK_WRITING_INFO_REJESTRATOR_AR_EEPROM_BIT,
 
-#define TASK_START_WRITE_INFO_REJESTRATOR_DR_EEPROM_BIT                 21      
-#define TASK_WRITING_INFO_REJESTRATOR_DR_EEPROM_BIT                     22      
+TASK_START_READ_INFO_REJESTRATOR_AR_EEPROM_BIT,
+TASK_READING_INFO_REJESTRATOR_AR_EEPROM_BIT,
 
-#define TASK_START_READ_INFO_REJESTRATOR_DR_EEPROM_BIT                  23      
-#define TASK_READING_INFO_REJESTRATOR_DR_EEPROM_BIT                     24      
+TASK_START_WRITE_INFO_REJESTRATOR_DR_EEPROM_BIT,
+TASK_WRITING_INFO_REJESTRATOR_DR_EEPROM_BIT,
 
-#define TASK_START_WRITE_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT             25      
-#define TASK_WRITING_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT                 26      
+TASK_START_READ_INFO_REJESTRATOR_DR_EEPROM_BIT,
+TASK_READING_INFO_REJESTRATOR_DR_EEPROM_BIT,
 
-#define TASK_START_READ_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT              27      
-#define TASK_READING_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT                 28      
+TASK_START_WRITE_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT,
+TASK_WRITING_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT,
 
-#define TASK_START_WRITE_RESURS_EEPROM_BIT                              29      
-#define TASK_WRITING_RESURS_EEPROM_BIT                                  30      
+TASK_START_READ_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT,
+TASK_READING_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT,
 
-#define TASK_START_READ_RESURS_EEPROM_BIT                               31      
-#define TASK_READING_RESURS_EEPROM_BIT                                  32
+TASK_START_WRITE_RESURS_EEPROM_BIT,
+TASK_WRITING_RESURS_EEPROM_BIT,
 
-#define TASK_START_WRITE_ENERGY_EEPROM_BIT                              33      
-#define TASK_WRITING_ENERGY_EEPROM_BIT                                  34      
+TASK_START_READ_RESURS_EEPROM_BIT,
+TASK_READING_RESURS_EEPROM_BIT,
 
-#define TASK_START_READ_ENERGY_EEPROM_BIT                               35      
-#define TASK_READING_ENERGY_EEPROM_BIT                                  36
+TASK_START_WRITE_ENERGY_EEPROM_BIT,
+TASK_WRITING_ENERGY_EEPROM_BIT,
+
+TASK_START_READ_ENERGY_EEPROM_BIT,
+TASK_READING_ENERGY_EEPROM_BIT,
+
+__TASK_NUMBER_EEPROM
+};
+
+
+#ifdef I2C_EEPROM
+#define N_I2C   ((__TASK_NUMBER_EEPROM / 32) + (__TASK_NUMBER_EEPROM % 32))
+#else
+#define N_SPI   ((__TASK_NUMBER_EEPROM / 32) + (__TASK_NUMBER_EEPROM % 32))
+#endif
+
 
 #define STATE_SETTINGS_EEPROM_EMPTY_BIT                                 0      
 #define STATE_SETTINGS_EEPROM_EMPTY                                     (1<<STATE_SETTINGS_EEPROM_EMPTY_BIT)      

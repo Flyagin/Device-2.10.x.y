@@ -1834,7 +1834,7 @@ void fix_change_settings(unsigned int setting_rang, unsigned int source)
   }
   
   //Запускаємо запис у EEPROM
-  _SET_BIT(control_spi1_taskes, TASK_START_WRITE_SETTINGS_EEPROM_BIT);
+  _SET_BIT(control_eeprom_taskes, TASK_START_WRITE_SETTINGS_EEPROM_BIT);
   
   //Помічаємо, що таблиця змінилася і її треба буде з системи захистів зкопіювати у таблицю з якою працює система захистів
   changed_settings = CHANGED_ETAP_ENDED;
